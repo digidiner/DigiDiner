@@ -16,7 +16,6 @@ const router = express.Router();
 /* POST github webhook. */
 router.post('/webhook', function(req, res) {
   if (!verifySignature(req)) {
-    res.send({ "secret": GITHUB_WEBHOOK_SECRET });
     res.status(401).send("Unauthorized");
     return;
   }
