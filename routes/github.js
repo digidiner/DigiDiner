@@ -19,7 +19,7 @@ router.post('/webhook', function(req, res) {
     res.status(401).send("Unauthorized");
     return;
   }
-  res.status(200);
+  res.status(200).send("Webhook Accepted");
 });
 
 module.exports = router;
