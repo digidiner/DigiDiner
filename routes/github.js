@@ -22,7 +22,7 @@ router.post('/webhook', function(req, res) {
   }
   res.status(200).send("Webhook Accepted");
   execSync("git pull");
-  exec("systemctl restart digidiner");
+  process.exit();
 });
 
 module.exports = router;
