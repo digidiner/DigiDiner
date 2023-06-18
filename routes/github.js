@@ -1,5 +1,6 @@
 const express = require('express');
 const crypto = require('crypto');
+const { execSync } = require("child_process");
 
 const GITHUB_WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET;
 
@@ -20,6 +21,8 @@ router.post('/webhook', function(req, res) {
     return;
   }
   res.status(200).send("Webhook Accepted");
+  execSync("git pull");
+  exec("systemctl restart digidiner");
 });
 
 module.exports = router;
