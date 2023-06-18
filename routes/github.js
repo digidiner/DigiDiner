@@ -8,7 +8,7 @@ const verifySignature = (req) => {
     .createHmac("sha256", GITHUB_WEBHOOK_SECRET)
     .update(JSON.stringify(req.body))
     .digest("hex");
-  return `sha256=${signature}` === req.headers.get("x-hub-signature-256");
+  return `sha256=${signature}` === req.get("x-hub-signature-256");
 };
 
 const router = express.Router();
