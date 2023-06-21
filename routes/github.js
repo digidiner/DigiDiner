@@ -23,10 +23,11 @@ router.post('/webhook', function(req, res) {
   res.status(200).send("Webhook Accepted");
   try {
     execSync("git pull");
-    console.log('Pulled changes from GitHub in response to webhook - restarting');
+    execSync("npm install");
+    console.log('Updated from GitHub in response to webhook - restarting');
     process.exit();
   } catch (e) {
-    console.error("Error performing git pull in response to webhook:");
+    console.error("Error performing update in response to GitHub webhook:");
     console.error(e);
   }
 });
