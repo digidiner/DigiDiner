@@ -21,12 +21,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Loads all routes from the routes directory
 glob.sync('./routes/**/*.js').forEach(function(file) {
-  let route = file.slice(8, -3); // Skips './routes' at the start of the path, and '.js' at the end of the path.
-  if (route === '/index') {
-    app.use('/', require(path.resolve(file)));
-  } else {
-    app.use(route, require(path.resolve(file)));
+  let route = file.slice(6, -3).replaceAll('\\', '/');
+  if (route.endsWith('index')) {
+    route = route.slice(0, -5); 
   }
+  app.use(route, require(path.resolve(file)));
 });
 
 // catch 404 and forward to error handler
