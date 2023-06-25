@@ -1,4 +1,5 @@
 {
-    "host": "localhost",
-    "user": "digidiner-admin"
+    "socketPath": "/var/run/mysqld/mysqld.sock",
+    "user": "digidiner-admin",
+    "database": "digidiner"
 }
