@@ -5,5 +5,14 @@
 	</head>
 	<body>
 		<h1>DigiDiner Home Page</h1>
+		<p><%
+			await require('../controllers/databaseController.js').ping()
+  				.then(() => {
+    				%>Database Status: Connected<%
+  				})
+  				.catch(err => {
+    				%>Database Status: Disconnected<%
+  				})
+		%></p>
 	</body>
 </html>

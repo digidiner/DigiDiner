@@ -8,6 +8,18 @@ var glob = require('glob');
 
 var app = express();
 
+const ejsOptions = {
+  async: true
+};
+app.engine('ejs', async (path, data, cb) => {
+  try{
+    let html = await ejs.renderFile(path, data, ejsOptions);
+    cb(null, html);
+  }catch (e){
+    cb(e, '');
+  }
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
