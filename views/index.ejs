@@ -6,6 +6,6 @@
 	<body>
 		<h1>DigiDiner Home Page</h1>
 		<p>Database Status: <%= dbStatus %></p>
-		<% if (error != undefined) { %><p><%= error %></p><% } %>
+		<% if (locals.error) { %><p><%= error %></p><% } %>
 	</body>
 </html>
