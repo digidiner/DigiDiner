@@ -1,7 +1,7 @@
 ### Hi there 👋
 
 <!--
-**digidiner/DigiDiner** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**digi/DigiDiner** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
 
