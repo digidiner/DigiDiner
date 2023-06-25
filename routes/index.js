@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
+var dbConnection;
+
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   try {
-    await (await require('../controllers/databaseController.js').getConnection()).ping();
+    if (!dbConnection) dbConnection = await require('../controllers/databaseController.js').getConnection();
+    await dbConnection.ping();
     res.locals.dbStatus = 'Connected';
   } catch (err) {
     res.locals.dbStatus = 'Disconnected';
