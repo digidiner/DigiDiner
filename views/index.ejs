@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>DigiDiner</title>
-	</head>
-	<body>
-		<h1>DigiDiner Home Page</h1>
-		<p>Database Status: <%= dbStatus %></p>
-		<% if (locals.error) { %><p><%= error %></p><% } %>
-	</body>
+
+<head>
+	<meta charset="UTF-8">
+	<title>DigiDiner</title>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+
+<body>
+	<h1>DigiDiner Home Page</h1>
+	<p>Database Status: <%= dbStatus %>
+	</p>
+	<% if (locals.error) { %>
+		<p>
+			<%= error %>
+		</p>
+		<% } %>
+
+			<script src="/js/bootstrap.min.js"></script>
+</body>
+
 </html>

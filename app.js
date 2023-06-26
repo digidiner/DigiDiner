@@ -18,22 +18,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Loads all routes from the routes directory
-glob.sync('./routes/**/*.js').forEach(function(file) {
+glob.sync('./routes/**/*.js').forEach(function (file) {
   let route = file.slice(6, -3).replaceAll('\\', '/');
   if (route.endsWith('index')) {
-    route = route.slice(0, -5); 
+    route = route.slice(0, -5);
   }
   app.use(route, require(path.resolve(file)));
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.code = err.status || 500;
