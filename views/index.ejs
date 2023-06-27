@@ -10,17 +10,18 @@
 </head>
 
 <body>
-	<h1>DigiDiner Home Page</h1>
-	<p>Database Status: <%= dbStatus %>
-	</p>
-	<% if (locals.error) { %>
-		<p>
-			<%= error %>
+	<%- include('partials/base') %>
+		<h1>DigiDiner Home Page</h1>
+		<p>Database Status: <%= dbStatus %>
 		</p>
-		<% } %>
+		<% if (locals.error) { %>
+			<p>
+				<%= error %>
+			</p>
+			<% } %>
 
-			<script src="/js/bootstrap.min.js"></script>
-			<script src="/js/style.js"></script>
+				<script src="/js/bootstrap.min.js"></script>
+				<script src="/js/style.js"></script>
 
 </body>
 
