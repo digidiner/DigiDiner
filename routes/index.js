@@ -4,7 +4,7 @@ var router = express.Router();
 var dbConnection;
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+router.get('/', async function (req, res, next) {
   try {
     if (!dbConnection) dbConnection = await require('../controllers/databaseController.js').getConnection();
     await dbConnection.ping();
