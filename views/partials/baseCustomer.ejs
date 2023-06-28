@@ -2,16 +2,41 @@
     <meta charset="UTF-8">
     <title>DigiDiner</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <style>
+        .nav-link {
+            font-size: 1.2rem;
+        }
+
+        .nav-link.active {
+            background-color: #e3f2fd;
+        }
+
+        header {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            /* Solid color for the footer */
+            padding: 20px 0;
+            /* Adjust padding as needed */
+            color: #6c757d;
+            /* Text color */
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <header class="px-3 py-4 text-bg-dark">
+    <header class="px-3 py-4 text-bg-dark shadow">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                    <img src="/images/logo.png" alt="Image" class="img-fluid mb-3">
-                </a>
-
+                <div class="shadow p-3 rounded">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                        <img src="/images/logo.png" alt="Image" class="img-fluid mb-3">
+                    </a>
+                </div>
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" id="menuDropdown" role="button"
