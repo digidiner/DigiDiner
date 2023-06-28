@@ -1,7 +1,7 @@
 <head>
     <meta charset="UTF-8">
     <title>DigiDiner</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -11,7 +11,7 @@
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <a href="/"
                         class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                        <img src="../../public/images/logoCloseup.png" alt="LogoClose" width="40" height="32">
+                        <img src="images/logoCloseup.png" alt="LogoClose" width="40" height="32">
                     </a>
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                         <li>
@@ -58,17 +58,37 @@
                 </div>
             </div>
         </div>
-        <div class="px-3 py-2 text-bg-dark border-bottom mb-3">
-            <div class="container d-flex flex-wrap justify-content-center">
-                <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-                </form>
-
-                <div class="text-end">
-                    <button type="button" class="btn btn-light text-dark me-2">Login</button>
-                    <button type="button" class="btn btn-primary">Sign-up</button>
-                </div>
-            </div>
-        </div>
     </header>
+
+    <div class="container">
+        <h1>Diner Menu</h1>
+
+        <div class="row">
+            <% menuItems.forEach((item)=> { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="<%= item.image %>" class="card-img-top" alt="<%= item.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= item.name %>
+                            </h5>
+                            <p class="card-text">
+                                <%= item.description %>
+                            </p>
+                            <p class="card-text">Price: $<%= item.price %>
+                            </p>
+                            <a href="#" class="btn btn-primary">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
 </body>
