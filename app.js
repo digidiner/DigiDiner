@@ -8,6 +8,8 @@ var glob = require('glob');
 
 var app = express();
 
+var conn = await require('./controllers/databaseController.js').getConnection();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -18,6 +20,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Loads all models from the models directory
+glob.sync('./models/**/*.js').forEach(function(file) {
+  require(path.resolve(file)).connectDatabase(conn);
+});
 
 // Loads all routes from the routes directory
 glob.sync('./routes/**/*.js').forEach(function (file) {
