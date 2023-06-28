@@ -10,15 +10,16 @@
 </head>
 
 <body>
-	<%- include('partials/base') %>
-		<h1>DigiDiner Home Page</h1>
-		<p>Database Status: <%= dbStatus %>
+
+	<h1>DigiDiner Home Page</h1>
+	<p>Database Status: <%= dbStatus %>
+	</p>
+	<% if (locals.error) { %>
+		<p>
+			<%= error %>
 		</p>
-		<% if (locals.error) { %>
-			<p>
-				<%= error %>
-			</p>
-			<% } %>
+		<% } %>
+			<%- include('partials/base') %>
 
 				<script src="/js/bootstrap.min.js"></script>
 				<script src="/js/style.js"></script>
