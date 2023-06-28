@@ -21,12 +21,14 @@
                 <img src="/images/logo.png" alt="Image" class="img-fluid mb-3">
                 <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary signin-form">
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
+                        <a>Employee Portal</a>
+                        <input type="email" class="form-control" id="floatingInputSignIn"
+                            placeholder="name@example.com">
+                        <label for="floatingInputSignIn">Employee ID</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                        <label for="floatingPassword">Password</label>
+                        <input type="password" class="form-control" id="floatingPasswordSignIn" placeholder="Password">
+                        <label for="floatingPasswordSignIn">Password</label>
                     </div>
                     <div class="checkbox mb-3">
                         <label>
@@ -52,12 +54,19 @@
                 <div class="modal-body">
                     <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary signup-form">
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                            <label for="floatingInput">Email address</label>
+                            <input type="email" class="form-control" id="floatingInputSignUp"
+                                placeholder="name@example.com">
+                            <label for="floatingInputSignUp">Employee ID</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                            <label for="floatingPassword">Password</label>
+                            <input type="email" class="form-control" id="floatingInputSignUp"
+                                placeholder="name@example.com">
+                            <label for="floatingInputSignUp">Employee email address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="floatingPasswordSignUp"
+                                placeholder="Password">
+                            <label for="floatingPasswordSignUp">Password</label>
                         </div>
                         <div class="checkbox mb-3">
                             <label>
@@ -72,5 +81,5 @@
             </div>
         </div>
     </div>
-    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
