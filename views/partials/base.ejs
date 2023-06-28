@@ -22,7 +22,7 @@
                 <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary signin-form">
                     <h1 class="text-center mb-4">Employee Portal</h1>
                     <div class="form-floating mb-3">
-                        <input type="id" class="form-control" id="floatingInputSignIn" placeholder="name@example.com">
+                        <input type="text" class="form-control" id="floatingIdSignIn" placeholder="123456">
                         <label for="floatingInputSignIn">Employee ID</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="checkbox mb-3">
                         <label>
-                            <input type="checkbox" value="remember-me"> Remember me
+                            <input id="rememberSignIn" type="checkbox" value="remember-me">Remember me
                         </label>
                     </div>
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
@@ -43,32 +43,33 @@
         </div>
     </div>
 
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
     <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="signupModalLabel">Create an Account</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
                 <div class="modal-body">
                     <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary signup-form">
                         <div class="form-floating mb-3">
-                            <input type="id" class="form-control" id="floatingIdSignUp" placeholder="name@example.com">
+                            <input type="text" class="form-control" id="floatingIdSignUp" placeholder="123456">
                             <label for="floatingIdSignUp">Employee ID</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="floatingInputSignUp"
+                            <input type="test" class="form-control" id="floatingInputSignUp"
                                 placeholder="name@example.com">
                             <label for="floatingInputSignUp">Employee email address</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPasswordSignUp"
-                                placeholder="Password">
+                            <input type="text" class="form-control" id="floatingPasswordSignUp" placeholder="Password">
                             <label for="floatingPasswordSignUp">Password</label>
                         </div>
                         <div class="checkbox mb-3">
                             <label>
-                                <input type="checkbox" value="remember-me"> Remember me
+                                <input id="rememberSignUp" type="checkbox" value="remember-me">Remember me
                             </label>
                         </div>
                         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
@@ -79,5 +80,4 @@
             </div>
         </div>
     </div>
-    <script src="/js/bootstrap.bundle.min.js"></script>
 </body>

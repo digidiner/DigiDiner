@@ -1,25 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<title>DigiDiner</title>
-	<link rel="stylesheet" href="/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/style.css">
-
-</head>
-
-<body>
-
-	<h1>DigiDiner Home Page</h1>
-	<p>Database Status: <%= dbStatus %>
-	</p>
-	<% if (locals.error) { %>
-		<p>
-			<%= error %>
+<%- include('partials/base') %>
+	<footer>
+		<p>System: <%= dbStatus %>
 		</p>
-		<% } %>
-			<%- include('partials/base') %>
-</body>
+		<% if (locals.error) { %>
+			<p>
+				<%= error %>
+			</p>
+			<% } %>
+
+	</footer>
 
 </html>
