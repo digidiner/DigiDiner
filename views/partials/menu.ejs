@@ -61,8 +61,7 @@
     </header>
 
     <div class="container">
-        <h1>Diner Menu</h1>
-
+        <h1>Lunch Menu</h1>
         <div class="accordion" id="menuAccordion">
             <% menuItems.forEach((item, index)=> { %>
                 <div class="accordion-item">
@@ -98,7 +97,84 @@
                 </div>
                 <% }) %>
         </div>
+    </div>
 
+    <div class="container">
+        <h1>Dinner Menu</h1>
+        <div class="accordion" id="menuAccordion">
+            <% menuItems.forEach((item, index)=> { %>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading<%= index %>">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                            aria-controls="collapse<%= index %>">
+                            <%= item.name %>
+                                <span class="badge bg-primary">$<%= item.price.toFixed(2) %></span>
+                        </button>
+                    </h2>
+                    <div id="collapse<%= index %>" class="accordion-collapse collapse"
+                        aria-labelledby="heading<%= index %>" data-bs-parent="#menuAccordion">
+                        <div class="accordion-body">
+                            <h5>Select Modifications:</h5>
+                            <ul class="list-group">
+                                <% item.modifications.forEach((modification)=> { %>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                value="<%= modification.name %>" id="<%= modification.id %>">
+                                            <label class="form-check-label" for="<%= modification.id %>">
+                                                <%= modification.name %>
+                                                    <span class="badge bg-secondary">$<%= modification.price.toFixed(2)
+                                                            %></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Drink Menu</h1>
+        <div class="accordion" id="menuAccordion">
+            <% menuItems.forEach((item, index)=> { %>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading<%= index %>">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                            aria-controls="collapse<%= index %>">
+                            <%= item.name %>
+                                <span class="badge bg-primary">$<%= item.price.toFixed(2) %></span>
+                        </button>
+                    </h2>
+                    <div id="collapse<%= index %>" class="accordion-collapse collapse"
+                        aria-labelledby="heading<%= index %>" data-bs-parent="#menuAccordion">
+                        <div class="accordion-body">
+                            <h5>Select Modifications:</h5>
+                            <ul class="list-group">
+                                <% item.modifications.forEach((modification)=> { %>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                value="<%= modification.name %>" id="<%= modification.id %>">
+                                            <label class="form-check-label" for="<%= modification.id %>">
+                                                <%= modification.name %>
+                                                    <span class="badge bg-secondary">$<%= modification.price.toFixed(2)
+                                                            %></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
     </div>
 
 
