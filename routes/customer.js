@@ -23,7 +23,7 @@ const menuItems = [
 
 /* GET users listing. */
 router.get('/', function (req, res) {
-  res.status(200).render('customer');
+  res.status(200).render('customer', { menuItems });
 });
 
 module.exports = router;
