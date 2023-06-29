@@ -13,7 +13,7 @@
         }
 
         header {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(43, 43, 43, 0.1);
         }
 
         footer {
@@ -34,7 +34,7 @@
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <div class="shadow p-3 rounded">
                     <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                        <img src="/images/logo.png" alt="Image" class="img-fluid mb-3">
+                        <img src="/images/logoCloseup.png" alt="Image" class="img-fluid mb-3">
                     </a>
                 </div>
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -47,9 +47,9 @@
                             Menu
                         </a>
                         <ul class="dropdown-menu shadow" aria-labelledby="menuDropdown">
-                            <li><a class="dropdown-item" href="/">Lunch Menu</a></li>
-                            <li><a class="dropdown-item" href="#">Dinner Menu</a></li>
-                            <li><a class="dropdown-item" href="#">Drink Menu</a></li>
+                            <li><a class="dropdown-item" href="#lunchMenu">Lunch Menu</a></li>
+                            <li><a class="dropdown-item" href="#dinnerMenu">Dinner Menu</a></li>
+                            <li><a class="dropdown-item" href="#drinkMenu">Drink Menu</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -66,7 +66,7 @@
     </header>
 
     <div class="container">
-        <h1>Lunch Menu</h1>
+        <h1 id="lunchMenu">Lunch Menu</h1>
         <div class="accordion" id="lunchMenuAccordion">
             <% menuItems.forEach((item, index)=> { %>
                 <div class="accordion-item">
@@ -104,8 +104,10 @@
         </div>
     </div>
 
+    <hr class="section-divider">
+
     <div class="container">
-        <h1>Dinner Menu</h1>
+        <h1 id="dinnerMenu">Dinner Menu</h1>
         <div class="accordion" id="dinnerMenuAccordion">
             <% menuItems.forEach((item, index)=> { %>
                 <div class="accordion-item">
@@ -143,8 +145,10 @@
         </div>
     </div>
 
+    <hr class="section-divider">
+
     <div class="container">
-        <h1>Drink Menu</h1>
+        <h1 id="drinkMenu">Drink Menu</h1>
         <div class="accordion" id="drinkMenuAccordion">
             <% menuItems.forEach((item, index)=> { %>
                 <div class="accordion-item">
