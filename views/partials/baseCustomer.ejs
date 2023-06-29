@@ -37,35 +37,38 @@
                         <img src="/images/logo.png" alt="Image" class="img-fluid mb-1">
                     </a>
                 </div>
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="menuDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <svg class="bi bi-card-list" width="24" height="24" role="img" aria-label="Menu">
-                                <use xlink:href="#card-list" />
-                            </svg>
-                            Menu
-                        </a>
-                        <ul class="dropdown-menu shadow" aria-labelledby="menuDropdown">
-                            <li><a class="dropdown-item" href="#lunchMenu">Lunch Menu</a></li>
-                            <li><a class="dropdown-item" href="#dinnerMenu">Dinner Menu</a></li>
-                            <li><a class="dropdown-item" href="#drinkMenu">Drink Menu</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-white">
-                            <svg class="bi bi-cart-check-fill" width="24" height="24" role="img" aria-label="Cart">
-                                <use xlink:href="#cart-check-fill" />
-                            </svg>
-                            Cart
-                        </a>
-                    </li>
-                </ul>
+                <hr class="section-divider">
+                <div class="py-3 my-4 text-center text-white bg-light">
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="menuDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg class="bi bi-card-list" width="24" height="24" role="img" aria-label="Menu">
+                                    <use xlink:href="#card-list" />
+                                </svg>
+                                Menu
+                            </a>
+                            <ul class="dropdown-menu shadow" aria-labelledby="menuDropdown">
+                                <li><a class="dropdown-item" href="#lunchMenu">Lunch Menu</a></li>
+                                <li><a class="dropdown-item" href="#dinnerMenu">Dinner Menu</a></li>
+                                <li><a class="dropdown-item" href="#drinkMenu">Drink Menu</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link px-2 text-white">
+                                <svg class="bi bi-cart-check-fill" width="24" height="24" role="img" aria-label="Cart">
+                                    <use xlink:href="#cart-check-fill" />
+                                </svg>
+                                Cart
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </header>
 
-    <div class="container-fluid">
+    <div class="container-fluid justify-content-lg-start">
         <div class="row">
             <div class="col-12">
                 <h1 id="lunchMenu">Lunch Menu</h1>
@@ -109,7 +112,7 @@
     </div>
     <hr class="section-divider">
 
-    <div class="container">
+    <div class="container-fluid justify-content-lg-start">
         <h1 id="dinnerMenu">Dinner Menu</h1>
         <div class="accordion" id="dinnerMenuAccordion">
             <% menuItems.forEach((item, index)=> { %>
@@ -150,7 +153,7 @@
 
     <hr class="section-divider">
 
-    <div class="container">
+    <div class="container-fluid justify-content-lg-start">
         <h1 id="drinkMenu">Drink Menu</h1>
         <div class="accordion" id="drinkMenuAccordion">
             <% menuItems.forEach((item, index)=> { %>
