@@ -28,7 +28,7 @@ class Employee {
     }
 
     static async listEmployees() {
-        return await Employee.conn.query({ sql: `SELECT id FROM employee`, rowsAsArray: true }).flat();
+        return await Employee.conn.query(`SELECT id FROM employee`).map(record => record.id);
     }
 
     async load() {
