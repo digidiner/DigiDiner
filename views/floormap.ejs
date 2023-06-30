@@ -73,9 +73,9 @@
             </div>
         </div>
     </header>
+
     <div class="container">
         <h1 class="mt-4 mb-4">Restaurant Floor Map</h1>
-
         <div class="row">
             <div class="col-md-8">
                 <div class="table-grid">
@@ -85,19 +85,20 @@
                                 <% var startIndex=i * 3; %>
                                     <% var endIndex=Math.min(startIndex + 3, tables.length); %>
                                         <% for (var j=startIndex; j < endIndex; j++) { %>
-                                            <div class="col-md-4">
-                                                <div class="table-cell" data-table-id="<%= tables[j].id %>"
-                                                    data-status="<%= tables[j].status %>">
-                                                    Table <%= tables[j].id %>
-                                                </div>
-                                            </div>
-                                            <% } %>
+                                            <% var tableId=tables[j].id; %>
+                                                <% var status=tables[j].status; %>
+                                                    <div class="col-md-4">
+                                                        <div class="table-cell table-<%= status %>"
+                                                            data-table-id="<%= tableId %>" data-status="<%= status %>">
+                                                            Table <%= tableId %>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
                             </div>
                             <% } %>
                 </div>
             </div>
         </div>
-
 
         <div class="col-md-4">
             <h4>Selected Table: <span id="selectedTable"></span></h4>
@@ -106,8 +107,6 @@
                 Status</button>
         </div>
     </div>
-    </div>
-
     <!-- Order Modal -->
     <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalTitle"
         aria-hidden="true">
