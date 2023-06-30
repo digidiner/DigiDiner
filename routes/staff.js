@@ -6,7 +6,7 @@ const user = {
   lastName: 'Doe',
   id: 123,
   position: 'Software Engineer',
-  timestamp: new Date().toISOString()
+  timestamp: new Date().toLocaleString()
 };
 
 /* GET users listing. */
