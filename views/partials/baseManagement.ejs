@@ -68,21 +68,24 @@
         </div>
     </header>
 
-    <div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h1>Choose an Option</h1>
-            </div>
-            <div class="col-4">
-                <a href="#" class="btn btn-primary btn-lg btn-block">Button 1</a>
-            </div>
-            <div class="col-4">
-                <a href="#" class="btn btn-secondary btn-lg btn-block">Button 2</a>
-            </div>
-            <div class="col-4">
-                <a href="#" class="btn btn-success btn-lg btn-block">Button 3</a>
-            </div>
+    <main class="px-3">
+        <div class="col-md-4">
+            <img src="profile-picture.jpg" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
         </div>
-    </div>
+        <h1>Welcome, <%= user.firstName %>
+                <%= user.lastName %>
+        </h1>
+        <p>User ID: <%= user.id %>
+        </p>
+        <p>Position: <%= user.position %>
+        </p>
+        <p>Timestamp: <%= user.timestamp %>
+        </p>
+        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download,
+            edit the text, and add your own fullscreen background photo to make it your own.</p>
+        <p class="lead">
+            <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Learn more</a>
+        </p>
+    </main>
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
