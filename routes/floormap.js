@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-// Define the dummy data
+// Dummy table data
 const tables = [
     { id: 1, status: 'dirty' },
     { id: 2, status: 'occupied' },
@@ -10,7 +10,10 @@ const tables = [
     { id: 5, status: 'unoccupied' },
     { id: 6, status: 'dirty' },
     { id: 7, status: 'unoccupied' },
+    { id: 8, status: 'unoccupied' },
+    { id: 9, status: 'dirty' },
 ];
+
 
 // GET the floor map
 router.get('/', function (req, res) {
