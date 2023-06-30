@@ -5,7 +5,7 @@
     <div class="text-center mt-4">
         <h1>Time Clock</h1>
         <h3>
-            <%= employeeName %> (ID: <%= employeeID %>)
+            <%= employee.name %> (ID: <%= employee.id %>)
         </h3>
     </div>
 
@@ -37,10 +37,8 @@
     </div>
 </div>
 
-<!-- Add Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
-<!-- Add your custom JavaScript code -->
 <script>
     // Function to display the confirmation modal
     function showConfirmationModal(event) {
