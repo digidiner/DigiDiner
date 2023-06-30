@@ -14,6 +14,25 @@ const tables = [
     { id: 9, status: 'dirty' },
 ];
 
+const menuItems = [
+    {
+        name: 'Item 1',
+        price: 9.99,
+        modifications: [
+            { name: 'Modification 1', price: 1.99 },
+            { name: 'Modification 2', price: 2.99 }
+        ]
+    },
+    {
+        name: 'Item 2',
+        price: 12.99,
+        modifications: [
+            { name: 'Modification 3', price: 1.49 },
+            { name: 'Modification 4', price: 2.49 },
+            { name: 'Modification 5', price: 0.99 }
+        ]
+    }
+];
 
 // GET the floor map
 router.get('/', function (req, res) {
