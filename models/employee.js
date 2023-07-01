@@ -8,9 +8,9 @@ class Employee {
 
     constructor(id, passHash, nameFirst, nameLast, hireDate, position) {
         this.id = id;
-        this.passHash = passHash;
-        this.nameFirst = nameFirst;
-        this.nameLast = nameLast ?? '';
+        this.passHash = passHash ?? null;
+        this.nameFirst = nameFirst ?? null;
+        this.nameLast = nameLast ?? null;
         this.hireDate = hireDate ?? Date.now();
         this.position = position ?? EmployeePosition.None;
     }
