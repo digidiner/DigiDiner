@@ -19,9 +19,9 @@ class Employee {
         Employee.conn = conn;
         conn.query(`CREATE TABLE IF NOT EXISTS employee (
             id INT PRIMARY KEY,
-            passHash BINARY(60) NOT NULL,
-            nameFirst VARCHAR(50) NOT NULL,
-            nameLast VARCHAR(50),
+            passHash BINARY(60) DEFAULT NULL,
+            nameFirst VARCHAR(50) DEFAULT NULL,
+            nameLast VARCHAR(50) DEFAULT NULL,
             hireDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             position VARCHAR(10) NOT NULL DEFAULT 'none'
         )`);
