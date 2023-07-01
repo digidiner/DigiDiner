@@ -7,31 +7,32 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
         .table-cell {
-            width: 100px;
-            height: 100px;
-            border: 1px solid #ccc;
+            width: 200px;
+            height: 200px;
+            border: 6px inset #ccc;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
             /* Added box shadow */
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            margin-right: 20px;
             /* Added padding between tables in the columns */
         }
 
         .table-unoccupied {
-            background-color: grey;
+            background-color: rgba(128, 128, 128, 0.582);
             /* Highlight unoccupied table with grey */
         }
 
         .table-occupied {
-            background-color: green;
+            background-color: rgba(0, 128, 0, 0.582);
             /* Highlight occupied table with green */
         }
 
         .table-dirty {
-            background-color: red;
+            background-color: rgb(179, 40, 40, 0.582);
             /* Highlight dirty table with red */
         }
 
@@ -45,6 +46,7 @@
             display: flex;
             justify-content: center;
             margin-bottom: 10px;
+            margin-right: 20px;
             /* Added margin-bottom between rows */
         }
     </style>
@@ -107,8 +109,8 @@
         </div>
     </header>
 
-    <div class="container">
-        <h1 class="mt-4 mb-4">Restaurant Floor Map</h1>
+    <div class="container-fluid justify-content-lg-start">
+        <h1 class="mt-4 mb-4">Main Dining Room</h1>
         <div class="row">
             <div class="col-md-8">
                 <div class="table-grid">
@@ -134,12 +136,11 @@
         </div>
 
         <div class="col-md-4">
-            <h4>Selected Table: <span id="selectedTable"></span></h4>
-            <h5>Status: <span id="selectedTableStatus"></span></h5>
             <button class="btn btn-primary" data-toggle="modal" data-target="#updateStatusModal">Update
                 Status</button>
         </div>
     </div>
+
     <!-- Order Modal -->
     <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalTitle"
         aria-hidden="true">
@@ -165,7 +166,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="menuModalTitle">Menu for Table <span id="menuTableId"></span></h5>
+                    <h5 class="modal-title" id="menuModalTitle">Table: <span id="menuTableId"></span></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
