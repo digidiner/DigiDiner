@@ -14,9 +14,42 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Added box shadow */
+            margin-bottom: 10px;
+            /* Added padding between tables in the columns */
+        }
+
+        .table-unoccupied {
+            background-color: grey;
+            /* Highlight unoccupied table with grey */
+        }
+
+        .table-occupied {
+            background-color: green;
+            /* Highlight occupied table with green */
+        }
+
+        .table-dirty {
+            background-color: red;
+            /* Highlight dirty table with red */
+        }
+
+        .table-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .table-grid .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            /* Added margin-bottom between rows */
         }
     </style>
 </head>
+
 
 <body>
     <header>
@@ -185,13 +218,16 @@
                 $('#selectedTable').text(tableId);
                 $('#selectedTableStatus').text(status);
 
-                // Redirect to the corresponding page based on the table status
+                // Show the corresponding modal based on the table status
                 if (status === 'occupied') {
-                    window.location.href = '/order';
+                    $('#orderTableId').text(tableId);
+                    $('#orderModal').modal('show');
                 } else if (status === 'unoccupied') {
-                    window.location.href = '/menu';
+                    $('#menuTableId').text(tableId);
+                    $('#menuModal').modal('show');
                 } else if (status === 'dirty') {
-                    window.location.href = '/bill';
+                    // Show the most recent table's final bill (placeholder)
+                    alert(`Showing final bill for Table ${tableId}`);
                 }
             });
         });
@@ -220,7 +256,6 @@
             $('#updateStatusModal').modal('hide');
         }
     </script>
-
     <%- include('partials/footer') %>
 </body>
 
