@@ -178,6 +178,16 @@
         </div>
     </div>
 
+    <!-- Status Modal -->
+    <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!-- Modal content will go here -->
+            </div>
+        </div>
+    </div>
+
     <!-- Update Status Modal -->
     <div class="modal fade" id="updateStatusModal" tabindex="-1" role="dialog" aria-labelledby="updateStatusModalTitle"
         aria-hidden="true">
@@ -210,6 +220,46 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add an event listener to the update status buttons
+            const updateStatusButtons = document.querySelectorAll('.accordion-button');
+            updateStatusButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Get the table element associated with the button
+                    const tableElement = button.closest('.accordion-item');
+
+                    // Get the table number
+                    const tableNumber = tableElement.querySelector('.accordion-header button').textContent.trim();
+
+                    // Get the modal element
+                    const modal = document.getElementById('statusModal');
+
+                    // Set the table number in the modal
+                    const modalTableNumber = modal.querySelector('.modal-table-number');
+                    modalTableNumber.textContent = tableNumber;
+
+                    // Show the modal
+                    const bootstrapModal = new bootstrap.Modal(modal);
+                    bootstrapModal.show();
+                });
+            });
+
+            // Add an event listener to the modal submit button
+            const modalSubmitButton = document.getElementById('modalSubmitButton');
+            modalSubmitButton.addEventListener('click', function () {
+                // Get the selected status choice
+                const selectedStatusChoice = document.querySelector('input[name="statusChoice"]:checked').value;
+
+                // Perform the necessary actions with the selected status choice
+
+                // Close the modal
+                const modal = document.getElementById('statusModal');
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                bootstrapModal.hide();
+            });
+        });
+
+
         $(document).ready(function () {
             $('.table-cell').on('click', function () {
                 const tableId = $(this).data('table-id');
