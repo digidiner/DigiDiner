@@ -185,16 +185,13 @@
                 $('#selectedTable').text(tableId);
                 $('#selectedTableStatus').text(status);
 
-                // Show the corresponding modal based on the table status
+                // Redirect to the corresponding page based on the table status
                 if (status === 'occupied') {
-                    $('#orderTableId').text(tableId);
-                    $('#orderModal').modal('show');
+                    window.location.href = '/order';
                 } else if (status === 'unoccupied') {
-                    $('#menuTableId').text(tableId);
-                    $('#menuModal').modal('show');
+                    window.location.href = '/menu';
                 } else if (status === 'dirty') {
-                    // Show the most recent table's final bill (placeholder)
-                    alert(`Showing final bill for Table ${tableId}`);
+                    window.location.href = '/bill';
                 }
             });
         });
@@ -223,6 +220,7 @@
             $('#updateStatusModal').modal('hide');
         }
     </script>
+
     <%- include('partials/footer') %>
 </body>
 
