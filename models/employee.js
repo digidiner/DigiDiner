@@ -37,7 +37,7 @@ class Employee {
             this.passHash = record.passHash;
             this.nameFirst = record.nameFirst;
             this.nameLast = record.nameLast;
-            this.hireDate = record.hireDate;
+            this.hireDate = new Date(record.hireDate).getTime(); // Converts SQL timestamp milliseconds representation of date
             this.position = record.position;
             return true;
         }
@@ -49,7 +49,7 @@ class Employee {
             this.passHash,
             this.nameFirst,
             this.nameLast,
-            this.hireDate,
+            new Date(this.hireDate).toISOString().slice(0, 19).replace('T', ' '), // Converts JavaScript date to string acceptable by SQL
             this.position.name
         ]
         await Employee.conn.query(`INSERT INTO employee (id, passHash, nameFirst, nameLast, hireDate, position) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE passHash=?, nameFirst=?, nameLast=?, hireDate=?, position=?`, [this.id, ...properties, ...properties]);
