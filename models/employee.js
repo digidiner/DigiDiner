@@ -38,7 +38,7 @@ class Employee {
             this.nameFirst = record.nameFirst;
             this.nameLast = record.nameLast;
             this.hireDate = new Date(record.hireDate).getTime(); // Converts SQL timestamp milliseconds representation of date
-            this.position = record.position;
+            this.position = EmployeePosition.values[record.position];
             return true;
         }
         return false;
