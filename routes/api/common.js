@@ -27,7 +27,11 @@ router.post('/employee/signup', utils.asyncHandler(async function(req, res) {
     newEmployee.nameLast = req.body.nameLast;
     await newEmployee.save();
     res.status(201).json({
-        'id': newEmployee.id
+        'id': newEmployee.id,
+        'nameFirst': newEmployee.nameFirst,
+        'nameLast': newEmployee.nameLast,
+        'hireDate': newEmployee.hireDate,
+        'position': newEmployee.position.name
     });
 }));
 
