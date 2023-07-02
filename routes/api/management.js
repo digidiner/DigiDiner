@@ -18,7 +18,7 @@ router.post('/employee/create', utils.asyncHandler(async function(req, res) {
     let newEmployee;
     do {
         id = Math.floor(Math.random() * 2147483647);
-        newEmployee = new employee();
+        newEmployee = new employee(id);
     } while (await newEmployee.load());
     await newEmployee.save();
     res.status(201).json({
