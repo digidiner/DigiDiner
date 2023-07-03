@@ -38,10 +38,10 @@ class Employee {
     async load() {
         const record = (await Employee.conn.query(`SELECT * FROM employee WHERE id = '${this.id}'`))[0];
         if (record && this.id == record.id) {
-            this.passHash = record.passHash;
-            this.nameFirst = record.nameFirst;
-            this.nameLast = record.nameLast;
-            this.hireDate = new Date(record.hireDate).getTime(); // Converts SQL timestamp milliseconds representation of date
+            this.passHash = record.pass_hash;
+            this.nameFirst = record.name_first;
+            this.nameLast = record.name_last;
+            this.hireDate = new Date(record.hire_date).getTime(); // Converts SQL timestamp milliseconds representation of date
             this.position = EmployeePosition.values[record.position];
             return true;
         }
