@@ -1,11 +1,9 @@
-const saltRounds = 10;
-
 var express = require('express');
 var bcrypt = require('bcrypt');
 var router = express.Router();
 
 var utils = require('../../utils');
-var employee = require('../../models/employee');
+var Employee = require('../../models/employee');
 
 /* POST new employee signup */
 router.post('/employee/signup', utils.asyncHandler(async function(req, res) {
@@ -15,14 +13,14 @@ router.post('/employee/signup', utils.asyncHandler(async function(req, res) {
         });
         return;
     }
-    let newEmployee = new employee(req.body.id);
+    let newEmployee = new Employee(req.body.id);
     if (!(await newEmployee.load()) || newEmployee.nameFirst) {
         res.status(403).json({
             'error': "Invalid Employee ID"
         });
         return;
     }
-    newEmployee.passHash = req.body.pass ? await bcrypt.hash(req.body.pass, saltRounds) : null;
+    newEmployee.passHash = req.body.pass ? await bcrypt.hash(req.body.pass, Employee.passSaltRounds) : null;
     newEmployee.nameFirst = req.body.nameFirst;
     newEmployee.nameLast = req.body.nameLast;
     await newEmployee.save();

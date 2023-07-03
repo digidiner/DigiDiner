@@ -1,4 +1,8 @@
+var bcrypt = require('bcrypt');
+
 class Employee {
+    static passSaltRounds = 10;
+
     id;
     passHash;
     nameFirst;
@@ -53,6 +57,10 @@ class Employee {
             this.position.name
         ]
         await Employee.conn.query(`INSERT INTO employee (id, passHash, nameFirst, nameLast, hireDate, position) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE passHash=?, nameFirst=?, nameLast=?, hireDate=?, position=?`, [this.id, ...properties, ...properties]);
+    }
+
+    auth(pass) {
+        return pass ? bcrypt.hashSync(pass, Employee.passSaltRounds) == this.passHash : !this.passHash;
     }
 }
 
