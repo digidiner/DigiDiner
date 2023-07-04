@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
-const fetch = require('node-fetch');
 
 class Payment {
     static async connectDatabase(conn) {
@@ -50,7 +49,7 @@ class Payment {
         try {
             const results = await this.insertPayment(fullName, cardNumber, cvv, expiration, zipCode);
 
-            const cartResponse = await fetch('http://service.digidiner.net/cart/data');
+            const cartResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://service.digidiner.net/cart/data'));
             const cartData = await cartResponse.json();
             const cart = cartData.cart;
 

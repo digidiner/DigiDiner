@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Payment = require('../../models/payment');
-const fetch = require('node-fetch');
 
 
 router.get('/', async (req, res) => {
     try {
         // Retrieve the cart data from the server
-        const cartResponse = await fetch('http://service.digidiner.net/cart/data');
+        const cartResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://service.digidiner.net/cart/data'));
         const cartData = await cartResponse.json();
         const cart = cartData.cart;
 
