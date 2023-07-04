@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const databaseController = require('databaseController');
+const databaseController = require('./controllers/databaseController.js');
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
 

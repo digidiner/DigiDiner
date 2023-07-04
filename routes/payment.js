@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const databaseController = require('./databaseController');
+const databaseController = require('./controllers/databaseController.js');
 
 router.get('/', (req, res) => {
     const total = req.query.total; // Retrieve the total cost from the query parameter
