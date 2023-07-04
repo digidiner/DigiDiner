@@ -1,4 +1,8 @@
+var bcrypt = require('bcrypt');
+
 class Employee {
+    static passSaltRounds = 10;
+
     id;
     passHash;
     nameFirst;
@@ -8,9 +12,9 @@ class Employee {
 
     constructor(id, passHash, nameFirst, nameLast, hireDate, position) {
         this.id = id;
-        this.passHash = passHash;
-        this.nameFirst = nameFirst;
-        this.nameLast = nameLast ?? '';
+        this.passHash = passHash ?? null;
+        this.nameFirst = nameFirst ?? null;
+        this.nameLast = nameLast ?? null;
         this.hireDate = hireDate ?? Date.now();
         this.position = position ?? EmployeePosition.None;
     }
@@ -19,10 +23,10 @@ class Employee {
         Employee.conn = conn;
         conn.query(`CREATE TABLE IF NOT EXISTS employee (
             id INT PRIMARY KEY,
-            passHash BINARY(60) DEFAULT NULL,
-            nameFirst VARCHAR(50) DEFAULT NULL,
-            nameLast VARCHAR(50) DEFAULT NULL,
-            hireDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            pass_hash BINARY(60) DEFAULT NULL,
+            name_first VARCHAR(50) DEFAULT NULL,
+            name_last VARCHAR(50) DEFAULT NULL,
+            hire_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             position VARCHAR(10) NOT NULL DEFAULT 'none'
         )`);
     }
@@ -34,11 +38,11 @@ class Employee {
     async load() {
         const record = (await Employee.conn.query(`SELECT * FROM employee WHERE id = '${this.id}'`))[0];
         if (record && this.id == record.id) {
-            this.passHash = record.passHash;
-            this.nameFirst = record.nameFirst;
-            this.nameLast = record.nameLast;
-            this.hireDate = record.hireDate;
-            this.position = record.position;
+            this.passHash = record.pass_hash;
+            this.nameFirst = record.name_first;
+            this.nameLast = record.name_last;
+            this.hireDate = new Date(record.hire_date).getTime(); // Converts SQL timestamp milliseconds representation of date
+            this.position = EmployeePosition.values[record.position];
             return true;
         }
         return false;
@@ -49,10 +53,14 @@ class Employee {
             this.passHash,
             this.nameFirst,
             this.nameLast,
-            this.hireDate,
+            new Date(this.hireDate).toISOString().slice(0, 19).replace('T', ' '), // Converts JavaScript date to string acceptable by SQL
             this.position.name
         ]
-        await Employee.conn.query(`INSERT INTO employee (id, passHash, nameFirst, nameLast, hireDate, position) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE passHash=?, nameFirst=?, nameLast=?, hireDate=?, position=?`, [this.id, ...properties, ...properties]);
+        await Employee.conn.query(`INSERT INTO employee (id, pass_hash, name_first, name_last, hire_date, position) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE pass_hash=?, name_first=?, name_last=?, hire_date=?, position=?`, [this.id, ...properties, ...properties]);
+    }
+
+    auth(pass) {
+        return pass ? bcrypt.hashSync(pass, Employee.passSaltRounds) == this.passHash : !this.passHash;
     }
 }
 
