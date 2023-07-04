@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
-const fetch = require('node-fetch');
 
 class Payment {
     static async connectDatabase(conn) {
