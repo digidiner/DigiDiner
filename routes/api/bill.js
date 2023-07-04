@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Payment = require('../../models/payment');
-import fetch from 'node-fetch';
+const fetch = require('node-fetch');
 
 
 router.get('/', async (req, res) => {
