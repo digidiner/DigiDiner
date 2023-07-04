@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
+const fetch = require('node-fetch');
 
 class Payment {
     static async connectDatabase(conn) {
@@ -49,8 +50,10 @@ class Payment {
         try {
             const results = await this.insertPayment(fullName, cardNumber, cvv, expiration, zipCode);
 
-            // Retrieve the cart data from wherever it is stored
-            const cart = []; // Replace this with the actual code to retrieve the cart data
+            const cartResponse = await fetch('http://service.digidiner.net/cart');
+            const cartData = await cartResponse.json();
+            const cart = cartData.cart;
+
             const tip = req.body.tip; // Retrieve the tip amount from the request body
 
             res.render('bill', {
@@ -64,6 +67,11 @@ class Payment {
             // Handle the error and return an appropriate response
             res.sendStatus(500);
         }
+    }
+
+    static renderReceipt(req, res) {
+        const total = req.query.total; // Retrieve the total cost from the query parameter
+        res.render('receipt', { total });
     }
 
     static maskCardNumber(cardNumber) {
