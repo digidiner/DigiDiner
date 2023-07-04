@@ -12,8 +12,6 @@ class Payment {
             expiration VARCHAR(7) NOT NULL,
             zip_code VARCHAR(10) NOT NULL
         )`;
-        const results = await conn.query(query);
-        return results;
     }
 
     static async insertPayment(fullName, cardNumber, cvv, expiration, zipCode) {
