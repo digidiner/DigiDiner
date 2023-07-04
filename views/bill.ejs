@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Bill</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        .bill {
+            margin-top: 20px;
+        }
+
+        .bill-item {
+            margin-bottom: 10px;
+        }
+
+        .item-info {
+            list-style-type: none;
+        }
+
+        .subtotal {
+            font-weight: bold;
+        }
+
+        .taxes {
+            font-weight: bold;
+        }
+
+        .total {
+            font-weight: bold;
+        }
+
+        .tip {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .pay-bill-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Restaurant Bill</h1>
+        <div class="bill">
+            <% if (cart.length> 0) { %>
+                <% cart.forEach(function(item) { %>
+                    <div class="bill-item">
+                        <h4>
+                            <%= item.name %>
+                        </h4>
+                        <ul class="item-info">
+                            <li>Quantity: <%= item.quantity %>
+                            </li>
+                            <li>Cost: $<%= item.price %>
+                            </li>
+                        </ul>
+                    </div>
+                    <% }) %>
+                        <div class="subtotal">
+                            Subtotal: $<%= calculateSubtotal(cart) %>
+                        </div>
+                        <div class="taxes">
+                            Taxes: $<%= calculateTaxes(cart) %>
+                        </div>
+                        <div class="total">
+                            Total: $<%= calculateTotal(cart, 0) %>
+                        </div>
+                        <div class="tip">
+                            <label for="tip">Tip:</label>
+                            <input type="number" id="tip" min="0" step="0.01" value="0">
+                            <button class="btn btn-primary" onclick="updateTotal()">Apply Tip</button>
+                        </div>
+                        <% } else { %>
+                            <p>No items in the bill.</p>
+                            <% } %>
+        </div>
+        <button class="btn btn-success pay-bill-btn" onclick="payBill()">Pay Bill</button>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function calculateSubtotal(cart) {
+            var subtotal = 0;
+            cart.forEach(function (item) {
+                subtotal += item.quantity * item.price;
+            });
+            return subtotal.toFixed(2);
+        }
+
+        function calculateTaxes(cart) {
+            var subtotal = calculateSubtotal(cart);
+            var taxes = subtotal * 0.1; // Assuming tax rate of 10%
+            return taxes.toFixed(2);
+        }
+
+        function calculateTotal(cart, tip) {
+            var subtotal = calculateSubtotal(cart);
+            var taxes = calculateTaxes(cart);
+            var total = parseFloat(subtotal) + parseFloat(taxes) + parseFloat(tip);
+            return total.toFixed(2);
+        }
+
+        function updateTotal() {
+            var tip = parseFloat($('#tip').val());
+            var total = parseFloat('<%= calculateTotal(cart, 0) %>');
+            total += tip;
+            $('.total').html('Total: $' + total.toFixed(2));
+        }
+
+        function payBill() {
+            var tip = parseFloat($('#tip').val());
+            var total = parseFloat('<%= calculateTotal(cart, tip) %>');
+            window.location.href = '/payment?total=' + total.toFixed(2);
+        }
+    </script>
+</body>
+
+</html>
