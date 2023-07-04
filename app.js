@@ -2,7 +2,7 @@ process.on('uncaughtException', err => {
   console.error(err, 'Uncaught Exception thrown');
   process.exit(1);
 });
-
+const fetch = require('node-fetch');
 var createError = require('http-errors');
 var express = require('express');
 var https = require('https');
