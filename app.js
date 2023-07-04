@@ -10,6 +10,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var glob = require('glob');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -26,6 +27,8 @@ async function main() {
   app.use(cookieParser());
   app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
 
   // Loads all models from the models directory
   glob.sync('./models/**/*.js').forEach(function (file) {
