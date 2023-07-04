@@ -13,6 +13,7 @@ var glob = require('glob');
 var bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
+const fetch = require('node-fetch');
 
 var app = express();
 
