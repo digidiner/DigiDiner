@@ -7,7 +7,7 @@ const fetch = require('node-fetch');
 router.get('/', async (req, res) => {
     try {
         // Retrieve the cart data from the server
-        const cartResponse = await fetch('http://service.digidiner.net/cart');
+        const cartResponse = await fetch('http://service.digidiner.net/cart/data');
         const cartData = await cartResponse.json();
         const cart = cartData.cart;
 

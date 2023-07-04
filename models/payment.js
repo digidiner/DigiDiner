@@ -50,7 +50,7 @@ class Payment {
         try {
             const results = await this.insertPayment(fullName, cardNumber, cvv, expiration, zipCode);
 
-            const cartResponse = await fetch('http://service.digidiner.net/cart');
+            const cartResponse = await fetch('http://service.digidiner.net/cart/data');
             const cartData = await cartResponse.json();
             const cart = cartData.cart;
 
