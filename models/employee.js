@@ -20,7 +20,7 @@ class Employee {
     }
 
     static connectDatabase(conn) {
-        Employee.conn = conn;
+        this.conn = conn;
         conn.query(`CREATE TABLE IF NOT EXISTS employee (
             id INT PRIMARY KEY,
             pass_hash BINARY(60) DEFAULT NULL,

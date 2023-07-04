@@ -18,7 +18,7 @@ var app = express();
 
 
 async function main() {
-  var conn = await require('./controllers/databaseController.js').getConnection();
+  var conn = require('./controllers/databaseController.js').getConnection();
 
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
@@ -35,7 +35,9 @@ async function main() {
 
   // Loads all models from the models directory
   glob.sync('./models/**/*.js').forEach(function (file) {
-    require(path.resolve(file)).connectDatabase(conn);
+    let model = require(path.resolve(file));
+    if (typeof model.connectDatabase === 'function') model.connectDatabase(conn);
+    else console.warn("Model " + path.basename(file) + " does not have a connectDatabase method!")
   });
 
   // Loads all routes from the routes directory
