@@ -2,19 +2,30 @@ process.on('uncaughtException', err => {
   console.error(err, 'Uncaught Exception thrown');
   process.exit(1);
 });
+
 var createError = require('http-errors');
 var express = require('express');
-var https = require('https');
 var path = require('path');
-var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var logger = require('morgan');
 var glob = require('glob');
 var bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
-const twilio = require('twilio');
+
+var sessionOptions = {
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  cookie: { 
+    secure: true,
+    maxAge: 12 * 60 * 60 * 1000 // Session lasts for 12 hours
+  }
+}
+
+if (req.app.get('env') === 'development') {
+  sessionOptions.cookie.secure = false; // Secure cookies only work on an HTTPS server
+}
 
 var app = express();
-
 
 async function main() {
   var conn = require('./controllers/databaseController.js').getConnection();
@@ -23,10 +34,13 @@ async function main() {
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
 
+  // trust first proxy
+  app.set('trust proxy', 1)
+
   app.use(logger('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-  app.use(cookieParser());
+  app.use(session(sessionOptions));
   app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(bodyParser.urlencoded({ extended: false }));
