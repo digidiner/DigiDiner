@@ -12,7 +12,7 @@ function requireSession(req, res, next) {
         });
         return;
     }
-    if (!req.employee.position.includes("waitstaff")) {
+    if (!req.employee.position.includes("waitstaff") && !req.employee.position.includes("manager")) {
         res.status(403).json({
             'error': "Not Authorized"
         });
