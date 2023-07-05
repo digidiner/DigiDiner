@@ -11,7 +11,7 @@ class TimeClock {
             CREATE TABLE IF NOT EXISTS timeclock (
                 start_time TIMESTAMP NOT NULL,
                 end_time TIMESTAMP DEFAULT NULL,
-                employee_id INT FOREIGN KEY NOT NULL,
+                employee_id INT NOT NULL,
                 CONSTRAINT timeclock_pk
                     PRIMARY KEY (start_time, employee_id),
                 CONSTRAINT timeclock_fk_employee_id
