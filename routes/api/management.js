@@ -3,6 +3,7 @@ var router = express.Router();
 
 var utils = require('../../utils');
 var Employee = require('../../models/employee');
+var Table = require('../../models/table');
 
 // Used to verify user is signed in and a manager
 function requireSession(req, res, next) {
@@ -40,6 +41,24 @@ router.post('/employee/create', requireSession, utils.asyncHandler(async functio
     await newEmployee.save();
     res.status(201).json({
         'id': newEmployee.id
+    });
+}));
+
+/* POST new table */
+router.post('/table', requireSession, utils.asyncHandler(async function(req, res) {
+    if (!req.body.id || !req.body.seats) {
+        res.status(400).json({
+            'error': "Missing Required Fields"
+        });
+        return;
+    }
+    let table = await Table.addTable(req.body.id, req.body.seats, req.body.posX, req.body.posY);
+    res.status(201).json({
+        'id': table.id,
+        'seats': table.seats,
+        'posX': table.posX,
+        'posY': table.posY,
+        'status': table.status
     });
 }));
 
