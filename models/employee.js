@@ -1,5 +1,7 @@
 var bcrypt = require('bcrypt');
 
+var TimeClock = require('./timeclock');
+
 class Employee {
     static passSaltRounds = 10;
 
@@ -10,13 +12,17 @@ class Employee {
     hireDate;
     position;
 
+    timeClock;
+
     constructor(id, passHash, nameFirst, nameLast, hireDate, position) {
         this.id = id;
         this.passHash = passHash ?? null;
         this.nameFirst = nameFirst ?? null;
         this.nameLast = nameLast ?? null;
         this.hireDate = hireDate ?? Date.now();
-        this.position = position ?? EmployeePosition.None;
+        this.position = position ?? "none";
+
+        this.timeClock = new TimeClock(id);
     }
 
     static connectDatabase(conn) {
@@ -42,7 +48,7 @@ class Employee {
             this.nameFirst = record.name_first;
             this.nameLast = record.name_last;
             this.hireDate = new Date(record.hire_date).getTime(); // Converts SQL timestamp milliseconds representation of date
-            this.position = EmployeePosition.values[record.position];
+            this.position = record.position;
             return true;
         }
         return false;
@@ -54,29 +60,13 @@ class Employee {
             this.nameFirst,
             this.nameLast,
             new Date(this.hireDate).toISOString().slice(0, 19).replace('T', ' '), // Converts JavaScript date to string acceptable by SQL
-            this.position.name
+            this.position
         ]
         await Employee.conn.query(`INSERT INTO employee (id, pass_hash, name_first, name_last, hire_date, position) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE pass_hash=?, name_first=?, name_last=?, hire_date=?, position=?`, [this.id, ...properties, ...properties]);
     }
 
     auth(pass) {
         return pass ? bcrypt.hashSync(pass, Employee.passSaltRounds) == this.passHash : !this.passHash;
-    }
-}
-
-class EmployeePosition {
-    static values = [];
-
-    static Manager = new EmployeePosition("manager")
-    static Kitchen = new EmployeePosition("kitchen")
-    static Waitstaff = new EmployeePosition("waitstaff")
-    static None = new EmployeePosition("none")
-
-    name;
-
-    constructor(name) {
-        this.name = name;
-        EmployeePosition.values[name] = this;
     }
 }
 
