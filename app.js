@@ -21,7 +21,7 @@ var sessionOptions = {
   }
 }
 
-if (req.app.get('env') === 'development') {
+if (process.env.NODE_ENV === 'development') {
   sessionOptions.cookie.secure = false; // Secure cookies only work on an HTTPS server
 }
 
