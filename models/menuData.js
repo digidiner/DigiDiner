@@ -41,12 +41,39 @@ class menuData {
     }
 
     async updateMenu(id, newData) {
-        const { price, description } = newData;
-        const queryResult = await menuData.conn.query(
-            'UPDATE menu SET price = ?, description = ? WHERE id = ?',
-            [price, description, id]
-        );
+        // const { price, description } = newData;
+        // const queryResult = await menuData.conn.query(
+        //     'UPDATE menu SET price = ?, description = ? WHERE id = ?',
+        //     [price, description, id]
+        // );
+        //
+        // return queryResult.affectedRows > 0;
 
+        let updateFields = [];
+        let queryParams = [];
+
+        // Construct the update fields and corresponding query parameters
+        if (newData.name !== undefined) {
+            updateFields.push('name = ?');
+            queryParams.push(newData.name);
+        }
+        if (newData.price !== undefined) {
+            updateFields.push('price = ?');
+            queryParams.push(newData.price);
+        }
+        if (newData.description !== undefined) {
+            updateFields.push('description = ?');
+            queryParams.push(newData.description);
+        }
+
+        // Construct the SQL update statement
+        const sql = `UPDATE menu SET ${updateFields.join(', ')} WHERE id = ?`;
+
+        // Add the menu ID to the query parameters
+        queryParams.push(id);
+
+        // Execute the update query
+        const queryResult = await menuData.conn.query(sql, queryParams);
         return queryResult.affectedRows > 0;
     }
 
