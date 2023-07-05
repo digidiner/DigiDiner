@@ -20,7 +20,7 @@ class Table {
             seats INT NOT NULL DEFAULT 0,
             pos_x INT NOT NULL DEFAULT 0,
             pos_y INT NOT NULL DEFAULT 0,
-            status TIMESTAMP NOT NULL DEFAULT 'available'
+            status VARCHAR(10) NOT NULL DEFAULT 'available'
         )`);
     }
 
