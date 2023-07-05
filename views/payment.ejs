@@ -257,83 +257,83 @@
                 </div>
             </div>
         </main>
+    </div>
+    <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+        <p class="mb-1">&copy; 2023 DigiDiner. All rights reserved.</p>
+    </footer>
 
-        <footer class="my-5 pt-5 text-body-secondary text-center text-small">
-            <p class="mb-1">&copy; 2023 DigiDiner. All rights reserved.</p>
-        </footer>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function handlePaymentOptionChange() {
+            var cashForm = document.getElementById('cash-form');
+            var creditForm = document.getElementById('credit-form');
+            var notifyServerBtn = document.getElementsByClassName('notify-server-btn')[0];
 
-        <script src="/js/jquery.min.js"></script>
-        <script src="/js/bootstrap.bundle.min.js"></script>
-        <script>
-            function handlePaymentOptionChange() {
-                var cashForm = document.getElementById('cash-form');
-                var creditForm = document.getElementById('credit-form');
-                var notifyServerBtn = document.getElementsByClassName('notify-server-btn')[0];
-
-                if (document.getElementById('cash-option').checked) {
-                    cashForm.style.display = 'block';
-                    creditForm.style.display = 'none';
-                    notifyServerBtn.style.display = 'block';
-                } else if (document.getElementById('credit-option').checked) {
-                    cashForm.style.display = 'none';
-                    creditForm.style.display = 'block';
-                    notifyServerBtn.style.display = 'none';
-                }
+            if (document.getElementById('cash-option').checked) {
+                cashForm.style.display = 'block';
+                creditForm.style.display = 'none';
+                notifyServerBtn.style.display = 'block';
+            } else if (document.getElementById('credit-option').checked) {
+                cashForm.style.display = 'none';
+                creditForm.style.display = 'block';
+                notifyServerBtn.style.display = 'none';
             }
+        }
 
-            function notifyServer() {
-                // Send notification to the server
-                // Implement code to notify the waitstaff, using WebSocket or API call
-                // Display a success message to the user
-                alert('Notification sent to the server!');
-            }
+        function notifyServer() {
+            // Send notification to the server
+            // Implement code to notify the waitstaff, using WebSocket or API call
+            // Display a success message to the user
+            alert('Notification sent to the server!');
+        }
 
-            function confirmPayment() {
-                if (document.getElementById('cash-option').checked) {
-                    // Process cash payment
-                    // Implement code to handle cash payment
-                    // Redirect to the receipt page
-                    window.location.href = '/receipt';
-                } else if (document.getElementById('credit-option').checked) {
-                    // Process credit/debit card payment
-                    // Implement code to handle credit/debit card payment
-                    var fullName = document.getElementById('cc-name').value;
-                    var cardNumber = document.getElementById('cc-number').value;
-                    var cvv = document.getElementById('cc-cvv').value;
-                    var expiration = document.getElementById('cc-expiration').value;
-                    var zipCode = document.getElementById('zip').value;
+        function confirmPayment() {
+            if (document.getElementById('cash-option').checked) {
+                // Process cash payment
+                // Implement code to handle cash payment
+                // Redirect to the receipt page
+                window.location.href = '/receipt';
+            } else if (document.getElementById('credit-option').checked) {
+                // Process credit/debit card payment
+                // Implement code to handle credit/debit card payment
+                var fullName = document.getElementById('cc-name').value;
+                var cardNumber = document.getElementById('cc-number').value;
+                var cvv = document.getElementById('cc-cvv').value;
+                var expiration = document.getElementById('cc-expiration').value;
+                var zipCode = document.getElementById('zip').value;
 
-                    // Make a POST request to the '/payment' route to process the payment
-                    fetch('/payment', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            fullName: fullName,
-                            cardNumber: cardNumber,
-                            cvv: cvv,
-                            expiration: expiration,
-                            zipCode: zipCode
-                        })
+                // Make a POST request to the '/payment' route to process the payment
+                fetch('/payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fullName: fullName,
+                        cardNumber: cardNumber,
+                        cvv: cvv,
+                        expiration: expiration,
+                        zipCode: zipCode
                     })
-                        .then(response => {
-                            if (response.ok) {
-                                // Payment successful, redirect to the receipt page
-                                window.location.href = '/receipt';
-                            } else {
-                                // Handle the error and display an appropriate message
-                                alert('Error processing payment. Please try again.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error processing payment:', error);
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Payment successful, redirect to the receipt page
+                            window.location.href = '/receipt';
+                        } else {
                             // Handle the error and display an appropriate message
                             alert('Error processing payment. Please try again.');
-                        });
-                }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error processing payment:', error);
+                        // Handle the error and display an appropriate message
+                        alert('Error processing payment. Please try again.');
+                    });
             }
-        </script>
+        }
+    </script>
 </body>
 
 </html>
