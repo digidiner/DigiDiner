@@ -7,153 +7,376 @@
     <title>Restaurant Payment</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <style>
-        .payment {
-            margin-top: 20px;
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
 
-        .payment-option {
-            margin-bottom: 10px;
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
         }
 
-        .payment-form {
-            display: none;
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
         }
 
-        .notify-server-btn {
-            display: none;
-            margin-top: 10px;
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
         }
 
-        .payment-entry-form {
-            display: none;
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
         }
 
-        .confirm-payment-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+
+        .bd-mode-toggle {
+            z-index: 1500;
         }
     </style>
+
 </head>
 
 <body>
     <div class="container">
-        <h1>Restaurant Payment</h1>
-        <div class="payment">
-            <div class="payment-option">
-                <input type="radio" id="cash-option" name="payment-option" value="cash"
-                    onchange="handlePaymentOptionChange()">
-                <label for="cash-option">Cash</label>
+        <main>
+            <div class="py-5 text-center">
+                <h2>Checkout</h2>
+                <p class="lead">Your order is being prepared </p>
             </div>
-            <div class="payment-option">
-                <input type="radio" id="credit-option" name="payment-option" value="credit"
-                    onchange="handlePaymentOptionChange()">
-                <label for="credit-option">Credit/Debit</label>
-            </div>
-            <div class="payment-form" id="cash-form">
-                <button class="btn btn-primary notify-server-btn" onclick="notifyServer()">Notify Server</button>
-            </div>
-            <div class="payment-form" id="credit-form">
-                <form>
-                    <div class="form-group">
-                        <label for="full-name">Full Name</label>
-                        <input type="text" class="form-control" id="full-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="card-number">Card Number</label>
-                        <input type="text" class="form-control" id="card-number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cvv">CVV</label>
-                        <input type="text" class="form-control" id="cvv" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="expiration">Expiration</label>
-                        <input type="text" class="form-control" id="expiration" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="zip-code">ZIP Code</label>
-                        <input type="text" class="form-control" id="zip-code" required>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <button class="btn btn-success confirm-payment-btn" onclick="confirmPayment()">Confirm Payment</button>
-    </div>
+            <div class="row g-5">
+                <div class="col-md-5 col-lg-4 order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Your Order</span>
+                        <span class="badge bg-primary rounded-pill">3</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Product name</h6>
+                                <small class="text-body-secondary">Brief description</small>
+                            </div>
+                            <span class="text-body-secondary">$12</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Second product</h6>
+                                <small class="text-body-secondary">Brief description</small>
+                            </div>
+                            <span class="text-body-secondary">$8</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Third item</h6>
+                                <small class="text-body-secondary">Brief description</small>
+                            </div>
+                            <span class="text-body-secondary">$5</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+                            <div class="text-success">
+                                <h6 class="my-0">Promo code</h6>
+                                <small>EXAMPLECODE</small>
+                            </div>
+                            <span class="text-success">−$5</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (USD)</span>
+                            <strong>$20</strong>
+                        </li>
+                    </ul>
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function handlePaymentOptionChange() {
-            var cashForm = document.getElementById('cash-form');
-            var creditForm = document.getElementById('credit-form');
-            var notifyServerBtn = document.getElementById('notify-server-btn');
+                    <form class="card p-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Promo code">
+                            <button type="submit" class="btn btn-secondary">Redeem</button>
+                        </div>
+                    </form>
+                </div>
 
-            if (document.getElementById('cash-option').checked) {
-                cashForm.style.display = 'block';
-                creditForm.style.display = 'none';
-                notifyServerBtn.style.display = 'block';
-            } else if (document.getElementById('credit-option').checked) {
-                cashForm.style.display = 'none';
-                creditForm.style.display = 'block';
-                notifyServerBtn.style.display = 'none';
+                <div class="col-md-7 col-lg-8">
+                    <h4 class="mb-3">Billing address</h4>
+                    <form class="needs-validation" novalidate>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="firstName" class="form-label">First name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="lastName" class="form-label">Last name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid last name is required.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="username" class="form-label">Username</label>
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text" class="form-control" id="username" placeholder="Username"
+                                        required>
+                                    <div class="invalid-feedback">
+                                        Your username is required.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email <span
+                                        class="text-body-secondary">(Optional)</span></label>
+                                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address for shipping updates.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" placeholder="1234 Main St"
+                                    required>
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address2" class="form-label">Address 2 <span
+                                        class="text-body-secondary">(Optional)</span></label>
+                                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                            </div>
+
+                            <div class="col-md-5">
+                                <label for="country" class="form-label">Country</label>
+                                <select class="form-select" id="country" required>
+                                    <option value="">Choose...</option>
+                                    <option>United States</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid country.
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="state" class="form-label">State</label>
+                                <select class="form-select" id="state" required>
+                                    <option value="">Choose...</option>
+                                    <option>California</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please provide a valid state.
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="zip" class="form-label">Zip</label>
+                                <input type="text" class="form-control" id="zip" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Zip code required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h4 class="mb-3">Payment</h4>
+                        <!-- Payment Options -->
+                        <div class="my-3">
+                            <div class="payment">
+                                <div class="form-check">
+                                    <div class="payment-option">
+                                        <input type="radio" id="cash-option" name="payment-option" value="cash"
+                                            onchange="handlePaymentOptionChange()">
+                                        <label for="cash-option">Cash</label>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    <div class="payment-option">
+                                        <input type="radio" id="credit-option" name="payment-option" value="credit"
+                                            onchange="handlePaymentOptionChange()">
+                                        <label for="credit-option">Credit/Debit</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Cash Payment Form -->
+                            <div class="payment-form" id="cash-form" style="display: none;">
+                                <button class="btn btn-primary notify-server-btn" onclick="notifyServer()">Notify
+                                    Server</button>
+                            </div>
+                            <!-- Credit/Debit Card Payment Form -->
+                            <div class="payment-form" id="credit-form" style="display: none;">
+                                <!-- Credit card form fields -->
+                                <div class="row gy-3">
+                                    <div class="col-md-6">
+                                        <label for="cc-name" class="form-label">Name on card</label>
+                                        <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                                        <small class="text-body-secondary">Full name as displayed on card</small>
+                                        <div class="invalid-feedback">
+                                            Name on card is required
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="cc-number" class="form-label">Credit card number</label>
+                                        <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                        <div class="invalid-feedback">
+                                            Credit card number is required
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="cc-expiration" class="form-label">Expiration</label>
+                                        <input type="text" class="form-control" id="cc-expiration" placeholder=""
+                                            required>
+                                        <div class="invalid-feedback">
+                                            Expiration date required
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="cc-cvv" class="form-label">CVV</label>
+                                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                                        <div class="invalid-feedback">
+                                            Security code required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+
+                            <button class="w-100 btn btn-primary btn-lg confirm-payment-btn"
+                                onclick="confirmPayment()">Continue to checkout</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+            <p class="mb-1">&copy; 2023 DigiDiner. All rights reserved.</p>
+        </footer>
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function handlePaymentOptionChange() {
+                var cashForm = document.getElementById('cash-form');
+                var creditForm = document.getElementById('credit-form');
+                var notifyServerBtn = document.getElementsByClassName('notify-server-btn')[0];
+
+                if (document.getElementById('cash-option').checked) {
+                    cashForm.style.display = 'block';
+                    creditForm.style.display = 'none';
+                    notifyServerBtn.style.display = 'block';
+                } else if (document.getElementById('credit-option').checked) {
+                    cashForm.style.display = 'none';
+                    creditForm.style.display = 'block';
+                    notifyServerBtn.style.display = 'none';
+                }
             }
-        }
 
-        function notifyServer() {
-            // Send notification to the server
-            // Implement code to notify the waitstaff, using WebSocket or API call
-            // Display a success message to the user
-            alert('Notification sent to the server!');
-        }
+            function notifyServer() {
+                // Send notification to the server
+                // Implement code to notify the waitstaff, using WebSocket or API call
+                // Display a success message to the user
+                alert('Notification sent to the server!');
+            }
 
-        function confirmPayment() {
-            if (document.getElementById('cash-option').checked) {
-                // Process cash payment
-                // Implement code to handle cash payment
+            function confirmPayment() {
+                if (document.getElementById('cash-option').checked) {
+                    // Process cash payment
+                    // Implement code to handle cash payment
+                    // Redirect to the receipt page
+                    window.location.href = '/receipt';
+                } else if (document.getElementById('credit-option').checked) {
+                    // Process credit/debit card payment
+                    // Implement code to handle credit/debit card payment
+                    var fullName = document.getElementById('cc-name').value;
+                    var cardNumber = document.getElementById('cc-number').value;
+                    var cvv = document.getElementById('cc-cvv').value;
+                    var expiration = document.getElementById('cc-expiration').value;
+                    var zipCode = document.getElementById('zip').value;
 
-                // Redirect to the receipt page
-                window.location.href = '/receipt';
-            } else if (document.getElementById('credit-option').checked) {
-                // Process credit/debit card payment
-                // Implement code to handle credit/debit card payment
-                var fullName = document.getElementById('full-name').value;
-                var cardNumber = document.getElementById('card-number').value;
-                var cvv = document.getElementById('cvv').value;
-                var expiration = document.getElementById('expiration').value;
-                var zipCode = document.getElementById('zip-code').value;
-
-                // Make a POST request to the '/payment' route to process the payment
-                fetch('/payment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        fullName: fullName,
-                        cardNumber: cardNumber,
-                        cvv: cvv,
-                        expiration: expiration,
-                        zipCode: zipCode
+                    // Make a POST request to the '/payment' route to process the payment
+                    fetch('/payment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            fullName: fullName,
+                            cardNumber: cardNumber,
+                            cvv: cvv,
+                            expiration: expiration,
+                            zipCode: zipCode
+                        })
                     })
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            // Payment successful, redirect to the receipt page
-                            window.location.href = '/receipt';
-                        } else {
+                        .then(response => {
+                            if (response.ok) {
+                                // Payment successful, redirect to the receipt page
+                                window.location.href = '/receipt';
+                            } else {
+                                // Handle the error and display an appropriate message
+                                alert('Error processing payment. Please try again.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error processing payment:', error);
                             // Handle the error and display an appropriate message
                             alert('Error processing payment. Please try again.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error processing payment:', error);
-                        // Handle the error and display an appropriate message
-                        alert('Error processing payment. Please try again.');
-                    });
+                        });
+                }
             }
-        }
-    </script>
+        </script>
 </body>
 
 </html>
