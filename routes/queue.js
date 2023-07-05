@@ -2,7 +2,37 @@ var express = require('express');
 var router = express.Router();
 
 // Order queue array
-let orderQueue = [];
+const orderQueue = [
+    {
+        items: [
+            {
+                quantity: 2,
+                name: "Burger",
+                modifications: "No onions",
+                allergies: "None",
+                id: "item1"
+            },
+            {
+                quantity: 1,
+                name: "Pizza",
+                modifications: "Extra cheese",
+                allergies: "Gluten",
+                id: "item2"
+            }
+        ]
+    },
+    {
+        items: [
+            {
+                quantity: 3,
+                name: "Salad",
+                modifications: "No tomatoes",
+                allergies: "None",
+                id: "item3"
+            }
+        ]
+    }
+];
 
 // POST /clearItem endpoint
 router.post('/clearItem', (req, res) => {

@@ -1,126 +1,210 @@
-<head>
-    <meta charset="UTF-8">
-    <title>DigiDiner</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-</head>
-
-<body>
-    <div class="container-fluid justify-content-lg-start">
-        <h1>Lunch Menu</h1>
-        <div class="accordion" id="menuAccordion">
-            <% menuItems.forEach((item, index)=> { %>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading<%= index %>">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse<%= index %>" aria-expanded="true"
-                            aria-controls="collapse<%= index %>">
-                            <%= item.name %>
-                                <span class="badge bg-primary">$<%= item.price.toFixed(2) %></span>
-                        </button>
-                    </h2>
-                    <div id="collapse<%= index %>" class="accordion-collapse collapse"
-                        aria-labelledby="heading<%= index %>" data-bs-parent="#menuAccordion">
-                        <div class="accordion-body">
-                            <h5>Select Modifications:</h5>
-                            <ul class="list-group">
-                                <% item.modifications.forEach((modification)=> { %>
-                                    <li class="list-group-item">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                value="<%= modification.name %>" id="<%= modification.id %>">
-                                            <label class="form-check-label" for="<%= modification.id %>">
-                                                <%= modification.name %>
-                                                    <span class="badge bg-secondary">$<%= modification.price.toFixed(2)
-                                                            %></span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <% }) %>
-                            </ul>
+<div class="container-fluid justify-content-lg-start">
+    <div class="row">
+        <div class="col-12">
+            <h1 id="lunchMenu">Lunch Menu</h1>
+            <div class="accordion" id="lunchMenuAccordion">
+                <% lunchItems.forEach((item, index)=> { %>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading<%= index %>">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                                aria-controls="collapse<%= index %>">
+                                <%= item.name %>
+                                    <span class="badge bg-primary">$<%= item.price.toFixed(2) %></span>
+                            </button>
+                        </h2>
+                        <div id="collapse<%= index %>" class="accordion-collapse collapse"
+                            aria-labelledby="heading<%= index %>" data-bs-parent="#lunchMenuAccordion">
+                            <div class="accordion-body">
+                                <h5>Select Modifications:</h5>
+                                <ul class="list-group">
+                                    <% item.modifications.forEach((modification)=> { %>
+                                        <li class="list-group-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    value="<%= modification.name %>" id="<%= modification.id %>">
+                                                <label class="form-check-label" for="<%= modification.id %>">
+                                                    <%= modification.name %>
+                                                        <span class="badge bg-secondary">$<%=
+                                                                modification.price.toFixed(2) %></span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                                <div class="form-group mt-3">
+                                    <label for="allergyDropdown<%= index %>">Allergy:</label>
+                                    <select class="form-control" id="allergyDropdown<%= index %>">
+                                        <option value="">None</option>
+                                        <option value="Peanuts">Peanuts</option>
+                                        <option value="Gluten">Gluten</option>
+                                        <option value="Dairy">Dairy</option>
+                                        <option value="Shellfish">Shellfish</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label for="specialRequests<%= index %>">Special Requests:</label>
+                                    <textarea class="form-control" id="specialRequests<%= index %>" rows="3"></textarea>
+                                </div>
+                                <button class="btn btn-primary mt-3" onclick="addToOrder('<%= index %>')">Add to
+                                    Order</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <% }) %>
+                    <% }) %>
+            </div>
         </div>
     </div>
+</div>
+<hr class="section-divider">
 
-    <div class="container-fluid justify-content-lg-start">
-        <h1>Dinner Menu</h1>
-        <div class="accordion" id="menuAccordion">
-            <% menuItems.forEach((item, index)=> { %>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading<%= index %>">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse<%= index %>" aria-expanded="true"
-                            aria-controls="collapse<%= index %>">
-                            <%= item.name %>
-                                <span class="badge bg-primary">$<%= item.price.toFixed(2) %></span>
-                        </button>
-                    </h2>
-                    <div id="collapse<%= index %>" class="accordion-collapse collapse"
-                        aria-labelledby="heading<%= index %>" data-bs-parent="#menuAccordion">
-                        <div class="accordion-body">
-                            <h5>Select Modifications:</h5>
-                            <ul class="list-group">
-                                <% item.modifications.forEach((modification)=> { %>
-                                    <li class="list-group-item">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                value="<%= modification.name %>" id="<%= modification.id %>">
-                                            <label class="form-check-label" for="<%= modification.id %>">
-                                                <%= modification.name %>
-                                                    <span class="badge bg-secondary">$<%= modification.price.toFixed(2)
-                                                            %></span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <% }) %>
-                            </ul>
+<div class="container-fluid justify-content-lg-start">
+    <h1 id="dinnerMenu">Dinner Menu</h1>
+    <div class="accordion" id="dinnerMenuAccordion">
+        <% dinnerItems.forEach((item, index)=> { %>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading<%= index %>">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                        aria-controls="collapse<%= index %>">
+                        <%= item.name %>
+                            <span class="badgebg-primary">$<%= item.price.toFixed(2) %></span>
+                    </button>
+                </h2>
+                <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>"
+                    data-bs-parent="#dinnerMenuAccordion">
+                    <div class="accordion-body">
+                        <h5>Select Modifications:</h5>
+                        <ul class="list-group">
+                            <% item.modifications.forEach((modification)=> { %>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="<%= modification.name %>"
+                                            id="<%= modification.id %>">
+                                        <label class="form-check-label" for="<%= modification.id %>">
+                                            <%= modification.name %>
+                                                <span class="badge bg-secondary">$<%= modification.price.toFixed(2) %>
+                                                </span>
+                                        </label>
+                                    </div>
+                                </li>
+                                <% }) %>
+                        </ul>
+                        <div class="form-group mt-3">
+                            <label for="allergyDropdown<%= index %>">Allergy:</label>
+                            <select class="form-control" id="allergyDropdown<%= index %>">
+                                <option value="">None</option>
+                                <option value="Peanuts">Peanuts</option>
+                                <option value="Gluten">Gluten</option>
+                                <option value="Dairy">Dairy</option>
+                                <option value="Shellfish">Shellfish</option>
+                            </select>
                         </div>
+                        <div class="form-group mt-3">
+                            <label for="specialRequests<%= index %>">Special Requests:</label>
+                            <textarea class="form-control" id="specialRequests<%= index %>" rows="3"></textarea>
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="addToOrder('<%= index %>')">Add to Order</button>
                     </div>
                 </div>
-                <% }) %>
-        </div>
+            </div>
+            <% }) %>
     </div>
+</div>
 
-    <div class="container-fluid justify-content-lg-start">
-        <h1>Drink Menu</h1>
-        <div class="accordion" id="menuAccordion">
-            <% menuItems.forEach((item, index)=> { %>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading<%= index %>">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse<%= index %>" aria-expanded="true"
-                            aria-controls="collapse<%= index %>">
-                            <%= item.name %>
-                                <span class="badge bg-primary">$<%= item.price.toFixed(2) %></span>
-                        </button>
-                    </h2>
-                    <div id="collapse<%= index %>" class="accordion-collapse collapse"
-                        aria-labelledby="heading<%= index %>" data-bs-parent="#menuAccordion">
-                        <div class="accordion-body">
-                            <h5>Select Modifications:</h5>
-                            <ul class="list-group">
-                                <% item.modifications.forEach((modification)=> { %>
-                                    <li class="list-group-item">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                value="<%= modification.name %>" id="<%= modification.id %>">
-                                            <label class="form-check-label" for="<%= modification.id %>">
-                                                <%= modification.name %>
-                                                    <span class="badge bg-secondary">$<%= modification.price.toFixed(2)
-                                                            %></span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <% }) %>
-                            </ul>
+<hr class="section-divider">
+
+<div class="container-fluid justify-content-lg-start">
+    <h1 id="drinkMenu">Drink Menu</h1>
+    <div class="accordion" id="drinkMenuAccordion">
+        <% drinkItems.forEach((item, index)=> { %>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading<%= index %>">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                        aria-controls="collapse<%= index %>">
+                        <%= item.name %>
+                            <span class="badge bg-primary">$<%= item.price.toFixed(2) %></span>
+                    </button>
+                </h2>
+                <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>"
+                    data-bs-parent="#drinkMenuAccordion">
+                    <div class="accordion-body">
+                        <h5>Select Modifications:</h5>
+                        <ul class="list-group">
+                            <% item.modifications.forEach((modification)=> { %>
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="<%= modification.name %>"
+                                            id="<%= modification.id %>">
+                                        <label class="form-check-label" for="<%= modification.id %>">
+                                            <%= modification.name %>
+                                                <span class="badge bg-secondary">$<%=
+                                                        modification.price.toFixed(2)</span>
+                                        </label>
+                                    </div>
+                                </li>
+                                <% }) %>
+                        </ul>
+                        <div class="form-group mt-3">
+                            <label for="allergyDropdown<%= index %>">Allergy:</label>
+                            <select class="form-control" id="allergyDropdown<%= index %>">
+                                <option value="">None</option>
+                                <option value="Peanuts">Peanuts</option>
+                                <option value="Gluten">Gluten</option>
+                                <option value="Dairy">Dairy</option>
+                                <option value="Shellfish">Shellfish</option>
+                            </select>
                         </div>
+                        <div class="form-group mt-3">
+                            <label for="specialRequests<%= index %>">Special Requests:</label>
+                            <textarea class="form-control" id="specialRequests<%= index %>" rows="3"></textarea>
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="addToOrder('<%= index %>')">Add to Order</button>
                     </div>
                 </div>
-                <% }) %>
-        </div>
+            </div>
+            <% }) %>
     </div>
-    <%- include('footer') %>
-        <script src="/js/bootstrap.bundle.min.js"></script>
-</body>
+</div>
+<script>
+    function addToOrder(index) {
+        // Get the selected modifications
+        var selectedModifications = [];
+        var modificationCheckboxes = document.querySelectorAll(
+            '#collapse' + index + ' input[type="checkbox"]:checked'
+        );
+        modificationCheckboxes.forEach(function (checkbox) {
+            selectedModifications.push(checkbox.value);
+        });
+
+        // Get the selected allergy
+        var allergyDropdown = document.getElementById('allergyDropdown' + index);
+        var selectedAllergy = allergyDropdown.value;
+
+        // Get the special requests
+        var specialRequestsTextarea = document.getElementById('specialRequests' + index);
+        var specialRequests = specialRequestsTextarea.value;
+
+        // Create an object with the selected item and its details
+        var orderItem = {
+            itemIndex: index,
+            modifications: selectedModifications,
+            allergy: selectedAllergy,
+            specialRequests: specialRequests
+        };
+
+        // Add the order item to the current order
+        addToCurrentOrder(orderItem);
+
+        // Display a success message or perform any other actions
+        alert('Item added to the order!');
+    }
+
+    function addToCurrentOrder(orderItem) {
+        // Add logic to add order item to current order
+        console.log(orderItem);
+    }
+
+</script>
+</div>
