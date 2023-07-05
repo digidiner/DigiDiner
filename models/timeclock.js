@@ -67,14 +67,14 @@ class TimeClock {
     }
 
     async getActivePeriod() {
-        let activeRow = (await TimeClock.conn.query(`
+        let record = (await TimeClock.conn.query(`
             SELECT start_time 
                 FROM timeclock 
                 WHERE employee_id = '${this.employeeId}'
                     AND end_time IS NULL
         `))[0];
-        if (!activeRow) return null;
-        return await this.getPeriod(activeRow.start_time);
+        if (!record) return null;
+        return await this.getPeriod(new Date(record.start_time).getTime());
     }
 }
 
