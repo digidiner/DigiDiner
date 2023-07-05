@@ -29,11 +29,22 @@ async function getMenuItem(req, res, next) {
 async function addMenuItem(req, res, next) {
     try {
         const {name, price, description} = req.body;
+        // Validate that name, price and description are present
+        if (!name || !price || !description) {
+            return res.status(400).json({
+                error: 'Validation Error',
+                message: 'Name, price, and description are required for adding a new menu item',
+            });
+        }
+
         const newItem = {name, price, description};
 
         const addItem = await menuData.addMenuItem(newItem);
 
-        res.json({success: true, item: addItem}).status(200);
+        res.json({success: true, item: addItem}).status(200).json({
+            success: true,
+            item: newItem,
+        });
     } catch (err) {
         next (err);
     }
