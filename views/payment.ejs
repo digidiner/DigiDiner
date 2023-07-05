@@ -68,9 +68,9 @@
                         <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
                             <div class="text-success">
                                 <h6 class="my-0">Tip</h6>
-                                <small>{{tip}}</small>
+                                <small id="tip-amount">0.00</small>
                             </div>
-                            <span class="text-success">{{tip}}</span>
+                            <span class="text-success">+$ <span id="tip-total">0.00</span></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Total (USD)</span>
@@ -282,13 +282,12 @@
     }
 
     function applyTip() {
-        const tipAmount = parseFloat($('#tip-input').val()) || 0;
-        const currentTip = parseFloat("{{tip}}") || 0;
+        const tipAmount = parseFloat(document.getElementById('tip-input').value) || 0;
+        const currentTip = parseFloat(document.getElementById('tip-amount').innerText) || 0;
         const updatedTip = currentTip + tipAmount;
 
-        $('.text-success h6').text('Tip');
-        $('.text-success small').text(updatedTip.toFixed(2));
-        $('.text-success span').text('+$ ' + updatedTip.toFixed(2));
+        document.getElementById('tip-amount').innerText = updatedTip.toFixed(2);
+        document.getElementById('tip-total').innerText = updatedTip.toFixed(2);
     }
 </script>
 </body>
