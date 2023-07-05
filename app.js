@@ -71,13 +71,7 @@ async function main() {
     if (route.endsWith('index')) {
       route = route.slice(0, -5);
     }
-    let router = require(path.resolve(file));
-    router.use(function (req, res) {
-      res.status(404).json({
-        'error': "API Endpoint Does Not Exist"
-      });
-    });
-    app.use(route, router);
+    app.use(route, require(path.resolve(file)));
   });
 
   // catch 404 and forward to error handler
