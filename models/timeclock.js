@@ -148,7 +148,7 @@ class TimeClockPeriod {
 
     async save() {
         const properties = [
-            new Date(this.endTime).toISOString().slice(0, 19).replace('T', ' '),
+            this.endTime ? new Date(this.endTime).toISOString().slice(0, 19).replace('T', ' ') : null,
         ]
         await TimeClock.conn.query(`
             INSERT INTO timeclock (start_time, employee_id, end_time) 
