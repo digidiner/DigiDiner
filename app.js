@@ -11,6 +11,10 @@ var logger = require('morgan');
 var glob = require('glob');
 var bodyParser = require('body-parser');
 
+var utils = require('./utils');
+
+var Employee = require('./models/employee');
+
 var sessionOptions = {
   secret: process.env.SESSION_SECRET,
   resave: true,
@@ -45,6 +49,14 @@ async function main() {
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+
+  app.use(utils.asyncHandler(async function (req, res, next) {
+    if (req.session.employeeId) {
+      req.employee = new Employee(req.session.employeeId);
+      await req.employee.load();
+    }
+    next();
+  }));
 
   // Loads all models from the models directory
   glob.sync('./models/**/*.js').forEach(function (file) {

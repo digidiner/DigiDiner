@@ -7,7 +7,7 @@ var Employee = require('../../models/employee');
 
 // Used to verify user is signed in
 function requireSession(req, res, next) {
-    if (!req.session.employee) {
+    if (!req.employee) {
         res.status(403).json({
             'error': "Not Signed In"
         });
@@ -69,7 +69,7 @@ router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
         });
         return;
     }
-    req.session.employee = employee;
+    req.session.employeeId = employee.id;
     res.status(200).json({
         'id': employee.id,
         'nameFirst': employee.nameFirst,
@@ -81,7 +81,7 @@ router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
 
 /* POST employee time clock in */
 router.post('/employee/clockin', requireSession, utils.asyncHandler(async function(req, res) {
-    let period = await req.session.employee.timeClock.clockIn();
+    let period = await req.employee.timeClock.clockIn();
     if (period) {
         res.status(200).json({
             'status': "Success",
@@ -97,7 +97,7 @@ router.post('/employee/clockin', requireSession, utils.asyncHandler(async functi
 
 /* POST employee time clock out */
 router.post('/employee/clockout', requireSession, utils.asyncHandler(async function(req, res) {
-    let period = await req.session.employee.timeClock.clockOut();
+    let period = await req.employee.timeClock.clockOut();
     if (period) {
         res.status(200).json({
             'status': "Success",

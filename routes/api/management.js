@@ -6,12 +6,13 @@ var Employee = require('../../models/employee');
 
 // Used to verify user is signed in and a manager
 function requireSession(req, res, next) {
-    if (!req.session.employee) {
+    if (!req.employee) {
         res.status(403).json({
             'error': "Not Signed In"
         });
         return;
-    } else if (!req.session.employee.position.includes("manager")) {
+    }
+    if (!req.employee.position.includes("manager")) {
         res.status(403).json({
             'error': "Not Authorized"
         });
