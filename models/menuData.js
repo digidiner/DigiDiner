@@ -41,8 +41,13 @@ class menuData {
     }
 
     async updateMenu(id, newData) {
-        const queryResult = await menuData.conn.query('UPDATE menu SET ? WHERE id = ?', [newData, id]);
-            return queryResult.affectedRows > 0;
+        const { price, description } = newData;
+        const queryResult = await menuData.conn.query(
+            'UPDATE menu SET price = ?, description = ? WHERE id = ?',
+            [price, description, id]
+        );
+
+        return queryResult.affectedRows > 0;
     }
 
     async removeMenuItem(id) {

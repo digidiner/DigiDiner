@@ -81,6 +81,11 @@ async function main() {
 
   // error handler
   app.use(function (err, req, res, next) {
+    if (req.url.startsWith("/api")) {
+      res.status(err.status || 500).json(err);
+      return;
+    }
+
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.code = err.status || 500;
