@@ -66,7 +66,7 @@ class Table {
             this.posY,
             this.status
         ]
-        await Table.conn.query(`INSERT INTO \`table\` (id, seats, pos_x, pos_y, status) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE seats=?, pos_x=?, pos_y=?, status=?`, [this.id, ...properties, ...properties]);
+        await Table.conn.query(`INSERT INTO \`table\` (id, seats, pos_x, pos_y, status) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE seats=?, pos_x=?, pos_y=?, status=?`, [this.id, ...properties, ...properties]);
     }
 }
 
