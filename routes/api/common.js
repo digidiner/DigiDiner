@@ -40,7 +40,7 @@ router.post('/employee/signup', utils.asyncHandler(async function(req, res) {
         'nameFirst': newEmployee.nameFirst,
         'nameLast': newEmployee.nameLast,
         'hireDate': newEmployee.hireDate,
-        'position': newEmployee.position.name
+        'position': newEmployee.position
     });
 }));
 
@@ -75,7 +75,7 @@ router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
         'nameFirst': employee.nameFirst,
         'nameLast': employee.nameLast,
         'hireDate': employee.hireDate,
-        'position': employee.position.name
+        'position': employee.position
     });
 }));
 
