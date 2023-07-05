@@ -55,7 +55,7 @@ router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
     let employee = new Employee(req.body.id);
     if (!(await employee.load())) {
         res.status(403).json({
-            'error': "Invalid Employee ID"
+            'error': "Invalid Employee ID or Password"
         });
         return;
     } else if (!employee.nameFirst) {
@@ -65,7 +65,7 @@ router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
         return;
     } else if (!employee.auth(req.body.pass)) {
         res.status(403).json({
-            'error': "Incorrect Password"
+            'error': "Invalid Employee ID or Password"
         });
         return;
     }
