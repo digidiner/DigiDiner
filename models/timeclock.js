@@ -12,9 +12,9 @@ class TimeClock {
                 start_time TIMESTAMP NOT NULL,
                 end_time TIMESTAMP DEFAULT NULL,
                 employee_id INT FOREIGN KEY NOT NULL,
-                CONSTRAINT 'timeclock_pk'
+                CONSTRAINT timeclock_pk
                     PRIMARY KEY (start_time, employee_id),
-                CONSTRAINT 'timeclock_fk_employee_id'
+                CONSTRAINT timeclock_fk_employee_id
                     FOREIGN KEY (employee_id) REFERENCES employee (id)
                     ON DELETE CASCADE
                     ON UPDATE CASCADE
