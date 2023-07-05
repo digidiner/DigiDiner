@@ -15,7 +15,7 @@ class Table {
 
     static connectDatabase(conn) {
         this.conn = conn;
-        conn.query(`CREATE TABLE IF NOT EXISTS 'table' (
+        conn.query(`CREATE TABLE IF NOT EXISTS \`table\` (
             id INT PRIMARY KEY,
             seats INT NOT NULL DEFAULT 0,
             pos_x INT NOT NULL DEFAULT 0,
@@ -25,7 +25,7 @@ class Table {
     }
 
     static async listTables() {
-        return (await Table.conn.query(`SELECT * FROM 'table'`)).map(record => new Table(record.id, record.seats, record.pos_x, record.pos_y, record.status));
+        return (await Table.conn.query(`SELECT * FROM \`table\``)).map(record => new Table(record.id, record.seats, record.pos_x, record.pos_y, record.status));
     }
 
     static async getTable(id) {
@@ -44,11 +44,11 @@ class Table {
     }
 
     static async removeTable(id) {
-        return (await Table.conn.query(`DELETE FROM 'table' WHERE id = '${id}'`)).affectedRows > 0;
+        return (await Table.conn.query(`DELETE FROM \`table\` WHERE id = '${id}'`)).affectedRows > 0;
     }
 
     async load() {
-        const record = (await Table.conn.query(`SELECT * FROM 'table' WHERE id = '${this.id}'`))[0];
+        const record = (await Table.conn.query(`SELECT * FROM \`table\` WHERE id = '${this.id}'`))[0];
         if (record && this.id == record.id) {
             this.seats = record.seats;
             this.posX = record.pos_x;
@@ -66,7 +66,7 @@ class Table {
             this.posY,
             this.status
         ]
-        await Table.conn.query(`INSERT INTO 'table' (id, seats, pos_x, pos_y, status) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE seats=?, pos_x=?, pos_y=?, status=?`, [this.id, ...properties, ...properties]);
+        await Table.conn.query(`INSERT INTO \`table\` (id, seats, pos_x, pos_y, status) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE seats=?, pos_x=?, pos_y=?, status=?`, [this.id, ...properties, ...properties]);
     }
 }
 
