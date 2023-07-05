@@ -45,14 +45,14 @@
         <main>
             <div class="py-5 text-center">
                 <h2>Checkout</h2>
-                <p class="lead">Your order is being prepared.</p>
-                <h4>Below is a summary of your order. Please proceed with
-                    payment at your convenience. </h4>
+                <h4></h4>Your order is being prepared.</h4>
+                <p class="lead">Below is a summary of your order. Please proceed with
+                    payment at your convenience.</p>
                 <h6>We appreciate your patience and look forward to serving you a
                     delightful dining experience.</h6>
             </div>
             <div class="row g-5">
-                <div class="col-md-8 order-md-last">
+                <div class="col-md-8 order-md-first">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">Your Order</span>
                         <span class="badge bg-primary rounded-pill">3</span>
@@ -70,7 +70,7 @@
                                 <h6 class="my-0">Tip</h6>
                                 <small>{{tip}}</small>
                             </div>
-                            <span class="text-success">+$ {{tip}}</span>
+                            <span class="text-success">{{tip}}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Total (USD)</span>
@@ -105,6 +105,7 @@
                             </div>
                         </div>
                     </div>
+                    <hr class="my-4">
                     <!-- Cash Payment Form -->
                     <div class="payment-form" id="cash-form" style="display: none;">
                         <button class="btn btn-primary notify-server-btn" onclick="notifyServer()">Notify
@@ -127,15 +128,6 @@
                                     <input type="text" class="form-control" id="lastName" placeholder="" value=""
                                         required>
                                     <div class="invalid-feedback">Valid last name is required.</div>
-                                </div>
-                                <div class="col-12">
-                                    <label for="username" class="form-label">Username</label>
-                                    <div class="input-group has-validation">
-                                        <span class="input-group-text">@</span>
-                                        <input type="text" class="form-control" id="username" placeholder="Username"
-                                            required>
-                                        <div class="invalid-feedback">Your username is required.</div>
-                                    </div>
                                 </div>
                                 <div class="col-12">
                                     <label for="email" class="form-label">Email <span
@@ -204,6 +196,7 @@
                                 </div>
                             </div>
                         </form>
+                        <hr class="my-4">
                         <button class="w-100 btn btn-primary btn-lg confirm-payment-btn"
                             onclick="confirmPayment()">Continue to checkout</button>
                     </div>
