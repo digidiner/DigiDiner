@@ -46,13 +46,13 @@ router.post('/employee/create', requireSession, utils.asyncHandler(async functio
 
 /* POST new table */
 router.post('/table', requireSession, utils.asyncHandler(async function(req, res) {
-    if (!req.body.id || !req.body.seats) {
+    if (!req.body.seats) {
         res.status(400).json({
             'error': "Missing Required Fields"
         });
         return;
     }
-    let table = await Table.addTable(req.body.id, req.body.seats, req.body.posX, req.body.posY);
+    let table = await Table.addTable(req.body.seats, req.body.posX, req.body.posY);
     res.status(201).json({
         'id': table.id,
         'seats': table.seats,
