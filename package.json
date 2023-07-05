@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "build-css": "node-sass public/css/style.scss public/css/style.css"
+    "build-css": "node-sass public/css/style.scss public/css/style.css",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -26,6 +27,7 @@
     "nodemailer": "^6.9.3",
     "parser": "^0.1.4",
     "path": "^0.12.7",
+    "pg": "^8.11.1",
     "pug": "^3.0.2",
     "sass": "^1.63.6",
     "twilio": "^4.13.0"
