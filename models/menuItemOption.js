@@ -2,17 +2,16 @@ class menuItemOption {
     constructor(dbConnPool) {
         this.dbConnPool = dbConnPool;
     }
-    static connectDatabase(conn) {
+    static async connectDatabase(conn) {
         this.conn = conn;
-        conn.query(`
-            CREATE TABLE IF NOT EXISTS menu_item_option
-            (
-                menu_item_id INT,
-                option_id INT,
-                FOREIGN KEY (menu_item_id) REFERENCES menu(id),
-                FOREIGN KEY (option_id) REFERENCES menu_option(id)
-            )
-        `);
+        await conn.query(`
+      CREATE TABLE IF NOT EXISTS menu_item_option (
+        menu_item_id INT,
+        option_id INT,
+        FOREIGN KEY (menu_item_id) REFERENCES menu(id),
+        FOREIGN KEY (option_id) REFERENCES menu_option(id)
+      )
+    `);
     }
     async addAssociation(menuItemId, optionId) {
         const queryResult = await menuItemOption.conn.query(
