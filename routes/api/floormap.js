@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const Table = require('../models/table');
+const Table = require('../../models/table');
 
 // Dummy menu data
 
