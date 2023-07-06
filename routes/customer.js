@@ -61,7 +61,7 @@ const drinkItems = [
 
 /* GET users listing. */
 router.get('/', function (req, res) {
-  res.status(200).render('customer', { menuItems: menuItems });
+  res.status(200).render('customer', { lunchItems, dinnerItems, drinkItems });
 });
 
 module.exports = router;
