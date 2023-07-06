@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Cart</title>
+    <title>Restaurant order</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <style>
-        .cart {
+        .order {
             margin-top: 20px;
         }
 
-        .cart-item {
+        .order-item {
             margin-bottom: 10px;
         }
 
@@ -33,11 +33,11 @@
 
 <body>
     <div class="container">
-        <h1>Restaurant Cart</h1>
-        <div class="cart">
-            <% if (cart.length> 0) { %>
-                <% cart.forEach(function(item) { %>
-                    <div class="cart-item">
+        <h1>Restaurant order</h1>
+        <div class="order">
+            <% if (order.length> 0) { %>
+                <% order.forEach(function(item) { %>
+                    <div class="order-item">
                         <h4>
                             <%= item.name %>
                         </h4>
@@ -50,10 +50,10 @@
                     </div>
                     <% }) %>
                         <div class="total-cost">
-                            Total Cost: $<%= calculateTotalCost(cart) %>
+                            Total Cost: $<%= calculateTotalCost(order) %>
                         </div>
                         <% } else { %>
-                            <p>No items in the cart.</p>
+                            <p>No items in the order.</p>
                             <% } %>
         </div>
         <button class="btn btn-primary confirm-order-btn" onclick="confirmOrder()">Confirm Order</button>
@@ -62,20 +62,20 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        function calculateTotalCost(cart) {
+        function calculateTotalCost(order) {
             var total = 0;
-            cart.forEach(function (item) {
+            order.forEach(function (item) {
                 total += item.quantity * item.price;
             });
             return total;
         }
 
         function confirmOrder() {
-            // Send the cart data to the /data route to store it
+            // Send the order data to the /data route to store it
             $.ajax({
-                url: '/cart/data',
+                url: '/order/data',
                 method: 'POST',
-                data: { cart: JSON.stringify(cart) },
+                data: { order: JSON.stringify(order) },
                 success: function (response) {
                     // Redirect to the /bill page after successfully confirming the order
                     window.location.href = '/bill';

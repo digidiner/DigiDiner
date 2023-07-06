@@ -5,19 +5,19 @@ const Payment = require('../../models/payment');
 
 router.get('/', async (req, res) => {
     try {
-        // Retrieve the cart data from the server
-        const cartResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://service.digidiner.net/cart/data'));
-        const cartData = await cartResponse.json();
-        const cart = cartData.cart;
+        // Retrieve the order data from the server
+        const orderResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://service.digidiner.net/order/data'));
+        const orderData = await orderResponse.json();
+        const order = orderData.order;
 
         res.render('bill', {
-            cart,
+            order,
             calculateSubtotal: Payment.calculateSubtotal,
             calculateTaxes: Payment.calculateTaxes,
             calculateTotal: Payment.calculateTotal,
         });
     } catch (error) {
-        console.error('Error retrieving cart data:', error);
+        console.error('Error retrieving order data:', error);
         // Handle the error and return an appropriate response
         res.sendStatus(500);
     }

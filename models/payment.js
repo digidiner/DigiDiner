@@ -20,23 +20,23 @@ class Payment {
         return await this.conn.query(query, values);
     }
 
-    static calculateSubtotal(cart) {
+    static calculateSubtotal(order) {
         let subtotal = 0;
-        cart.forEach((item) => {
+        order.forEach((item) => {
             subtotal += item.quantity * item.price;
         });
         return subtotal.toFixed(2);
     }
 
-    static calculateTaxes(cart) {
-        const subtotal = this.calculateSubtotal(cart);
+    static calculateTaxes(order) {
+        const subtotal = this.calculateSubtotal(order);
         const taxes = subtotal * 0.1; // Assuming tax rate of 10%
         return taxes.toFixed(2);
     }
 
-    static calculateTotal(cart, tip) {
-        const subtotal = this.calculateSubtotal(cart);
-        const taxes = this.calculateTaxes(cart);
+    static calculateTotal(order, tip) {
+        const subtotal = this.calculateSubtotal(order);
+        const taxes = this.calculateTaxes(order);
         const total = parseFloat(subtotal) + parseFloat(taxes) + parseFloat(tip);
         return total.toFixed(2);
     }
@@ -47,17 +47,17 @@ class Payment {
         try {
             const results = await this.insertPayment(fullName, cardNumber, cvv, expiration, zipCode);
 
-            const cartResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://digidiner.net/cart/data'));
-            const cartData = await cartResponse.json();
-            const cart = cartData.cart;
+            const orderResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://digidiner.net/order/data'));
+            const orderData = await orderResponse.json();
+            const order = orderData.order;
 
             const tip = req.body.tip; // Retrieve the tip amount from the request body
 
             res.render('bill', {
-                cart,
-                subtotal: this.calculateSubtotal(cart),
-                taxes: this.calculateTaxes(cart),
-                total: this.calculateTotal(cart, tip),
+                order,
+                subtotal: this.calculateSubtotal(order),
+                taxes: this.calculateTaxes(order),
+                total: this.calculateTotal(order, tip),
             });
         } catch (error) {
             console.error('Error processing payment:', error);

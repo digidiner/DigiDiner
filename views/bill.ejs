@@ -46,8 +46,8 @@
     <div class="container">
         <h1>Restaurant Bill</h1>
         <div class="bill">
-            <% if (cart.length> 0) { %>
-                <% cart.forEach(function(item) { %>
+            <% if (order.length> 0) { %>
+                <% order.forEach(function(item) { %>
                     <div class="bill-item">
                         <h4>
                             <%= item.name %>
@@ -61,13 +61,13 @@
                     </div>
                     <% }) %>
                         <div class="subtotal">
-                            Subtotal: $<%= calculateSubtotal(cart) %>
+                            Subtotal: $<%= calculateSubtotal(order) %>
                         </div>
                         <div class="taxes">
-                            Taxes: $<%= calculateTaxes(cart) %>
+                            Taxes: $<%= calculateTaxes(order) %>
                         </div>
                         <div class="total">
-                            Total: $<%= calculateTotal(cart, 0) %>
+                            Total: $<%= calculateTotal(order, 0) %>
                         </div>
                         <div class="tip">
                             <label for="tip">Tip:</label>
@@ -86,37 +86,37 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        function calculateSubtotal(cart) {
+        function calculateSubtotal(order) {
             var subtotal = 0;
-            cart.forEach(function (item) {
+            order.forEach(function (item) {
                 subtotal += item.quantity * item.price;
             });
             return subtotal.toFixed(2);
         }
 
-        function calculateTaxes(cart) {
-            var subtotal = calculateSubtotal(cart);
+        function calculateTaxes(order) {
+            var subtotal = calculateSubtotal(order);
             var taxes = subtotal * 0.1; // Assuming tax rate of 10%
             return taxes.toFixed(2);
         }
 
-        function calculateTotal(cart, tip) {
-            var subtotal = calculateSubtotal(cart);
-            var taxes = calculateTaxes(cart);
+        function calculateTotal(order, tip) {
+            var subtotal = calculateSubtotal(order);
+            var taxes = calculateTaxes(order);
             var total = parseFloat(subtotal) + parseFloat(taxes) + parseFloat(tip);
             return total.toFixed(2);
         }
 
         function updateTotal() {
             var tip = parseFloat($('#tip').val());
-            var total = parseFloat('<%= calculateTotal(cart, 0) %>');
+            var total = parseFloat('<%= calculateTotal(order, 0) %>');
             total += tip;
             $('.total').html('Total: $' + total.toFixed(2));
         }
 
         function payBill() {
             var tip = parseFloat($('#tip').val());
-            var total = parseFloat('<%= calculateTotal(cart, tip) %>');
+            var total = parseFloat('<%= calculateTotal(order, tip) %>');
             window.location.href = '/payment?total=' + total.toFixed(2);
         }
     </script>
