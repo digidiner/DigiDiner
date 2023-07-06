@@ -75,7 +75,7 @@ const drinkItems = [
 
 // GET the floor map
 router.get('/', function (req, res) {
-    res.status(200).render('floormap', { tables, menuItems });
+    res.status(200).render('floormap', { tables, lunchItems, dinnerItems, drinkItems });
 });
 
 module.exports = router;
