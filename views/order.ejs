@@ -67,7 +67,7 @@
             order.forEach(function (item) {
                 total += item.quantity * item.price;
             });
-            return total;
+            return total.toFixed(2);
         }
 
         function confirmOrder() {

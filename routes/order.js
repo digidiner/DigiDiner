@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 // Define a variable to store the order data
-var orderData = [];
 var orderData = [
     {
         name: "Burger",
