@@ -47,7 +47,7 @@ class Payment {
         try {
             const results = await this.insertPayment(fullName, cardNumber, cvv, expiration, zipCode);
 
-            const cartResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://service.digidiner.net/cart/data'));
+            const cartResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://digidiner.net/cart/data'));
             const cartData = await cartResponse.json();
             const cart = cartData.cart;
 
