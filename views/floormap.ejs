@@ -158,17 +158,32 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="statusSelect">Select Status:</label>
-                                <select class="form-control" id="statusSelect">
-                                    <option value="unoccupied">Unoccupied</option>
-                                    <option value="occupied">Occupied</option>
-                                    <option value="dirty">Dirty</option>
-                                </select>
+                                <label>Select Status:</label><br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="dirty" id="statusDirty">
+                                    <label class="form-check-label" for="statusDirty">
+                                        Dirty
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="occupied"
+                                        id="statusOccupied">
+                                    <label class="form-check-label" for="statusOccupied">
+                                        Occupied
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="unoccupied"
+                                        id="statusUnoccupied">
+                                    <label class="form-check-label" for="statusUnoccupied">
+                                        Unoccupied
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" onclick="updateTableStatus()">Update</button>
+                            <button type="button" class="btn btn-primary" onclick="saveTableStatus()">Save</button>
                         </div>
                     </div>
                 </div>
@@ -202,10 +217,21 @@
                 });
 
                 // Add an event listener to the modal submit button
-                const modalSubmitButton = document.getElementById('modalSubmitButton');
+                const modalSubmitButton = document.querySelector('#statusModal .modal-footer button.btn-primary');
                 modalSubmitButton.addEventListener('click', function () {
-                    // Get the selected status choice
-                    const selectedStatusChoice = document.querySelector('input[name="statusChoice"]:checked').value;
+                    // Get the selected status choices
+                    const statusDirty = document.querySelector('#statusDirty').checked;
+                    const statusOccupied = document.querySelector('#statusOccupied').checked;
+                    const statusUnoccupied = document.querySelector('#statusUnoccupied').checked;
+
+                    let status = '';
+                    if (statusDirty) {
+                        status = 'dirty';
+                    } else if (statusOccupied) {
+                        status = 'occupied';
+                    } else if (statusUnoccupied) {
+                        status = 'unoccupied';
+                    }
 
                     // Perform the necessary actions with the selected status choice
 
@@ -240,9 +266,20 @@
                 });
             });
 
-            function updateTableStatus() {
+            function saveTableStatus() {
                 const selectedTable = $('#selectedTable').text();
-                const status = $('#statusSelect').val();
+                const statusDirty = $('#statusDirty').is(':checked');
+                const statusOccupied = $('#statusOccupied').is(':checked');
+                const statusUnoccupied = $('#statusUnoccupied').is(':checked');
+
+                let status = '';
+                if (statusDirty) {
+                    status = 'dirty';
+                } else if (statusOccupied) {
+                    status = 'occupied';
+                } else if (statusUnoccupied) {
+                    status = 'unoccupied';
+                }
 
                 // Update the table status
                 $(`.table-cell[data-table-id="${selectedTable}"]`).data('status', status);
