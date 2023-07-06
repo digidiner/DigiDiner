@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "build-css": "node-sass public/css/style.scss public/css/style.css",
+    "build-css": "node-sass public/css/style.scss public/css/style.css"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
