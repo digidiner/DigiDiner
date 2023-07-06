@@ -78,12 +78,15 @@
         </div>
 
         <div class="text-center mt-4">
-            <button id="clockInBtn" class="btn btn-primary" <% if (status==='Clocked In' ) { %>disabled<% } %>>
-                    Clock In
-            </button>
-            <button id="clockOutBtn" class="btn btn-primary" <% if (status==='Clocked Out' ) { %>disabled<% } %>>
+            <% if (status==='Clocked In' ) { %>
+                <button id="clockOutBtn" class="btn btn-primary">
                     Clock Out
-            </button>
+                </button>
+                <% } else { %>
+                    <button id="clockInBtn" class="btn btn-primary">
+                        Clock In
+                    </button>
+                    <% } %>
         </div>
 
         <div class="text-center mt-4">
@@ -142,8 +145,11 @@
         }
 
         // Attach event listeners to the clock in/out buttons
-        document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
-        document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
+        if (status === 'Clocked In') {
+            document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
+        } else {
+            document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
+        }
 
         // Start the timestamp output and punch record
         let timestampInterval = setInterval(updateTimestamp, 1000);
