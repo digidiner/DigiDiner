@@ -73,7 +73,7 @@
         function confirmOrder() {
             // Send the order data to the /data route to store it
             $.ajax({
-                url: '/order/data',
+                url: '/order/queue',
                 method: 'POST',
                 data: { order: JSON.stringify(order) },
                 success: function (response) {

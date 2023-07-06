@@ -67,7 +67,7 @@ router.post('/clearItem', (req, res) => {
 
 /* GET queue page */
 router.get('/', function (req, res) {
-    res.status(200).render('queue');
+    res.status(200).render('queue', { orderQueue });
 });
 
 module.exports = router;
