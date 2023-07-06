@@ -3,6 +3,23 @@ var router = express.Router();
 
 // Define a variable to store the order data
 var orderData = [];
+var orderData = [
+    {
+        name: "Burger",
+        quantity: 2,
+        price: 10.99
+    },
+    {
+        name: "Pizza",
+        quantity: 1,
+        price: 12.99
+    },
+    {
+        name: "Salad",
+        quantity: 1,
+        price: 8.99
+    }
+];
 
 // POST /queue endpoint to receive the order data and add it to the order queue
 router.post('/queue', function (req, res) {
