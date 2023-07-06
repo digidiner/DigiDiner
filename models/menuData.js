@@ -11,7 +11,7 @@ class menuData {
                 id          INT AUTO_INCREMENT PRIMARY KEY,
                 name        VARCHAR(255)   NOT NULL,
                 price       DECIMAL(10, 2) NOT NULL,
-                description TEXT,
+                description TEXT NOT NULL,
                 created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )
@@ -72,6 +72,20 @@ class menuData {
     async removeMenuItem(id) {
         const queryResult = await menuData.conn.query('DELETE FROM menu WHERE id = ?', [id]);
         return queryResult.affectedRows > 0;
+    }
+
+    async addOptionToMenuItem(menItemId, optionId) {
+        const queryResult = await menuData.conn.query('INSERT INTO menu_item_option (menu_item_id, option_id) VALUES (?, ?)', [menuItemId, optionId]);
+        return queryResult.affectedRows > 0;
+    }
+
+    async removeOptionFromMenuItem(menuItemId, optionId) {
+        const queryResult = await menuData.conn.query('DELETE FROM menu_item_option WHERE menu_item_id = ? AND option_id = ?', [menuItemId, optionId]);
+        return queryResult.affectedRows > 0;
+    }
+
+    async getOptionForMenuItem(menuItemId) {
+        return await menuData.conn.query('SELECT * FROM menu_options mo JOIN menu_item_option mio ON mo.id = mio.option_id WHERE mio.menu_item_id = ?', [menuItemId]);
     }
 }
 

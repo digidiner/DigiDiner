@@ -1,83 +1,179 @@
 const databaseController = require('./databaseController');
 const MenuData = require('../models/menuData');
+const MenuOptionsData = require('../models/menuOptionData');
+const MenuItemOption = require('../models/menuItemOption');
+
 const dbConnPool = databaseController.getConnection();
 const menuData = new MenuData(dbConnPool);
+const menuOptions = new MenuOptionsData(dbConnPool);
+const menuItemOption = new MenuItemOption(dbConnPool)
 
+// CRUD operations for the menu
 async function getAllMenuItems(req, res, next) {
-    try {
-        const menuItems = await menuData.getAllMenuItems();
-        res.json(menuItems);
-    } catch (err) {
-        next(err);
+    const menuItems = await menuData.getAllMenuItems();
+    if (menuItems) {
+        res.status(200).json(menuItems);
+    } else {
+        res.status(404).json({"message": "No menu items"});
     }
+    res.json(menuItems);
 }
 
-async function getMenuItem(req, res, next) {
+async function getMenuItem(req, res) {
     const {id} = req.params;
-    try {
-        const menuItem = await menuData.getMenuItem(id);
-        if (menuItem) {
-            res.json(menuItem);
-        } else {
-            res.status(404);
-        }
-    } catch (err) {
-        next(err);
+    const menuItem = await menuData.getMenuItem(id);
+    if (menuItem) {
+        res.json(menuItem);
+    } else {
+        res.status(404).json({"message":" No item found"});
     }
 }
 
-async function addMenuItem(req, res, next) {
-    try {
-        const {name, price, description} = req.body;
-        // Validate that name, price and description are present
-        if (!name || !price || !description) {
-            return res.status(400).json({
-                error: 'Validation Error',
-                message: 'Name, price, and description are required for adding a new menu item',
-            });
-        }
-
-        const newItem = {name, price, description};
-
-        const addItem = await menuData.addMenuItem(newItem);
-
-        res.json({success: true, item: addItem}).status(200).json({
-            success: true,
-            item: newItem,
+async function addMenuItem(req, res) {
+    const {name, price, description} = req.body;
+    // Validate that name, price and description are present
+    if (!name || !price || !description) {
+        return res.status(400).json({
+            error: 'Validation Error',
+            message: 'Name, price, and description are required for adding a new menu item',
         });
-    } catch (err) {
-        next (err);
     }
+
+    const newItem = {name, price, description};
+
+    const addItem = await menuData.addMenuItem(newItem);
+
+    res.json({success: true, item: addItem}).status(200).json({
+        success: true,
+        item: newItem,
+    });
 }
 
-async function updateMenuItem(req, res, next) {
+async function updateMenuItem(req, res) {
     const {id} = req.params;
     const newData = req.body;
-    try {
-        const update = await menuData.updateMenu(id, newData);
-        if (update) {
-            res.sendStatus(200);
-        } else {
-            res.sendStatus(404);
-        }
-    } catch (err) {
-        next(err);
+    const update = await menuData.updateMenu(id, newData);
+    if (update) {
+        res.sendStatus(200).json({"message": "Updated menu item ${id} updated"});
+    } else {
+        res.sendStatus(404).json({"message": "Item ${id} was not updated"});
     }
 }
 
-async function removeMenuItem(req, res, next) {
+async function removeMenuItem(req, res) {
     const {id} = req.params;
-    try {
-        const removed = await menuData.removeMenuItem(id);
-        if (removed) {
-            res.sendStatus(200);
-        } else {
-            res.sendStatus(404);
-        }
-    } catch (err) {
-        next(err);
+    const removed = await menuData.removeMenuItem(id);
+    if (removed) {
+        res.sendStatus(200).json({"message": "Updated menu item ${id} removed"});;
+    } else {
+        res.sendStatus(404).json({"message": "Updated menu item ${id} not found"});;
     }
 }
+
+// CRUD operations for menu options
+
+async function getAllMenuOption(req, res) {
+    const menuItems = await menuOptions.getAllMenuOption();
+    if (menuItems) {
+        res.status(200).json(menuItems);
+    } else {
+        res.status(404).json({"message": "No menu options found"});
+    }
+    res.json(menuItems);
+}
+
+async function getMenuOption(req, res) {
+    const { id } = req.params;
+    const menuOption = await menuOptions.getMenuOption(id);
+    if (menuOption) {
+        res.status(200).json(menuOption);
+    } else {
+        res.status(404).json({"message": "No menu option found"});
+    }
+}
+
+async function addMenuOption(req, res) {
+    const {name, description, type} = req.body;
+    // Validate that name, price and description are present
+    if (!name || !description || !type) {
+        return res.status(400).json({
+            error: 'Validation Error',
+            message: 'Name, description, and type are required for adding a new menu option',
+        });
+    }
+
+    const newItem = {name, description, type};
+
+    const addItem = await menuOptions.addMenuOption(newItem);
+
+    res.json({success: true, item: addItem}).status(200).json({
+        success: true,
+        item: newItem,
+    });
+}
+
+async function updateMenuOption(req, res) {
+    const {id} = req.params;
+    const newData = req.body;
+    const update = await menuOptions.updateMenuOption(id, newData);
+    if (update) {
+        res.sendStatus(200).json({"message": "Option ${id} updated"});
+    } else {
+        res.sendStatus(404).json({"message": "Item ${id} was not updated"});
+    }
+}
+
+async function removeMenuOption(req, res) {
+    const {id} = req.params;
+    const removed = await menuOptions.removeMenuOption(id);
+    if (removed) {
+        res.status(200).json({"message": "Menu option ${id} removed"});
+    } else {
+        res.status(404).json({"message": "Menu option ${id} not found"});
+    }
+}
+
+// CRUD operations for menu items and options JOIN
+
+async function addAssociation(req, res) {
+    const { itemId, optionId } = req.params;
+    const added = await menuItemOption.addAssociation(itemId, optionId);
+    if (added) {
+        res.status(200).json({"message": "The association has been added successfully"});
+    } else {
+        res.status(404).json({"message": "The association was not added"});
+    }
+}
+
+async function removeAssociation(req, res) {
+    const { itemId, optionId } = req.params;
+    const removed = await menuItemOption.removeAssociation(itemId, optionId);
+    if (removed) {
+        res.status(200).json({"message": "The association has been removed"});
+    } else {
+        res.status(404).json({"message": "The association was not found"});
+    }
+}
+
+async function getOptionsForMenuItem(req, res) {
+    const { id } = req.params;
+    const options = await menuItemOption.getOptionsForMenuItem(id);
+    if (options) {
+        res.status(200).json(options);
+    } else {
+        res.status(404).json({"message": "No options found"});
+    }
+}
+async function getMenuItemsForOption(req, res, next) {
+    const { id } = req.params;
+    const menuItems = await menuItemOption.getMenuItemsForOption(id);
+    if (menuItems) {
+        res.status(200).json(menuItems);
+    } else {
+        res.status(404).json({"message": "Menu item not found"});
+    }
+}
+
 
 module.exports = {
     getAllMenuItems,
@@ -85,4 +181,13 @@ module.exports = {
     addMenuItem,
     updateMenuItem,
     removeMenuItem,
+    getAllMenuOption,
+    getMenuOption,
+    addMenuOption,
+    updateMenuOption,
+    removeMenuOption,
+    addAssociation,
+    removeAssociation,
+    getOptionsForMenuItem,
+    getMenuItemsForOption,
 }
