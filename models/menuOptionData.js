@@ -2,19 +2,18 @@ class menuOptionData {
     constructor(dbConnPool) {
         this.dbConnPool = dbConnPool;
     }
-    static connectDatabase(conn) {
+    static async connectDatabase(conn) {
         this.conn = conn;
-        conn.query(`
-            CREATE TABLE IF NOT EXISTS menu_options
-            (
-                id          INT AUTO_INCREMENT PRIMARY KEY,
-                name        VARCHAR(255)   NOT NULL,
-                description TEXT NOT NULL,
-                type VARCHAR(255) NOT NULL,
-                created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            )
-        `);
+        await conn.query(`
+      CREATE TABLE IF NOT EXISTS menu_option (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
+        type VARCHAR(50) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      )
+    `);
     }
 
     async getAllMenuOption() {
