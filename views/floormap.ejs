@@ -135,16 +135,6 @@
                 </div>
             </div>
 
-            <!-- Status Modal -->
-            <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalTitle"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <!-- Modal content will go here -->
-                    </div>
-                </div>
-            </div>
-
             <!-- Update Status Modal -->
             <div class="modal fade" id="updateStatusModal" tabindex="-1" role="dialog"
                 aria-labelledby="updateStatusModalTitle" aria-hidden="true">
@@ -204,11 +194,11 @@
                         const tableNumber = tableElement.querySelector('.accordion-header button').textContent.trim();
 
                         // Get the modal element
-                        const modal = document.getElementById('statusModal');
+                        const modal = document.getElementById('updateStatusModal');
 
                         // Set the table number in the modal
-                        const modalTableNumber = modal.querySelector('.modal-table-number');
-                        modalTableNumber.textContent = tableNumber;
+                        const modalTableNumber = modal.querySelector('.modal-title');
+                        modalTableNumber.textContent = 'Update Table Status: ' + tableNumber;
 
                         // Show the modal
                         const bootstrapModal = new bootstrap.Modal(modal);
@@ -217,7 +207,7 @@
                 });
 
                 // Add an event listener to the modal submit button
-                const modalSubmitButton = document.querySelector('#statusModal .modal-footer button.btn-primary');
+                const modalSubmitButton = document.querySelector('#updateStatusModal .modal-footer button.btn-primary');
                 modalSubmitButton.addEventListener('click', function () {
                     // Get the selected status choices
                     const statusDirty = document.querySelector('#statusDirty').checked;
@@ -236,8 +226,8 @@
                     // Perform the necessary actions with the selected status choice
 
                     // Close the modal
-                    const modal = document.getElementById('statusModal');
-                    const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                    const modal = document.getElementById('updateStatusModal');
+                    const bootstrapModal = new bootstrap.Modal(modal);
                     bootstrapModal.hide();
                 });
             });
