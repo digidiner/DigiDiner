@@ -52,9 +52,9 @@ async function updateMenuItem(req, res) {
     const newData = req.body;
     const update = await menuData.updateMenu(id, newData);
     if (update) {
-        res.status(200).json({"message": "Updated menu item ${id} updated"});
+        res.status(200).json({"message": "Updated menu item updated"});
     } else {
-        res.status(404).json({"message": "Item ${id} was not updated"});
+        res.status(404).json({"message": "Item was not updated"});
     }
 }
 
