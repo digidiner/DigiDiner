@@ -3,23 +3,23 @@ const router = express.Router();
 const menuController = require('../../controllers/menuController');
 
 // Routes for menu items
-router.get('/menu', menuController.getAllMenuItems);
-router.get('/menu/:id', menuController.getMenuItem);
-router.post('/menu', menuController.addMenuItem);
-router.put('/menu/:id', menuController.updateMenuItem);
-router.delete('/menu/:id', menuController.removeMenuItem);
+router.route('/menu').get(menuController.getAllMenuItems);
+router.route('/menu').get(menuController.getMenuItem);
+router.route('/menu').post(menuController.addMenuItem);
+router.route('/menu').put(menuController.updateMenuItem);
+router.route('/menu').delete(menuController.removeMenuItem);
 
 // Routes for menu options
-router.get('/menuOptions', menuController.getAllMenuOption);
-router.get('/menuOptions/:id', menuController.getMenuOption);
-router.post('/menuOptions', menuController.addMenuOption);
-router.put('/menuOptions/:id', menuController.updateMenuOption);
-router.delete('/menuOptions/:id', menuController.removeMenuOption);
+router.route('/menuOptions').get(menuController.getAllMenuOption);
+router.route('/menuOptions/:id').get(menuController.getMenuOption);
+router.route('/menuOptions').post(menuController.addMenuOption);
+router.route('/menuOptions/:id').put(menuController.updateMenuOption);
+router.route('/menuOptions/:id').delete(menuController.removeMenuOption);
 
 // Routes for menu item and option associations
-router.post('/menuItems/:itemId/options/:optionId', menuController.addAssociation);
-router.delete('/menuItems/:itemId/options/:optionId', menuController.removeAssociation);
-router.get('/menuItems/:id/options', menuController.getOptionsForMenuItem);
-router.get('/menuOptions/:id/menuItems', menuController.getMenuItemsForOption);
+router.route('/menuItems/:itemId/options/:optionId').post(menuController.addAssociation);
+router.route('/menuItems/:itemId/options/:optionId').delete(menuController.removeAssociation);
+router.route('/menuItems/:id/options').get(menuController.getOptionsForMenuItem);
+router.route('/menuOptions/:id/menuItems').get(menuController.getMenuItemsForOption);
 
 module.exports = router;
