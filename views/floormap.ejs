@@ -219,8 +219,7 @@
         async function getEmployeeData() {
             // Fetch employee data from the API
             const employeeData = await (await fetch(window.location.origin + '/api/management/employee/list', {
-                method: 'GET',
-                body: {}
+                method: 'GET'
             })).json();
 
             return employeeData.list;
@@ -242,8 +241,7 @@
 
             // Fetch tables data from the API
             const tables = await (await fetch(window.location.origin + '/api/waitstaff/table/list', {
-                method: 'GET',
-                body: {}
+                method: 'GET'
             })).json();
 
             // Create a table cell element for each table
