@@ -41,9 +41,11 @@ async function addMenuItem(req, res) {
 
     const addItem = await menuData.addMenuItem(newItem);
 
-    res.json({success: true, item: addItem}).status(200).json({
-        "message": "Item successfully added"
-    });
+    if (addItem) {
+        res.status(200).json(addItem);
+    } else {
+        res.status(404).json({"message": "item not added"});
+    }
 }
 
 async function updateMenuItem(req, res) {
