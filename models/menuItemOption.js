@@ -9,7 +9,7 @@ class menuItemOption {
         menu_item_id INT,
         option_id INT,
         FOREIGN KEY (menu_item_id) REFERENCES menu(id),
-        FOREIGN KEY (option_id) REFERENCES menu_option(id)
+        FOREIGN KEY (option_id) REFERENCES menu_options(id)
       )
     `);
     }
@@ -29,15 +29,22 @@ class menuItemOption {
     }
 
     async getOptionsForMenuItem(menuItemId) {
-        const queryResult = await menuItemOption.conn.query('SELECT * FROM menu_option mo JOIN menu_item_option mio ' +
-            'ON mo.id = mio.option_id WHERE mio.menu_item_id = ?', [menuItemId]);
+        const queryResult = await menuItemOption.conn.query( +
+            'SELECT * ' +
+            'FROM menu_options mo ' +
+            'JOIN menu_item_option mio ON mo.id = mio.option_id ' +
+            'WHERE mio.menu_item_id = ?', [menuItemId]);
         return queryResult;
 
     }
 
     async getMenuItemsForOption(optionId) {
-        const queryResult = await menuItemOption.conn.query('SELECT * FROM menu_item mi JOIN menu_item_option mio ' +
-            'ON mi.id = mio.menu_item_id WHERE mio.option_id = ?', [optionId]);
+        const queryResult = await menuItemOption.conn.query(
+            'SELECT * ' +
+            'FROM menu_item mi ' +
+            'JOIN menu_item_option mio ' +
+            'ON mi.id = mio.menu_item_id ' +
+            'WHERE mio.option_id = ?', [optionId]);
         return queryResult;
     }
 }

@@ -155,7 +155,9 @@ async function removeAssociation(req, res) {
 
 async function getOptionsForMenuItem(req, res) {
     const { id } = req.params;
+    console.log(id);
     const options = await menuItemOption.getOptionsForMenuItem(id);
+    console.log(options);
     if (options) {
         res.status(200).json(options);
     } else {
