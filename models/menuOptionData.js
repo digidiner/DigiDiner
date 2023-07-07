@@ -59,19 +59,18 @@ class menuOptionData {
 
         const sql = `UPDATE menu_options SET ${updateFields.join(', ')} WHERE id = ?`;
         queryParams.push(id);
-        console.log(sql);
 
         const queryResult = await menuOptionData.conn.query(sql, queryParams);
         return queryResult.affectedRows > 0;
     }
 
     async removeMenuOption(id) {
-        const queryResult = await menuOptionData.conn.query('DELETE FROM menu WHERE id = ?', [id]);
+        const queryResult = await menuOptionData.conn.query('DELETE FROM menu_options WHERE id = ?', [id]);
         return queryResult.affectedRows > 0;
     }
 
     async getMenuItemsForOption(optionId) {
-        const queryResult = await menuOptionData.conn.query('SELECT * FROM menu m JOIN menu_item_option mio ON m.id = mio.menu_item_id WHERE mio.option_id = ?', [optionId]);
+        const queryResult = await menuOptionData.conn.query('SELECT * FROM menu_options m JOIN menu_item_option mio ON m.id = mio.menu_item_id WHERE mio.option_id = ?', [optionId]);
         return queryResult;
     }
 }
