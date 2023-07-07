@@ -6,8 +6,7 @@ const Management = require('./api/management');
 
 router.get('/', utils.asyncHandler(async function (req, res) {
     try {
-        const tables = await Waitstaff.listTables();
-        res.render('floormap', { tables, lunchItems, dinnerItems, drinkItems /* employee: req.employee */ });
+        res.render('floormap', { lunchItems, dinnerItems, drinkItems, employee: req.employee });
     } catch (error) {
         // Handle the error appropriately
         console.error(error);
