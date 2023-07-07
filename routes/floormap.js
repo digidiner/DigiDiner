@@ -3,7 +3,7 @@ var router = express.Router();
 var utils = require('../utils');
 const Waitstaff = require('./api/waitstaff');
 const Management = require('./api/management');
-const Employee = require('./api/common')
+const Employee = require('../models/employee')
 const Table = require('../models/table');
 
 router.get('/', utils.asyncHandler(async function (req, res) {
