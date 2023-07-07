@@ -179,41 +179,88 @@
                 </div>
             </div>
         </div>
-    </main>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Add an event listener to the update status buttons
-            const updateStatusButtons = document.querySelectorAll('.accordion-button');
-            updateStatusButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    // Get the table element associated with the button
-                    const tableElement = button.closest('.accordion-item');
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Add an event listener to the update status buttons
+                const updateStatusButtons = document.querySelectorAll('.accordion-button');
+                updateStatusButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        // Get the table element associated with the button
+                        const tableElement = button.closest('.accordion-item');
 
-                    // Get the table number
-                    const tableNumber = tableElement.querySelector('.accordion-header button').textContent.trim();
+                        // Get the table number
+                        const tableNumber = tableElement.querySelector('.accordion-header button').textContent.trim();
 
-                    // Get the modal element
+                        // Get the modal element
+                        const modal = document.getElementById('updateStatusModal');
+
+                        // Set the table number in the modal
+                        const modalTableNumber = modal.querySelector('.modal-title');
+                        modalTableNumber.textContent = 'Update Table Status: ' + tableNumber;
+
+                        // Show the modal
+                        const bootstrapModal = new bootstrap.Modal(modal);
+                        bootstrapModal.show();
+                    });
+                });
+
+                // Add an event listener to the modal submit button
+                const modalSubmitButton = document.querySelector('#updateStatusModal .modal-footer button.btn-primary');
+                modalSubmitButton.addEventListener('click', function () {
+                    // Get the selected status choices
+                    const statusDirty = document.querySelector('#statusDirty').checked;
+                    const statusOccupied = document.querySelector('#statusOccupied').checked;
+                    const statusUnoccupied = document.querySelector('#statusUnoccupied').checked;
+
+                    let status = '';
+                    if (statusDirty) {
+                        status = 'dirty';
+                    } else if (statusOccupied) {
+                        status = 'occupied';
+                    } else if (statusUnoccupied) {
+                        status = 'unoccupied';
+                    }
+
+                    // Perform the necessary actions with the selected status choice
+
+                    // Close the modal
                     const modal = document.getElementById('updateStatusModal');
-
-                    // Set the table number in the modal
-                    const modalTableNumber = modal.querySelector('.modal-title');
-                    modalTableNumber.textContent = 'Update Table Status: ' + tableNumber;
-
-                    // Show the modal
                     const bootstrapModal = new bootstrap.Modal(modal);
-                    bootstrapModal.show();
+                    bootstrapModal.hide();
                 });
             });
 
-            // Add an event listener to the modal submit button
-            const modalSubmitButton = document.querySelector('#updateStatusModal .modal-footer button.btn-primary');
-            modalSubmitButton.addEventListener('click', function () {
-                // Get the selected status choices
-                const statusDirty = document.querySelector('#statusDirty').checked;
-                const statusOccupied = document.querySelector('#statusOccupied').checked;
-                const statusUnoccupied = document.querySelector('#statusUnoccupied').checked;
+
+            $(document).ready(function () {
+                $('.table-cell').on('click', function () {
+                    const tableId = $(this).data('table-id');
+                    const status = $(this).data('status');
+
+                    // Update the selected table information
+                    $('#selectedTable').text(tableId);
+                    $('#selectedTableStatus').text(status);
+
+                    // Show the corresponding modal based on the table status
+                    if (status === 'occupied') {
+                        $('#orderTableId').text(tableId);
+                        $('#orderModal').modal('show');
+                    } else if (status === 'unoccupied') {
+                        $('#menuTableId').text(tableId);
+                        $('#menuModal').modal('show');
+                    } else if (status === 'dirty') {
+                        $('#finalBillTableId').text(tableId);
+                        $('#finalBillModal').modal('show');
+                    }
+                });
+            });
+
+            function saveTableStatus() {
+                const selectedTable = $('#selectedTable').text();
+                const statusDirty = $('#statusDirty').is(':checked');
+                const statusOccupied = $('#statusOccupied').is(':checked');
+                const statusUnoccupied = $('#statusUnoccupied').is(':checked');
 
                 let status = '';
                 if (statusDirty) {
@@ -224,74 +271,28 @@
                     status = 'unoccupied';
                 }
 
-                // Perform the necessary actions with the selected status choice
+                // Update the table status
+                $(`.table-cell[data-table-id="${selectedTable}"]`).data('status', status);
+                $(`.table-cell[data-table-id="${selectedTable}"]`).removeClass('table-occupied table-unoccupied table-dirty');
 
-                // Close the modal
-                const modal = document.getElementById('updateStatusModal');
-                const bootstrapModal = new bootstrap.Modal(modal);
-                bootstrapModal.hide();
-            });
-        });
+                // Add the corresponding class based on the updated status
+                if (status === 'occupied') {
+                    $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-occupied');
+                } else if (status === 'unoccupied') {
+                    $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-unoccupied');
+                } else if (status === 'dirty') {
+                    $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-dirty');
+                }
 
-
-        $(document).ready(function () {
-            $('.table-cell').on('click', function () {
-                const tableId = $(this).data('table-id');
-                const status = $(this).data('status');
-
-                // Update the selected table information
-                $('#selectedTable').text(tableId);
+                // Update the selected table status
                 $('#selectedTableStatus').text(status);
 
-                // Show the corresponding modal based on the table status
-                if (status === 'occupied') {
-                    $('#orderTableId').text(tableId);
-                    $('#orderModal').modal('show');
-                } else if (status === 'unoccupied') {
-                    $('#menuTableId').text(tableId);
-                    $('#menuModal').modal('show');
-                } else if (status === 'dirty') {
-                    $('#finalBillTableId').text(tableId);
-                    $('#finalBillModal').modal('show');
-                }
-            });
-        });
-
-        function saveTableStatus() {
-            const selectedTable = $('#selectedTable').text();
-            const statusDirty = $('#statusDirty').is(':checked');
-            const statusOccupied = $('#statusOccupied').is(':checked');
-            const statusUnoccupied = $('#statusUnoccupied').is(':checked');
-
-            let status = '';
-            if (statusDirty) {
-                status = 'dirty';
-            } else if (statusOccupied) {
-                status = 'occupied';
-            } else if (statusUnoccupied) {
-                status = 'unoccupied';
+                // Close the update status modal
+                $('#updateStatusModal').modal('hide');
             }
+        </script>
+    </main>
 
-            // Update the table status
-            $(`.table-cell[data-table-id="${selectedTable}"]`).data('status', status);
-            $(`.table-cell[data-table-id="${selectedTable}"]`).removeClass('table-occupied table-unoccupied table-dirty');
-
-            // Add the corresponding class based on the updated status
-            if (status === 'occupied') {
-                $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-occupied');
-            } else if (status === 'unoccupied') {
-                $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-unoccupied');
-            } else if (status === 'dirty') {
-                $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-dirty');
-            }
-
-            // Update the selected table status
-            $('#selectedTableStatus').text(status);
-
-            // Close the update status modal
-            $('#updateStatusModal').modal('hide');
-        }
-    </script>
     <footer>
         <%- include('partials/footer') %>
     </footer>
