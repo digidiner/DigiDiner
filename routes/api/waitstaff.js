@@ -7,7 +7,7 @@ var Table = require('../../models/table');
 // Used to verify user is signed in and a waitstaff
 function requireSession(req, res, next) {
     if (!req.employee) {
-        res.status(403).json({
+        res.status(401).json({
             'error': "Not Signed In"
         });
         return;

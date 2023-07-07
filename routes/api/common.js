@@ -8,7 +8,7 @@ var Employee = require('../../models/employee');
 // Used to verify user is signed in
 function requireSession(req, res, next) {
     if (!req.employee) {
-        res.status(403).json({
+        res.status(401).json({
             'error': "Not Signed In"
         });
         return;
