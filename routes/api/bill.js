@@ -6,7 +6,7 @@ const Payment = require('../../models/payment');
 router.get('/', async (req, res) => {
     try {
         // Retrieve the order data from the server
-        const orderResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://service.digidiner.net/order/data'));
+        const orderResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://digidiner.net/order/data'));
         const orderData = await orderResponse.json();
         const order = orderData.order;
 
