@@ -80,7 +80,9 @@
         </div>
         <button class="btn btn-success pay-bill-btn" onclick="payBill()">Pay Bill</button>
     </div>
-
+    <footer>
+        <%- include('partials/footer) %>
+    </footer>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -118,9 +120,7 @@
             window.location.href = '/payment?total=' + total.toFixed(2);
         }
     </script>
-    <footer>
-        <%- include('partials/footer) %>
-    </footer>
+
 </body>
 
 </html>
