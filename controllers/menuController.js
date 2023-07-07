@@ -52,9 +52,9 @@ async function updateMenuItem(req, res) {
     const newData = req.body;
     const update = await menuData.updateMenu(id, newData);
     if (update) {
-        res.status(200).json({"message": "Updated menu item ${id} updated"});
+        res.status(200).json({"message": "Updated menu item updated"});
     } else {
-        res.status(404).json({"message": "Item ${id} was not updated"});
+        res.status(404).json({"message": "Item was not updated"});
     }
 }
 
@@ -77,7 +77,6 @@ async function getAllMenuOption(req, res) {
     } else {
         res.status(404).json({"message": "No menu options found"});
     }
-    res.json(menuItems);
 }
 
 async function getMenuOption(req, res) {
@@ -104,9 +103,11 @@ async function addMenuOption(req, res) {
 
     const addItem = await menuOptions.addMenuOption(newItem);
 
-    res.json({success: true, item: addItem}).status(200).json({
-        "message": "item added successfully"
-    });
+    if (addItem) {
+        res.status(200).json({"message": "Added menu option"});
+    } else {
+        res.status(404).json({"message": "Item not added"});
+    }
 }
 
 async function updateMenuOption(req, res) {
