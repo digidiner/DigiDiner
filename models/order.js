@@ -23,7 +23,7 @@ class Order {
                 id INT PRIMARY KEY,
                 table_id INT NOT NULL,
                 payment_id INT DEFAULT NULL,
-                status VARCHAR(10) NOT NULL DEFAULT 'incomplete'
+                status VARCHAR(10) NOT NULL DEFAULT 'incomplete',
                 time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 CONSTRAINT order_fk_table_id
                     FOREIGN KEY (table_id) REFERENCES \`table\` (id)
