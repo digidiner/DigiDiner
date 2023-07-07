@@ -104,9 +104,11 @@ async function addMenuOption(req, res) {
 
     const addItem = await menuOptions.addMenuOption(newItem);
 
-    res.json({success: true, item: addItem}).status(200).json({
-        "message": "item added successfully"
-    });
+    if (addItem) {
+        res.status(200).json({"message": "Added menu option"});
+    } else {
+        res.status(404).json({"message": "Item not added"});
+    }
 }
 
 async function updateMenuOption(req, res) {
