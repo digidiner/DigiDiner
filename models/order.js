@@ -21,12 +21,12 @@ class Order {
         conn.query(`
             CREATE TABLE IF NOT EXISTS order (
                 id INT PRIMARY KEY,
-                table_id INT NOT NULL,
+                \`table_id\` INT NOT NULL,
                 payment_id INT DEFAULT NULL,
                 status VARCHAR(10) NOT NULL DEFAULT 'incomplete'
                 time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 CONSTRAINT order_fk_table_id
-                    FOREIGN KEY (table_id) REFERENCES \`table\` (id)
+                    FOREIGN KEY (\`table_id\`) REFERENCES \`table\` (id)
                     ON DELETE CASCADE
                     ON UPDATE CASCADE,
                 CONSTRAINT order_fk_payment_id
@@ -68,7 +68,7 @@ class Order {
             this.status,
             new Date(this.time).toISOString().slice(0, 19).replace('T', ' '), // Converts JavaScript date to string acceptable by SQL
         ]
-        await Order.conn.query(`INSERT INTO order (id, table_id, payment_id, status, time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE table_id=?, payment_id=?, status=?, time=?`, [this.id, ...properties, ...properties]);
+        await Order.conn.query(`INSERT INTO order (id, \`table_id\`, payment_id, status, time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE \`table_id\`=?, payment_id=?, status=?, time=?`, [this.id, ...properties, ...properties]);
     }
 }
 
