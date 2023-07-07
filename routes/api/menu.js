@@ -10,11 +10,11 @@ router.route('/:id').put(menuController.updateMenuItem);
 router.route('/:id').delete(menuController.removeMenuItem);
 
 // Routes for menu options
-router.route('/menu').get(menuController.getAllMenuOption);
-router.route('menu/:id').get(menuController.getMenuOption);
-router.route('menu/').post(menuController.addMenuOption);
-router.route('menu/:id').put(menuController.updateMenuOption);
-router.route('menu/:id').delete(menuController.removeMenuOption);
+router.route('/menuOption').get(menuController.getAllMenuOption);
+router.route('menuOption/:id').get(menuController.getMenuOption);
+router.route('menuOption/').post(menuController.addMenuOption);
+router.route('menuOption/:id').put(menuController.updateMenuOption);
+router.route('menuOption/:id').delete(menuController.removeMenuOption);
 
 // Routes for menu item and option associations
 router.route('/menuItems/:itemId/options/:optionId').post(menuController.addAssociation);
