@@ -217,19 +217,19 @@
     <script src="/js/bootstrap.min.js"></script>
     <script>
         async function getEmployeeData() {
-            const employeeData = await (await fetch(window.location.origin + '/api/common/employee', {
+            const id = employee.id;
+            const employeeId = req.session.id; // Function to retrieve the ID of the currently signed-in employee
+            const employeeData = await (await fetch(window.location.origin + '/api/management/employee/' + employeeId, {
                 method: 'GET'
             })).json();
 
-            return employeeData;
+            return employeeData.position;
         }
 
         async function populateTables() {
-            // Fetch employee data targeting 'position'
-            const employeeData = await getEmployeeData();
-            const employee = new Employee(employeeData.id);
-            await employee.load();
-            const isManager = employee.position.includes("manager");
+            // Fetch employee position of the currently signed-in user
+            const position = await getEmployeeData();
+            const isManager = position.includes("manager");
 
             // Check if the employee is a manager to display the button
             const createTableButton = document.getElementById('createTableButton');
