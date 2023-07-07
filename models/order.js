@@ -21,12 +21,12 @@ class Order {
         conn.query(`
             CREATE TABLE IF NOT EXISTS order (
                 id INT PRIMARY KEY,
-                \`table_id\` INT NOT NULL,
+                tbl_id INT NOT NULL,
                 payment_id INT DEFAULT NULL,
                 status VARCHAR(10) NOT NULL DEFAULT 'incomplete'
                 time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 CONSTRAINT order_fk_table_id
-                    FOREIGN KEY (\`table_id\`) REFERENCES \`table\` (id)
+                    FOREIGN KEY (tbl_id) REFERENCES \`table\` (id)
                     ON DELETE CASCADE
                     ON UPDATE CASCADE,
                 CONSTRAINT order_fk_payment_id
@@ -38,7 +38,7 @@ class Order {
     }
 
     static async listOrders() {
-        return (await Order.conn.query(`SELECT * FROM order`)).map(record => new Order(record.id, record.table_id, record.payment_id, record.status, record.time));
+        return (await Order.conn.query(`SELECT * FROM order`)).map(record => new Order(record.id, record.tbl_id, record.payment_id, record.status, record.time));
     }
 
     async getTable() {
@@ -52,7 +52,7 @@ class Order {
     async load() {
         const record = (await Order.conn.query(`SELECT * FROM order WHERE id = '${this.id}'`))[0];
         if (record && this.id == record.id) {
-            this.tableId = record.table_id;
+            this.tableId = record.tbl_id;
             this.paymentId = record.payment_id;
             this.status = record.status;
             this.time = new Date(record.time).getTime(); // Converts SQL timestamp milliseconds representation of date
@@ -68,7 +68,7 @@ class Order {
             this.status,
             new Date(this.time).toISOString().slice(0, 19).replace('T', ' '), // Converts JavaScript date to string acceptable by SQL
         ]
-        await Order.conn.query(`INSERT INTO order (id, \`table_id\`, payment_id, status, time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE \`table_id\`=?, payment_id=?, status=?, time=?`, [this.id, ...properties, ...properties]);
+        await Order.conn.query(`INSERT INTO order (id, tbl_id, payment_id, status, time) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE tbl_id=?, payment_id=?, status=?, time=?`, [this.id, ...properties, ...properties]);
     }
 }
 
