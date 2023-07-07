@@ -5,7 +5,7 @@ class menuOptionData {
     static async connectDatabase(conn) {
         this.conn = conn;
         conn.query(`
-      CREATE TABLE IF NOT EXISTS menu_option (
+      CREATE TABLE IF NOT EXISTS menu_options (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         description TEXT NOT NULL,
