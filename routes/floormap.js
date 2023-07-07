@@ -1,6 +1,19 @@
 var express = require('express');
 var router = express.Router();
-const Table = require('../../models/table');
+var utils = require('../utils');
+const Waitstaff = require('./api/waitstaff');
+const Management = require('./api/management');
+
+router.get('/', utils.asyncHandler(async function (req, res) {
+    try {
+        const tables = await Waitstaff.listTables();
+        res.render('floormap', { tables, lunchItems, dinnerItems, drinkItems, employee: req.employee });
+    } catch (error) {
+        // Handle the error appropriately
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+}));
 
 // Dummy menu data
 
@@ -63,19 +76,10 @@ const drinkItems = [
 ];
 
 
-// GET all /tables
-router.get('/', async function (req, res) {
-    try {
-        const tables = await Table.listTables();
-        res.render('floormap', { tables, lunchItems, dinnerItems, drinkItems });
-    } catch (error) {
-        // Handle the error appropriately
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
-});
 
-// GET /tables/:id - Get a specific table
+
+
+/* // GET /tables/:id - Get a specific table
 router.get('/:id', async (req, res) => {
     const tableId = req.params.id;
     try {
@@ -139,6 +143,6 @@ router.put('/:id', async (req, res) => {
         console.error(error);
         res.status(500).send('Internal Server Error');
     }
-});
+}); */
 
 module.exports = router;
