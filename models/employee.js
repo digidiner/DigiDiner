@@ -33,7 +33,7 @@ class Employee {
             name_first VARCHAR(50) DEFAULT NULL,
             name_last VARCHAR(50) DEFAULT NULL,
             hire_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            position VARCHAR(10) NOT NULL DEFAULT 'none'
+            position VARCHAR(50) NOT NULL DEFAULT 'none'
         )`);
     }
 
