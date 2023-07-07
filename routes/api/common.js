@@ -79,6 +79,17 @@ router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
     });
 }));
 
+/* GET employee */
+router.get('/employee', requireSession, utils.asyncHandler(async function(req, res) {
+    res.status(200).json({
+        'id': req.employee.id,
+        'nameFirst': req.employee.nameFirst,
+        'nameLast': req.employee.nameLast,
+        'hireDate': req.employee.hireDate,
+        'position': req.employee.position
+    });
+}));
+
 /* POST employee time clock in */
 router.post('/employee/clockin', requireSession, utils.asyncHandler(async function(req, res) {
     let period = await req.employee.timeClock.clockIn();
