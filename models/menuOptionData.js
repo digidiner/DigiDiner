@@ -33,7 +33,7 @@ class menuOptionData {
     async addMenuOption(item) {
         const { name, description, type } = item;
         const queryResult = await menuOptionData.conn.query('INSERT INTO menu_options (name, description, type) ' +
-            'VALUES (?, ?, ?, ?)', [name, description, type]);
+            'VALUES (?, ?, ?)', [name, description, type]);
         const insertedId = queryResult.insertId;
         return {id: insertedId, name, description, type};
     }
