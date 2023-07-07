@@ -8,7 +8,7 @@ var Employee = require('../../models/employee');
 // Used to verify user is signed in
 function requireSession(req, res, next) {
     if (!req.employee) {
-        res.status(403).json({
+        res.status(401).json({
             'error': "Not Signed In"
         });
         return;
@@ -76,6 +76,17 @@ router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
         'nameLast': employee.nameLast,
         'hireDate': employee.hireDate,
         'position': employee.position
+    });
+}));
+
+/* GET employee */
+router.get('/employee', requireSession, utils.asyncHandler(async function(req, res) {
+    res.status(200).json({
+        'id': req.employee.id,
+        'nameFirst': req.employee.nameFirst,
+        'nameLast': req.employee.nameLast,
+        'hireDate': req.employee.hireDate,
+        'position': req.employee.position
     });
 }));
 
