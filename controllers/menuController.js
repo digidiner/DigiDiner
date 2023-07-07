@@ -9,14 +9,13 @@ const menuOptions = new MenuOptionsData(dbConnPool);
 const menuItemOption = new MenuItemOption(dbConnPool)
 
 // CRUD operations for the menu
-async function getAllMenuItems(req, res, next) {
+async function getAllMenuItems(req, res) {
     const menuItems = await menuData.getAllMenuItems();
     if (menuItems) {
         res.status(200).json(menuItems);
     } else {
         res.status(404).json({"message": "No menu items"});
     }
-    res.json(menuItems);
 }
 
 async function getMenuItem(req, res) {
@@ -37,14 +36,15 @@ async function addMenuItem(req, res) {
             "message": 'Name, price, and description are required for adding a new menu item',
         });
     }
-
     const newItem = {name, price, description};
 
     const addItem = await menuData.addMenuItem(newItem);
 
-    res.json({success: true, item: addItem}).status(200).json({
-        "message": "Item successfully added"
-    });
+    if (addItem) {
+        res.status(200).json({"message": "Added menu item"});
+    } else {
+        res.status(404).json({"message": "Item not added"});
+    }
 }
 
 async function updateMenuItem(req, res) {

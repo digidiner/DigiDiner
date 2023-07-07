@@ -4,7 +4,7 @@ class menuOptionData {
     }
     static async connectDatabase(conn) {
         this.conn = conn;
-        await conn.query(`
+        conn.query(`
       CREATE TABLE IF NOT EXISTS menu_option (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
@@ -12,8 +12,7 @@ class menuOptionData {
         type VARCHAR(50) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-      )
-    `);
+      )`);
     }
 
     async getAllMenuOption() {
