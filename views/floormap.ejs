@@ -217,19 +217,17 @@
     <script src="/js/bootstrap.min.js"></script>
     <script>
         async function getEmployeeData() {
-            // Fetch employee data from the API
-            const employeeData = await (await fetch(window.location.origin + '/api/management/employee/list', {
+            const employeeData = await (await fetch(window.location.origin + '/api/common/employee', {
                 method: 'GET'
             })).json();
 
-            const currentEmployeeId = employeeData.list.find(id => id === req.session.employeeId);
-            return currentEmployeeId;
+            return employeeData;
         }
 
         async function populateTables() {
             // Fetch employee data targeting 'position'
-            const employeeId = await getEmployeeData();
-            const employee = new Employee(employeeId);
+            const employeeData = await getEmployeeData();
+            const employee = new Employee(employeeData.id);
             await employee.load();
             const isManager = employee.position.includes("manager");
 
