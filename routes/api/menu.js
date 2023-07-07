@@ -3,7 +3,6 @@ const router = express.Router();
 const menuController = require('../../controllers/menuController');
 
 // Routes for menu items
-router.route('/menuOptions').get(menuController.getAllMenuOption);
 router.route('/').get(menuController.getAllMenuItems);
 router.route('/:id').get(menuController.getMenuItem);
 router.route('/').post(menuController.addMenuItem);
@@ -11,7 +10,7 @@ router.route('/:id').put(menuController.updateMenuItem);
 router.route('/:id').delete(menuController.removeMenuItem);
 
 // Routes for menu options
-
+router.route('/menuOptions').get(menuController.getAllMenuOption);
 router.route('/menuOptions/:id').get(menuController.getMenuOption);
 router.route('/menuOptions/').post(menuController.addMenuOption);
 router.route('/menuOptions/:id').put(menuController.updateMenuOption);
