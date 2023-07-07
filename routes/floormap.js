@@ -3,11 +3,12 @@ var router = express.Router();
 var utils = require('../utils');
 const Waitstaff = require('./api/waitstaff');
 const Management = require('./api/management');
+const Employee = require('./api/common')
 const Table = require('../models/table');
 
 router.get('/', utils.asyncHandler(async function (req, res) {
     try {
-        res.render('floormap', { lunchItems, dinnerItems, drinkItems, employee: req.employee, Waitstaff, Management, Table });
+        res.render('floormap', { lunchItems, dinnerItems, drinkItems, employee: req.employee, Waitstaff, Management, Employee, Table });
     } catch (error) {
         // Handle the error appropriately
         console.error(error);
