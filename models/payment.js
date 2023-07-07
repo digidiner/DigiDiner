@@ -4,7 +4,7 @@ const twilio = require('twilio');
 class Payment {
     static async connectDatabase(conn) {
         this.conn = conn;
-        const query = `CREATE TABLE IF NOT EXISTS payments (
+        const query = `CREATE TABLE IF NOT EXISTS payment (
             id INT PRIMARY KEY AUTO_INCREMENT,
             full_name VARCHAR(100) NOT NULL,
             card_number VARCHAR(16) NOT NULL,
@@ -15,7 +15,7 @@ class Payment {
     }
 
     static async insertPayment(fullName, cardNumber, cvv, expiration, zipCode) {
-        const query = 'INSERT INTO payments (full_name, card_number, cvv, expiration, zip_code) VALUES (?, ?, ?, ?, ?)';
+        const query = 'INSERT INTO payment (full_name, card_number, cvv, expiration, zip_code) VALUES (?, ?, ?, ?, ?)';
         const values = [fullName, cardNumber, cvv, expiration, zipCode];
         return await this.conn.query(query, values);
     }
