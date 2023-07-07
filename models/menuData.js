@@ -17,6 +17,7 @@ class menuData {
     }
     // Get all the menu items
     async getAllMenuItems() {
+        console.log("you are here");
         return await menuData.conn.query('SELECT * FROM menu');
     }
 

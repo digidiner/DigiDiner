@@ -10,6 +10,7 @@ const menuItemOption = new MenuItemOption(dbConnPool)
 
 // CRUD operations for the menu
 async function getAllMenuItems(req, res) {
+    console.log("You are here.")
     const menuItems = await menuData.getAllMenuItems();
     if (menuItems) {
         res.status(200).json(menuItems);
