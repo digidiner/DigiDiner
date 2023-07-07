@@ -71,13 +71,13 @@ async function removeMenuItem(req, res) {
 // CRUD operations for menu options
 
 async function getAllMenuOption(req, res) {
+    console.log("you are here");
     const menuItems = await menuOptions.getAllMenuOption();
     if (menuItems) {
         res.status(200).json(menuItems);
     } else {
         res.status(404).json({"message": "No menu options found"});
     }
-    res.json(menuItems);
 }
 
 async function getMenuOption(req, res) {

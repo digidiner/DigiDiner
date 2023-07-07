@@ -16,6 +16,7 @@ class menuOptionData {
     }
 
     async getAllMenuOption() {
+        console.log("you are here");
         return await menuOptionData.conn.query('SELECT * FROM menu_options');
     }
 
