@@ -4,10 +4,10 @@ const menuController = require('../../controllers/menuController');
 
 // Routes for menu items
 router.route('/menu').get(menuController.getAllMenuItems);
-router.route('/menu').get(menuController.getMenuItem);
+router.route('/menu/:id').get(menuController.getMenuItem);
 router.route('/menu').post(menuController.addMenuItem);
-router.route('/menu').put(menuController.updateMenuItem);
-router.route('/menu').delete(menuController.removeMenuItem);
+router.route('/menu/:id').put(menuController.updateMenuItem);
+router.route('/menu/:id').delete(menuController.removeMenuItem);
 
 // Routes for menu options
 router.route('/menuOptions').get(menuController.getAllMenuOption);

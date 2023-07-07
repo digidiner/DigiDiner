@@ -6,35 +6,15 @@ class menuData {
     static async connectDatabase(conn) {
         this.conn = conn;
         await conn.query(`
-      CREATE TABLE IF NOT EXISTS menu (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        price DECIMAL(10, 2) NOT NULL,
-        description TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-      )
-    `);
-        await conn.query(`
-      CREATE TABLE IF NOT EXISTS menu_option (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        description TEXT NOT NULL,
-        type VARCHAR(50) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-      )
-    `);
-        await conn.query(`
-      CREATE TABLE IF NOT EXISTS menu_item_option (
-        menu_item_id INT,
-        option_id INT,
-        FOREIGN KEY (menu_item_id) REFERENCES menu(id),
-        FOREIGN KEY (option_id) REFERENCES menu_option(id)
-      )
-    `);
+            CREATE TABLE IF NOT EXISTS menu
+            (id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR (255) NOT NULL,
+            price DECIMAL(10, 2) NOT NULL,
+            description TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )`);
     }
-
     // Get all the menu items
     async getAllMenuItems() {
         return await menuData.conn.query('SELECT * FROM menu');

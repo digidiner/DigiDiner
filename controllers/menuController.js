@@ -9,7 +9,7 @@ const menuOptions = new MenuOptionsData(dbConnPool);
 const menuItemOption = new MenuItemOption(dbConnPool)
 
 // CRUD operations for the menu
-async function getAllMenuItems(req, res, next) {
+async function getAllMenuItems(req, res) {
     const menuItems = await menuData.getAllMenuItems();
     if (menuItems) {
         res.status(200).json(menuItems);
