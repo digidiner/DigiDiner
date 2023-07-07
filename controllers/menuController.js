@@ -36,15 +36,14 @@ async function addMenuItem(req, res) {
             "message": 'Name, price, and description are required for adding a new menu item',
         });
     }
-
     const newItem = {name, price, description};
 
     const addItem = await menuData.addMenuItem(newItem);
 
     if (addItem) {
-        res.status(200).json(addItem);
+        res.status(200).json({"message": "Added menu item"});
     } else {
-        res.status(404).json({"message": "item not added"});
+        res.status(404).json({"message": "Item not added"});
     }
 }
 
