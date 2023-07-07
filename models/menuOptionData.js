@@ -59,6 +59,7 @@ class menuOptionData {
 
         const sql = `UPDATE menu_options SET ${updateFields.join(', ')} WHERE id = ?`;
         queryParams.push(id);
+        console.log(sql);
 
         const queryResult = await menuOptionData.conn.query(sql, queryParams);
         return queryResult.affectedRows > 0;

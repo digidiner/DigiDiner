@@ -101,6 +101,7 @@ async function addMenuOption(req, res) {
     }
 
     const newItem = {name, description, type};
+    console.log(newItem);
 
     const addItem = await menuOptions.addMenuOption(newItem);
 
