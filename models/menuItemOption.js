@@ -35,7 +35,7 @@ class menuItemOption {
     }
 
     async getMenuItemsForOption(optionId) {
-        const queryResult = await menuItemOption.conn.query('SELECT * FROM menu mi JOIN menu_item_options mio ON mi.id = mio.menu_item_id WHERE mio.option_id = ?', [optionId]);
+        const queryResult = await menuItemOption.conn.query('SELECT * FROM menu mi JOIN menu_item_option mio ON mi.id = mio.menu_item_id WHERE mio.option_id = ?', [optionId]);
         return queryResult;
     }
 }
