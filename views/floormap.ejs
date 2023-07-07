@@ -222,13 +222,15 @@
                 method: 'GET'
             })).json();
 
-            return employeeData.list;
+            const currentEmployeeId = employeeData.list.find(id => id === req.session.employeeId);
+            return currentEmployeeId;
         }
 
         async function populateTables() {
-            // Fetch employee data targetting 'position'
-            const employees = await getEmployeeData();
-            const employee = employees[0]; // Assuming theres only one employee
+            // Fetch employee data targeting 'position'
+            const employeeId = await getEmployeeData();
+            const employee = new Employee(employeeId);
+            await employee.load();
             const isManager = employee.position.includes("manager");
 
             // Check if the employee is a manager to display the button
