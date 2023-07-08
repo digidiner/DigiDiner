@@ -19,7 +19,7 @@ function requireSession(req, res, next) {
 
 /* POST new employee signup */
 router.post('/employee/signup', utils.asyncHandler(async function (req, res) {
-    if (!req.body.id || !req.body.nameFirst || !req.body.nameLast) {
+    if (req.body.id == null || !req.body.nameFirst || !req.body.nameLast) {
         res.status(400).json({
             'error': "Missing Required Fields"
         });
@@ -47,7 +47,7 @@ router.post('/employee/signup', utils.asyncHandler(async function (req, res) {
 
 /* POST employee auth */
 router.post('/employee/auth', utils.asyncHandler(async function (req, res) {
-    if (!req.body.id) {
+    if (req.body.id == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
         });

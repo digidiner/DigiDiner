@@ -51,7 +51,7 @@ async function main() {
   app.use(bodyParser.json());
 
   app.use(utils.asyncHandler(async function (req, res, next) {
-    if (req.session.employeeId) {
+    if (req.session.employeeId != null) {
       req.employee = new Employee(req.session.employeeId);
       await req.employee.load();
     }

@@ -26,7 +26,7 @@ const requireOrder = utils.asyncHandler(async function(req, res, next) {
 
 /* POST new order */
 router.post('/order', utils.asyncHandler(async function(req, res) {
-    if (!req.body.table) {
+    if (req.body.table == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
         });

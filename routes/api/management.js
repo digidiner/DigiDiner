@@ -46,7 +46,7 @@ router.post('/employee/create', requireSession, utils.asyncHandler(async functio
 
 /* POST new table */
 router.post('/table', requireSession, utils.asyncHandler(async function(req, res) {
-    if (!req.body.seats) {
+    if (req.body.seats == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
         });
