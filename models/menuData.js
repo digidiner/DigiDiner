@@ -83,7 +83,7 @@ class menuData {
     }
 
     async getOptionForMenuItem(menuItemId) {
-        return await menuData.conn.query('SELECT * FROM menu_options mo JOIN menu_item_option mio ON mo.id = mio.option_id WHERE mio.menu_item_id = ?', [menuItemId]);
+        return await menuData.conn.query('SELECT * FROM menu_option mo JOIN menu_item_option mio ON mo.id = mio.option_id WHERE mio.menu_item_id = ?', [menuItemId]);
     }
 }
 
