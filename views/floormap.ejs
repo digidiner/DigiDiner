@@ -217,6 +217,7 @@
     <script src="/js/bootstrap.min.js"></script>
     <script>
         async function getEmployeeData() {
+            const employee = require('../models/employee');
             const id = employee.id;
             const employeeId = req.session.id; // Function to retrieve the ID of the currently signed-in employee
             const employeeData = await (await fetch(window.location.origin + '/api/management/employee/' + employeeId, {
