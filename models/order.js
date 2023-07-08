@@ -20,7 +20,7 @@ class Order {
         this.conn = conn;
         conn.query(`
             CREATE TABLE IF NOT EXISTS \`order\` (
-                id INT PRIMARY KEY,
+                id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                 table_id INT NOT NULL,
                 payment_id INT DEFAULT NULL,
                 status VARCHAR(10) NOT NULL DEFAULT 'incomplete',
@@ -39,7 +39,7 @@ class Order {
         conn.query(`
             CREATE TABLE IF NOT EXISTS order_item (
                 id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-                order_id INT NOT NULL,
+                order_id BIGINT UNSIGNED NOT NULL,
                 item_id INT NOT NULL,
                 count INT NOT NULL DEFAULT 1,
                 CONSTRAINT order_item_fk_order_id
