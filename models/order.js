@@ -21,7 +21,7 @@ class Order {
         conn.query(`
             CREATE TABLE IF NOT EXISTS \`order\` (
                 id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-                table_id INT NOT NULL,
+                table_id INT NOT NULL UNIQUE,
                 payment_id INT DEFAULT NULL,
                 status VARCHAR(10) NOT NULL DEFAULT 'incomplete',
                 time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -74,6 +74,14 @@ class Order {
 
     static async listOrders() {
         return (await Order.conn.query(`SELECT * FROM \`order\``)).map(record => new Order(record.id, record.table_id, record.payment_id, record.status, record.time));
+    }
+
+    static async getOrderForTable(tableId) {
+        const record = (await Order.conn.query(`SELECT * FROM \`order\` WHERE table_id = '${tableId}'`))[0];
+        if (record && tableId == record.table_id) {
+            return new Order(record.id, record.table_id, record.payment_id, record.status, new Date(record.time).getTime());
+        }
+        return null;
     }
 
     async getTable() {
