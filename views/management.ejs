@@ -12,11 +12,11 @@
         <header class="mb-auto">
             <div>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="#">Home</a>
-                    <a id="clockNavLink" class="nav-link fw-bold px-3" href="#">Clock</a>
-                    <a id="queueNavLink" class="nav-link fw-bold px-3" href="#">Orders</a>
-                    <a id="inventoryNavLink" class="nav-link fw-bold px-3" href="#">Inventory</a>
-                    <a id="floormapNavLink" class="nav-link fw-bold px-3" href="#">Floor Map</a>
+                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="#">Profile</a>
+                    <a id="clockNavLink" class="nav-link fw-bold px-3" href="/clock">Clock</a>
+                    <a id="queueNavLink" class="nav-link fw-bold px-3" href="/queue">Orders</a>
+                    <a id="inventoryNavLink" class="nav-link fw-bold px-3" href="/inventory">Inventory</a>
+                    <a id="floormapNavLink" class="nav-link fw-bold px-3" href="/floormap">Floor Map</a>
                 </nav>
             </div>
         </header>
@@ -31,11 +31,11 @@
                 <p class="lead">User ID: <span id="employeeId"></span></p>
                 <p class="lead">Position: <span id="position"></span></p>
             </div>
-            <p class="text-start position-absolute top-0 start-0 m-3">Timestamp: <span id="timestamp"></span></p>
-            <p class="lead mt-4">Cover is a one-page template for building simple and beautiful home pages. Download,
-                edit the text, and add your own fullscreen background photo to make it your own.</p>
+            <p class="text-start position-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"></span></p>
+            <p class="lead mt-4">This is your personal employee portal. Here you can find all your employee information
+                such as benefits, employment paperwork, statistics, paystubs, and the employee handbook. </p>
             <p class="lead">
-                <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Learn more</a>
+                <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Information Portal</a>
             </p>
         </main>
         <%- include('partials/footer') %>
@@ -75,8 +75,8 @@
                 employeeIdElement.textContent = employee.id;
                 const positionElement = document.getElementById('position');
                 positionElement.textContent = employee.position;
-                const timestampElement = document.getElementById('timestamp');
-                timestampElement.textContent = employee.hireDate; // Update with the appropriate property containing the timestamp
+                const hireDateElement = document.getElementById('hireDate');
+                hireDateElement.textContent = employee.hireDate; // Update with the appropriate property containing the timestamp
             }
         }
 
