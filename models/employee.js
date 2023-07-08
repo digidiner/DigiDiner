@@ -41,6 +41,21 @@ class Employee {
         return (await Employee.conn.query({ sql: `SELECT id FROM employee`, rowsAsArray: true })).flat();
     }
 
+    static async findById(id) {
+        const record = (await Employee.conn.query(`SELECT * FROM employee WHERE id = '${id}'`))[0];
+        if (record && id == record.id) {
+            return new Employee(
+                record.id,
+                record.pass_hash,
+                record.name_first,
+                record.name_last,
+                new Date(record.hire_date).getTime(),
+                record.position
+            );
+        }
+        return null;
+    }
+
     async load() {
         const record = (await Employee.conn.query(`SELECT * FROM employee WHERE id = '${this.id}'`))[0];
         if (record && this.id == record.id) {
