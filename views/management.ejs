@@ -12,11 +12,11 @@
         <header class="mb-auto">
             <div>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a class="nav-link fw-bold px-3" aria-current="page" href="/kitchen">Home</a>
-                    <a class="nav-link fw-bold px-3" href="/clock">Clock</a>
-                    <a class="nav-link fw-bold px-3" href="/queue">Orders</a>
-                    <a class="nav-link fw-bold px-3" href="/inventory">Inventory</a>
-                    <a class="nav-link fw-bold px-3" href="/floormap">Floor Map</a>
+                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="#">Home</a>
+                    <a id="clockNavLink" class="nav-link fw-bold px-3" href="#">Clock</a>
+                    <a id="queueNavLink" class="nav-link fw-bold px-3" href="#">Orders</a>
+                    <a id="inventoryNavLink" class="nav-link fw-bold px-3" href="#">Inventory</a>
+                    <a id="floormapNavLink" class="nav-link fw-bold px-3" href="#">Floor Map</a>
                 </nav>
             </div>
         </header>
@@ -26,20 +26,14 @@
                 <img src="images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3"
                     style="width: 150px;">
             </div>
-            <h1 class="text-center mt-3">Welcome, <%= user.firstName %>
-                    <%= user.lastName %>
-            </h1>
+            <h1 class="text-center mt-3">Welcome, <span id="firstName"></span> <span id="lastName"></span></h1>
             <div class="text-center">
-                <p class="lead">User ID: <%= user.id %>
-                </p>
-                <p class="lead">Position: <%= user.position %>
-                </p>
+                <p class="lead">User ID: <span id="employeeId"></span></p>
+                <p class="lead">Position: <span id="position"></span></p>
             </div>
-            <p class="text-start position-absolute top-0 start-0 m-3">Timestamp: <%= user.timestamp %>
-            </p>
-            <p class="lead mt-4">Cover is a one-page template for building simple and beautiful home pages.
-                Download, edit the
-                text, and add your own fullscreen background photo to make it your own.</p>
+            <p class="text-start position-absolute top-0 start-0 m-3">Timestamp: <span id="timestamp"></span></p>
+            <p class="lead mt-4">Cover is a one-page template for building simple and beautiful home pages. Download,
+                edit the text, and add your own fullscreen background photo to make it your own.</p>
             <p class="lead">
                 <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Learn more</a>
             </p>
@@ -47,6 +41,50 @@
         <%- include('partials/footer') %>
     </div>
     <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to retrieve the signed-in employee information from the server
+        async function getSignedInEmployee() {
+            try {
+                const response = await fetch('/api/common/employee', {
+                    method: 'GET',
+                    credentials: 'same-origin' // Include this option to send cookies in the request
+                });
+
+                if (response.ok) {
+                    const employee = await response.json();
+                    return employee;
+                } else {
+                    console.error('Failed to retrieve signed-in employee:', response.status);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error retrieving signed-in employee:', error);
+                return null;
+            }
+        }
+
+        // Function to update the session nav links' hrefs with the employee ID
+        async function updateSessionNavLinks() {
+            const employee = await getSignedInEmployee();
+            if (employee) {
+                const firstNameElement = document.getElementById('firstName');
+                firstNameElement.textContent = employee.nameFirst;
+                const lastNameElement = document.getElementById('lastName');
+                lastNameElement.textContent = employee.nameLast;
+                const employeeIdElement = document.getElementById('employeeId');
+                employeeIdElement.textContent = employee.id;
+                const positionElement = document.getElementById('position');
+                positionElement.textContent = employee.position;
+                const timestampElement = document.getElementById('timestamp');
+                timestampElement.textContent = employee.hireDate; // Update with the appropriate property containing the timestamp
+            }
+        }
+
+        // Call the function to update the session nav links
+        updateSessionNavLinks();
+    </script>
+</body>
+
 </body>
 
 </html>
