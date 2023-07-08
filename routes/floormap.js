@@ -8,8 +8,7 @@ const Table = require('../models/table');
 
 router.get('/', utils.asyncHandler(async function (req, res) {
     try {
-        const employeeId = req.session.employee.id;
-
+        const employeeId = req.session.employeeId;
         // Fetch the employee data (including position) based on the ID
         const employee = await Employee.findById(employeeId);
 
