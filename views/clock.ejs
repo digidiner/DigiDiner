@@ -50,7 +50,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="floormap" class="nav-link text-white">
+                            <a href="/floormap" class="nav-link text-white">
                                 <svg class="bi bi-map" width="24" height="24">
                                     <use xlink:href="#map" />
                                 </svg>
@@ -66,7 +66,8 @@
         <div class="text-center mt-4">
             <h1>Time Clock</h1>
             <h3>
-                <%= employee.name %> (ID: <%= employee.id %>)
+                <%= employee.nameFirst %>
+                    <%= employee.nameLast %> (ID: <%= employee.id %>)
             </h3>
         </div>
 
@@ -79,13 +80,9 @@
 
         <div class="text-center mt-4">
             <% if (status==='Clocked In' ) { %>
-                <button id="clockOutBtn" class="btn btn-primary">
-                    Clock Out
-                </button>
+                <button id="clockOutBtn" class="btn btn-primary">Clock Out</button>
                 <% } else { %>
-                    <button id="clockInBtn" class="btn btn-primary">
-                        Clock In
-                    </button>
+                    <button id="clockInBtn" class="btn btn-primary">Clock In</button>
                     <% } %>
         </div>
 
@@ -118,7 +115,7 @@
         }
 
         // Function to handle the confirmation
-        function confirmAction() {
+        async function confirmAction() {
             // Get the clock in/out status
             const status = $('#confirmationModalTitle').text().replace('Confirm ', '');
 
@@ -129,6 +126,13 @@
             const timestamp = new Date().toLocaleString();
             const punchItem = `<li class="list-group-item">${status}: ${timestamp}</li>`;
             $('#punchRecord').prepend(punchItem);
+
+            // Clock in or out based on the status
+            if (status === 'Clock In') {
+                await clockIn();
+            } else {
+                await clockOut();
+            }
 
             // Resume the timestamp output and punch record after a delay
             timestampInterval = setInterval(updateTimestamp, 1000);
@@ -144,12 +148,45 @@
             $('#timestamp').text(timestamp);
         }
 
-        // Attach event listeners to the clock in/out buttons
-        if (status === 'Clocked In') {
-            document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
-        } else {
-            document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
+        // Function to perform the clock in action
+        async function clockIn() {
+            const response = await fetch('/api/employee/clockin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ employeeId: '<%= employee.id %>' }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Clock In Successful:', data);
+            } else {
+                console.error('Clock In Failed:', response.status);
+            }
         }
+
+        // Function to perform the clock out action
+        async function clockOut() {
+            const response = await fetch('/api/employee/clockout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ employeeId: '<%= employee.id %>' }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Clock Out Successful:', data);
+            } else {
+                console.error('Clock Out Failed:', response.status);
+            }
+        }
+
+        // Attach event listeners to the clock in/out buttons
+        document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
+        document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
 
         // Start the timestamp output and punch record
         let timestampInterval = setInterval(updateTimestamp, 1000);
@@ -167,7 +204,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to <span id="status"></span>?</p>
+                    <p>Are you sure you want to <span id="status"></span>
+                        <%= status==='Clocked In' ? 'Out' : 'In' %>?
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -176,6 +215,7 @@
             </div>
         </div>
     </div>
+
     <%- include('partials/footer') %>
 </body>
 

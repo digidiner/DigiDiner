@@ -4,6 +4,7 @@ var router = express.Router();
 
 var utils = require('../../utils');
 var Employee = require('../../models/employee');
+var TimeClock = require('../../models/timeclock');
 
 // Used to verify user is signed in
 function requireSession(req, res, next) {
@@ -17,7 +18,7 @@ function requireSession(req, res, next) {
 }
 
 /* POST new employee signup */
-router.post('/employee/signup', utils.asyncHandler(async function(req, res) {
+router.post('/employee/signup', utils.asyncHandler(async function (req, res) {
     if (!req.body.id || !req.body.nameFirst || !req.body.nameLast) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -45,7 +46,7 @@ router.post('/employee/signup', utils.asyncHandler(async function(req, res) {
 }));
 
 /* POST employee auth */
-router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
+router.post('/employee/auth', utils.asyncHandler(async function (req, res) {
     if (!req.body.id) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -80,7 +81,7 @@ router.post('/employee/auth', utils.asyncHandler(async function(req, res) {
 }));
 
 /* GET employee */
-router.get('/employee', requireSession, utils.asyncHandler(async function(req, res) {
+router.get('/employee', requireSession, utils.asyncHandler(async function (req, res) {
     res.status(200).json({
         'id': req.employee.id,
         'nameFirst': req.employee.nameFirst,
@@ -91,7 +92,7 @@ router.get('/employee', requireSession, utils.asyncHandler(async function(req, r
 }));
 
 /* POST employee time clock in */
-router.post('/employee/clockin', requireSession, utils.asyncHandler(async function(req, res) {
+router.post('/employee/clockin', requireSession, utils.asyncHandler(async function (req, res) {
     let period = await req.employee.timeClock.clockIn();
     if (period) {
         res.status(200).json({
@@ -107,7 +108,7 @@ router.post('/employee/clockin', requireSession, utils.asyncHandler(async functi
 }));
 
 /* POST employee time clock out */
-router.post('/employee/clockout', requireSession, utils.asyncHandler(async function(req, res) {
+router.post('/employee/clockout', requireSession, utils.asyncHandler(async function (req, res) {
     let period = await req.employee.timeClock.clockOut();
     if (period) {
         res.status(200).json({
