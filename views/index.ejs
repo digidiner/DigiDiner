@@ -19,7 +19,110 @@
 
 <body>
 	<main>
-		<%- include('partials/base') %>
+		<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+			<div class="row align-items-center g-lg-5 py-5">
+				<div class="col-md-10 mx-auto col-lg-5">
+					<img src="/images/logo.png" alt="Image" class="img-fluid mb-3">
+					<form class="p-4 p-md-5 border rounded-3 bg-body-tertiary signin-form">
+						<h1 class="text-center mb-4">Employee Portal</h1>
+						<div class="form-floating mb-3">
+							<input type="text" class="form-control" id="floatingIdSignIn" placeholder="123456">
+							<label for="floatingIdSignIn">Employee ID</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="password" class="form-control" id="floatingPasswordSignIn"
+								placeholder="Password">
+							<label for="floatingPasswordSignIn">Password</label>
+						</div>
+						<div class="checkbox mb-3">
+							<label>
+								<input id="rememberSignIn" type="checkbox" value="remember-me">Remember me
+							</label>
+						</div>
+						<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+						<hr class="my-4">
+						<small class="text-body-secondary">Don't have an account? <button class="btn btn-link btn-sm"
+								data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</button></small>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script src="/js/bootstrap.min.js"></script>
+		<script>
+			document.querySelector('form.signin-form').addEventListener('submit', async function (event) {
+				event.preventDefault();
+				const employeeId = document.getElementById('floatingIdSignIn').value;
+				const password = document.getElementById('floatingPasswordSignIn').value;
+				if (!employeeId || !password) {
+					console.error('Missing Required Fields');
+					return;
+				}
+
+				try {
+					const response = await fetch('/api/common/employee/auth', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							id: employeeId,
+							pass: password
+						})
+					});
+
+					if (response.ok) {
+						const data = await response.json();
+						console.log('Authentication successful:', data);
+						// Redirect to the authenticated user's profile page
+						window.location.href = `/profile/${data.id}`; // Append the employee ID to the URL
+					} else {
+						const errorData = await response.json();
+						console.error('Authentication failed:', errorData.error);
+					}
+				} catch (error) {
+					console.error('Error during authentication:', error);
+				}
+			});
+		</script>
+
+		<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="modal-header">
+						<h5 class="modal-title" id="signupModalLabel">Create an Account</h5>
+					</div>
+					<div class="modal-body">
+						<form class="p-4 p-md-5 border rounded-3 bg-body-tertiary signup-form">
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="floatingIdSignUp" placeholder="123456">
+								<label for="floatingIdSignUp">Employee ID</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="test" class="form-control" id="floatingInputSignUp"
+									placeholder="name@example.com">
+								<label for="floatingInputSignUp">Employee email address</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="floatingPasswordSignUp"
+									placeholder="Password">
+								<label for="floatingPasswordSignUp">Password</label>
+							</div>
+							<div class="checkbox mb-3">
+								<label>
+									<input id="rememberSignUp" type="checkbox" value="remember-me">Remember me
+								</label>
+							</div>
+							<button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+							<hr class="my-4">
+							<small class="text-body-secondary">By clicking Sign up, you agree to the terms of
+								use.</small>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</main>
 	<footer>
 		<p>System: <%= dbStatus %>
@@ -29,8 +132,8 @@
 				<%= error %>
 			</p>
 			<% } %>
-
 	</footer>
 </body>
+
 
 </html>
