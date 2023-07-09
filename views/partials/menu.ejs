@@ -120,38 +120,45 @@
 
         // Loop through the menu items and generate the HTML markup
         menuItems.forEach((item, index) => {
-            const accordionItem = document.createElement('div');
-            accordionItem.classList.add('accordion-item');
+            // Convert the price to a decimal if it is a string
+            const price = typeof item.price === 'string' ? parseFloat(item.price) : item.price;
 
-            const accordionHeader = document.createElement('h2');
-            accordionHeader.classList.add('accordion-header');
-            accordionHeader.id = 'heading' + index;
+            // Check if the price is a valid decimal number
+            if (!isNaN(price)) {
+                const accordionItem = document.createElement('div');
+                accordionItem.classList.add('accordion-item');
 
-            const accordionButton = document.createElement('button');
-            accordionButton.classList.add('accordion-button');
-            accordionButton.setAttribute('type', 'button');
-            accordionButton.setAttribute('data-bs-toggle', 'collapse');
-            accordionButton.setAttribute('data-bs-target', '#collapse' + index);
-            accordionButton.setAttribute('aria-expanded', 'true');
-            accordionButton.setAttribute('aria-controls', 'collapse' + index);
-            accordionButton.innerHTML = item.name + '<span class="badge bg-primary">$' + item.price.toFixed(2) + '</span>';
+                const accordionHeader = document.createElement('h2');
+                accordionHeader.classList.add('accordion-header');
+                accordionHeader.id = 'heading' + index;
 
-            const accordionCollapse = document.createElement('div');
-            accordionCollapse.id = 'collapse' + index;
-            accordionCollapse.classList.add('accordion-collapse', 'collapse');
-            accordionCollapse.setAttribute('aria-labelledby', 'heading' + index);
-            accordionCollapse.setAttribute('data-bs-parent', '#menuAccordion');
+                const accordionButton = document.createElement('button');
+                accordionButton.classList.add('accordion-button');
+                accordionButton.setAttribute('type', 'button');
+                accordionButton.setAttribute('data-bs-toggle', 'collapse');
+                accordionButton.setAttribute('data-bs-target', '#collapse' + index);
+                accordionButton.setAttribute('aria-expanded', 'true');
+                accordionButton.setAttribute('aria-controls', 'collapse' + index);
+                accordionButton.innerHTML = item.name + '<span class="badge bg-primary">$' + price.toFixed(2) + '</span>';
 
-            const accordionBody = document.createElement('div');
-            accordionBody.classList.add('accordion-body');
-            accordionBody.innerHTML = '<p>' + item.description + '</p>';
+                const accordionCollapse = document.createElement('div');
+                accordionCollapse.id = 'collapse' + index;
+                accordionCollapse.classList.add('accordion-collapse', 'collapse');
+                accordionCollapse.setAttribute('aria-labelledby', 'heading' + index);
+                accordionCollapse.setAttribute('data-bs-parent', '#menuAccordion');
 
-            accordionCollapse.appendChild(accordionBody);
-            accordionHeader.appendChild(accordionButton);
-            accordionItem.appendChild(accordionHeader);
-            accordionItem.appendChild(accordionCollapse);
-            menuAccordion.appendChild(accordionItem);
+                const accordionBody = document.createElement('div');
+                accordionBody.classList.add('accordion-body');
+                accordionBody.innerHTML = '<p>' + item.description + '</p>';
+
+                accordionCollapse.appendChild(accordionBody);
+                accordionHeader.appendChild(accordionButton);
+                accordionItem.appendChild(accordionHeader);
+                accordionItem.appendChild(accordionCollapse);
+                menuAccordion.appendChild(accordionItem);
+            }
         });
     }
+
 
 </script>
