@@ -29,9 +29,13 @@
 
             <div class="text-center mt-4">
                 <% if (status==='Clocked In' ) { %>
-                    <button id="clockOutBtn" class="btn btn-primary">Clock Out</button>
+                    <form action="/clock/<%= employee.id %>/clockout" method="POST">
+                        <button class="btn btn-primary" type="submit">Clock Out</button>
+                    </form>
                     <% } else { %>
-                        <button id="clockInBtn" class="btn btn-primary">Clock In</button>
+                        <form action="/clock/<%= employee.id %>/clockin" method="POST">
+                            <button class="btn btn-primary" type="submit">Clock In</button>
+                        </form>
                         <% } %>
             </div>
 
@@ -119,7 +123,7 @@
         // Function to perform the clock in action
         async function clockIn() {
             try {
-                const response = await fetch('/api/employee/clockin', {
+                const response = await fetch(`/clock/<%= employee.id %>/clockin`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -141,7 +145,7 @@
         // Function to perform the clock out action
         async function clockOut() {
             try {
-                const response = await fetch('/api/employee/clockout', {
+                const response = await fetch(`/clock/<%= employee.id %>/clockout`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
