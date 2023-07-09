@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var Employee = require('../models/employee')
 var dbConnection;
 
 /* GET home page. */
@@ -13,7 +13,7 @@ router.get('/', async function (req, res, next) {
     res.locals.dbStatus = 'Disconnected';
     res.locals.error = err;
   }
-  res.render('index');
+  res.render('index', { Employee });
 });
 
 module.exports = router;

@@ -1,3 +1,26 @@
+// Gets all menu items that anyone can do
+// const getFullMenu = document.getElementById('fetchDataButton')
+// getFullMenu.addEventListener('click', () => {
+//     // Make an HTTP GET request to fetch menu data from the backend
+//     fetch('/api/menu')
+//         .then(response => response.json())
+//         .then(data => console.log(data))
+//         // {
+//         //     //update the UI with the received data
+//         //     const menuContainer = document.getElementById('menuContainer');
+//         //     menuContainer.innerHTML = '';
+//         //
+//         //     data.forEach(menuItem => {
+//         //         const menuItemElement = document.createElement('div');
+//         //         menuItemElement.textContent = menuItem.name;
+//         //         menuContainer.appendChild(menuItemElement);
+//         //     });
+//         // })
+//         .catch(err => {
+//             console.error('Error fetching menu data');
+//         });
+// });
+
 var express = require('express');
 var router = express.Router();
 
