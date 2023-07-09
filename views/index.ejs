@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/base') %>
+
+<head>
+	<meta charset="UTF-8">
+	<title>DigiDiner</title>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<style>
+		body {
+			background-color: #333;
+		}
+
+		.signin-form {
+			background-color: #222;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+		}
+	</style>
+</head>
+
+<body>
+	<main>
+		<%- include('partials/base') %>
+	</main>
 	<footer>
 		<p>System: <%= dbStatus %>
 		</p>
@@ -11,5 +31,6 @@
 			<% } %>
 
 	</footer>
+</body>
 
 </html>

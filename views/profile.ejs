@@ -12,7 +12,7 @@
         <header class="mb-auto">
             <div>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="#">Profile</a>
+                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="/profile">Profile</a>
                     <a id="clockNavLink" class="nav-link fw-bold px-3" href="/clock">Clock</a>
                     <a id="queueNavLink" class="nav-link fw-bold px-3" href="/queue">Orders</a>
                     <a id="inventoryNavLink" class="nav-link fw-bold px-3" href="/inventory">Inventory</a>
@@ -38,7 +38,9 @@
                 <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Information Portal</a>
             </p>
         </main>
-        <%- include('partials/footer') %>
+        <footer>
+            <%- include('partials/footer') %>
+        </footer>
     </div>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -47,7 +49,6 @@
             try {
                 const response = await fetch('/api/common/employee', {
                     method: 'GET',
-                    credentials: 'same-origin' // Include this option to send cookies in the request
                 });
 
                 if (response.ok) {
@@ -76,15 +77,23 @@
                 const positionElement = document.getElementById('position');
                 positionElement.textContent = employee.position;
                 const hireDateElement = document.getElementById('hireDate');
-                hireDateElement.textContent = employee.hireDate; // Update with the appropriate property containing the timestamp
+                hireDateElement.textContent = employee.hireDate;
+                const profileNavLink = document.getElementById('profileNavLink');
+                profileNavLink.href = `/profile/${employeeId}`;
+                const clockNavLink = document.getElementById('clockNavLink');
+                clockNavLink.href = `/clock/${employeeId}`;
+                const queueNavLink = document.getElementById('queueNavLink');
+                queueNavLink.href = `/queue/${employeeId}`;
+                const inventoryNavLink = document.getElementById('inventoryNavLink');
+                inventoryNavLink.href = `/inventory/${employeeId}`;
+                const floormapNavLink = document.getElementById('floormapNavLink');
+                floormapNavLink.href = `/floormap/${employeeId}`;
             }
         }
 
         // Call the function to update the session nav links
         updateSessionNavLinks();
     </script>
-</body>
-
 </body>
 
 </html>
