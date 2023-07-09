@@ -16,7 +16,7 @@ router.route('/menuItems/:id/options').get(menuController.getOptionsForMenuItem)
 router.route('/menuOptions/:id/menuItems').get(menuController.getMenuItemsForOption);
 
 // Routes for menu items
-router.route('/menu').get(menuController.getAllMenuItems);
+router.route('/').get(menuController.getAllMenuItems);
 router.route('/:id').get(menuController.getMenuItem);
 router.route('/').post(menuController.addMenuItem);
 router.route('/:id').put(menuController.updateMenuItem);

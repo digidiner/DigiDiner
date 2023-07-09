@@ -101,8 +101,7 @@
 
     // Gets all menu items that anyone can do
     window.onload = () => {
-        // Make an HTTP GET request to fetch menu data from the backend
-        fetch('/api/menu')
+        fetch('/api/')
             .then(response => response.json())
             .then(data => console.log(data))
     //         // {
@@ -119,6 +118,6 @@
     //         .catch(err => {
     //             console.error('Error fetching menu data');
     //         });
-    });
+    };
 
 </script>
