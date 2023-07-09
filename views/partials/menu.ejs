@@ -103,21 +103,55 @@
     window.onload = () => {
         fetch('/api/menu')
             .then(response => response.json())
-            .then(data => console.log(data))
-    //         // {
-    //         //     //update the UI with the received data
-    //         //     const menuContainer = document.getElementById('menuContainer');
-    //         //     menuContainer.innerHTML = '';
-    //         //
-    //         //     data.forEach(menuItem => {
-    //         //         const menuItemElement = document.createElement('div');
-    //         //         menuItemElement.textContent = menuItem.name;
-    //         //         menuContainer.appendChild(menuItemElement);
-    //         //     });
-    //         // })
-    //         .catch(err => {
-    //             console.error('Error fetching menu data');
-    //         });
+            .then(data => {
+                const menuItems = data;
+                renderMenu(menuItems);
+            })
+            .catch(error => {
+                console.error('Error fetching menu data', error);
+            });
     };
+
+    function renderMenu(menuItems) {
+        const menuAccordion = document.getElementById('menuAccordion');
+
+        // Clear any existing menu items
+        menuAccordion.innerHTML = '';
+
+        // Loop through the menu items and generate the HTML markup
+        menuItems.forEach((item, index) => {
+            const accordionItem = document.createElement('div');
+            accordionItem.classList.add('accordion-item');
+
+            const accordionHeader = document.createElement('h2');
+            accordionHeader.classList.add('accordion-header');
+            accordionHeader.id = 'heading' + index;
+
+            const accordionButton = document.createElement('button');
+            accordionButton.classList.add('accordion-button');
+            accordionButton.setAttribute('type', 'button');
+            accordionButton.setAttribute('data-bs-toggle', 'collapse');
+            accordionButton.setAttribute('data-bs-target', '#collapse' + index);
+            accordionButton.setAttribute('aria-expanded', 'true');
+            accordionButton.setAttribute('aria-controls', 'collapse' + index);
+            accordionButton.innerHTML = item.name + '<span class="badge bg-primary">$' + item.price.toFixed(2) + '</span>';
+
+            const accordionCollapse = document.createElement('div');
+            accordionCollapse.id = 'collapse' + index;
+            accordionCollapse.classList.add('accordion-collapse', 'collapse');
+            accordionCollapse.setAttribute('aria-labelledby', 'heading' + index);
+            accordionCollapse.setAttribute('data-bs-parent', '#menuAccordion');
+
+            const accordionBody = document.createElement('div');
+            accordionBody.classList.add('accordion-body');
+            accordionBody.innerHTML = '<p>' + item.description + '</p>';
+
+            accordionCollapse.appendChild(accordionBody);
+            accordionHeader.appendChild(accordionButton);
+            accordionItem.appendChild(accordionHeader);
+            accordionItem.appendChild(accordionCollapse);
+            menuAccordion.appendChild(accordionItem);
+        });
+    }
 
 </script>
