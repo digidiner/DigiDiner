@@ -32,7 +32,7 @@ router.post('/employee/signup', utils.asyncHandler(async function (req, res) {
         });
         return;
     }
-    newEmployee.passHash = req.body.pass ? await bcrypt.hash(req.body.pass, Employee.passSaltRounds) : null;
+    newEmployee.passHash = req.body.pass != null ? await bcrypt.hash(req.body.pass, Employee.passSaltRounds) : null;
     newEmployee.nameFirst = req.body.nameFirst;
     newEmployee.nameLast = req.body.nameLast;
     await newEmployee.save();

@@ -81,7 +81,7 @@ class Employee {
     }
 
     auth(pass) {
-        return pass ? bcrypt.hashSync(pass, Employee.passSaltRounds) == this.passHash : !this.passHash;
+        return pass != null ? bcrypt.hashSync(pass, Employee.passSaltRounds) == this.passHash : !this.passHash;
     }
 }
 

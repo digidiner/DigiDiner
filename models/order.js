@@ -121,7 +121,7 @@ class Order {
     }
 
     async removeItem(id) {
-        await Order.conn.query(`DELETE FROM order_item WHERE id = '${id}'`);
+        return (await Order.conn.query(`DELETE FROM order_item WHERE id = '${id}'`)).affectedRows > 0;
     }
 
     async updateStatus(status) {
@@ -158,7 +158,7 @@ class Order {
     }
 
     async delete() {
-        await Order.conn.query(`DELETE FROM order WHERE id = '${this.id}'`);
+        return (await Order.conn.query(`DELETE FROM order WHERE id = '${this.id}'`)).affectedRows > 0;
     }
 }
 
