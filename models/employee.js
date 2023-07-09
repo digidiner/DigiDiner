@@ -81,8 +81,7 @@ class Employee {
     }
 
     auth(pass) {
-        console.log("pass hashed: " + bcrypt.hashSync(pass, Employee.passSaltRounds) + ", passHash: " + this.passHash);
-        return pass != null ? bcrypt.hashSync(pass, Employee.passSaltRounds) == this.passHash : !this.passHash;
+        return pass != null ? bcrypt.compareSync(pass, this.passHash) : this.passHash == null;
     }
 }
 
