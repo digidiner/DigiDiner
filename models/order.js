@@ -1,6 +1,8 @@
 var Table = require('./table');
 var Payment = require('./payment');
 
+const orderExpiryTime = 12 * 60 * 60 * 1000;
+
 class Order {
     id;
     tableId;
@@ -12,8 +14,14 @@ class Order {
         this.id = id;
         this.tableId = tableId ?? null;
         this.paymentId = paymentId ?? null;
-        this.status = status ?? 'incomplete';
-        this.time = time ?? Date.now();
+        if (time == null || Date.now() - time < orderExpiryTime) {
+            this.status = status ?? 'incomplete';
+            this.time = time ?? Date.now();
+        } else {
+            this.status = 'expired';
+            this.time = time;
+            this.delete();
+        }
     }
 
     static connectDatabase(conn) {
@@ -79,7 +87,8 @@ class Order {
     static async getOrderForTable(tableId) {
         const record = (await Order.conn.query(`SELECT * FROM \`order\` WHERE table_id = '${tableId}'`))[0];
         if (record && tableId == record.table_id) {
-            return new Order(record.id, record.table_id, record.payment_id, record.status, new Date(record.time).getTime());
+            const order = new Order(record.id, record.table_id, record.payment_id, record.status, new Date(record.time).getTime());;
+            return order.status != 'expired' ? order : null;
         }
         return null;
     }
@@ -127,7 +136,13 @@ class Order {
             this.paymentId = record.payment_id;
             this.status = record.status;
             this.time = new Date(record.time).getTime(); // Converts SQL timestamp milliseconds representation of date
-            return true;
+            if (Date.now() - this.time < orderExpiryTime) {
+                return true;
+            } else {
+                this.status = 'expired';
+                await this.delete();
+                return false;
+            }
         }
         return false;
     }

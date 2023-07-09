@@ -34,7 +34,7 @@ router.post('/order', utils.asyncHandler(async function(req, res) {
     }
     if (await Order.getOrderForTable(req.body.table)) {
         res.status(400).json({
-            'error': "Table Already Has Outstanding Order"
+            'error': "Table Already Has Associated Order"
         });
         return;
     }
