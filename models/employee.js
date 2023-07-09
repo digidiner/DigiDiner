@@ -81,6 +81,7 @@ class Employee {
     }
 
     auth(pass) {
+        console.log("pass type: " + (typeof pass) + ", passHash type: " + (typeof this.passHash));
         return pass != null ? bcrypt.compareSync(pass, this.passHash) : this.passHash == null;
     }
 }
