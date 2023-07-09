@@ -92,7 +92,8 @@ router.get('/employee', requireSession, utils.asyncHandler(async function (req, 
 }));
 
 /* POST employee time clock in */
-router.post('/employee/clockin', requireSession, utils.asyncHandler(async function (req, res) {
+router.post('/employee/:id/clockin', requireSession, utils.asyncHandler(async function (req, res) {
+    const employeeId = req.params.id;
     let period = await req.employee.timeClock.clockIn();
     if (period) {
         res.status(200).json({
@@ -108,7 +109,8 @@ router.post('/employee/clockin', requireSession, utils.asyncHandler(async functi
 }));
 
 /* POST employee time clock out */
-router.post('/employee/clockout', requireSession, utils.asyncHandler(async function (req, res) {
+router.post('/employee/:id/clockout', requireSession, utils.asyncHandler(async function (req, res) {
+    const employeeId = req.params.id;
     let period = await req.employee.timeClock.clockOut();
     if (period) {
         res.status(200).json({

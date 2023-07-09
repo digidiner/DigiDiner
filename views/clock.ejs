@@ -123,12 +123,13 @@
         // Function to perform the clock in action
         async function clockIn() {
             try {
-                const response = await fetch(`/clock/<%= employee.id %>/clockin`, {
+                const employeeId = req.params.id; // Get the employee ID from the server-side template
+                const response = await fetch(`/clock/${employeeId}/clockin`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ employeeId: '<%= employee.id %>' }),
+                    body: JSON.stringify({ employeeId }),
                 });
 
                 if (response.ok) {
