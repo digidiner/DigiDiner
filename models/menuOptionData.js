@@ -73,7 +73,7 @@ class menuOptionData {
     }
 
     // Helper function to check if the option exists
-    const checkOptionExists = async (optionId) => {
+    async checkOptionExists(optionId) {
         const query = 'SELECT id FROM full_menu_options WHERE id = ?';
         const [rows] = await menuOptionData.conn.query(query, [optionId]);
         return rows.length > 0;
