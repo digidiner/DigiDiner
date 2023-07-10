@@ -5,13 +5,13 @@ var utils = require('../utils');
 const TimeClock = require('../models/timeclock');
 const Employee = require('../models/employee');
 
-// GET /clock/:employeeId - Display the time clock for a specific employee
-router.get('/:id', utils.asyncHandler(async function (req, res) {
-    var employeeId = req.params.id;
-    // Retrieve the employee data based on the employeeId
+// GET /clock for an employee
+router.get('/', utils.asyncHandler(async function (req, res) {
+    // Retrieve the employee data based on the currently signed-in employee
     try {
         // Fetch the employee details
-        var employee = await Employee.findById(employeeId);
+        const employeeId = req.session.employeeId; // Assuming the employee ID is stored in the session
+        const employee = await Employee.findById(employeeId);
         if (!employee) {
             // Employee not found
             return res.status(404).send('Employee not found');

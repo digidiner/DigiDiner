@@ -75,7 +75,7 @@
 						const data = await response.json();
 						console.log('Authentication successful:', data);
 						// Redirect to the authenticated user's profile page
-						window.location.href = `/profile/${data.id}`; // Append the employee ID to the URL
+						window.location.href = `/profile`; // Redirect to the /profile page without including the ID
 					} else {
 						const errorData = await response.json();
 						console.error('Authentication failed:', errorData.error);

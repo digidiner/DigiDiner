@@ -1,13 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var Employee = require('../models/employee')
-var dbConnection;
+const databaseController = require('../controllers/databaseController.js');
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   try {
-    if (!dbConnection) dbConnection = await require('../controllers/databaseController.js').getConnection();
-    await dbConnection.ping();
+    if (!databaseController.dbConnection) {
+      databaseController.dbConnection = await databaseController.getConnection();
+    }
+    await databaseController.dbConnection.ping();
     res.locals.dbStatus = 'Connected';
   } catch (err) {
     res.locals.dbStatus = 'Disconnected';
