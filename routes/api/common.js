@@ -93,7 +93,7 @@ router.get('/employee', requireSession, utils.asyncHandler(async function (req, 
 
 /* POST employee time clock in */
 router.post('/employee/:id/clockin', requireSession, utils.asyncHandler(async function (req, res) {
-    const employeeId = req.params.id;
+    const employeeId = req.employee.id;
     let period = await req.employee.timeClock.clockIn();
     if (period) {
         res.status(200).json({

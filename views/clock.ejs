@@ -146,12 +146,12 @@
         // Function to perform the clock out action
         async function clockOut() {
             try {
-                const response = await fetch(`/clock/<%= employee.id %>/clockout`, {
+                const response = await fetch(`/clock/${employeeId}/clockout`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ employeeId: '<%= employee.id %>' }),
+                    body: JSON.stringify({ employeeId }),
                 });
 
                 if (response.ok) {
