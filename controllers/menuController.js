@@ -1,12 +1,10 @@
 const databaseController = require('./databaseController');
 const MenuData = require('../models/menuData');
 const MenuOptionsData = require('../models/menuOptionData');
-const MenuItemOption = require('../models/menuItemOption');
 
 const dbConnPool = databaseController.getConnection();
 const menuData = new MenuData(dbConnPool);
 const menuOptions = new MenuOptionsData(dbConnPool);
-const menuItemOption = new MenuItemOption(dbConnPool)
 
 // CRUD operations for the menu
 async function getAllMenuItems(req, res) {
@@ -62,9 +60,9 @@ async function removeMenuItem(req, res) {
     const {id} = req.params;
     const removed = await menuData.removeMenuItem(id);
     if (removed) {
-        res.status(200).json({"message": "Updated menu item removed"});;
+        res.status(200).json({"message": "Updated menu item removed"});
     } else {
-        res.status(404).json({"message": "Updated menu item not found"});;
+        res.status(404).json({"message": "Updated menu item not found"});
     }
 }
 
@@ -131,47 +129,50 @@ async function removeMenuOption(req, res) {
     }
 }
 
-// CRUD operations for menu items and options JOIN
+// Associations between full_menu and full_menu_options
 
-async function addAssociation(req, res) {
-    const { itemId, optionId } = req.params;
-    const added = await menuItemOption.addAssociation(itemId, optionId);
-    if (added) {
-        res.status(200).json({"message": "The association has been added successfully"});
-    } else {
-        res.status(404).json({"message": "The association was not added"});
-    }
-}
+const addAssociation = async (req, res) => {
+    try {
+        const { menuItemId, optionId } = req.params;
 
-async function removeAssociation(req, res) {
-    const { itemId, optionId } = req.params;
-    const removed = await menuItemOption.removeAssociation(itemId, optionId);
-    if (removed) {
-        res.status(200).json({"message": "The association has been removed"});
-    } else {
-        res.status(404).json({"message": "The association was not found"});
-    }
-}
+        // Check if the menu item and option exist
+        const menuItemExists = await menuData.checkMenuItemExists(menuItemId);
+        const optionExists = await menuOptions.checkOptionExists(optionId);
 
-async function getOptionsForMenuItem(req, res) {
-    const { id } = req.params;
-    const options = await menuItemOption.getOptionsForMenuItem(id);
-    if (options) {
-        res.status(200).json(options);
-    } else {
-        res.status(404).json({"message": "No options found"});
-    }
-}
-async function getMenuItemsForOption(req, res, next) {
-    const { id } = req.params;
-    const menuItems = await menuItemOption.getMenuItemsForOption(id);
-    if (menuItems) {
-        res.status(200).json(menuItems);
-    } else {
-        res.status(404).json({"message": "Menu item not found"});
-    }
-}
+        if (!menuItemExists || !optionExists) {
+            return res.status(404).json({ message: 'Menu item or option not found' });
+        }
 
+        // Add the association
+        const query = 'INSERT INTO full_menu (menu_item_id, option_id) VALUES (?, ?)';
+        await db.query(query, [menuItemId, optionId]);
+
+        res.status(200).json({ message: 'Association added successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding association', error: error.message });
+    }
+};
+
+const removeAssociation = async (req, res) => {
+    try {
+        const { menuItemId, optionId } = req.params;
+
+        // Check if the menu item and option exist
+        const associationExists = await menuData.checkAssociationExists(menuItemId, optionId);
+
+        if (!associationExists) {
+            return res.status(404).json({ message: 'Association not found' });
+        }
+
+        // Remove the association
+        const query = 'DELETE FROM full_menu WHERE menu_item_id = ? AND option_id = ?';
+        await db.query(query, [menuItemId, optionId]);
+
+        res.status(200).json({ message: 'Association removed successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error removing association', error: error.message });
+    }
+};
 
 module.exports = {
     getAllMenuItems,
@@ -186,6 +187,4 @@ module.exports = {
     removeMenuOption,
     addAssociation,
     removeAssociation,
-    getOptionsForMenuItem,
-    getMenuItemsForOption,
 }

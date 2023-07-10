@@ -2,27 +2,30 @@ class menuOptionData {
     constructor(dbConnPool) {
         this.dbConnPool = dbConnPool;
     }
+
     static async connectDatabase(conn) {
         this.conn = conn;
         conn.query(`
-      CREATE TABLE IF NOT EXISTS menu_option (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        description TEXT NOT NULL,
-        type VARCHAR(50) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-      )`);
+            CREATE TABLE IF NOT EXISTS full_menu_options
+            (
+                id           INT(11)      NOT NULL AUTO_INCREMENT,
+                name         VARCHAR(255) NOT NULL,
+                description  TEXT,
+                choices      INT,
+                full_menu_id INT(11)      NOT NULL,
+                PRIMARY KEY (id),
+                FOREIGN KEY (full_menu_id) REFERENCES full_menu (id) ON DELETE CASCADE
+            )`);
     }
 
     async getAllMenuOption() {
         console.log("you are here");
-        return await menuOptionData.conn.query('SELECT * FROM menu_option');
+        return await menuOptionData.conn.query('SELECT * FROM full_menu_options');
     }
 
     // Get individual menu item
     async getMenuOption(id) {
-        const queryResult = await menuOptionData.conn.query('SELECT * FROM menu_option WHERE id = ?', [id]);
+        const queryResult = await menuOptionData.conn.query('SELECT * FROM full_menu_options WHERE id = ?', [id]);
         if (queryResult.length > 0) {
             return queryResult[0];
         } else {
@@ -31,11 +34,11 @@ class menuOptionData {
     }
 
     async addMenuOption(item) {
-        const { name, description, type } = item;
-        const queryResult = await menuOptionData.conn.query('INSERT INTO menu_option (name, description, type) ' +
-            'VALUES (?, ?, ?)', [name, description, type]);
+        const { name, description, choices } = item;
+        const queryResult = await menuOptionData.conn.query('INSERT INTO full_menu_options (name, description, choices) ' +
+            'VALUES (?, ?, ?)', [name, description, choices]);
         const insertedId = queryResult.insertId;
-        return {id: insertedId, name, description, type};
+        return {id: insertedId, name, description, choices};
     }
 
     async updateMenuOption(id, newData) {
@@ -52,12 +55,12 @@ class menuOptionData {
             queryParams.push(newData.description);
         }
 
-        if (newData.type !== undefined) {
-            updateFields.push('type = ?');
-            queryParams.push(newData.type);
+        if (newData.choices !== undefined) {
+            updateFields.push('choices = ?');
+            queryParams.push(newData.choices);
         }
 
-        const sql = `UPDATE menu_option SET ${updateFields.join(', ')} WHERE id = ?`;
+        const sql = `UPDATE full_menu_options SET ${updateFields.join(', ')} WHERE id = ?`;
         queryParams.push(id);
 
         const queryResult = await menuOptionData.conn.query(sql, queryParams);
@@ -65,14 +68,16 @@ class menuOptionData {
     }
 
     async removeMenuOption(id) {
-        const queryResult = await menuOptionData.conn.query('DELETE FROM menu_option WHERE id = ?', [id]);
+        const queryResult = await menuOptionData.conn.query('DELETE FROM full_menu_options WHERE id = ?', [id]);
         return queryResult.affectedRows > 0;
     }
 
-    async getMenuItemsForOption(optionId) {
-        const queryResult = await menuOptionData.conn.query('SELECT * FROM menu_option m JOIN menu_item_option mio ON m.id = mio.menu_item_id WHERE mio.option_id = ?', [optionId]);
-        return queryResult;
-    }
+    // Helper function to check if the option exists
+    const checkOptionExists = async (optionId) => {
+        const query = 'SELECT id FROM full_menu_options WHERE id = ?';
+        const [rows] = await menuOptionData.conn.query(query, [optionId]);
+        return rows.length > 0;
+    };
 }
 
 module.exports = menuOptionData;
