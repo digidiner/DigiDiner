@@ -57,7 +57,7 @@ class menuData {
         }
 
         if (newData.category !== undefined) {
-            updateFields.push('description = ?');
+            updateFields.push('category = ?');
             queryParams.push(newData.category);
         }
 
