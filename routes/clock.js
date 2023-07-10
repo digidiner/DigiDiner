@@ -7,10 +7,11 @@ const Employee = require('../models/employee');
 
 // GET /clock/:employeeId - Display the time clock for a specific employee
 router.get('/:id', utils.asyncHandler(async function (req, res) {
-    const employeeId = req.params.id;
+    var employeeId = req.params.id;
+    // Retrieve the employee data based on the employeeId
     try {
         // Fetch the employee details
-        const employee = await Employee.findById(employeeId);
+        var employee = await Employee.findById(employeeId);
         if (!employee) {
             // Employee not found
             return res.status(404).send('Employee not found');

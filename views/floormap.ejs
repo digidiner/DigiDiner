@@ -242,14 +242,28 @@
                 method: 'GET'
             })).json();
 
-            // Create a table cell element for each table
-            tables.forEach((table) => {
-                const tableCell = document.createElement('div');
-                tableCell.className = `col-md-4 table-cell table-${table.status}`;
-                tableCell.innerText = `Table ${table.id}`;
+            // Create rows and columns for the table grid
+            for (let i = 0; i < 3; i++) {
+                const row = document.createElement('div');
+                row.className = 'row';
 
-                tableGrid.appendChild(tableCell);
-            });
+                for (let j = 0; j < 3; j++) {
+                    const tableIndex = i * 3 + j;
+                    if (tableIndex >= tables.length) {
+                        break; // Stop creating columns if there are no more tables
+                    }
+
+                    const table = tables[tableIndex];
+
+                    const tableCell = document.createElement('div');
+                    tableCell.className = `col-md-4 table-cell table-${table.status}`;
+                    tableCell.innerText = `Table ${table.id}`;
+
+                    row.appendChild(tableCell);
+                }
+
+                tableGrid.appendChild(row);
+            }
         }
 
         // Call the populateTables function when the DOM is loaded
