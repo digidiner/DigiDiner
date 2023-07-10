@@ -27,14 +27,14 @@ async function getMenuItem(req, res) {
 }
 
 async function addMenuItem(req, res) {
-    const {name, price, description} = req.body;
+    const {name, price, description, category} = req.body;
     // Validate that name, price and description are present
-    if (!name || !price || !description) {
+    if (!name || !price || !description || !category) {
         return res.status(400).json({
             "message": 'Name, price, and description are required for adding a new menu item',
         });
     }
-    const newItem = {name, price, description};
+    const newItem = {name, price, description, category};
 
     const addItem = await menuData.addMenuItem(newItem);
 
