@@ -26,7 +26,7 @@
 
         .nav-link {
             color: white;
-            font-size: 18px;
+            font-size: 25px;
         }
     </style>
 </head>
@@ -36,8 +36,9 @@
         <header class="mb-auto text-center">
             <div>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="#">Profile</a>
-                    <a id="clockNavLink" class="nav-link fw-bold px-3" href="/clock">Clock</a>
+                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page"
+                        href="/profile/<%= employee.id %>">Profile</a>
+                    <a id="clockNavLink" class="nav-link fw-bold px-3" href="/clock/<%= employee.id %>">Clock</a>
                     <a id="queueNavLink" class="nav-link fw-bold px-3" href="/queue">Orders</a>
                     <a id="inventoryNavLink" class="nav-link fw-bold px-3" href="/inventory">Inventory</a>
                     <a id="floormapNavLink" class="nav-link fw-bold px-3" href="/floormap">Floor Map</a>
@@ -49,18 +50,23 @@
             <div class="col-8 col-sm-6 col-md-4 text-center my-3">
                 <img src="/images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
             </div>
+            <br><br>
             <h1 class="text-center mt-3 mb-3">Welcome, <span id="firstName"></span> <span id="lastName"></span></h1>
             <div class="text-center">
                 <p class="lead">User ID: <span id="employeeId"></span></p>
                 <p class="lead">Position: <span id="position"></span></p>
             </div>
             <p class="position-md-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"></span></p>
-            <p id="description" class="lead mt-4 mb-4">This is your personal employee portal. Here you can find all your
-                employee
-                information such as benefits, employment paperwork, statistics, paystubs, and the employee handbook.
+            <br>
+            <p id="description" class="lead mt-4 mb-4">This is your personal employee portal.
+                <br>
+                Here you can find all your employee information such as benefits, employment paperwork, statistics,
+                paystubs, and the employee handbook.
+                <br><br>
             </p>
             <div id="button-container" class="text-center">
                 <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Information Portal</a>
+                <br><br>
             </div>
         </main>
         <footer>
