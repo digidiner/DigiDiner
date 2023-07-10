@@ -7,27 +7,27 @@
                 </a>
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li>
-                        <a id="profileNavLink" href="/profile" class="nav-link text-secondary">
+                        <a href="/profile" class="nav-link text-secondary">
                             Home
                         </a>
                     </li>
                     <li>
-                        <a id="clockNavLink" href="/clock" class="nav-link text-white">
+                        <a href="/clock" class="nav-link text-white">
                             Clock
                         </a>
                     </li>
                     <li>
-                        <a id="queueNavLink" href="/queue" class="nav-link text-white">
+                        <a href="/queue" class="nav-link text-white">
                             Orders
                         </a>
                     </li>
                     <li>
-                        <a id="inventoryNavLink" href="/inventory" class="nav-link text-white">
-                            Inventory
+                        <a href="/menu" class="nav-link text-white">
+                            menu
                         </a>
                     </li>
                     <li>
-                        <a id="floormapNavLink" href="/floormap" class="nav-link text-white">
+                        <a href="/floormap" class="nav-link text-white">
                             Floor Map
                         </a>
                     </li>
@@ -35,39 +35,4 @@
             </div>
         </div>
     </div>
-    <script>
-        // Function to retrieve the signed-in employee information from the server
-        async function getSignedInEmployee() {
-            try {
-                const response = await fetch('/api/common/employee', {
-                    method: 'GET',
-                });
-
-                if (response.ok) {
-                    const employee = await response.json();
-                    return employee;
-                } else {
-                    console.error('Failed to retrieve signed-in employee:', response.status);
-                    return null;
-                }
-            } catch (error) {
-                console.error('Error retrieving signed-in employee:', error);
-                return null;
-            }
-        }
-
-        // Function to update the session nav links' hrefs with the employee ID
-        async function updateSessionNavLinks() {
-            const employee = await getSignedInEmployee();
-            if (employee) {
-                const profileNavLink = document.getElementById('profileNavLink');
-                profileNavLink.href = `/profile/${employeeId}`;
-                const clockNavLink = document.getElementById('clockNavLink');
-                clockNavLink.href = `/clock/${employeeId}`;
-            }
-        }
-
-        // Call the function to update the session nav links
-        updateSessionNavLinks();
-    </script>
 </header>

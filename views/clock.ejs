@@ -29,11 +29,11 @@
 
             <div class="text-center mt-4">
                 <% if (status==='Clocked In' ) { %>
-                    <form action="/clock/<%= employee.id %>/clockout" method="POST">
+                    <form action="/clock/clockout" method="POST">
                         <button class="btn btn-primary" type="submit">Clock Out</button>
                     </form>
                     <% } else { %>
-                        <form action="/clock/<%= employee.id %>/clockin" method="POST">
+                        <form action="/clock/clockin" method="POST">
                             <button class="btn btn-primary" type="submit">Clock In</button>
                         </form>
                         <% } %>
@@ -74,20 +74,29 @@
         </div>
     </main>
     <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Function to display the confirmation modal
-        function showConfirmationModal(event) {
+        // Start the timestamp output and punch record
+        let timestampInterval = setInterval(updateTimestamp, 1000);
+
+        function showConfirmationModal(action) {
             // Pause the timestamp output and punch record
             clearInterval(timestampInterval);
 
             // Get the clock in/out status
-            const status = event.target.id === 'clockInBtn' ? 'Clock In' : 'Clock Out';
+            const status = action === 'clockIn' ? 'Clock In' : 'Clock Out';
 
             // Show the confirmation modal
             $('#confirmationModalTitle').text(`Confirm ${status}`);
             $('#statusAction').text(status);
             $('#confirmationModal').modal('show');
+
+            // Call the clock in/out functions directly
+            if (action === 'clockIn') {
+                clockIn();
+            } else {
+                clockOut();
+            }
         }
 
         // Function to handle the confirmation
@@ -114,22 +123,15 @@
             timestampInterval = setInterval(updateTimestamp, 1000);
         }
 
-        // Function to update the timestamp every second
-        function updateTimestamp() {
-            const timestamp = new Date().toLocaleString();
-            $('#timestamp').text(timestamp);
-        }
-
         // Function to perform the clock in action
         async function clockIn() {
             try {
-                const employeeId = req.params.id; // Get the employee ID from the server-side template
-                const response = await fetch(`/clock/${employeeId}/clockin`, {
+                const response = await fetch('/clock/clockin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ employeeId }),
+                    body: JSON.stringify({}),
                 });
 
                 if (response.ok) {
@@ -146,12 +148,12 @@
         // Function to perform the clock out action
         async function clockOut() {
             try {
-                const response = await fetch(`/clock/${employeeId}/clockout`, {
+                const response = await fetch('/clock/clockout', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ employeeId }),
+                    body: JSON.stringify({}),
                 });
 
                 if (response.ok) {
@@ -168,9 +170,6 @@
         // Attach event listeners to the clock in/out buttons
         document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
         document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
-
-        // Start the timestamp output and punch record
-        let timestampInterval = setInterval(updateTimestamp, 1000);
     </script>
     <footer>
         <%- include('partials/footer') %>
