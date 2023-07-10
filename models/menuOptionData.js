@@ -34,11 +34,11 @@ class menuOptionData {
     }
 
     async addMenuOption(item) {
-        const { name, description, choices } = item;
-        const queryResult = await menuOptionData.conn.query('INSERT INTO full_menu_options (name, description, choices) ' +
-            'VALUES (?, ?, ?)', [name, description, choices]);
+        const { name, description, choices, full_menu_id } = item;
+        const queryResult = await menuOptionData.conn.query('INSERT INTO full_menu_options (name, description, choices, full_menu_id) ' +
+            'VALUES (?, ?, ?, ?)', [name, description, choices, full_menu_id]);
         const insertedId = queryResult.insertId;
-        return {id: insertedId, name, description, choices};
+        return {id: insertedId, name, description, choices, full_menu_id};
     }
 
     async updateMenuOption(id, newData) {
