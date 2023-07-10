@@ -5,6 +5,30 @@
     <meta charset="UTF-8">
     <title>DigiDiner</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        @media (max-width: 576px) {
+            body {
+                padding-top: 60px;
+            }
+
+            main {
+                padding-bottom: 20px;
+            }
+
+            p.description {
+                margin-bottom: 20px;
+            }
+
+            div.text-center {
+                margin-bottom: 20px;
+            }
+        }
+
+        .nav-link {
+            color: white;
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,17 +55,17 @@
                 <p class="lead">Position: <span id="position"></span></p>
             </div>
             <p class="position-md-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"></span></p>
-            <p class="lead mt-4 mb-4">This is your personal employee portal. Here you can find all your employee
+            <p class="lead mt-4 mb-4 description">This is your personal employee portal. Here you can find all your
+                employee
                 information such as benefits, employment paperwork, statistics, paystubs, and the employee handbook.
             </p>
             <div class="text-center">
                 <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Information Portal</a>
             </div>
         </main>
-    </div>
-    <footer>
-        <%- include('partials/footer') %>
-    </footer>
+        <footer>
+            <%- include('partials/footer') %>
+        </footer>
     </div>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
