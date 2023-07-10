@@ -7,7 +7,7 @@
                 </a>
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li>
-                        <a href="/profile" class="nav-link text-secondary">
+                        <a id="profileNavLink" href="/profile" class="nav-link text-secondary">
                             <svg class="bi bi-house-door" width="24" height="24">
                                 <use xlink:href="#house-door" />
                             </svg>
@@ -15,7 +15,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/clock" class="nav-link text-white">
+                        <a id="clockNavLink" href="/clock" class="nav-link text-white">
                             <svg class="bi bi-clock-history" width="24" height="24">
                                 <use xlink:href="#clock-history" />
                             </svg>
@@ -23,7 +23,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/queue" class="nav-link text-white">
+                        <a id="queueNavLink" href="/queue" class="nav-link text-white">
                             <svg class="bi bi-list-ul" width="24" height="24">
                                 <use xlink:href="#list-ul" />
                             </svg>
@@ -31,7 +31,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/inventory" class="nav-link text-white">
+                        <a id="inventoryNavLink" href="/inventory" class="nav-link text-white">
                             <svg class="bi bi-file-earmark-spreadsheet" width="24" height="24">
                                 <use xlink:href="#file-earmark-spreadsheet" />
                             </svg>
@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/floormap" class="nav-link text-white">
+                        <a id="floormapNavLink" href="/floormap" class="nav-link text-white">
                             <svg class="bi bi-map" width="24" height="24">
                                 <use xlink:href="#map" />
                             </svg>
@@ -50,4 +50,45 @@
             </div>
         </div>
     </div>
+    <script>
+        // Function to retrieve the signed-in employee information from the server
+        async function getSignedInEmployee() {
+            try {
+                const response = await fetch('/api/common/employee', {
+                    method: 'GET',
+                });
+
+                if (response.ok) {
+                    const employee = await response.json();
+                    return employee;
+                } else {
+                    console.error('Failed to retrieve signed-in employee:', response.status);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error retrieving signed-in employee:', error);
+                return null;
+            }
+        }
+
+        // Function to update the session nav links' hrefs with the employee ID
+        async function updateSessionNavLinks() {
+            const employee = await getSignedInEmployee();
+            if (employee) {
+                const profileNavLink = document.getElementById('profileNavLink');
+                profileNavLink.href = `/profile/${employeeId}`;
+                const clockNavLink = document.getElementById('clockNavLink');
+                clockNavLink.href = `/clock/${employeeId}`;
+                const queueNavLink = document.getElementById('queueNavLink');
+                queueNavLink.href = `/queue/${employeeId}`;
+                const inventoryNavLink = document.getElementById('inventoryNavLink');
+                inventoryNavLink.href = `/inventory/${employeeId}`;
+                const floormapNavLink = document.getElementById('floormapNavLink');
+                floormapNavLink.href = `/floormap/${employeeId}`;
+            }
+        }
+
+        // Call the function to update the session nav links
+        updateSessionNavLinks();
+    </script>
 </header>
