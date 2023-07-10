@@ -88,9 +88,9 @@ async function getMenuOption(req, res) {
 }
 
 async function addMenuOption(req, res) {
-    const {name, description, choices} = req.body;
+    const {name, description, choices, full_menu_id} = req.body;
     // Validate that name, price and description are present
-    if (!name || !description || ! choices ) {
+    if (!name || !description || ! choices || !full_menu_id) {
         return res.status(400).json({
             error: 'Validation Error',
             message: 'Name, description, and choices are required for adding a new menu option',
