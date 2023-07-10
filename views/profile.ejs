@@ -9,7 +9,7 @@
 
 <body>
     <div class="container-fluid cover-container d-flex w-100 h-100 p-3 mx-auto flex-column text-bg-dark">
-        <header class="mb-auto">
+        <header class="mb-auto text-center">
             <div>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
                     <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="#">Profile</a>
@@ -22,25 +22,26 @@
         </header>
 
         <main class="px-3 d-flex flex-column h-100 align-items-center">
-            <div class="col-md-8 col-lg-6 col-xl-4 text-center">
-                <img src="/images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3"
-                    style="width: 150px;">
+            <div class="col-8 col-sm-6 col-md-4 text-center my-3">
+                <img src="/images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
             </div>
-            <h1 class="text-center mt-3">Welcome, <span id="firstName"></span> <span id="lastName"></span></h1>
+            <h1 class="text-center mt-3 mb-3">Welcome, <span id="firstName"></span> <span id="lastName"></span></h1>
             <div class="text-center">
                 <p class="lead">User ID: <span id="employeeId"></span></p>
                 <p class="lead">Position: <span id="position"></span></p>
             </div>
             <p class="position-md-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"></span></p>
-            <p class="lead mt-4">This is your personal employee portal. Here you can find all your employee information
-                such as benefits, employment paperwork, statistics, paystubs, and the employee handbook. </p>
-            <p class="lead">
-                <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Information Portal</a>
+            <p class="lead mt-4 mb-4">This is your personal employee portal. Here you can find all your employee
+                information such as benefits, employment paperwork, statistics, paystubs, and the employee handbook.
             </p>
+            <div class="text-center">
+                <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Information Portal</a>
+            </div>
         </main>
-        <footer>
-            <%- include('partials/footer') %>
-        </footer>
+    </div>
+    <footer>
+        <%- include('partials/footer') %>
+    </footer>
     </div>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
