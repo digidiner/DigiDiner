@@ -63,6 +63,7 @@ class menuData {
 
         // Construct the SQL update statement
         const sql = `UPDATE full_menu SET ${updateFields.join(', ')} WHERE id = ?`;
+        console.log(sql);
 
         // Add the menu ID to the query parameters
         queryParams.push(id);
