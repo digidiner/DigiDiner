@@ -97,7 +97,7 @@ async function addMenuOption(req, res) {
         });
     }
 
-    const newItem = {name, description, choices};
+    const newItem = {name, description, choices, full_menu_id};
 
     const addItem = await menuOptions.addMenuOption(newItem);
 
