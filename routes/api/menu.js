@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const menuController = require('../../controllers/menuController');
+var menuItemOption = require('../models/menuItemOption');
+var menuOptionData = require('../models/menuOptionData');
+var menuData = require('../models/menuData');
 
 // Routes for menu options
 router.route('/menuOptions').get(menuController.getAllMenuOption);

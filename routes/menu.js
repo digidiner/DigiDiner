@@ -1,71 +1,22 @@
 var express = require('express');
 var router = express.Router();
+var menuController = require('../controllers/menuController');
+const menuData = require('../models/menuData');
+var itemOption = require('../models/menuItemOption');
+var optionData = require('../models/menuOptionData');
 
-/* const menuItems = [
-    {
-        name: 'Item 1',
-        price: 9.99,
-        modifications: [
-            { name: 'Modification 1', price: 1.99 },
-            { name: 'Modification 2', price: 2.99 }
-        ]
-    },
-    {
-        name: 'Item 2',
-        price: 12.99,
-        modifications: [
-            { name: 'Modification 3', price: 1.49 },
-            { name: 'Modification 4', price: 2.49 },
-            { name: 'Modification 5', price: 0.99 }
-        ]
-    },
-]; */
-// const dinnerItems = [
-//     {
-//         name: 'Item 1',
-//         price: 9.99,
-//         modifications: [
-//             { name: 'Modification 1', price: 1.99 },
-//             { name: 'Modification 2', price: 2.99 }
-//         ]
-//     },
-//     {
-//         name: 'Item 2',
-//         price: 12.99,
-//         modifications: [
-//             { name: 'Modification 3', price: 1.49 },
-//             { name: 'Modification 4', price: 2.49 },
-//             { name: 'Modification 5', price: 0.99 }
-//         ]
-//     },
-// ];
-// const drinkItems = [
-//     {
-//         name: 'Item 1',
-//         price: 9.99,
-//         modifications: [
-//             { name: 'Modification 1', price: 1.99 },
-//             { name: 'Modification 2', price: 2.99 }
-//         ]
-//     },
-//     {
-//         name: 'Item 2',
-//         price: 12.99,
-//         modifications: [
-//             { name: 'Modification 3', price: 1.49 },
-//             { name: 'Modification 4', price: 2.49 },
-//             { name: 'Modification 5', price: 0.99 }
-//         ]
-//     },
-// ];
+router.get('/', async (req, res) => {
+    try {
+        const menu = new menuData();
+        const menuItems = await menu.getAllMenuItems();
+        const menuOptions = await optionData.getAllMenuOption();
+        const menuAssociations = await itemOption.getOptionsForMenuItem(item.id);
 
-/* GET menu listing. */
-// router.get('/', function (req, res) {
-//     res.status(200).render('menu', { lunchItems, dinnerItems, drinkItems });
-// });
-
-router.get('/', function (req, res) {
-    res.status(200).render('menu');
+        res.status(200).render('menu', { menuItems, menuOptions, menuAssociations });
+    } catch (error) {
+        console.error('Error retrieving menu items:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 module.exports = router;
