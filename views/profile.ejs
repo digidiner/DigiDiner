@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column text-bg-dark">
+    <div class="container-fluid cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="mb-auto">
             <div>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
@@ -22,16 +22,15 @@
         </header>
 
         <main class="px-3 d-flex flex-column h-100 align-items-center">
-            <div class="col-md-4 text-center">
-                <img src="/images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3"
-                    style="width: 150px;">
+            <div class="col-md-8 col-lg-6 col-xl-4 text-center">
+                <img src="/images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
             </div>
             <h1 class="text-center mt-3">Welcome, <span id="firstName"></span> <span id="lastName"></span></h1>
             <div class="text-center">
                 <p class="lead">User ID: <span id="employeeId"></span></p>
                 <p class="lead">Position: <span id="position"></span></p>
             </div>
-            <p class="text-start position-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"></span></p>
+            <p class="position-md-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"></span></p>
             <p class="lead mt-4">This is your personal employee portal. Here you can find all your employee information
                 such as benefits, employment paperwork, statistics, paystubs, and the employee handbook. </p>
             <p class="lead">
