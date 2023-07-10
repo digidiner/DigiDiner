@@ -35,6 +35,7 @@ class menuOptionData {
 
     async addMenuOption(item) {
         const { name, description, choices, full_menu_id } = item;
+        console.log("full_men_id", full_menu_id);
         const queryResult = await menuOptionData.conn.query('INSERT INTO full_menu_options (name, description, choices, full_menu_id) ' +
             'VALUES (?, ?, ?, ?)', [name, description, choices, full_menu_id]);
         const insertedId = queryResult.insertId;
