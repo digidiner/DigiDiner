@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const menuItems = [
+/* const menuItems = [
     {
         name: 'Item 1',
         price: 9.99,
@@ -19,7 +19,7 @@ const menuItems = [
             { name: 'Modification 5', price: 0.99 }
         ]
     },
-];
+]; */
 // const dinnerItems = [
 //     {
 //         name: 'Item 1',

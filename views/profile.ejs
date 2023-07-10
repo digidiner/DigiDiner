@@ -12,7 +12,7 @@
         <header class="mb-auto">
             <div>
                 <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="/profile">Profile</a>
+                    <a id="profileNavLink" class="nav-link fw-bold px-3" aria-current="page" href="#">Profile</a>
                     <a id="clockNavLink" class="nav-link fw-bold px-3" href="/clock">Clock</a>
                     <a id="queueNavLink" class="nav-link fw-bold px-3" href="/queue">Orders</a>
                     <a id="inventoryNavLink" class="nav-link fw-bold px-3" href="/inventory">Inventory</a>
@@ -23,7 +23,7 @@
 
         <main class="px-3 d-flex flex-column h-100 align-items-center">
             <div class="col-md-4 text-center">
-                <img src="images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3"
+                <img src="/images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3"
                     style="width: 150px;">
             </div>
             <h1 class="text-center mt-3">Welcome, <span id="firstName"></span> <span id="lastName"></span></h1>
@@ -82,12 +82,6 @@
                 profileNavLink.href = `/profile/${employeeId}`;
                 const clockNavLink = document.getElementById('clockNavLink');
                 clockNavLink.href = `/clock/${employeeId}`;
-                const queueNavLink = document.getElementById('queueNavLink');
-                queueNavLink.href = `/queue/${employeeId}`;
-                const inventoryNavLink = document.getElementById('inventoryNavLink');
-                inventoryNavLink.href = `/inventory/${employeeId}`;
-                const floormapNavLink = document.getElementById('floormapNavLink');
-                floormapNavLink.href = `/floormap/${employeeId}`;
             }
         }
 

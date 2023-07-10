@@ -8,41 +8,26 @@
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li>
                         <a id="profileNavLink" href="/profile" class="nav-link text-secondary">
-                            <svg class="bi bi-house-door" width="24" height="24">
-                                <use xlink:href="#house-door" />
-                            </svg>
                             Home
                         </a>
                     </li>
                     <li>
                         <a id="clockNavLink" href="/clock" class="nav-link text-white">
-                            <svg class="bi bi-clock-history" width="24" height="24">
-                                <use xlink:href="#clock-history" />
-                            </svg>
                             Clock
                         </a>
                     </li>
                     <li>
                         <a id="queueNavLink" href="/queue" class="nav-link text-white">
-                            <svg class="bi bi-list-ul" width="24" height="24">
-                                <use xlink:href="#list-ul" />
-                            </svg>
                             Orders
                         </a>
                     </li>
                     <li>
                         <a id="inventoryNavLink" href="/inventory" class="nav-link text-white">
-                            <svg class="bi bi-file-earmark-spreadsheet" width="24" height="24">
-                                <use xlink:href="#file-earmark-spreadsheet" />
-                            </svg>
                             Inventory
                         </a>
                     </li>
                     <li>
                         <a id="floormapNavLink" href="/floormap" class="nav-link text-white">
-                            <svg class="bi bi-map" width="24" height="24">
-                                <use xlink:href="#map" />
-                            </svg>
                             Floor Map
                         </a>
                     </li>
@@ -79,12 +64,6 @@
                 profileNavLink.href = `/profile/${employeeId}`;
                 const clockNavLink = document.getElementById('clockNavLink');
                 clockNavLink.href = `/clock/${employeeId}`;
-                const queueNavLink = document.getElementById('queueNavLink');
-                queueNavLink.href = `/queue/${employeeId}`;
-                const inventoryNavLink = document.getElementById('inventoryNavLink');
-                inventoryNavLink.href = `/inventory/${employeeId}`;
-                const floormapNavLink = document.getElementById('floormapNavLink');
-                floormapNavLink.href = `/floormap/${employeeId}`;
             }
         }
 
