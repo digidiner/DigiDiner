@@ -115,21 +115,14 @@
 
             // Add the order item to the current order
             try {
-                console.log({
-                        itemId: index,
-                        options: selectedOptions,
-                        allergies: selectedAllergy,
-                        request: specialRequest
-                    });
-
                 const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {
                     method: 'POST',
-                    body: {
+                    body: JSON.stringify({
                         itemId: index,
                         options: selectedOptions,
                         allergies: selectedAllergy,
                         request: specialRequest
-                    }
+                    })
                 });
 
                 if (response.ok) {
