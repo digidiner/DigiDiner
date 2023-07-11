@@ -63,7 +63,14 @@
                 <h1 class="mt-4 mb-4 text-center">Main Dining Room</h1>
                 <div class="row justify-content-center">
                     <div class="col-md-8 center-content">
-                        <div class="table-grid" id="tableGrid"></div>
+                        <div class="table-grid" id="tableGrid">
+                            <% tables.forEach(table=> { %>
+                                <div class="col-md-4 table-cell table-<%= table.status %>"
+                                    data-table-id="<%= table.id %>" data-status="<%= table.status %>">
+                                    Table <%= table.id %>
+                                </div>
+                                <% }); %>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -127,6 +134,32 @@
                             </div>
                             <div class="modal-body">
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QR Code Modal -->
+                <div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog" aria-labelledby="qrCodeModalTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="qrCodeModalTitle">Scan QR Code for Table <span
+                                        id="qrCodeTableId"></span>
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="qr-code-container">
+                                    <!-- QR code image or placeholder -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary"
+                                    onclick="simulateQRCodeScan()">Skip</button>
                             </div>
                         </div>
                     </div>
@@ -222,8 +255,7 @@
     <script>
         async function getEmployeeData() {
             const employeeData = await (await fetch(window.location.origin + '/api/common/employee', {
-                method: 'GET',
-                credentials: 'same-origin', // Pass the session cookie along with the request
+                method: 'GET'
             })).json();
 
             return employeeData.position;
@@ -261,8 +293,11 @@
 
                     const tableCell = document.createElement('div');
                     tableCell.className = `col-md-4 table-cell table-${table.status}`;
+                    tableCell.dataset.tableId = table.id;
+                    tableCell.dataset.status = table.status;
                     tableCell.innerText = `Table ${table.id}`;
 
+                    tableCell.addEventListener('click', handleTableCellClick);
                     row.appendChild(tableCell);
                 }
 
@@ -273,6 +308,9 @@
         // Call the populateTables function when the DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             populateTables();
+
+            // Handle QR code modal actions
+            $('#qrCodeModal').on('shown.bs.modal', handleQRCodeModal);
 
             // Add an event listener to the update status buttons
             const updateStatusButtons = document.querySelectorAll('.table-cell .accordion-button');
@@ -379,6 +417,63 @@
                         console.error(error);
                     });
             }
+
+            // Handle click event on table cells
+            function handleTableCellClick(event) {
+                const tableId = event.target.dataset.tableId;
+                const status = event.target.dataset.status;
+
+                if (status === 'occupied') {
+                    $('#orderTableId').text(tableId);
+                    $('#orderModal').modal('show');
+                } else if (status === 'unoccupied') {
+                    // Show the QR code modal
+                    $('#qrCodeModal').modal('show');
+                } else if (status === 'dirty') {
+                    $('#finalBillTableId').text(tableId);
+                    $('#finalBillModal').modal('show');
+                }
+            }
+
+            // Handle QR code modal actions
+            function handleQRCodeModal() {
+                // Perform actions when the QR code modal is shown
+                // ...
+
+                // Simulate scanning the QR code
+                simulateQRCodeScan();
+            }
+
+            // Simulate QR code scan
+            function simulateQRCodeScan() {
+                // Perform actions when the QR code is scanned or skipped
+                // ...
+
+                // Redirect to the menu modal after a delay (simulated)
+                setTimeout(() => {
+                    $('#menuTableId').text(selectedTable);
+                    $('#menuModal').modal('show');
+                }, 2000); // Delay of 2 seconds (adjust as needed)
+            }
+
+            // Add click event listener to table cells
+            $('.table-cell').on('click', function () {
+                const tableId = $(this).data('table-id');
+                const status = $(this).data('status');
+                $('#selectedTable').text(tableId);
+                $('#selectedTableStatus').text(status);
+
+                if (status === 'occupied') {
+                    $('#orderTableId').text(tableId);
+                    $('#orderModal').modal('show');
+                } else if (status === 'unoccupied') {
+                    $('#qrCodeTableId').text(tableId);
+                    $('#qrCodeModal').modal('show');
+                } else if (status === 'dirty') {
+                    $('#finalBillTableId').text(tableId);
+                    $('#finalBillModal').modal('show');
+                }
+            });
         });
     </script>
 </body>
