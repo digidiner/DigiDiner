@@ -418,10 +418,8 @@
         function skipQR() {
             const tableId = $('#qrCodeTableId').text();
             // Redirect to the menu modal after a delay (simulated)
-            setTimeout(() => {
-                $('#menuTableId').text(tableId);
-                $('#menuModal').modal('show');
-            }, 2000); // Delay of 2 seconds (adjust as needed)
+            $('#menuTableId').text(tableId);
+            $('#menuModal').modal('show');
         }
 
 
