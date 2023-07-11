@@ -77,6 +77,73 @@
                     <button class="btn btn-primary" data-toggle="modal" data-target="#updateStatusModal">Update
                         Status</button>
                 </div>
+
+                <!-- Add the guest count and order modal -->
+                <div class="modal fade" id="guestCountModal" tabindex="-1" role="dialog"
+                    aria-labelledby="guestCountModalTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="guestCountModalTitle">Table <span
+                                        id="guestCountTableId"></span> - Guest
+                                    Count</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="guestCountInput">Number of Guests:</label>
+                                    <select class="form-control" id="guestCountInput">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="1">4</option>
+                                        <option value="2">5</option>
+                                        <option value="3">6</option>
+                                        <option value="1">7</option>
+                                        <option value="2">8</option>
+                                        <option value="3">9</option>
+                                        <option value="3">10</option>
+                                        <option value="3">11</option>
+                                        <option value="3">12</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="beginOrder()">Begin
+                                    Order</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QR Code Modal -->
+                <div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog" aria-labelledby="qrCodeModalTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="qrCodeModalTitle">Scan QR Code for Table <span
+                                        id="qrCodeTableId"></span>
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="qr-code-container">
+                                    <!-- QR code image or placeholder -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="skipQR()">Skip</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Order Modal -->
                 <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalTitle"
                     aria-hidden="true">
@@ -130,32 +197,6 @@
                             </div>
                             <div class="modal-body">
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- QR Code Modal -->
-                <div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog" aria-labelledby="qrCodeModalTitle"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="qrCodeModalTitle">Scan QR Code for Table <span
-                                        id="qrCodeTableId"></span>
-                                </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="qr-code-container">
-                                    <!-- QR code image or placeholder -->
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary"
-                                    onclick="simulateQRCodeScan()">Skip</button>
                             </div>
                         </div>
                     </div>
@@ -346,12 +387,71 @@
                 $('#orderTableId').text(tableId);
                 $('#orderModal').modal('show');
             } else if (status === 'unoccupied') {
-                // Show the QR code modal
-                $('#qrCodeModal').modal('show');
+                // Show the guest count modal
+                $('#guestCountTableId').text(tableId);
+                $('#guestCountModal').modal('show');
             } else if (status === 'dirty') {
                 $('#finalBillTableId').text(tableId);
                 $('#finalBillModal').modal('show');
             }
+        }
+
+        // Function to begin the order
+        function beginOrder() {
+            const tableId = $('#guestCountTableId').text();
+            const guestCount = $('#guestCountInput').val();
+
+            // Show the QR code modal
+            $('#qrCodeTableId').text(tableId);
+            $('#qrCodeModal').modal('show');
+
+            // Hide the guest count modal
+            $('#guestCountModal').modal('hide');
+        }
+
+        // Function to skip QR code scan
+        function skipQR() {
+            const tableId = $('#qrCodeTableId').text();
+            // Redirect to the menu modal after a delay (simulated)
+            setTimeout(() => {
+                $('#menuTableId').text(tableId);
+                $('#menuModal').modal('show');
+            }, 2000); // Delay of 2 seconds (adjust as needed)
+        }
+
+
+        // Function to create a new table
+        function createNewTable() {
+            const seats = document.getElementById('seatsInput').value;
+            const posX = document.getElementById('posXInput').value;
+            const posY = document.getElementById('posYInput').value;
+
+            fetch('/api/management/table', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ seats, posX, posY })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data as needed
+                    console.log(data);
+                    // Close the modal
+                    const modal = document.getElementById('newTableModal');
+                    const newTable = new bootstrap.Modal(modal);
+                    newTable.hide();
+                })
+                .catch(error => {
+                    // Handle the error appropriately
+                    console.error(error);
+                });
+        }
+
+        // Handle QR code modal actions
+        function handleQRCodeModal() {
+            // Perform actions when the QR code modal is shown
+            new QRCode(document.getElementById('qr-code-container'), window.location.origin + '/order');
         }
 
         // Call the populateTables function when the DOM is loaded
@@ -391,75 +491,6 @@
                 const status = $(this).data('status');
                 $('#selectedTable').text(tableId);
                 $('#selectedTableStatus').text(status);
-                if (status === 'occupied') {
-                    $('#orderTableId').text(tableId);
-                    $('#orderModal').modal('show');
-                } else if (status === 'unoccupied') {
-                    $('#menuTableId').text(tableId);
-                    $('#menuModal').modal('show');
-                } else if (status === 'dirty') {
-                    $('#finalBillTableId').text(tableId);
-                    $('#finalBillModal').modal('show');
-                }
-            });
-
-
-            // Function to create a new table
-            function createNewTable() {
-                const seats = document.getElementById('seatsInput').value;
-                const posX = document.getElementById('posXInput').value;
-                const posY = document.getElementById('posYInput').value;
-
-                fetch('/api/management/table', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ seats, posX, posY })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Handle the response data as needed
-                        console.log(data);
-                        // Close the modal
-                        const modal = document.getElementById('newTableModal');
-                        const newTable = new bootstrap.Modal(modal);
-                        newTable.hide();
-                    })
-                    .catch(error => {
-                        // Handle the error appropriately
-                        console.error(error);
-                    });
-            }
-
-
-
-            // Handle QR code modal actions
-            function handleQRCodeModal() {
-                // Perform actions when the QR code modal is shown
-                new QRCode(document.getElementById('qr-code-container'), window.location.origin + '/order');
-
-                // Simulate scanning the QR code
-                simulateQRCodeScan();
-            }
-
-            // Simulate QR code scan
-            function simulateQRCodeScan() {
-                // Perform actions when the QR code is scanned or skipped
-
-                // Redirect to the menu modal after a delay (simulated)
-                setTimeout(() => {
-                    $('#menuTableId').text(selectedTable);
-                    $('#menuModal').modal('show');
-                }, 2000); // Delay of 2 seconds (adjust as needed)
-            }
-
-            // Add click event listener to table cells
-            $('.table-cell').on('click', function () {
-                const tableId = $(this).data('table-id');
-                const status = $(this).data('status');
-                $('#selectedTable').text(tableId);
-                $('#selectedTableStatus').text(status);
 
                 if (status === 'occupied') {
                     $('#orderTableId').text(tableId);
@@ -471,6 +502,21 @@
                     $('#finalBillTableId').text(tableId);
                     $('#finalBillModal').modal('show');
                 }
+            });
+        });
+
+        // Add event listener to "Create New Table" button
+        document.getElementById('createTableButton').addEventListener('click', function () {
+            $('#newTableModal').modal('show');
+        });
+
+        // Add event listener to update status buttons
+        const updateStatusButtons = document.querySelectorAll('.table-cell .accordion-button');
+        updateStatusButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tableId = button.closest('.table-cell').dataset.tableId;
+                $('#selectedTable').text(tableId);
+                $('#updateStatusModal').modal('show');
             });
         });
     </script>
