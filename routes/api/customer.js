@@ -53,6 +53,7 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, 
     try {
         newItem = await req.order.addItem(req.body.itemId, req.body.count);
     } catch (err) {
+        console.log(err);
         res.status(400).json({
             'error': "Invalid Item ID"
         });
