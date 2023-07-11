@@ -50,7 +50,7 @@
                     </div>
                 <% }) %>
                 <div class="total-cost">
-                    Total Cost: $<%= order.sum((sum, item) => sum + item.count * item.price, 0) %>
+                    Total Cost: $<%= order.reduce((sum, item) => sum + item.count * item.price, 0) %>
                 </div>
             <% } else { %>
                 <p>No items in the order.</p>
