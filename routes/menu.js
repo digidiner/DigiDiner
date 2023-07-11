@@ -16,7 +16,8 @@ router.get('/', async (req, res) => {
         const menu = new menuData();
         const menuItems = await menu.getAllMenuItems();
         const menuOptions = await optionData.getAllMenuOption();
-        const menuAssociations = await itemOption.getOptionsForMenuItem(item.id);
+        const menuItemId = req.params.id;
+        const menuAssociations = await itemOption.getOptionsForMenuItem(menuItemId);
 
 
         res.status(200).render('menu', { menuItems, menuOptions, menuAssociations, menuController });
