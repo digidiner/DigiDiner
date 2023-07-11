@@ -112,7 +112,7 @@
 
     // Gets all menu items that anyone can do
     window.onload = () => {
-        fetch('/api/menu')
+        fetch('/menu')
             .then(response => response.json())
             .then(data => {
                 const menuItems = data;
