@@ -129,8 +129,10 @@ class Order {
     async addItem(itemId, count) {
         const existingItem = await this.getItemByItemId(itemId);
         if (existingItem != null) {
-            existingItem.count += count;
-            await existingItem.save();
+            if (count != null) {
+                existingItem.count += count;
+                await existingItem.save();
+            }
             return existingItem;
         }
         const result = await Order.conn.query(`INSERT INTO order_item (order_id, item_id, count) VALUES (?, ?, ?)`, [this.id, itemId, count ?? 1]);
