@@ -84,16 +84,16 @@ async function getMenuOption(req, res) {
 }
 
 async function addMenuOption(req, res) {
-    const {name, description, choices, full_menu_id} = req.body;
+    const {name, description, choices, menu_id} = req.body;
     // Validate that name, price and description are present
-    if (!name || !description || ! choices || !full_menu_id) {
+    if (!name || !description || ! choices || !menu_id) {
         return res.status(400).json({
             error: 'Validation Error',
             message: 'Name, description, and choices are required for adding a new menu option',
         });
     }
 
-    const newItem = {name, description, choices, full_menu_id};
+    const newItem = {name, description, choices, menu_id};
 
     const addItem = await MenuOptionsData.addMenuOption(newItem);
 
@@ -125,7 +125,7 @@ async function removeMenuOption(req, res) {
     }
 }
 
-// Associations between full_menu and full_menu_options
+// Associations between menu and menu_option
 
 const addAssociation = async (req, res) => {
     try {
@@ -140,7 +140,7 @@ const addAssociation = async (req, res) => {
         }
 
         // Add the association
-        const query = 'INSERT INTO full_menu (menu_item_id, option_id) VALUES (?, ?)';
+        const query = 'INSERT INTO menu (menu_item_id, option_id) VALUES (?, ?)';
         await db.query(query, [menuItemId, optionId]);
 
         res.status(200).json({ message: 'Association added successfully' });
@@ -161,7 +161,7 @@ const removeAssociation = async (req, res) => {
         }
 
         // Remove the association
-        const query = 'DELETE FROM full_menu WHERE menu_item_id = ? AND option_id = ?';
+        const query = 'DELETE FROM menu WHERE menu_item_id = ? AND option_id = ?';
         await db.query(query, [menuItemId, optionId]);
 
         res.status(200).json({ message: 'Association removed successfully' });
