@@ -126,15 +126,21 @@ class Order {
         return null;
     }
 
-    async addItem(itemId, count) {
+    async addItem(itemId, count, allergies, request) {
         const existingItem = await this.getItemByItemId(itemId);
         if (existingItem != null) {
             existingItem.count += count ?? 1;
+            if (allergies) {
+                existingItem.allergies = existingItem.allergies ? existingItem.allergies + "," + allergies : allergies;
+            }
+            if (allergies) {
+                existingItem.request = existingItem.request ? existingItem.request + "\n" + request : request;
+            }
             await existingItem.save();
             return existingItem;
         }
         const result = await Order.conn.query(`INSERT INTO order_item (order_id, item_id, count) VALUES (?, ?, ?)`, [this.id, itemId, count ?? 1]);
-        const newItem = new OrderItem(result.insertId, this, itemId, count);
+        const newItem = new OrderItem(result.insertId, this, itemId, count, allergies, request);
         await Promise.all((await Order.conn.query(`SELECT * FROM menu_item_option WHERE menu_item_id = '${itemId}'`)).map(async (record) => {
             await Order.conn.query(`INSERT INTO order_item_option (order_item_id, option_id) VALUES (?, ?)`, [newItem.id, record.option_id]);
         }));
