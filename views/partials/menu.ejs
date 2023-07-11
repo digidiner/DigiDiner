@@ -123,7 +123,7 @@
 
             // Add the order item to the current order
             try {
-                const response = await fetch(`/api/customer/order?orderId=${orderId}`, {
+                const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {
                     method: 'POST',
                     body: orderItem
                 });
@@ -133,7 +133,9 @@
                     alert('Item added to the order!');
                 } else {
                     alert('Failed to add item to the order!')
-                    console.error('Failed to add item to the order!', await response.json());
+                    let errorResponse = await response.json();
+                    errorResponse.status = response.status;
+                    console.error('Failed to add item to the order!', errorResponse);
                 }
             } catch (error) {
                 alert('Error adding item to the order!')
