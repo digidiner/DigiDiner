@@ -1,4 +1,4 @@
-<div class="container-fluid justify-content-lg-start">
+<div class="container-fluid justify-content-lg-start bg-dark text-white">
     <div class="row">
         <div class="col-12">
             <h1 id="menu">Menu</h1>
@@ -6,17 +6,17 @@
                 <% for (const [index, item] of menuItems.entries()) { %>
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading<%= index %>">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapse<%= index %>" aria-expanded="true"
                                 aria-controls="collapse<%= index %>">
                                 <%= item.name %>
-                                <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
+                                    <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
                             </button>
                         </h2>
                         <div id="collapse<%= index %>" class="accordion-collapse collapse"
                             aria-labelledby="heading<%= index %>" data-bs-parent="#menuAccordion">
                             <% if (item.options.length> 0) { %>
-                                <h5>Select Options:</h5>
+                                <h5 class="text-white">Select Options:</h5>
                                 <ul class="list-group">
                                     <% for (const option of item.options) { %>
                                         <li class="list-group-item">
@@ -25,69 +25,71 @@
                                                     value="<%= option.name %>" id="<%= option.id %>">
                                                 <label class="form-check-label" for="<%= option.id %>">
                                                     <%= option.name %>
-                                                    <% if (option.price) { %>
-                                                        <span class="badge bg-secondary">$<%=Number(option.price).toFixed(2) %></span>
-                                                    <% } %>
+                                                        <% if (option.price) { %>
+                                                            <span class="badge bg-secondary">$
+                                                                <%=Number(option.price).toFixed(2) %>
+                                                            </span>
+                                                            <% } %>
                                                 </label>
                                             </div>
                                         </li>
-                                    <% } %>
+                                        <% } %>
                                 </ul>
-                            <% } %>
-                            <div class="accordion" id="allergyAccordion<%= index %>">
-                                <h5>Select Allergy:</h5>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="allergyHeading<%= index %>">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#allergyCollapse<%= index %>" aria-expanded="true"
-                                            aria-controls="allergyCollapse<%= index %>">
-                                            Allergy
-                                        </button>
-                                    </h2>
-                                    <div id="allergyCollapse<%= index %>" class="accordion-collapse collapse"
-                                        aria-labelledby="allergyHeading<%= index %>"
-                                        data-bs-parent="#allergyAccordion<%= index %>">
-                                        <div class="accordion-body">
-                                            <select class="form-select" id="allergyDropdown<%= index %>">
-                                                <option value="Peanuts">Peanuts</option>
-                                                <option value="Gluten">Gluten</option>
-                                                <option value="Dairy">Dairy</option>
-                                                <option value="Shellfish">Shellfish</option>
-                                            </select>
+                                <% } %>
+                                    <div class="accordion" id="allergyAccordion<%= index %>">
+                                        <h5 class="text-white">Select Allergy:</h5>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="allergyHeading<%= index %>">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#allergyCollapse<%= index %>" aria-expanded="true"
+                                                    aria-controls="allergyCollapse<%= index %>">
+                                                    Allergy
+                                                </button>
+                                            </h2>
+                                            <div id="allergyCollapse<%= index %>" class="accordion-collapse collapse"
+                                                aria-labelledby="allergyHeading<%= index %>"
+                                                data-bs-parent="#allergyAccordion<%= index %>">
+                                                <div class="accordion-body">
+                                                    <select class="form-select" id="allergyDropdown<%= index %>">
+                                                        <option value="Peanuts">Peanuts</option>
+                                                        <option value="Gluten">Gluten</option>
+                                                        <option value="Dairy">Dairy</option>
+                                                        <option value="Shellfish">Shellfish</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="accordion" id="specialRequestAccordion<%= index %>">
-                                <h5>Special Request:</h5>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="specialRequestHeading<%= index %>">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#specialRequestCollapse<%= index %>"
-                                            aria-expanded="true"
-                                            aria-controls="specialRequestCollapse<%= index %>">
-                                            Special Request
-                                        </button>
-                                    </h2>
-                                    <div id="specialRequestCollapse<%= index %>"
-                                        class="accordion-collapse collapse"
-                                        aria-labelledby="specialRequestHeading<%= index %>"
-                                        data-bs-parent="#specialRequestAccordion<%= index %>">
-                                        <div class="accordion-body">
-                                            <textarea class="form-control" id="specialRequest<%= index %>"
-                                                rows="3"></textarea>
+                                    <div class="accordion" id="specialRequestAccordion<%= index %>">
+                                        <h5 class="text-white">Special Request:</h5>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="specialRequestHeading<%= index %>">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#specialRequestCollapse<%= index %>"
+                                                    aria-expanded="true"
+                                                    aria-controls="specialRequestCollapse<%= index %>">
+                                                    Special Request
+                                                </button>
+                                            </h2>
+                                            <div id="specialRequestCollapse<%= index %>"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="specialRequestHeading<%= index %>"
+                                                data-bs-parent="#specialRequestAccordion<%= index %>">
+                                                <div class="accordion-body">
+                                                    <textarea class="form-control" id="specialRequest<%= index %>"
+                                                        rows="3"></textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary mt-3" onclick="addToOrder('<%= index %>')">Add to Order</button>
+                                    <button class="btn btn-primary mt-3" onclick="addToOrder('<%= index %>')">Add to
+                                        Order</button>
                         </div>
                     </div>
-                <% } %>
+                    <% } %>
             </div>
         </div>
     </div>
-</div>
 </div>
 <script>
     function addToOrder(index) {
@@ -100,20 +102,38 @@
             selectedOptions.push(checkbox.value);
         });
 
-        // Get the selected allergy
-        var allergyDropdown = document.getElementById('allergyDropdown' + index);
-        var selectedAllergy = allergyDropdown.value;
+        // Get the selected allergy options
+        var selectedAllergies = [];
+        var allergyCheckboxes = document.querySelectorAll(
+            '#allergyCollapse' + index + ' input[type="checkbox"]:checked'
+        );
+        allergyCheckboxes.forEach(function (checkbox) {
+            selectedAllergies.push(checkbox.value);
+        });
 
         // Get the special request
         var specialRequestTextarea = document.getElementById('specialRequest' + index);
         var specialRequest = specialRequestTextarea.value;
 
+        // Get the quantity
+        var quantityInput = document.getElementById('quantity' + index);
+        var quantity = parseInt(quantityInput.value);
+
+        // Calculate the total cost
+        var totalCost = 0;
+        selectedOptions.forEach(function (option) {
+            totalCost += parseFloat(option.getAttribute('data-price'));
+        });
+        totalCost *= quantity;
+
         // Create an object with the selected item and its details
         var orderItem = {
             itemIndex: index,
             options: selectedOptions,
-            allergy: selectedAllergy,
-            specialRequest: specialRequest
+            allergies: selectedAllergies,
+            specialRequest: specialRequest,
+            quantity: quantity,
+            totalCost: totalCost
         };
 
         // Add the order item to the current order
@@ -122,6 +142,7 @@
         // Display a success message or perform any other actions
         alert('Item added to the order!');
     }
+
 
     function addToCurrentOrder(orderItem) {
         // Add logic to add order item to current order
@@ -164,7 +185,22 @@
             accordionButton.setAttribute('data-bs-target', '#collapse' + index);
             accordionButton.setAttribute('aria-expanded', 'true');
             accordionButton.setAttribute('aria-controls', 'collapse' + index);
-            accordionButton.innerHTML = item.name + '<span class="badge bg-primary">$' + Number(item.price).toFixed(2) + '</span>';
+
+            // Create a checkbox for the accordion header
+            const headerCheckbox = document.createElement('input');
+            headerCheckbox.classList.add('form-check-input');
+            headerCheckbox.setAttribute('type', 'checkbox');
+            headerCheckbox.setAttribute('id', 'checkbox' + index);
+
+            // Create a label for the checkbox
+            const headerLabel = document.createElement('label');
+            headerLabel.classList.add('form-check-label');
+            headerLabel.setAttribute('for', 'checkbox' + index);
+            headerLabel.innerHTML = item.name + '<span class="badge bg-primary">$' + Number(item.price).toFixed(2) + '</span>';
+
+            // Append the checkbox and label to the accordion button
+            accordionButton.appendChild(headerCheckbox);
+            accordionButton.appendChild(headerLabel);
 
             const accordionCollapse = document.createElement('div');
             accordionCollapse.id = 'collapse' + index;
@@ -174,6 +210,17 @@
 
             const accordionBody = document.createElement('div');
             accordionBody.classList.add('accordion-body');
+
+            // Create a quantity input for the accordion header
+            const headerQuantityInput = document.createElement('input');
+            headerQuantityInput.classList.add('form-control', 'quantity-input');
+            headerQuantityInput.setAttribute('type', 'number');
+            headerQuantityInput.setAttribute('id', 'quantity' + index);
+            headerQuantityInput.setAttribute('min', '1');
+            headerQuantityInput.setAttribute('value', '1');
+
+            // Append the quantity input to the accordion button
+            accordionButton.appendChild(headerQuantityInput);
 
             if (item.options.length > 0) {
                 const optionsList = document.createElement('ul');
@@ -190,6 +237,7 @@
                     checkbox.setAttribute('type', 'checkbox');
                     checkbox.setAttribute('value', option.name);
                     checkbox.setAttribute('id', option.id);
+                    checkbox.setAttribute('data-price', option.price);
 
                     const label = document.createElement('label');
                     label.classList.add('form-check-label');
@@ -245,44 +293,32 @@
             const allergyBody = document.createElement('div');
             allergyBody.classList.add('accordion-body');
 
-            const allergyDropdown = document.createElement('select');
-            allergyDropdown.classList.add('form-select');
-            allergyDropdown.setAttribute('id', 'allergyDropdown' + index);
+            const allergyCheckboxes = document.createElement('div');
+            allergyCheckboxes.classList.add('accordion-body');
+            const allergyOptions = ['Peanuts', 'Gluten', 'Dairy', 'Shellfish'];
 
-            const allergyNoneOption = document.createElement('option');
-            allergyNoneOption.setAttribute('value', '');
-            allergyNoneOption.innerHTML = 'None';
-            allergyDropdown.appendChild(allergyNoneOption);
+            allergyOptions.forEach(allergy => {
+                const allergyCheckbox = document.createElement('div');
+                allergyCheckbox.classList.add('form-check');
 
-            const allergyPeanutsOption = document.createElement('option');
-            allergyPeanutsOption.setAttribute('value', 'Peanuts');
-            allergyPeanutsOption.innerHTML = 'Peanuts';
-            allergyDropdown.appendChild(allergyPeanutsOption);
+                const checkboxInput = document.createElement('input');
+                checkboxInput.classList.add('form-check-input');
+                checkboxInput.setAttribute('type', 'checkbox');
+                checkboxInput.setAttribute('value', allergy);
+                checkboxInput.setAttribute('id', 'checkbox' + index + allergy);
 
-            const allergyGlutenOption = document.createElement('option');
-            allergyGlutenOption.setAttribute('value', 'Gluten');
-            allergyGlutenOption.innerHTML = 'Gluten';
-            allergyDropdown.appendChild(allergyGlutenOption);
+                const checkboxLabel = document.createElement('label');
+                checkboxLabel.classList.add('form-check-label');
+                checkboxLabel.setAttribute('for', 'checkbox' + index + allergy);
+                checkboxLabel.innerHTML = allergy;
 
-            const allergyDairyOption = document.createElement('option');
-            allergyDairyOption.setAttribute('value', 'Dairy');
-            allergyDairyOption.innerHTML = 'Dairy';
-            allergyDropdown.appendChild(allergyDairyOption);
+                allergyCheckbox.appendChild(checkboxInput);
+                allergyCheckbox.appendChild(checkboxLabel);
+                allergyCheckboxes.appendChild(allergyCheckbox);
+            });
 
-            const allergyShellfishOption = document.createElement('option');
-            allergyShellfishOption.setAttribute('value', 'Shellfish');
-            allergyShellfishOption.innerHTML = 'Shellfish';
-            allergyDropdown.appendChild(allergyShellfishOption);
-
-            allergyBody.appendChild(allergyDropdown);
-            allergyCollapse.appendChild(allergyBody);
-            allergyItem.appendChild(allergyHeader);
-            allergyItem.appendChild(allergyCollapse);
-            allergyAccordion.appendChild(allergyItem);
-
-            const specialRequestAccordion = document.createElement('div');
-            specialRequestAccordion.id = 'specialRequestAccordion' + index;
-            specialRequestAccordion.classList.add('accordion');
+            // Append the allergy checkboxes to the accordion body
+            allergyCollapse.appendChild(allergyCheckboxes);
 
             const specialRequestHeading = document.createElement('h5');
             specialRequestHeading.innerHTML = 'Special Request:';
