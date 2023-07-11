@@ -26,7 +26,7 @@
                                                 <label class="form-check-label" for="<%= option.id %>">
                                                     <%= option.name %>
                                                     <% if (option.price) { %>
-                                                        <span class="badge bg-secondary">$<%=Number(option.price).toFixed(2) %></span>
+                                                        <span class="badge bg-secondary">$<%= Number(option.price).toFixed(2) %></span>
                                                     <% } %>
                                                 </label>
                                             </div>
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <% if (typeof order !== 'undefined') { %>
-                                <button class="btn btn-primary mt-3" onclick="addToOrder('<%= index %>')">Add to Order</button>
+                                <button class="btn btn-primary mt-3" onclick="addToOrder(<%= index %>)">Add to Order</button>
                             <% } %>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
 </div>
 <% if (typeof order !== 'undefined') { %>
     <script>
-        var orderId = BigInt("<%= (typeof order !== 'undefined' ? order.id : -1) %>");
+        var orderId = <%= typeof order !== 'undefined' ? order.id : null %>
 
         async function addToOrder(index) {
             // Get the selected options
