@@ -8,11 +8,9 @@ var optionData = require('../models/menuOptionData');
 router.get('/', async (req, res) => {
     try {
         const menuItems = await menuData.getAllMenuItems();
-        const menuOptions = await optionData.getAllMenuOption();
-        const menuItemId = req.params.id;
-        const menuAssociations = await itemOption.getOptionsForMenuItem(menuItemId);
+        for (const menuItem of menuItems) menuItem.options = await itemOption.getOptionsForMenuItem(menuItem.id);
 
-        res.status(200).render('menu', { menuItems, menuOptions, menuAssociations });
+        res.status(200).render('menu', { menuItems, menuOptions });
     } catch (error) {
         console.error('Error retrieving menu items:', error);
         res.status(500).send('Internal Server Error');
