@@ -113,19 +113,16 @@
             var specialRequestTextarea = document.getElementById('specialRequest' + index);
             var specialRequest = specialRequestTextarea.value;
 
-            // Create an object with the selected item and its details
-            var orderItem = {
-                itemId: index,
-                options: selectedOptions,
-                allergies: selectedAllergy,
-                request: specialRequest
-            };
-
             // Add the order item to the current order
             try {
                 const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {
                     method: 'POST',
-                    body: orderItem
+                    body: {
+                        itemId: index,
+                        options: selectedOptions,
+                        allergies: selectedAllergy,
+                        request: specialRequest
+                    }
                 });
 
                 if (response.ok) {
