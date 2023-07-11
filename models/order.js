@@ -50,6 +50,8 @@ class Order {
                 order_id BIGINT UNSIGNED NOT NULL,
                 item_id INT NOT NULL,
                 count INT NOT NULL DEFAULT 1,
+                allergies VARCHAR(50) DEFAULT NULL
+                request VARCHAR(250) DEFAULT NULL
                 CONSTRAINT order_item_fk_order_id
                     FOREIGN KEY (order_id) REFERENCES \`order\` (id)
                     ON DELETE CASCADE
@@ -167,12 +169,16 @@ class OrderItem {
     order;
     itemId;
     count;
+    allergies;
+    request;
 
-    constructor(id, order, itemId, count) {
+    constructor(id, order, itemId, count, allergies, request) {
         this.id = id;
         this.order = order;
         this.itemId = itemId;
         this.count = count ?? 1;
+        this.allergies = allergies ?? null;
+        this.request = request ?? null;
     }
 
     async getItemOption(option) {
@@ -186,6 +192,8 @@ class OrderItem {
         if (record && this.id == record.id) {
             this.itemId = record.item_id;
             this.count = record.count;
+            this.allergies = record.allergies;
+            this.request = record.request;
             return true;
         }
         return false;
@@ -196,8 +204,10 @@ class OrderItem {
             this.order.id,
             this.itemId,
             this.count,
+            this.allergies,
+            this.request
         ]
-        await Order.conn.query(`INSERT INTO order_item (id, order_id, item_id, count) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE order_id=?, item_id=?, count=?`, [this.id, ...properties, ...properties]);
+        await Order.conn.query(`INSERT INTO order_item (id, order_id, item_id, count, allergies, request) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE order_id=?, item_id=?, count=?, allergies=?, request=?`, [this.id, ...properties, ...properties]);
     }
 }
 
