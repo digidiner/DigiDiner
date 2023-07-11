@@ -2,13 +2,9 @@ const databaseController = require('./databaseController');
 const MenuData = require('../models/menuData');
 const MenuOptionsData = require('../models/menuOptionData');
 
-const dbConnPool = databaseController.getConnection();
-const menuData = new MenuData(dbConnPool);
-const menuOptions = new MenuOptionsData(dbConnPool);
-
 // CRUD operations for the menu
 async function getAllMenuItems(req, res) {
-    const menuItems = await menuData.getAllMenuItems();
+    const menuItems = await MenuData.getAllMenuItems();
     if (menuItems) {
         res.status(200).json(menuItems);
     } else {
@@ -18,7 +14,7 @@ async function getAllMenuItems(req, res) {
 
 async function getMenuItem(req, res) {
     const {id} = req.params;
-    const menuItem = await menuData.getMenuItem(id);
+    const menuItem = await MenuData.getMenuItem(id);
     if (menuItem) {
         res.status(200).json(menuItem);
     } else {
@@ -36,7 +32,7 @@ async function addMenuItem(req, res) {
     }
     const newItem = {name, price, description, category};
 
-    const addItem = await menuData.addMenuItem(newItem);
+    const addItem = await MenuData.addMenuItem(newItem);
 
     if (addItem) {
         res.status(200).json({"message": "Added menu item"});
@@ -48,7 +44,7 @@ async function addMenuItem(req, res) {
 async function updateMenuItem(req, res) {
     const {id} = req.params;
     const newData = req.body;
-    const update = await menuData.updateMenu(id, newData);
+    const update = await MenuData.updateMenu(id, newData);
     if (update) {
         res.status(200).json({"message": "Updated menu item updated"});
     } else {
@@ -58,7 +54,7 @@ async function updateMenuItem(req, res) {
 
 async function removeMenuItem(req, res) {
     const {id} = req.params;
-    const removed = await menuData.removeMenuItem(id);
+    const removed = await MenuData.removeMenuItem(id);
     if (removed) {
         res.status(200).json({"message": "Updated menu item removed"});
     } else {
@@ -69,7 +65,7 @@ async function removeMenuItem(req, res) {
 // CRUD operations for menu options
 
 async function getAllMenuOption(req, res) {
-    const menuItems = await menuOptions.getAllMenuOption();
+    const menuItems = await MenuOptionsData.getAllMenuOption();
     if (menuItems) {
         res.status(200).json(menuItems);
     } else {
@@ -79,7 +75,7 @@ async function getAllMenuOption(req, res) {
 
 async function getMenuOption(req, res) {
     const { id } = req.params;
-    const menuOption = await menuOptions.getMenuOption(id);
+    const menuOption = await MenuOptionsData.getMenuOption(id);
     if (menuOption) {
         res.status(200).json(menuOption);
     } else {
@@ -99,7 +95,7 @@ async function addMenuOption(req, res) {
 
     const newItem = {name, description, choices, full_menu_id};
 
-    const addItem = await menuOptions.addMenuOption(newItem);
+    const addItem = await MenuOptionsData.addMenuOption(newItem);
 
     if (addItem) {
         res.status(200).json({"message": "Added menu option"});
@@ -111,7 +107,7 @@ async function addMenuOption(req, res) {
 async function updateMenuOption(req, res) {
     const {id} = req.params;
     const newData = req.body;
-    const update = await menuOptions.updateMenuOption(id, newData);
+    const update = await MenuOptionsData.updateMenuOption(id, newData);
     if (update) {
         res.status(200).json({"message": "Option updated"});
     } else {
@@ -121,7 +117,7 @@ async function updateMenuOption(req, res) {
 
 async function removeMenuOption(req, res) {
     const {id} = req.params;
-    const removed = await menuOptions.removeMenuOption(id);
+    const removed = await MenuOptionsData.removeMenuOption(id);
     if (removed) {
         res.status(200).json({"message": "Menu option removed"});
     } else {
@@ -136,8 +132,8 @@ const addAssociation = async (req, res) => {
         const { menuItemId, optionId } = req.params;
 
         // Check if the menu item and option exist
-        const menuItemExists = await menuData.checkMenuItemExists(menuItemId);
-        const optionExists = await menuOptions.checkOptionExists(optionId);
+        const menuItemExists = await MenuData.checkMenuItemExists(menuItemId);
+        const optionExists = await MenuOptionsData.checkOptionExists(optionId);
 
         if (!menuItemExists || !optionExists) {
             return res.status(404).json({ message: 'Menu item or option not found' });
@@ -158,7 +154,7 @@ const removeAssociation = async (req, res) => {
         const { menuItemId, optionId } = req.params;
 
         // Check if the menu item and option exist
-        const associationExists = await menuData.checkAssociationExists(menuItemId, optionId);
+        const associationExists = await MenuData.checkAssociationExists(menuItemId, optionId);
 
         if (!associationExists) {
             return res.status(404).json({ message: 'Association not found' });
