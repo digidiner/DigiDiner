@@ -1,21 +1,23 @@
 var express = require('express');
 var router = express.Router();
 
+const Order = require('../models/order');
+
 // Define a variable to store the order data
 var orderData = [
     {
         name: "Burger",
-        quantity: 2,
+        count: 2,
         price: 10.99
     },
     {
         name: "Pizza",
-        quantity: 1,
+        count: 1,
         price: 12.99
     },
     {
         name: "Salad",
-        quantity: 1,
+        count: 1,
         price: 8.99
     }
 ];

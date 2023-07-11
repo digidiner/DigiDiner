@@ -42,19 +42,19 @@
                             <%= item.name %>
                         </h4>
                         <ul class="item-info">
-                            <li>Quantity: <%= item.quantity %>
+                            <li>Count: <%= item.count %>
                             </li>
                             <li>Price: $<%= item.price %>
                             </li>
                         </ul>
                     </div>
-                    <% }) %>
-                        <div class="total-cost">
-                            Total Cost: $<%= calculateTotalCost(order) %>
-                        </div>
-                        <% } else { %>
-                            <p>No items in the order.</p>
-                            <% } %>
+                <% }) %>
+                <div class="total-cost">
+                    Total Cost: $<%= order.sum((sum, item) => sum + item.count * item.price, 0) %>
+                </div>
+            <% } else { %>
+                <p>No items in the order.</p>
+            <% } %>
         </div>
         <button class="btn btn-primary confirm-order-btn" onclick="confirmOrder()">Confirm Order</button>
     </div>
@@ -62,14 +62,6 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        function calculateTotalCost(order) {
-            var total = 0;
-            order.forEach(function (item) {
-                total += item.quantity * item.price;
-            });
-            return total.toFixed(2);
-        }
-
         function confirmOrder() {
             // Send the order data to the /data route to store it
             $.ajax({
