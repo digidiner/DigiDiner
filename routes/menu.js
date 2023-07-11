@@ -13,7 +13,7 @@ router.get('/', utils.asyncHandler(async function(req, res) {
     res.status(200).render('menu', { menuItems });
 }));
 
-router.get('/:id', utils.asyncHandler(async function(req, res) {
+router.get('/:id', utils.asyncHandler(async function(req, res, next) {
     const menuItems = await menuData.getAllMenuItems();
     const order = new Order(req.params.id);
     if (await order.load()) {

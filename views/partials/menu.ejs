@@ -95,7 +95,7 @@
     <script>
         var orderId = BigInt("<%= (typeof order !== 'undefined' ? order.id : -1) %>");
 
-        function addToOrder(index) {
+        async function addToOrder(index) {
             // Get the selected options
             var selectedOptions = [];
             var optionCheckboxes = document.querySelectorAll(
@@ -115,22 +115,30 @@
 
             // Create an object with the selected item and its details
             var orderItem = {
-                itemIndex: index,
+                itemId: index,
                 options: selectedOptions,
-                allergy: selectedAllergy,
-                specialRequest: specialRequest
+                allergies: selectedAllergy,
+                request: specialRequest
             };
 
             // Add the order item to the current order
-            addToCurrentOrder(orderItem);
+            try {
+                const response = await fetch(`/api/customer/order?orderId=${orderId}`, {
+                    method: 'POST',
+                    body: orderItem
+                });
 
-            // Display a success message or perform any other actions
-            alert('Item added to the order!');
-        }
-
-        function addToCurrentOrder(orderItem) {
-            // Add logic to add order item to current order
-            console.log(orderItem);
+                if (response.ok) {
+                    // Display a success message
+                    alert('Item added to the order!');
+                } else {
+                    alert('Failed to add item to the order!')
+                    console.error('Failed to add item to the order!', await response.json());
+                }
+            } catch (error) {
+                alert('Error adding item to the order!')
+                console.error('Error adding item to the order!', error);
+            }
         }
     </script>
 <% } %>
