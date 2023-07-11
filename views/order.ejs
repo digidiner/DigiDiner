@@ -35,26 +35,26 @@
     <div class="container">
         <h1>Restaurant order</h1>
         <div class="order">
-            <% if (order.length> 0) { %>
-                <% order.forEach(function(item) { %>
+            <% if (orderItems.length > 0) { %>
+                <% orderItems.forEach(function(item) { %>
                     <div class="order-item">
                         <h4>
-                            <%= item.name %>
+                            <%= menuItems[item.itemId].name %>
                         </h4>
                         <ul class="item-info">
-                            <li>Quantity: <%= item.quantity %>
+                            <li>Count: <%= item.count %>
                             </li>
-                            <li>Price: $<%= item.price %>
+                            <li>Price: $<%= menuItems[item.itemId].price %>
                             </li>
                         </ul>
                     </div>
-                    <% }) %>
-                        <div class="total-cost">
-                            Total Cost: $<%= calculateTotalCost(order) %>
-                        </div>
-                        <% } else { %>
-                            <p>No items in the order.</p>
-                            <% } %>
+                <% }) %>
+                <div class="total-cost">
+                    Total Cost: $<%= orderItems.reduce((sum, item) => sum + item.count * menuItems[item.itemId].price, 0) %>
+                </div>
+            <% } else { %>
+                <p>No items in the order.</p>
+            <% } %>
         </div>
         <button class="btn btn-primary confirm-order-btn" onclick="confirmOrder()">Confirm Order</button>
     </div>
@@ -62,20 +62,12 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        function calculateTotalCost(order) {
-            var total = 0;
-            order.forEach(function (item) {
-                total += item.quantity * item.price;
-            });
-            return total.toFixed(2);
-        }
-
         function confirmOrder() {
             // Send the order data to the /data route to store it
             $.ajax({
                 url: '/order/queue',
                 method: 'POST',
-                data: { order: JSON.stringify(order) },
+                data: { order: JSON.stringify(orderItems) },
                 success: function (response) {
                     // Redirect to the /bill page after successfully confirming the order
                     window.location.href = '/bill';
