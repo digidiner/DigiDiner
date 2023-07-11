@@ -113,7 +113,28 @@ class Order {
         return null;
     }
 
+    async getItemByItemId(itemId) {
+        const record = (await Order.conn.query(`SELECT * FROM order_item WHERE order_id = '${this.id}' AND item_id = '${itemId}'`))[0];
+        if (record) {
+            const item = new OrderItem(record.id, this);
+            item.itemId = record.item_id;
+            item.count = record.count;
+            item.allergies = record.allergies;
+            item.request = record.request;
+            return item;
+        }
+        return null;
+    }
+
     async addItem(itemId, count) {
+        const existingItem = await this.getItemByItemId(itemId);
+        if (existingItem != null) {
+            if (count != null) {
+                existingItem.count += count;
+                await existingItem.save();
+            }
+            return existingItem;
+        }
         const result = await Order.conn.query(`INSERT INTO order_item (order_id, item_id, count) VALUES (?, ?, ?)`, [this.id, itemId, count ?? 1]);
         const newItem = new OrderItem(result.insertId, this, itemId, count);
         await Promise.all((await Order.conn.query(`SELECT * FROM menu_item_option WHERE menu_item_id = '${itemId}'`)).map(async (record) => {

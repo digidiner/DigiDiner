@@ -29,6 +29,8 @@ if (process.env.NODE_ENV === 'development') {
   sessionOptions.cookie.secure = false; // Secure cookies only work on an HTTPS server
 }
 
+BigInt.prototype.toJSON = function() { return this.toString() } // Used for BigInt model IDs
+
 var app = express();
 
 async function main() {

@@ -49,7 +49,15 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, 
         });
         return;
     }
-    const newItem = await req.order.addItem(req.body.itemId, req.body.count);
+    let newItem;
+    try {
+        newItem = await req.order.addItem(req.body.itemId, req.body.count);
+    } catch (err) {
+        res.status(400).json({
+            'error': "Invalid Item ID"
+        });
+        return;
+    }
     let newItemOptions = [];
     if (req.body.options != null) {
         for (const optionKey in req.body.options) {
@@ -60,12 +68,12 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, 
             }
         }
     }
-    await Promise.all(optionSavePromises);
+    await Promise.all(newItemOptions.map(option => option.save()));
     res.status(201).json({
-        'id': item.id,
-        'itemId': item.itemId,
-        'count': item.count,
-        'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+        'id': newItem.id,
+        'itemId': newItem.itemId,
+        'count': newItem.count,
+        'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(newItem.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
     });
 }));
 
