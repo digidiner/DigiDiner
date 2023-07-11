@@ -48,6 +48,10 @@
             margin-right: 20px;
             /* Added margin-bottom between rows */
         }
+
+        .modal-content {
+            color: black;
+        }
     </style>
     <%- include('partials/session') %>
         <script src="/js/qrcode.js"></script>
@@ -283,10 +287,11 @@
 
             </div>
         </main>
-        <footer>
-            <%- include('partials/footer') %>
-        </footer>
     </div>
+    <footer>
+        <%- include('partials/footer') %>
+    </footer>
+
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script>
@@ -461,25 +466,27 @@
             // Handle QR code modal actions
             $('#qrCodeModal').on('shown.bs.modal', handleQRCodeModal);
 
-            // Add an event listener to the update status buttons
-            const updateStatusButtons = document.querySelectorAll('.table-cell .accordion-button');
+            // Add event listener to update status buttons
+            const updateStatusButtons = document.querySelectorAll('[data-target="#updateStatusModal"]');
             updateStatusButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    const tableElement = button.closest('.accordion-item');
-
-                    // Get the table number and modal element
-                    const tableNumber = tableElement.querySelector('.accordion-header button').textContent.trim();
+                    const tableId = button.closest('.table-cell').dataset.tableId;
+                    const tableNumber = button.textContent.trim();
                     const modal = document.getElementById('updateStatusModal');
 
                     // Set the table number in the modal
                     const modalTableNumber = modal.querySelector('.modal-title');
                     modalTableNumber.textContent = `Update Table Status: ${tableNumber}`;
 
+                    // Set the selected table
+                    document.getElementById('selectedTable').textContent = tableId;
+
                     // Show the modal
                     const statusModal = new bootstrap.Modal(modal);
                     statusModal.show();
                 });
             });
+
 
             // Add an event listener to the modal submit button
             const modalSubmitButton = document.getElementById('modalSubmitButton');
@@ -508,16 +515,6 @@
         // Add event listener to "Create New Table" button
         document.getElementById('createTableButton').addEventListener('click', function () {
             $('#newTableModal').modal('show');
-        });
-
-        // Add event listener to update status buttons
-        const updateStatusButtons = document.querySelectorAll('.table-cell .accordion-button');
-        updateStatusButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const tableId = button.closest('.table-cell').dataset.tableId;
-                $('#selectedTable').text(tableId);
-                $('#updateStatusModal').modal('show');
-            });
         });
     </script>
 </body>
