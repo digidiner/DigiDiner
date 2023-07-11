@@ -24,37 +24,6 @@ const requireOrder = utils.asyncHandler(async function(req, res, next) {
     next();
 });
 
-/* POST new order */
-router.post('/order', utils.asyncHandler(async function(req, res) {
-    if (req.body.tableId == null) {
-        res.status(400).json({
-            'error': "Missing Required Fields"
-        });
-        return;
-    }
-    if (await Order.getOrderForTable(req.body.tableId)) {
-        res.status(400).json({
-            'error': "Table Already Has Associated Order"
-        });
-        return;
-    }
-    const newOrder = new Order(Math.floor(Math.random() * 18446744073709551615), req.body.tableId);
-    await newOrder.save();
-    res.status(201).json({
-        'id': newOrder.id,
-        'tableId': newOrder.tableId,
-        'paymentId': newOrder.paymentId,
-        'status': newOrder.status,
-        'time': newOrder.time,
-        'items': await Promise.all((await newOrder.getItems()).map(async item => ({
-            'id': item.id,
-            'itemId': item.itemId,
-            'count': item.count,
-            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
-        })))
-    });
-}));
-
 /* GET order info */
 router.get('/order', requireOrder, utils.asyncHandler(async function(req, res) {
     res.status(200).json({
@@ -115,6 +84,31 @@ router.delete('/order/item', requireOrder, utils.asyncHandler(async function(req
             'error': "Order Item Does Not eXist"
         });
     }
+}));
+
+/* POST order submit */
+router.put('/order/status', requireOrder, utils.asyncHandler(async function(req, res) {
+    if (req.order.status != 'incomplete') {
+        res.status(400).json({
+            'error': "Order Already Submitted"
+        });
+        return;
+    }
+    req.order.status = 'submitted';
+    await req.order.save();
+    res.status(200).json({
+        'id': req.order.id,
+        'tableId': req.order.tableId,
+        'paymentId': req.order.paymentId,
+        'status': req.order.status,
+        'time': req.order.time,
+        'items': await Promise.all((await req.order.getItems()).map(async item => ({
+            'id': item.id,
+            'itemId': item.itemId,
+            'count': item.count,
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+        })))
+    });
 }));
 
 /* DELETE order */
