@@ -160,7 +160,7 @@ class Order {
     }
 
     async delete() {
-        return (await Order.conn.query(`DELETE FROM order WHERE id = '${this.id}'`)).affectedRows > 0;
+        return (await Order.conn.query(`DELETE FROM \`order\` WHERE id = '${this.id}'`)).affectedRows > 0;
     }
 }
 
