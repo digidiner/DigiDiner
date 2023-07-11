@@ -35,22 +35,22 @@
     <div class="container">
         <h1>Restaurant order</h1>
         <div class="order">
-            <% if (order.length> 0) { %>
-                <% order.forEach(function(item) { %>
+            <% if (orderItems.length > 0) { %>
+                <% orderItems.forEach(function(item) { %>
                     <div class="order-item">
                         <h4>
-                            <%= item.name %>
+                            <%= menuItems[item.itemId].name %>
                         </h4>
                         <ul class="item-info">
                             <li>Count: <%= item.count %>
                             </li>
-                            <li>Price: $<%= item.price %>
+                            <li>Price: $<%= menuItems[item.itemId].price %>
                             </li>
                         </ul>
                     </div>
                 <% }) %>
                 <div class="total-cost">
-                    Total Cost: $<%= order.reduce((sum, item) => sum + item.count * item.price, 0) %>
+                    Total Cost: $<%= orderItems.reduce((sum, item) => sum + item.count * menuItems[item.itemId].price, 0) %>
                 </div>
             <% } else { %>
                 <p>No items in the order.</p>
@@ -67,7 +67,7 @@
             $.ajax({
                 url: '/order/queue',
                 method: 'POST',
-                data: { order: JSON.stringify(order) },
+                data: { order: JSON.stringify(orderItems) },
                 success: function (response) {
                     // Redirect to the /bill page after successfully confirming the order
                     window.location.href = '/bill';
