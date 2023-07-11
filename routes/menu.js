@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         const menuOptions = await optionData.getAllMenuOption();
         const menuAssociations = await itemOption.getOptionsForMenuItem(item.id);
 
-        res.status(200).render('menu', { menuItems, menuOptions, menuAssociations, menuController });
+        res.status(200).render('menu', { menuItems, menuOptions, menuAssociations });
     } catch (error) {
         console.error('Error retrieving menu items:', error);
         res.status(500).send('Internal Server Error');
