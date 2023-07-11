@@ -6,15 +6,10 @@ var itemOption = require('../models/menuItemOption');
 var optionData = require('../models/menuOptionData');
 
 router.get('/', async (req, res) => {
-    try {
-        const menuItems = await menuData.getAllMenuItems();
-        for (const menuItem of menuItems) menuItem.options = await itemOption.getOptionsForMenuItem(menuItem.id);
+    const menuItems = await menuData.getAllMenuItems();
+    for (const menuItem of menuItems) menuItem.options = await itemOption.getOptionsForMenuItem(menuItem.id);
 
-        res.status(200).render('menu', { menuItems, menuOptions });
-    } catch (error) {
-        console.error('Error retrieving menu items:', error);
-        res.status(500).send('Internal Server Error');
-    }
+    res.status(200).render('menu', { menuItems, menuOptions });
 });
 
 module.exports = router;
