@@ -1,3 +1,5 @@
+var menuItemOption = require('../models/menuItemOption');
+
 class menuData {
     static async connectDatabase(conn) {
         this.conn = conn;
@@ -13,7 +15,9 @@ class menuData {
     }
     // Get all the menu items
     static async getAllMenuItems() {
-        return await menuData.conn.query('SELECT * FROM full_menu');
+        let menuItems = await menuData.conn.query('SELECT * FROM full_menu');
+        for (const menuItem of menuItems) menuItem.options = await menuItemOption.getOptionsForMenuItem(menuItem.id);
+        return menuItems;
     }
 
     // Get individual menu item
