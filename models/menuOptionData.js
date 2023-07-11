@@ -1,8 +1,4 @@
 class menuOptionData {
-    constructor(dbConnPool) {
-        this.dbConnPool = dbConnPool;
-    }
-
     static async connectDatabase(conn) {
         this.conn = conn;
         conn.query(`
@@ -18,13 +14,13 @@ class menuOptionData {
             )`);
     }
 
-    async getAllMenuOption() {
+    static async getAllMenuOption() {
         console.log("you are here");
         return await menuOptionData.conn.query('SELECT * FROM full_menu_options');
     }
 
     // Get individual menu item
-    async getMenuOption(id) {
+    static async getMenuOption(id) {
         const queryResult = await menuOptionData.conn.query('SELECT * FROM full_menu_options WHERE id = ?', [id]);
         if (queryResult.length > 0) {
             return queryResult[0];
@@ -33,7 +29,7 @@ class menuOptionData {
         }
     }
 
-    async addMenuOption(item) {
+    static async addMenuOption(item) {
         const { name, description, choices, full_menu_id } = item;
         console.log("full_men_id", full_menu_id);
         const queryResult = await menuOptionData.conn.query('INSERT INTO full_menu_options (name, description, choices, full_menu_id) ' +
@@ -42,7 +38,7 @@ class menuOptionData {
         return {id: insertedId, name, description, choices, full_menu_id};
     }
 
-    async updateMenuOption(id, newData) {
+    static async updateMenuOption(id, newData) {
         let updateFields = [];
         let queryParams = [];
 
@@ -68,13 +64,13 @@ class menuOptionData {
         return queryResult.affectedRows > 0;
     }
 
-    async removeMenuOption(id) {
+    static async removeMenuOption(id) {
         const queryResult = await menuOptionData.conn.query('DELETE FROM full_menu_options WHERE id = ?', [id]);
         return queryResult.affectedRows > 0;
     }
 
     // Helper function to check if the option exists
-    async checkOptionExists(optionId) {
+    static async checkOptionExists(optionId) {
         const query = 'SELECT id FROM full_menu_options WHERE id = ?';
         const [rows] = await menuOptionData.conn.query(query, [optionId]);
         return rows.length > 0;

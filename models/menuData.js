@@ -1,8 +1,4 @@
 class menuData {
-    constructor(dbConnPool) {
-        this.dbConnPool = dbConnPool;
-    }
-
     static async connectDatabase(conn) {
         this.conn = conn;
         await conn.query(`
@@ -16,12 +12,12 @@ class menuData {
             )`);
     }
     // Get all the menu items
-    async getAllMenuItems() {
+    static async getAllMenuItems() {
         return await menuData.conn.query('SELECT * FROM full_menu');
     }
 
     // Get individual menu item
-    async getMenuItem(id) {
+    static async getMenuItem(id) {
         const queryResult = await menuData.conn.query('SELECT * FROM full_menu WHERE id = ?', [id]);
         if (queryResult.length > 0) {
             return queryResult[0];
@@ -30,14 +26,14 @@ class menuData {
         }
     }
 
-    async addMenuItem(item) {
+    static async addMenuItem(item) {
         const { name, price, description, category } = item;
         const queryResult = await menuData.conn.query('INSERT INTO full_menu (name, price, description, category) VALUES (?, ?, ?, ?)', [name, price, description, category]);
         const insertedId = queryResult.insertId;
         return {id: insertedId, name: name, description: description, category: category};
     }
 
-    async updateMenu(id, newData) {
+    static async updateMenu(id, newData) {
         let updateFields = [];
         let queryParams = [];
 
@@ -72,19 +68,19 @@ class menuData {
         return queryResult.affectedRows > 0;
     }
 
-    async removeMenuItem(id) {
+    static async removeMenuItem(id) {
         const queryResult = await menuData.conn.query('DELETE FROM full_menu WHERE id = ?', [id]);
         return queryResult.affectedRows > 0;
     }
 
     // Helper function to check if the menu item exists
-    async checkMenuItemExists(menuItemId) {
+    static async checkMenuItemExists(menuItemId) {
         const query = 'SELECT id FROM full_menu WHERE id = ?';
         const [rows] = await menuData.conn.query(query, [menuItemId]);
         return rows.length > 0;
     }
     // Helper function to check if the association exists
-    async checkAssociationExists(menuItemId, optionId){
+    static async checkAssociationExists(menuItemId, optionId){
         const query = 'SELECT * FROM full_menu WHERE menu_item_id = ? AND option_id = ?';
         const [rows] = await menuData.conn.query(query, [menuItemId, optionId]);
         return rows.length > 0;
