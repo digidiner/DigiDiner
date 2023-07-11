@@ -50,8 +50,8 @@ class Order {
                 order_id BIGINT UNSIGNED NOT NULL,
                 item_id INT NOT NULL,
                 count INT NOT NULL DEFAULT 1,
-                allergies VARCHAR(50) DEFAULT NULL
-                request VARCHAR(250) DEFAULT NULL
+                allergies VARCHAR(50) DEFAULT NULL,
+                request VARCHAR(250) DEFAULT NULL,
                 CONSTRAINT order_item_fk_order_id
                     FOREIGN KEY (order_id) REFERENCES \`order\` (id)
                     ON DELETE CASCADE
