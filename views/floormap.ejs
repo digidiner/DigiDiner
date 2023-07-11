@@ -50,7 +50,7 @@
         }
     </style>
     <%- include('partials/session') %>
-    <script src="/js/qrcode.js"></script>
+        <script src="/js/qrcode.js"></script>
 </head>
 
 
@@ -301,6 +301,59 @@
             }
         }
 
+        // Function to save table status
+        function saveTableStatus() {
+            // Variables for checkbox options
+            const selectedTable = $('#selectedTable').text();
+            const statusDirty = $('#statusDirty').is(':checked');
+            const statusOccupied = $('#statusOccupied').is(':checked');
+            const statusUnoccupied = $('#statusUnoccupied').is(':checked');
+
+            // Check selection and set new status
+            let status = '';
+            if (statusDirty) {
+                status = 'dirty';
+            } else if (statusOccupied) {
+                status = 'occupied';
+            } else if (statusUnoccupied) {
+                status = 'unoccupied';
+            }
+
+            // Update the table status
+            $(`.table-cell[data-table-id="${selectedTable}"]`).data('status', status);
+            $(`.table-cell[data-table-id="${selectedTable}"]`).removeClass('table-occupied table-unoccupied table-dirty');
+
+            // Add the corresponding class based on the updated status
+            if (status === 'occupied') {
+                $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-occupied');
+            } else if (status === 'unoccupied') {
+                $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-unoccupied');
+            } else if (status === 'dirty') {
+                $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-dirty');
+            }
+
+            // Update the selected table status and close modal
+            $('#selectedTableStatus').text(status);
+            $('#updateStatusModal').modal('hide');
+        }
+
+        // Handle click event on table cells
+        function handleTableCellClick(event) {
+            const tableId = event.target.dataset.tableId;
+            const status = event.target.dataset.status;
+
+            if (status === 'occupied') {
+                $('#orderTableId').text(tableId);
+                $('#orderModal').modal('show');
+            } else if (status === 'unoccupied') {
+                // Show the QR code modal
+                $('#qrCodeModal').modal('show');
+            } else if (status === 'dirty') {
+                $('#finalBillTableId').text(tableId);
+                $('#finalBillModal').modal('show');
+            }
+        }
+
         // Call the populateTables function when the DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             populateTables();
@@ -350,41 +403,6 @@
                 }
             });
 
-            // Function to save table status
-            function saveTableStatus() {
-                // Variables for checkbox options
-                const selectedTable = $('#selectedTable').text();
-                const statusDirty = $('#statusDirty').is(':checked');
-                const statusOccupied = $('#statusOccupied').is(':checked');
-                const statusUnoccupied = $('#statusUnoccupied').is(':checked');
-
-                // Check selection and set new status
-                let status = '';
-                if (statusDirty) {
-                    status = 'dirty';
-                } else if (statusOccupied) {
-                    status = 'occupied';
-                } else if (statusUnoccupied) {
-                    status = 'unoccupied';
-                }
-
-                // Update the table status
-                $(`.table-cell[data-table-id="${selectedTable}"]`).data('status', status);
-                $(`.table-cell[data-table-id="${selectedTable}"]`).removeClass('table-occupied table-unoccupied table-dirty');
-
-                // Add the corresponding class based on the updated status
-                if (status === 'occupied') {
-                    $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-occupied');
-                } else if (status === 'unoccupied') {
-                    $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-unoccupied');
-                } else if (status === 'dirty') {
-                    $(`.table-cell[data-table-id="${selectedTable}"]`).addClass('table-dirty');
-                }
-
-                // Update the selected table status and close modal
-                $('#selectedTableStatus').text(status);
-                $('#updateStatusModal').modal('hide');
-            }
 
             // Function to create a new table
             function createNewTable() {
@@ -414,27 +432,11 @@
                     });
             }
 
-            // Handle click event on table cells
-            function handleTableCellClick(event) {
-                const tableId = event.target.dataset.tableId;
-                const status = event.target.dataset.status;
 
-                if (status === 'occupied') {
-                    $('#orderTableId').text(tableId);
-                    $('#orderModal').modal('show');
-                } else if (status === 'unoccupied') {
-                    // Show the QR code modal
-                    $('#qrCodeModal').modal('show');
-                } else if (status === 'dirty') {
-                    $('#finalBillTableId').text(tableId);
-                    $('#finalBillModal').modal('show');
-                }
-            }
 
             // Handle QR code modal actions
             function handleQRCodeModal() {
                 // Perform actions when the QR code modal is shown
-                // ...
                 new QRCode(document.getElementById('qr-code-container'), window.location.origin + '/order');
 
                 // Simulate scanning the QR code
@@ -444,7 +446,6 @@
             // Simulate QR code scan
             function simulateQRCodeScan() {
                 // Perform actions when the QR code is scanned or skipped
-                // ...
 
                 // Redirect to the menu modal after a delay (simulated)
                 setTimeout(() => {
