@@ -6,13 +6,18 @@ const Management = require('./api/management');
 const Employee = require('../models/employee')
 const Table = require('../models/table');
 
-router.get('/', utils.asyncHandler(async function (req, res) {
-    const employeeId = req.session.employeeId;
-    // Fetch the employee data (including position) based on the ID
-    const employee = await Employee.findById(employeeId);
+// Used to verify user is signed in
+function requireSession(req, res, next) {
+    if (!req.employee) {
+        res.redirect('/');
+        return;
+    }
+    next();
+}
 
+router.get('/', requireSession, utils.asyncHandler(async function (req, res) {
     res.render('floormap', {
-        employee: employee,
+        employee: req.employee,
         Waitstaff,
         Management,
         Table,

@@ -34,8 +34,17 @@ const orderQueue = [
     }
 ];
 
+// Used to verify user is signed in
+function requireSession(req, res, next) {
+    if (!req.employee) {
+        res.redirect('/');
+        return;
+    }
+    next();
+}
+
 // POST /clearItem endpoint
-router.post('/clearItem', (req, res) => {
+router.post('/clearItem', requireSession, (req, res) => {
     const { orderIndex, itemId } = req.body;
 
     // Check if the order index is valid
