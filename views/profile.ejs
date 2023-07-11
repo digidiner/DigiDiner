@@ -51,12 +51,12 @@
                 <img src="/images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
             </div>
             <br><br>
-            <h1 class="text-center mt-3 mb-3">Welcome, <span id="firstName"></span> <span id="lastName"></span></h1>
+            <h1 class="text-center mt-3 mb-3">Welcome, <span id="firstName"><%= employee.nameFirst %></span> <span id="lastName"><%= employee.nameLast %></span></h1>
             <div class="text-center">
-                <p class="lead">User ID: <span id="employeeId"></span></p>
-                <p class="lead">Position: <span id="position"></span></p>
+                <p class="lead">User ID: <span id="employeeId"><%= employee.id %></span></p>
+                <p class="lead">Position: <span id="position"><%= employee.position %></span></p>
             </div>
-            <p class="position-md-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"></span></p>
+            <p class="position-md-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"><%= employee.hireDate %></span></p>
             <br>
             <p id="description" class=" text-center lead mt-4 mb-4">This is your personal employee portal.
                 <br>
