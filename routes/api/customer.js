@@ -69,7 +69,7 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, 
         }
     }
     await Promise.all(newItemOptions.map(option => option.save()));
-    res.status(201).json({
+    res.status(newItem.count == req.body.count ?? 1 ? 201 : 200).json({
         'id': newItem.id,
         'itemId': newItem.itemId,
         'count': newItem.count,
