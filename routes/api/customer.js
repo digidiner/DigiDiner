@@ -49,7 +49,14 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, 
         });
         return;
     }
-    const newItem = await req.order.addItem(req.body.itemId, req.body.count);
+    try {
+        const newItem = await req.order.addItem(req.body.itemId, req.body.count);
+    } catch (err) {
+        res.status(400).json({
+            'error': "Invalid Item ID"
+        });
+        return;
+    }
     let newItemOptions = [];
     if (req.body.options != null) {
         for (const optionKey in req.body.options) {
