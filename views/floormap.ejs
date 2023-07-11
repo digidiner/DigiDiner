@@ -50,6 +50,7 @@
         }
     </style>
     <%- include('partials/session') %>
+    <script src="/js/qrcode.js"></script>
 </head>
 
 
@@ -434,6 +435,7 @@
             function handleQRCodeModal() {
                 // Perform actions when the QR code modal is shown
                 // ...
+                new QRCode(document.getElementById('qr-code-container'), window.location.origin + '/order');
 
                 // Simulate scanning the QR code
                 simulateQRCodeScan();
