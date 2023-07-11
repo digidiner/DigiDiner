@@ -10,7 +10,7 @@
                                 data-bs-target="#collapse<%= index %>" aria-expanded="true"
                                 aria-controls="collapse<%= index %>">
                                 <%= item.name %>
-                                    <span class="badge bg-primary">$<%= item.price.toFixed(2) %></span>
+                                    <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
                             </button>
                         </h2>
                         <div id="collapse<%= index %>" class="accordion-collapse collapse"
@@ -27,7 +27,7 @@
                                                     <%= option.name %>
                                                         <% if (option.price) { %>
                                                             <span class="badge bg-secondary">$<%=
-                                                                    option.price.toFixed(2) %></span>
+                                                                    Number(option.price).toFixed(2) %></span>
                                                             <% } %>
                                                 </label>
                                             </div>
