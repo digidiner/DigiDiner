@@ -165,7 +165,7 @@
             accordionButton.setAttribute('data-bs-target', '#collapse' + index);
             accordionButton.setAttribute('aria-expanded', 'true');
             accordionButton.setAttribute('aria-controls', 'collapse' + index);
-            accordionButton.innerHTML = item.name + '<span class="badge bg-primary">$' + item.price.toFixed(2) + '</span>';
+            accordionButton.innerHTML = item.name + '<span class="badge bg-primary">$' + Number(item.price).toFixed(2) + '</span>';
 
             const accordionCollapse = document.createElement('div');
             accordionCollapse.id = 'collapse' + index;
@@ -200,7 +200,7 @@
                     if (option.price) {
                         const priceBadge = document.createElement('span');
                         priceBadge.classList.add('badge', 'bg-secondary');
-                        priceBadge.innerHTML = '$' + option.price.toFixed(2);
+                        priceBadge.innerHTML = '$' + Number(option.price).toFixed(2);
 
                         label.appendChild(priceBadge);
                     }
