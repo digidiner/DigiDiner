@@ -207,13 +207,13 @@
                 alert('Item added to the order!');
             } else {
                 let errorResponse = await response.json();
-                alert('Failed to add item to the order!\n' + errorResponse.error);
                 errorResponse.status = response.status;
                 console.error('Failed to add item to the order!', errorResponse);
+                alert('Failed to add item to the order!\n' + errorResponse.error);
             }
         } catch (error) {
-            alert('Error adding item to the order!');
             console.error('Error adding item to the order!', error);
+            alert('Error adding item to the order!');
         }
     }
 
@@ -235,13 +235,13 @@
                 window.location.href = '/bill/' + orderId;
             } else {
                 let errorResponse = await response.json();
-                alert('Failed to submit order!\n' + errorResponse.error)
                 errorResponse.status = response.status;
                 console.error('Failed to submit order!', errorResponse);
+                alert('Failed to submit order!\n' + errorResponse.error)
             }
         } catch (error) {
-            alert('Error submitting order!');
             console.error('Error submitting order!', error);
+            alert('Error submitting order!');
         }
     }
 </script>
