@@ -10,7 +10,7 @@
                                 data-bs-target="#collapse<%= index %>" aria-expanded="true"
                                 aria-controls="collapse<%= index %>">
                                 <%= item.name %>
-                                    <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
+                                <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
                             </button>
                         </h2>
                         <div id="collapse<%= index %>" class="accordion-collapse collapse"
@@ -27,75 +27,74 @@
                                                     <%= option.name %>
                                                         <% if (option.price) { %>
                                                             <span class="badge bg-secondary">$
-                                                                <%=Number(option.price).toFixed(2) %>
+                                                                <%= Number(option.price).toFixed(2) %>
                                                             </span>
                                                             <% } %>
                                                 </label>
                                             </div>
                                         </li>
-                                        <% } %>
+                                    <% } %>
                                 </ul>
-                                <% } %>
-                                    <div class="accordion" id="allergyAccordion<%= index %>">
-                                        <h5>Select Allergy:</h5>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="allergyHeading<%= index %>">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#allergyCollapse<%= index %>" aria-expanded="true"
-                                                    aria-controls="allergyCollapse<%= index %>">
-                                                    Allergy
-                                                </button>
-                                            </h2>
-                                            <div id="allergyCollapse<%= index %>" class="accordion-collapse collapse"
-                                                aria-labelledby="allergyHeading<%= index %>"
-                                                data-bs-parent="#allergyAccordion<%= index %>">
-                                                <div class="accordion-body">
-                                                    <select class="form-select" id="allergyDropdown<%= index %>">
-                                                        <option value="Peanuts">Peanuts</option>
-                                                        <option value="Gluten">Gluten</option>
-                                                        <option value="Dairy">Dairy</option>
-                                                        <option value="Shellfish">Shellfish</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                            <% } %>
+                            <div class="accordion" id="allergyAccordion<%= index %>">
+                                <h5>Select Allergy:</h5>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="allergyHeading<%= index %>">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#allergyCollapse<%= index %>" aria-expanded="true"
+                                            aria-controls="allergyCollapse<%= index %>">
+                                            Allergy
+                                        </button>
+                                    </h2>
+                                    <div id="allergyCollapse<%= index %>" class="accordion-collapse collapse"
+                                        aria-labelledby="allergyHeading<%= index %>"
+                                        data-bs-parent="#allergyAccordion<%= index %>">
+                                        <div class="accordion-body">
+                                            <select class="form-select" id="allergyDropdown<%= index %>">
+                                                <option value="Peanuts">Peanuts</option>
+                                                <option value="Gluten">Gluten</option>
+                                                <option value="Dairy">Dairy</option>
+                                                <option value="Shellfish">Shellfish</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="accordion" id="specialRequestAccordion<%= index %>">
-                                        <h5>Special Request:</h5>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="specialRequestHeading<%= index %>">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#specialRequestCollapse<%= index %>"
-                                                    aria-expanded="true"
-                                                    aria-controls="specialRequestCollapse<%= index %>">
-                                                    Special Request
-                                                </button>
-                                            </h2>
-                                            <div id="specialRequestCollapse<%= index %>"
-                                                class="accordion-collapse collapse"
-                                                aria-labelledby="specialRequestHeading<%= index %>"
-                                                data-bs-parent="#specialRequestAccordion<%= index %>">
-                                                <div class="accordion-body">
-                                                    <textarea class="form-control" id="specialRequest<%= index %>"
-                                                        rows="3"></textarea>
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                            <div class="accordion" id="specialRequestAccordion<%= index %>">
+                                <h5>Special Request:</h5>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="specialRequestHeading<%= index %>">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#specialRequestCollapse<%= index %>"
+                                            aria-expanded="true"
+                                            aria-controls="specialRequestCollapse<%= index %>">
+                                            Special Request
+                                        </button>
+                                    </h2>
+                                    <div id="specialRequestCollapse<%= index %>"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="specialRequestHeading<%= index %>"
+                                        data-bs-parent="#specialRequestAccordion<%= index %>">
+                                        <div class="accordion-body">
+                                            <textarea class="form-control" id="specialRequest<%= index %>"
+                                                rows="3"></textarea>
                                         </div>
                                     </div>
-                                    <% if (typeof order !=='undefined' ) { %>
-                                        <button class="btn btn-primary mt-3" onclick="addToOrder('<%= index %>')">Add to
-                                            Order</button>
-                                        <% } %>
+                                </div>
+                            </div>
+                            <% if (typeof order !=='undefined' ) { %>
+                                <button class="btn btn-primary mt-3" onclick="addToOrder(<%= index %>)">Add to Order</button>
+                            <% } %>
                         </div>
                     </div>
-                    <% } %>
+                <% } %>
             </div>
         </div>
     </div>
 </div>
 <% if (typeof order !=='undefined' ) { %>
     <script>
-        var orderId = BigInt("<%= (typeof order !== 'undefined' ? order.id : -1) %>");
+        var orderId = <%= (typeof order !== 'undefined' ? order.id : -1) %>;
         async function addToOrder(index) {
             // Get the selected options
             var selectedOptions = [];
@@ -136,11 +135,10 @@
                     method: 'POST',
                     body: JSON.stringify({
                         itemId: index,
+                        count: quantity,
                         options: selectedOptions,
                         allergies: selectedAllergy,
-                        request: specialRequest,
-                        quantity: quantity,
-                        totalCost: totalCost
+                        request: specialRequest
                     })
                 });
 
@@ -160,7 +158,7 @@
 
         }
     </script>
-    <% } %>
+<% } %>
         <script>
 
             /*
