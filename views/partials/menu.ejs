@@ -157,8 +157,7 @@
     <% } %>
 
     function updateIframe() {
-        iframe.attr('src', '/order/' + orderId);
-        iframe.contentWindow.location.reload();
+        iframe.src = '/order/' + orderId;
     }
 
     async function addToOrder(index, itemId) {
