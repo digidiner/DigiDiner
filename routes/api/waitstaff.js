@@ -39,6 +39,10 @@ router.post('/order', requireSession, utils.asyncHandler(async function(req, res
     }
     const newOrder = new Order(Math.floor(Math.random() * 18446744073709551615), req.body.tableId);
     await newOrder.save();
+    const table = new Table(req.body.tableId);
+    await table.load();
+    table.status = 'occupied';
+    await table.save();
     res.status(201).json({
         'id': newOrder.id,
         'tableId': newOrder.tableId,
