@@ -127,7 +127,7 @@
         // Function to perform the clock in action
         async function clockIn() {
             try {
-                const response = await fetch('/clock/clockin', {
+                const response = await fetch('/api/employee/clockin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
