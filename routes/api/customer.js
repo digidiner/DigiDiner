@@ -95,7 +95,7 @@ router.delete('/order/item', requireOrder, utils.asyncHandler(async function(req
 }));
 
 /* POST order submit */
-router.put('/order/status', requireOrder, utils.asyncHandler(async function(req, res) {
+router.post('/order/submit', requireOrder, utils.asyncHandler(async function(req, res) {
     if (req.order.status != 'incomplete') {
         res.status(400).json({
             'error': "Order Already Submitted"
