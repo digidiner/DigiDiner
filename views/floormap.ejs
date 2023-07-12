@@ -416,6 +416,18 @@
                 if (response.ok) {
                     var data = await response.json();
                     var orderId = data.id;
+                    // Update the table status to 'occupied'
+                    $(`.table-cell[data-table-id="${tableId}"]`).data('status', 'occupied');
+                    $(`.table-cell[data-table-id="${tableId}"]`).removeClass('table-unoccupied');
+                    $(`.table-cell[data-table-id="${tableId}"]`).addClass('table-occupied');
+
+                    // Show the QR code modal
+                    $('#qrCodeTableId').text(tableId);
+                    $('#qrCodeModal').modal('show');
+
+                    // Hide the guest count modal
+                    $('#guestCountModal').modal('hide');
+
                 } else {
                     alert('Failed to begin the order!')
                     let errorResponse = await response.json();
@@ -426,18 +438,6 @@
                 alert('Error starting order!')
                 console.error('Error starting order!', error);
             }
-
-            // Update the table status to 'occupied'
-            $(`.table-cell[data-table-id="${tableId}"]`).data('status', 'occupied');
-            $(`.table-cell[data-table-id="${tableId}"]`).removeClass('table-unoccupied');
-            $(`.table-cell[data-table-id="${tableId}"]`).addClass('table-occupied');
-
-            // Show the QR code modal
-            $('#qrCodeTableId').text(tableId);
-            $('#qrCodeModal').modal('show');
-
-            // Hide the guest count modal
-            $('#guestCountModal').modal('hide');
         }
 
         // Function to skip QR code scan
