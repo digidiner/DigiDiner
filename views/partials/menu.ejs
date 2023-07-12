@@ -118,8 +118,9 @@
                                                         </div>
                                                     </div>
                                                     <button class="btn btn-primary mt-3"
-                                                        onclick="addToOrder(<%= itemIndex %>, '<%= item.id %>')">Add to
-                                                        Order</button>
+                                                        onclick="addToOrder(<%= itemIndex %>, '<%= item.id %>'); updateIframe()">Add
+                                                        to Order</button>
+
                                         </div>
                                     </div>
                                     <% if (index < menuHeaders.length - 1) { %>
@@ -161,6 +162,9 @@
             </ul>
         </div>
     </div>
+    <br>
+    <hr class="section-divider">
+    <iframe id="order-iframe" src="../order.ejs"></iframe>
 </div>
 
 
@@ -171,10 +175,9 @@
         orderId = <%= order.id %>;
     <% } %>
 
-        // Function to toggle the accordion content
-        function toggleAccordionContent(id) {
-            const content = document.getElementById(id);
-            content.classList.toggle('show');
+        function updateIframe() {
+            const iframe = document.getElementById('order-iframe');
+            iframe.src = '../order.ejs?update=true';
         }
 
     async function addToOrder(index, itemId) {
