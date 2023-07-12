@@ -82,9 +82,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <% if (typeof order !=='undefined' ) { %>
-                                <button class="btn btn-primary mt-3" onclick="addToOrder(<%= index %>, <%= item.id %>)">Add to Order</button>
-                            <% } %>
+                            <button class="btn btn-primary mt-3" onclick="addToOrder(<%= index %>, <%= item.id %>)">Add to Order</button>
                         </div>
                     </div>
                 <% } %>
@@ -92,74 +90,72 @@
         </div>
     </div>
 </div>
-<% if (typeof order !=='undefined' ) { %>
-    <script>
-        var orderId = <%= (typeof order !== 'undefined' ? order.id : -1) %>;
-        async function addToOrder(index, itemId) {
-            // Get the selected options
-            var selectedOptions = [];
-            var optionCheckboxes = document.querySelectorAll(
-                '#collapse' + index + ' input[type="checkbox"]:checked'
-            );
-            optionCheckboxes.forEach(function (checkbox) {
-                selectedOptions.push(checkbox.value);
+<script>
+    if (typeof orderId === 'undefined') var orderId = <%= (typeof order !== 'undefined' ? order.id : -1) %>;
+    async function addToOrder(index, itemId) {
+        // Get the selected options
+        var selectedOptions = [];
+        var optionCheckboxes = document.querySelectorAll(
+            '#collapse' + index + ' input[type="checkbox"]:checked'
+        );
+        optionCheckboxes.forEach(function (checkbox) {
+            selectedOptions.push(checkbox.value);
+        });
+
+
+        // Get the selected allergy options
+        var selectedAllergies = [];
+        var allergyCheckboxes = document.querySelectorAll(
+            '#allergyCollapse' + index + ' input[type="checkbox"]:checked'
+        );
+        allergyCheckboxes.forEach(function (checkbox) {
+            selectedAllergies.push(checkbox.value);
+        });
+        // Get the special request
+        var specialRequestTextarea = document.getElementById('specialRequest' + index);
+        var specialRequest = specialRequestTextarea.value;
+
+        // Get the quantity
+        // var quantityInput = document.getElementById('quantity' + index);
+        // var quantity = parseInt(quantityInput.value);
+
+        // Calculate the total cost
+        // var totalCost = 0;
+        // selectedOptions.forEach(function (option) {
+        //     totalCost += parseFloat(option.getAttribute('data-price'));
+        // });
+        // totalCost *= quantity;
+
+        // Add the order item to the current order
+        try {
+            const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    itemId: itemId,
+                    // count: quantity,
+                    options: selectedOptions,
+                    allergies: selectedAllergies.join(','),
+                    request: specialRequest
+                })
             });
 
-
-            // Get the selected allergy options
-            var selectedAllergies = [];
-            var allergyCheckboxes = document.querySelectorAll(
-                '#allergyCollapse' + index + ' input[type="checkbox"]:checked'
-            );
-            allergyCheckboxes.forEach(function (checkbox) {
-                selectedAllergies.push(checkbox.value);
-            });
-            // Get the special request
-            var specialRequestTextarea = document.getElementById('specialRequest' + index);
-            var specialRequest = specialRequestTextarea.value;
-
-            // Get the quantity
-            // var quantityInput = document.getElementById('quantity' + index);
-            // var quantity = parseInt(quantityInput.value);
-
-            // Calculate the total cost
-            // var totalCost = 0;
-            // selectedOptions.forEach(function (option) {
-            //     totalCost += parseFloat(option.getAttribute('data-price'));
-            // });
-            // totalCost *= quantity;
-
-            // Add the order item to the current order
-            try {
-                const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'POST',
-                    body: JSON.stringify({
-                        itemId: itemId,
-                        // count: quantity,
-                        options: selectedOptions,
-                        allergies: selectedAllergies.join(','),
-                        request: specialRequest
-                    })
-                });
-
-                if (response.ok) {
-                    // Display a success message
-                    alert('Item added to the order!');
-                } else {
-                    alert('Failed to add item to the order!')
-                    let errorResponse = await response.json();
-                    errorResponse.status = response.status;
-                    console.error('Failed to add item to the order!', errorResponse);
-                }
-            } catch (error) {
-                alert('Error adding item to the order!')
-                console.error('Error adding item to the order!', error);
+            if (response.ok) {
+                // Display a success message
+                alert('Item added to the order!');
+            } else {
+                alert('Failed to add item to the order!')
+                let errorResponse = await response.json();
+                errorResponse.status = response.status;
+                console.error('Failed to add item to the order!', errorResponse);
             }
-
+        } catch (error) {
+            alert('Error adding item to the order!')
+            console.error('Error adding item to the order!', error);
         }
-    </script>
-<% } %>
+
+    }
+</script>

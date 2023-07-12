@@ -15,7 +15,7 @@ class Order {
         this.tableId = tableId ?? null;
         this.paymentId = paymentId ?? null;
         if (time == null || Date.now() - time < orderExpiryTime) {
-            this.status = status ?? 'incomplete';
+            this.status = status ?? 'new';
             this.time = time ?? Date.now();
         } else {
             this.status = 'expired';

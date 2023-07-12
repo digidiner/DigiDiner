@@ -17,6 +17,10 @@ router.get('/:id', utils.asyncHandler(async function(req, res, next) {
     const menuItems = await menuData.getAllMenuItems();
     const order = new Order(req.params.id);
     if (await order.load()) {
+        if (order.status == 'new') {
+            order.status = 'incomplete';
+            await order.save();
+        }
         res.status(200).render('menu', { menuItems, order });
     } else {
         next(); // Let it 404
