@@ -142,29 +142,11 @@
             </h4>
             <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">{{menuItem.name}}</h6>
-                        <small class="text-body-secondary">{{menuItem.description}}</small>
-                    </div>
-                    <span class="text-body-secondary">${{menuItem.price}}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                    <div class="text-success">
-                        <h6 class="my-0">Tip</h6>
-                        <small>{{tip}}</small>
-                    </div>
-                    <span class="text-success">+$ {{tip}}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Total (USD)</span>
-                    <strong id="total-amount">${{menuItem.price}}</strong>
+                    <iframe id="order-iframe" src="/order/<%= order.id %>"></iframe>
                 </li>
             </ul>
         </div>
     </div>
-    <br>
-    <hr class="section-divider">
-    <iframe id="order-iframe" src="/order/<%= order.id %>"></iframe>
 </div>
 
 
