@@ -158,6 +158,7 @@
 
     function updateIframe() {
         iframe.src = '/order/' + orderId;
+        iframe.contentWindow.location.replace(iframe.src);
         iframe.contentWindow.location.reload();
     }
 
