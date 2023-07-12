@@ -30,13 +30,11 @@
 
             <div class="text-center mt-4">
                 <% if (status==='Clocked In' ) { %>
-                    <form action="/clock/clockout" method="POST">
-                        <button class="btn btn-primary" type="submit">Clock Out</button>
-                    </form>
+                    <button id="clockOutBtn" class="btn btn-primary" type="button"
+                        onclick="showConfirmationModal('clockOut')">Clock Out</button>
                     <% } else { %>
-                        <form action="/clock/clockin" method="POST">
-                            <button class="btn btn-primary" type="submit">Clock In</button>
-                        </form>
+                        <button id="clockInBtn" class="btn btn-primary" type="button"
+                            onclick="showConfirmationModal('clockIn')">Clock In</button>
                         <% } %>
             </div>
 
@@ -64,7 +62,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to <span id="statusAction"></span>? This action cannot be undone.</p>
+                        <p>Are you sure you want to <span id="statusAction">
+                                <%= status %>
+                            </span>? This action cannot be undone.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
