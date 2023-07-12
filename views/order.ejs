@@ -22,12 +22,6 @@
         .total-cost {
             font-weight: bold;
         }
-
-        .confirm-order-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
     </style>
 </head>
 
@@ -61,40 +55,10 @@
                 <p>No items in the order.</p>
             <% } %>
         </div>
-        <button class="btn btn-primary confirm-order-btn" onclick="confirmOrder()">Confirm Order</button>
     </div>
 
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
-    <script>
-        async function confirmOrder() {
-            try {
-                const response = await fetch(`/api/customer/order/submit?orderId=<%= order.id %>`, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'POST'
-                });
-
-                if (response.ok) {
-                    // Display a success message
-                    alert('Your order has been submitted!');
-
-                    // Redirect to the /bill page after successfully confirming the order
-                    window.location.href = '/bill/' + <%= order.id %>;
-                } else {
-                    alert('Failed to submit order!')
-                    let errorResponse = await response.json();
-                    errorResponse.status = response.status;
-                    console.error('Failed to submit order!', errorResponse);
-                }
-            } catch (error) {
-                alert('Error submitting order!');
-                console.error('Error submitting order!', error);
-            }
-        }
-    </script>
 </body>
 
 </html>
