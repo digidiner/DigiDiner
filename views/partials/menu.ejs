@@ -13,7 +13,7 @@
                 <div id="lunchMenuCollapse" class="accordion-collapse collapse" aria-labelledby="lunchMenuHeader"
                     data-bs-parent="#menuAccordion">
                     <% for (const [index, item] of menuItems.entries()) { %>
-                        <% if (item.categoryId==='lunch' ) { %>
+                        <% if (item.category==='lunch' ) { %>
                             <div class="accordion-item">
                                 <!-- Item details -->
                                 <h2 class="accordion-header" id="heading<%= index %>">
@@ -127,7 +127,7 @@
                 <div id="dinnerMenuCollapse" class="accordion-collapse collapse" aria-labelledby="dinnerMenuHeader"
                     data-bs-parent="#menuAccordion">
                     <% for (const [index, item] of menuItems.entries()) { %>
-                        <% if (item.categoryId==='dinner' ) { %>
+                        <% if (item.category==='dinner' ) { %>
                             <div class="accordion-item">
                                 <!-- Item details -->
                                 <h2 class="accordion-header" id="heading<%= index %>">
@@ -241,7 +241,7 @@
                 <div id="drinkMenuCollapse" class="accordion-collapse collapse" aria-labelledby="drinkMenuHeader"
                     data-bs-parent="#menuAccordion">
                     <% for (const [index, item] of menuItems.entries()) { %>
-                        <% if (item.categoryId==='drink' ) { %>
+                        <% if (item.category==='drink' ) { %>
                             <div class="accordion-item">
                                 <!-- Item details -->
                                 <h2 class="accordion-header" id="heading<%= index %>">
