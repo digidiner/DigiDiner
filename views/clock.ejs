@@ -124,12 +124,6 @@
             timestampInterval = setInterval(updateTimestamp, 1000);
         }
 
-        function updateTimestamp() {
-            const timestampElement = document.getElementById('timestamp');
-            const currentTime = new Date().toLocaleTimeString();
-            timestampElement.textContent = 'Last updated: ' + currentTime;
-        }
-
         // Function to perform the clock in action
         async function clockIn() {
             try {
