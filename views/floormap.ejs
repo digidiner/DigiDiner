@@ -301,6 +301,34 @@
 
             return employeeData.position;
         }
+        async function polling() {
+            setInterval(async () => {
+                try {
+                    const response = await fetch(window.location.origin + '/api/waitstaff/table/list', {
+                        method: 'GET'
+                    });
+
+                    if (response.ok) {
+                        const tables = await response.json();
+                        // Update table status or perform any necessary actions with the updated data
+                        console.log(tables);
+                    } else {
+                        // Handle error response
+                        let errorResponse = await response.json();
+                        errorResponse.status = response.status;
+                        console.error('Polling failed!', errorResponse);
+
+                        if (response.status === 401) {
+                            // Redirect to the '/' page
+                            window.location.href = '/';
+                        }
+                    }
+                } catch (error) {
+                    // Handle fetch error
+                    console.error('Polling attempt failed!', error);
+                }
+            }, 1000); // Polling interval set to 1 second
+        }
 
         async function populateTables() {
             // Fetch employee position of the currently signed-in user
