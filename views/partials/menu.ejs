@@ -3,8 +3,12 @@
         font-size: 2.5rem;
     }
 
-    #order-iframe {
-        height: 50vh;
+    .iframe-container {
+        flex: 1;
+    }
+
+    .iframe-wrapper {
+        overflow: auto;
     }
 </style>
 <div class="container">
@@ -134,9 +138,11 @@
             </h4>
             <div>
                 <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <iframe id="order-iframe"
-                            src="/order/<%= typeof order !== 'undefined' ? order.id : '' %>"></iframe>
+                    <li class="list-group-item d-flex justify-content-between lh-sm iframe-container">
+                        <div class="iframe-wrapper">
+                            <iframe id="order-iframe"
+                                src="/order/<%= typeof order !== 'undefined' ? order.id : '' %>"></iframe>
+                        </div>
                     </li>
                 </ul>
                 <button class="btn btn-primary confirm-order-btn float-right" onclick="confirmOrder()">Confirm
@@ -156,9 +162,9 @@
         orderId = <%= order.id %>;
     <% } %>
 
-    function updateIframe() {
-        iframe.src = '/order/' + orderId;
-    }
+        function updateIframe() {
+            iframe.src = '/order/' + orderId;
+        }
 
     async function addToOrder(index, itemId) {
         // Get the selected options
