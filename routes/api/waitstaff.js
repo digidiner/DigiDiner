@@ -4,6 +4,7 @@ var router = express.Router();
 var utils = require('../../utils');
 var Table = require('../../models/table');
 var Order = require('../../models/order');
+var menuItemOption = require('../../models/menuItemOption');
 
 // Used to verify user is signed in and a waitstaff
 function requireSession(req, res, next) {
