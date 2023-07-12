@@ -138,13 +138,16 @@
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-primary">Your Order</span>
             </h4>
-            <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <iframe id="order-iframe" src="/order/<%= typeof order !== 'undefined' ? order.id : '' %>"></iframe>
-                </li>
-            </ul>
-            <button class="btn btn-primary confirm-order-btn float-right" onclick="confirmOrder()">Confirm
-                Order</button>
+            <div>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <iframe id="order-iframe"
+                            src="/order/<%= typeof order !== 'undefined' ? order.id : '' %>"></iframe>
+                    </li>
+                </ul>
+                <button class="btn btn-primary confirm-order-btn float-right" onclick="confirmOrder()">Confirm
+                    Order</button>
+            </div>
         </div>
     </div>
 </div>
@@ -162,9 +165,9 @@
         updateIframe();
     <% } %>
 
-    function updateIframe() {
-        iframe.contentWindow.location.reload();
-    }
+        function updateIframe() {
+            iframe.contentWindow.location.reload();
+        }
 
     async function addToOrder(index, itemId) {
         // Get the selected options
