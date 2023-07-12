@@ -29,10 +29,10 @@
     <div class="container">
         <div class="col-md-4 order-container">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <h3>Current Items: </h3>
-                <span class="badge bg-primary rounded-pill">
-                    <%= orderItems.length %>
-                </span>
+                <h4>Current Items: <span class="badge bg-primary rounded-pill">
+                        <%= orderItems.length %>
+                    </span></h4>
+                <hr class="section-diver">
             </h4>
         </div>
         <div class="order">
@@ -51,8 +51,9 @@
                     </div>
                     <% }) %>
                         <div class="total-cost">
-                            Total Cost: $<%= orderItems.reduce((sum, item)=> sum + item.count *
-                                menuItems[item.itemId].price, 0) %>
+                            <hr class="section-divider">
+                            <h3>Total Cost: $<%= orderItems.reduce((sum, item)=> sum + item.count *
+                                    menuItems[item.itemId].price, 0) %></h3>
                         </div>
                         <% } else { %>
                             <p>No items in the order.</p>
