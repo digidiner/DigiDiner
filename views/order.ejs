@@ -77,7 +77,7 @@
                     alert('Your order has been submitted!');
 
                     // Redirect to the /bill page after successfully confirming the order
-                    window.location.href = '/bill';
+                    window.location.href = '/bill/' + <%= order.id %>;
                 } else {
                     alert('Failed to submit order!')
                     let errorResponse = await response.json();
