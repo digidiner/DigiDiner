@@ -107,7 +107,7 @@
                 const positionElement = document.getElementById('position');
                 positionElement.textContent = employee.position;
                 const hireDateElement = document.getElementById('hireDate');
-                hireDateElement.textContent = employee.hireDate;
+                hireDateElement.textContent = new Date(employee.hireDate).toLocaleDateString('en-us');
             }
         }
 
