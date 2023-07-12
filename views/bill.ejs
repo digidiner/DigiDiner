@@ -91,6 +91,10 @@
         function updateTotal() {
             var total = <%= total %>;
             var tip = parseFloat($('#tip').val());
+            if (tip < 0) {
+                tip = 0;
+                $('#tip').val('0')
+            }
             total += tip;
             $('.total').html('Total: $' + total.toFixed(2));
         }
