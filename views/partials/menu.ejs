@@ -3,89 +3,311 @@
         <div class="col-12">
             <h1 id="menu">Menu</h1>
             <div class="accordion" id="menuAccordion">
-                <% for (const [index, item] of menuItems.entries()) { %>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading<%= index %>">
-                            <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse<%= index %>" aria-expanded="true"
-                                aria-controls="collapse<%= index %>">
-                                <%= item.name %>
-                                <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
-                            </button>
-                        </h2>
-                        <div id="collapse<%= index %>" class="accordion-collapse collapse"
-                            aria-labelledby="heading<%= index %>" data-bs-parent="#menuAccordion">
-                            <% if (item.options.length> 0) { %>
-                                <h5 class="text-white">Select Options:</h5>
-                                <ul class="list-group">
-                                    <% for (const option of item.options) { %>
-                                        <li class="list-group-item">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    value="<%= option.name %>" id="<%= option.id %>">
-                                                <label class="form-check-label" for="<%= option.id %>">
-                                                    <%= option.name %>
+                <!-- Lunch Menu -->
+                <h2 class="accordion-header" id="lunchMenuHeader">
+                    <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#lunchMenuCollapse" aria-expanded="true" aria-controls="lunchMenuCollapse">
+                        Lunch Menu
+                    </button>
+                </h2>
+                <div id="lunchMenuCollapse" class="accordion-collapse collapse" aria-labelledby="lunchMenuHeader"
+                     data-bs-parent="#menuAccordion">
+                    <% for (const [index, item] of lunchMenuItems.entries()) { %>
+                        <div class="accordion-item">
+                            <!-- Item details -->
+                            <h2 class="accordion-header" id="heading<%= index %>">
+                                <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                                        aria-controls="collapse<%= index %>">
+                                    <%= item.name %>
+                                    <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
+                                </button>
+                            </h2>
+                            <div id="collapse<%= index %>" class="accordion-collapse collapse"
+                                 aria-labelledby="heading<%= index %>" data-bs-parent="#lunchMenuCollapse">
+                                <% if (item.options.length> 0) { %>
+                                    <h5 class="text-white">Select Options:</h5>
+                                    <ul class="list-group">
+                                        <% for (const option of item.options) { %>
+                                            <li class="list-group-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           value="<%= option.name %>" id="<%= option.id %>">
+                                                    <label class="form-check-label" for="<%= option.id %>">
+                                                        <%= option.name %>
                                                         <% if (option.price) { %>
                                                             <span class="badge bg-secondary">$
-                                                                <%= Number(option.price).toFixed(2) %>
-                                                            </span>
+                                                                    <%= Number(option.price).toFixed(2) %>
+                                                                </span>
                                                         <% } %>
-                                                </label>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                <% } %>
+                                <div class="accordion" id="allergyAccordion<%= index %>">
+                                    <h5>Select Allergy:</h5>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="allergyHeading<%= index %>">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#allergyCollapse<%= index %>" aria-expanded="true"
+                                                    aria-controls="allergyCollapse<%= index %>">
+                                                Allergy
+                                            </button>
+                                        </h2>
+                                        <div id="allergyCollapse<%= index %>" class="accordion-collapse collapse"
+                                             aria-labelledby="allergyHeading<%= index %>"
+                                             data-bs-parent="#allergyAccordion<%= index %>">
+                                            <div class="accordion-body">
+                                                <select class="form-select" id="allergyDropdown<%= index %>">
+                                                    <option value="Peanuts">Peanuts</option>
+                                                    <option value="Gluten">Gluten</option>
+                                                    <option value="Dairy">Dairy</option>
+                                                    <option value="Shellfish">Shellfish</option>
+                                                </select>
                                             </div>
-                                        </li>
-                                    <% } %>
-                                </ul>
-                            <% } %>
-                            <div class="accordion" id="allergyAccordion<%= index %>">
-                                <h5>Select Allergy:</h5>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="allergyHeading<%= index %>">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#allergyCollapse<%= index %>" aria-expanded="true"
-                                            aria-controls="allergyCollapse<%= index %>">
-                                            Allergy
-                                        </button>
-                                    </h2>
-                                    <div id="allergyCollapse<%= index %>" class="accordion-collapse collapse"
-                                        aria-labelledby="allergyHeading<%= index %>"
-                                        data-bs-parent="#allergyAccordion<%= index %>">
-                                        <div class="accordion-body">
-                                            <select class="form-select" id="allergyDropdown<%= index %>">
-                                                <option value="Peanuts">Peanuts</option>
-                                                <option value="Gluten">Gluten</option>
-                                                <option value="Dairy">Dairy</option>
-                                                <option value="Shellfish">Shellfish</option>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion" id="specialRequestAccordion<%= index %>">
-                                <h5>Special Request:</h5>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="specialRequestHeading<%= index %>">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#specialRequestCollapse<%= index %>"
-                                            aria-expanded="true"
-                                            aria-controls="specialRequestCollapse<%= index %>">
-                                            Special Request
-                                        </button>
-                                    </h2>
-                                    <div id="specialRequestCollapse<%= index %>"
-                                        class="accordion-collapse collapse"
-                                        aria-labelledby="specialRequestHeading<%= index %>"
-                                        data-bs-parent="#specialRequestAccordion<%= index %>">
-                                        <div class="accordion-body">
-                                            <textarea class="form-control" id="specialRequest<%= index %>"
-                                                rows="3"></textarea>
+                                <div class="accordion" id="specialRequestAccordion<%= index %>">
+                                    <h5>Special Request:</h5>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="specialRequestHeading<%= index %>">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#specialRequestCollapse<%= index %>"
+                                                    aria-expanded="true"
+                                                    aria-controls="specialRequestCollapse<%= index %>">
+                                                Special Request
+                                            </button>
+                                        </h2>
+                                        <div id="specialRequestCollapse<%= index %>"
+                                             class="accordion-collapse collapse"
+                                             aria-labelledby="specialRequestHeading<%= index %>"
+                                             data-bs-parent="#specialRequestAccordion<%= index %>">
+                                            <div class="accordion-body">
+                                                <textarea class="form-control" id="specialRequest<%= index %>"
+                                                          rows="3"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <button class="btn btn-primary mt-3" onclick="addToOrder(<%= index %>, <%= item.id %>)">Add to Order</button>
                             </div>
-                            <button class="btn btn-primary mt-3" onclick="addToOrder(<%= index %>, <%= item.id %>)">Add to Order</button>
                         </div>
-                    </div>
-                <% } %>
+                    <% } %>
+                </div>
+                <!-- End of Lunch Menu -->
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="section-divider">
+<div class="container-fluid justify-content-lg-start bg-dark text-white">
+    <div class="row">
+        <div class="col-12">
+            <h1 id="menu">Menu</h1>
+            <div class="accordion" id="menuAccordion">
+                <!-- Dinner Menu -->
+                <h2 class="accordion-header" id="dinnerMenuHeader">
+                    <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#dinnerMenuCollapse" aria-expanded="true" aria-controls="dinnerMenuCollapse">
+                        Dinner Menu
+                    </button>
+                </h2>
+                <div id="dinnerMenuCollapse" class="accordion-collapse collapse" aria-labelledby="dinnerMenuHeader"
+                     data-bs-parent="#menuAccordion">
+                    <% for (const [index, item] of dinnerMenuItems.entries()) { %>
+                        <div class="accordion-item">
+                            <!-- Item details -->
+                            <h2 class="accordion-header" id="heading<%= index %>">
+                                <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                                        aria-controls="collapse<%= index %>">
+                                    <%= item.name %>
+                                    <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
+                                </button>
+                            </h2>
+                            <div id="collapse<%= index %>" class="accordion-collapse collapse"
+                                 aria-labelledby="heading<%= index %>" data-bs-parent="#dinnerMenuCollapse">
+                                <% if (item.options.length> 0) { %>
+                                    <h5 class="text-white">Select Options:</h5>
+                                    <ul class="list-group">
+                                        <% for (const option of item.options) { %>
+                                            <li class="list-group-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           value="<%= option.name %>" id="<%= option.id %>">
+                                                    <label class="form-check-label" for="<%= option.id %>">
+                                                        <%= option.name %>
+                                                        <% if (option.price) { %>
+                                                            <span class="badge bg-secondary">$
+                                                                    <%= Number(option.price).toFixed(2) %>
+                                                                </span>
+                                                        <% } %>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                <% } %>
+                                <div class="accordion" id="allergyAccordion<%= index %>">
+                                    <h5>Select Allergy:</h5>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="allergyHeading<%= index %>">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#allergyCollapse<%= index %>" aria-expanded="true"
+                                                    aria-controls="allergyCollapse<%= index %>">
+                                                Allergy
+                                            </button>
+                                        </h2>
+                                        <div id="allergyCollapse<%= index %>" class="accordion-collapse collapse"
+                                             aria-labelledby="allergyHeading<%= index %>"
+                                             data-bs-parent="#allergyAccordion<%= index %>">
+                                            <div class="accordion-body">
+                                                <select class="form-select" id="allergyDropdown<%= index %>">
+                                                    <option value="Peanuts">Peanuts</option>
+                                                    <option value="Gluten">Gluten</option>
+                                                    <option value="Dairy">Dairy</option>
+                                                    <option value="Shellfish">Shellfish</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion" id="specialRequestAccordion<%= index %>">
+                                    <h5>Special Request:</h5>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="specialRequestHeading<%= index %>">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#specialRequestCollapse<%= index %>"
+                                                    aria-expanded="true"
+                                                    aria-controls="specialRequestCollapse<%= index %>">
+                                                Special Request
+                                            </button>
+                                        </h2>
+                                        <div id="specialRequestCollapse<%= index %>"
+                                             class="accordion-collapse collapse"
+                                             aria-labelledby="specialRequestHeading<%= index %>"
+                                             data-bs-parent="#specialRequestAccordion<%= index %>">
+                                            <div class="accordion-body">
+                                                <textarea class="form-control" id="specialRequest<%= index %>"
+                                                          rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-3" onclick="addToOrder(<%= index %>, <%= item.id %>)">Add to Order</button>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+                <!-- End of Dinner Menu -->
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="section-divider">
+<div class="container-fluid justify-content-lg-start bg-dark text-white">
+    <div class="row">
+        <div class="col-12">
+            <h1 id="menu">Menu</h1>
+            <div class="accordion" id="menuAccordion">
+                <!-- Drink Menu -->
+                <h2 class="accordion-header" id="drinkMenuHeader">
+                    <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#drinkMenuCollapse" aria-expanded="true" aria-controls="drinkMenuCollapse">
+                        Drink Menu
+                    </button>
+                </h2>
+                <div id="drinkMenuCollapse" class="accordion-collapse collapse" aria-labelledby="drinkMenuHeader"
+                     data-bs-parent="#menuAccordion">
+                    <% for (const [index, item] of drinkMenuItems.entries()) { %>
+                        <div class="accordion-item">
+                            <!-- Item details -->
+                            <h2 class="accordion-header" id="heading<%= index %>">
+                                <button class="accordion-button collapsed text-dark" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse<%= index %>" aria-expanded="true"
+                                        aria-controls="collapse<%= index %>">
+                                    <%= item.name %>
+                                    <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %></span>
+                                </button>
+                            </h2>
+                            <div id="collapse<%= index %>" class="accordion-collapse collapse"
+                                 aria-labelledby="heading<%= index %>" data-bs-parent="#drinkMenuCollapse">
+                                <% if (item.options.length> 0) { %>
+                                    <h5 class="text-white">Select Options:</h5>
+                                    <ul class="list-group">
+                                        <% for (const option of item.options) { %>
+                                            <li class="list-group-item">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           value="<%= option.name %>" id="<%= option.id %>">
+                                                    <label class="form-check-label" for="<%= option.id %>">
+                                                        <%= option.name %>
+                                                        <% if (option.price) { %>
+                                                            <span class="badge bg-secondary">$
+                                                                    <%= Number(option.price).toFixed(2) %>
+                                                                </span>
+                                                        <% } %>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                <% } %>
+                                <div class="accordion" id="allergyAccordion<%= index %>">
+                                    <h5>Select Allergy:</h5>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="allergyHeading<%= index %>">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#allergyCollapse<%= index %>" aria-expanded="true"
+                                                    aria-controls="allergyCollapse<%= index %>">
+                                                Allergy
+                                            </button>
+                                        </h2>
+                                        <div id="allergyCollapse<%= index %>" class="accordion-collapse collapse"
+                                             aria-labelledby="allergyHeading<%= index %>"
+                                             data-bs-parent="#allergyAccordion<%= index %>">
+                                            <div class="accordion-body">
+                                                <select class="form-select" id="allergyDropdown<%= index %>">
+                                                    <option value="Peanuts">Peanuts</option>
+                                                    <option value="Gluten">Gluten</option>
+                                                    <option value="Dairy">Dairy</option>
+                                                    <option value="Shellfish">Shellfish</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion" id="specialRequestAccordion<%= index %>">
+                                    <h5>Special Request:</h5>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="specialRequestHeading<%= index %>">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#specialRequestCollapse<%= index %>"
+                                                    aria-expanded="true"
+                                                    aria-controls="specialRequestCollapse<%= index %>">
+                                                Special Request
+                                            </button>
+                                        </h2>
+                                        <div id="specialRequestCollapse<%= index %>"
+                                             class="accordion-collapse collapse"
+                                             aria-labelledby="specialRequestHeading<%= index %>"
+                                             data-bs-parent="#specialRequestAccordion<%= index %>">
+                                            <div class="accordion-body">
+                                                <textarea class="form-control" id="specialRequest<%= index %>"
+                                                          rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-3" onclick="addToOrder(<%= index %>, <%= item.id %>)">Add to Order</button>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+                <!-- End of Drink Menu -->
             </div>
         </div>
     </div>
