@@ -29,7 +29,7 @@
                                                             <span class="badge bg-secondary">$
                                                                 <%= Number(option.price).toFixed(2) %>
                                                             </span>
-                                                            <% } %>
+                                                        <% } %>
                                                 </label>
                                             </div>
                                         </li>
@@ -119,15 +119,15 @@
             var specialRequest = specialRequestTextarea.value;
 
             // Get the quantity
-            var quantityInput = document.getElementById('quantity' + index);
-            var quantity = parseInt(quantityInput.value);
+            // var quantityInput = document.getElementById('quantity' + index);
+            // var quantity = parseInt(quantityInput.value);
 
             // Calculate the total cost
-            var totalCost = 0;
-            selectedOptions.forEach(function (option) {
-                totalCost += parseFloat(option.getAttribute('data-price'));
-            });
-            totalCost *= quantity;
+            // var totalCost = 0;
+            // selectedOptions.forEach(function (option) {
+            //     totalCost += parseFloat(option.getAttribute('data-price'));
+            // });
+            // totalCost *= quantity;
 
             // Add the order item to the current order
             try {
@@ -159,232 +159,3 @@
         }
     </script>
 <% } %>
-        <script>
-
-            /*
-            // Fetch menu data and render the menu
-            window.onload = () => {
-                fetch('/api/menu')
-                    .then(response => response.json())
-                    .then(data => {
-                        const menuItems = data;
-                        renderMenu(menuItems);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching menu data', error);
-                    });
-            };
-        
-            function renderMenu(menuItems) {
-                const menuAccordion = document.getElementById('menuAccordion');
-        
-                // Clear any existing menu items
-                menuAccordion.innerHTML = '';
-        
-                // Loop through the menu items and generate the HTML markup
-                menuItems.forEach((item, index) => {
-                    const accordionItem = document.createElement('div');
-                    accordionItem.classList.add('accordion-item');
-        
-                    const accordionHeader = document.createElement('h2');
-                    accordionHeader.classList.add('accordion-header');
-                    accordionHeader.id = 'heading' + index;
-        
-                    const accordionButton = document.createElement('button');
-                    accordionButton.classList.add('accordion-button');
-                    accordionButton.setAttribute('type', 'button');
-                    accordionButton.setAttribute('data-bs-toggle', 'collapse');
-                    accordionButton.setAttribute('data-bs-target', '#collapse' + index);
-                    accordionButton.setAttribute('aria-expanded', 'true');
-                    accordionButton.setAttribute('aria-controls', 'collapse' + index);
-        
-                    // Create a checkbox for the accordion header
-                    const headerCheckbox = document.createElement('input');
-                    headerCheckbox.classList.add('form-check-input');
-                    headerCheckbox.setAttribute('type', 'checkbox');
-                    headerCheckbox.setAttribute('id', 'checkbox' + index);
-        
-                    // Create a label for the checkbox
-                    const headerLabel = document.createElement('label');
-                    headerLabel.classList.add('form-check-label');
-                    headerLabel.setAttribute('for', 'checkbox' + index);
-                    headerLabel.innerHTML = item.name + '<span class="badge bg-primary">$' + Number(item.price).toFixed(2) + '</span>';
-        
-                    // Append the checkbox and label to the accordion button
-                    accordionButton.appendChild(headerCheckbox);
-                    accordionButton.appendChild(headerLabel);
-        
-                    const accordionCollapse = document.createElement('div');
-                    accordionCollapse.id = 'collapse' + index;
-                    accordionCollapse.classList.add('accordion-collapse', 'collapse');
-                    accordionCollapse.setAttribute('aria-labelledby', 'heading' + index);
-                    accordionCollapse.setAttribute('data-bs-parent', '#menuAccordion');
-        
-                    const accordionBody = document.createElement('div');
-                    accordionBody.classList.add('accordion-body');
-        
-                    // Create a quantity input for the accordion header
-                    const headerQuantityInput = document.createElement('input');
-                    headerQuantityInput.classList.add('form-control', 'quantity-input');
-                    headerQuantityInput.setAttribute('type', 'number');
-                    headerQuantityInput.setAttribute('id', 'quantity' + index);
-                    headerQuantityInput.setAttribute('min', '1');
-                    headerQuantityInput.setAttribute('value', '1');
-        
-                    // Append the quantity input to the accordion button
-                    accordionButton.appendChild(headerQuantityInput);
-        
-                    if (item.options.length > 0) {
-                        const optionsList = document.createElement('ul');
-                        optionsList.classList.add('list-group');
-                        item.options.forEach(option => {
-                            const optionItem = document.createElement('li');
-                            optionItem.classList.add('list-group-item');
-        
-                            const formCheck = document.createElement('div');
-                            formCheck.classList.add('form-check');
-        
-                            const checkbox = document.createElement('input');
-                            checkbox.classList.add('form-check-input');
-                            checkbox.setAttribute('type', 'checkbox');
-                            checkbox.setAttribute('value', option.name);
-                            checkbox.setAttribute('id', option.id);
-                            checkbox.setAttribute('data-price', option.price);
-        
-                            const label = document.createElement('label');
-                            label.classList.add('form-check-label');
-                            label.setAttribute('for', option.id);
-                            label.innerHTML = option.name;
-        
-                            if (option.price) {
-                                const priceBadge = document.createElement('span');
-                                priceBadge.classList.add('badge', 'bg-secondary');
-                                priceBadge.innerHTML = '$' + Number(option.price).toFixed(2);
-        
-                                label.appendChild(priceBadge);
-                            }
-        
-                            formCheck.appendChild(checkbox);
-                            formCheck.appendChild(label);
-                            optionItem.appendChild(formCheck);
-                            optionsList.appendChild(optionItem);
-                        });
-        
-                        accordionBody.appendChild(optionsList);
-                    }
-        
-                    const allergyAccordion = document.createElement('div');
-                    allergyAccordion.id = 'allergyAccordion' + index;
-                    allergyAccordion.classList.add('accordion');
-        
-                    const allergyHeading = document.createElement('h5');
-                    allergyHeading.innerHTML = 'Select Allergy:';
-        
-                    const allergyItem = document.createElement('div');
-                    allergyItem.classList.add('accordion-item');
-        
-                    const allergyHeader = document.createElement('h2');
-                    allergyHeader.classList.add('accordion-header');
-                    allergyHeader.id = 'allergyHeading' + index;
-        
-                    const allergyButton = document.createElement('button');
-                    allergyButton.classList.add('accordion-button');
-                    allergyButton.setAttribute('type', 'button');
-                    allergyButton.setAttribute('data-bs-toggle', 'collapse');
-                    allergyButton.setAttribute('data-bs-target', '#allergyCollapse' + index);
-                    allergyButton.setAttribute('aria-expanded', 'true');
-                    allergyButton.setAttribute('aria-controls', 'allergyCollapse' + index);
-                    allergyButton.innerHTML = 'Allergy';
-        
-                    const allergyCollapse = document.createElement('div');
-                    allergyCollapse.id = 'allergyCollapse' + index;
-                    allergyCollapse.classList.add('accordion-collapse', 'collapse');
-                    allergyCollapse.setAttribute('aria-labelledby', 'allergyHeading' + index);
-                    allergyCollapse.setAttribute('data-bs-parent', '#allergyAccordion' + index);
-        
-                    const allergyBody = document.createElement('div');
-                    allergyBody.classList.add('accordion-body');
-        
-                    const allergyCheckboxes = document.createElement('div');
-                    allergyCheckboxes.classList.add('accordion-body');
-                    const allergyOptions = ['Peanuts', 'Gluten', 'Dairy', 'Shellfish'];
-        
-                    allergyOptions.forEach(allergy => {
-                        const allergyCheckbox = document.createElement('div');
-                        allergyCheckbox.classList.add('form-check');
-        
-                        const checkboxInput = document.createElement('input');
-                        checkboxInput.classList.add('form-check-input');
-                        checkboxInput.setAttribute('type', 'checkbox');
-                        checkboxInput.setAttribute('value', allergy);
-                        checkboxInput.setAttribute('id', 'checkbox' + index + allergy);
-        
-                        const checkboxLabel = document.createElement('label');
-                        checkboxLabel.classList.add('form-check-label');
-                        checkboxLabel.setAttribute('for', 'checkbox' + index + allergy);
-                        checkboxLabel.innerHTML = allergy;
-        
-                        allergyCheckbox.appendChild(checkboxInput);
-                        allergyCheckbox.appendChild(checkboxLabel);
-                        allergyCheckboxes.appendChild(allergyCheckbox);
-                    });
-        
-                    // Append the allergy checkboxes to the accordion body
-                    allergyCollapse.appendChild(allergyCheckboxes);
-        
-                    const specialRequestHeading = document.createElement('h5');
-                    specialRequestHeading.innerHTML = 'Special Request:';
-        
-                    const specialRequestItem = document.createElement('div');
-                    specialRequestItem.classList.add('accordion-item');
-        
-                    const specialRequestHeader = document.createElement('h2');
-                    specialRequestHeader.classList.add('accordion-header');
-                    specialRequestHeader.id = 'specialRequestHeading' + index;
-        
-                    const specialRequestButton = document.createElement('button');
-                    specialRequestButton.classList.add('accordion-button');
-                    specialRequestButton.setAttribute('type', 'button');
-                    specialRequestButton.setAttribute('data-bs-toggle', 'collapse');
-                    specialRequestButton.setAttribute('data-bs-target', '#specialRequestCollapse' + index);
-                    specialRequestButton.setAttribute('aria-expanded', 'true');
-                    specialRequestButton.setAttribute('aria-controls', 'specialRequestCollapse' + index);
-                    specialRequestButton.innerHTML = 'Special Request';
-        
-                    const specialRequestCollapse = document.createElement('div');
-                    specialRequestCollapse.id = 'specialRequestCollapse' + index;
-                    specialRequestCollapse.classList.add('accordion-collapse', 'collapse');
-                    specialRequestCollapse.setAttribute('aria-labelledby', 'specialRequestHeading' + index);
-                    specialRequestCollapse.setAttribute('data-bs-parent', '#specialRequestAccordion' + index);
-        
-                    const specialRequestBody = document.createElement('div');
-                    specialRequestBody.classList.add('accordion-body');
-        
-                    const specialRequestTextarea = document.createElement('textarea');
-                    specialRequestTextarea.classList.add('form-control');
-                    specialRequestTextarea.setAttribute('id', 'specialRequest' + index);
-                    specialRequestTextarea.setAttribute('rows', '3');
-        
-                    specialRequestBody.appendChild(specialRequestTextarea);
-                    specialRequestCollapse.appendChild(specialRequestBody);
-                    specialRequestItem.appendChild(specialRequestHeader);
-                    specialRequestItem.appendChild(specialRequestCollapse);
-                    specialRequestAccordion.appendChild(specialRequestItem);
-        
-                    const addToOrderButton = document.createElement('button');
-                    addToOrderButton.classList.add('btn', 'btn-primary', 'mt-3');
-                    addToOrderButton.setAttribute('onclick', 'addToOrder(' + index + ')');
-                    addToOrderButton.innerHTML = 'Add to Order';
-        
-                    accordionBody.appendChild(allergyAccordion);
-                    accordionBody.appendChild(specialRequestAccordion);
-                    accordionBody.appendChild(addToOrderButton);
-        
-                    accordionCollapse.appendChild(accordionBody);
-                    accordionHeader.appendChild(accordionButton);
-                    accordionItem.appendChild(accordionHeader);
-                    accordionItem.appendChild(accordionCollapse);
-                    menuAccordion.appendChild(accordionItem);
-                });
-            }*/
-        </script>
