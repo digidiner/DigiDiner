@@ -78,7 +78,7 @@
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
         // Start the timestamp output and punch record
-        //var timestampInterval = setInterval(updateTimestamp, 1000);
+        var timestampInterval = setInterval(updateTimestamp, 1000);
 
         function showConfirmationModal(action) {
             // Pause the timestamp output and punch record
@@ -121,7 +121,7 @@
             }
 
             // Resume the timestamp output and punch record after a delay
-            //timestampInterval = setInterval(updateTimestamp, 1000);
+            timestampInterval = setInterval(updateTimestamp, 1000);
         }
 
         // Function to perform the clock in action
