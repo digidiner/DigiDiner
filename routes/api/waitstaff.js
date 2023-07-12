@@ -121,8 +121,8 @@ router.get('/table', requireSession, utils.asyncHandler(async function(req, res)
     });
 }));
 
-/* PUT table */
-router.put('/table', requireSession, utils.asyncHandler(async function(req, res) {
+/* PUT table status */
+router.put('/table/status', requireSession, utils.asyncHandler(async function(req, res) {
     if (req.body.id == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
