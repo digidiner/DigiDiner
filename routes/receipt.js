@@ -24,7 +24,7 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
 function calculateSubtotal(orderItems, menuItems) {
     var subtotal = 0;
     orderItems.forEach(function (item) {
-        subtotal += item.count * menuItems[item.id].price;
+        subtotal += item.count * menuItems[item.itemId].price;
     });
     return subtotal;
 }
