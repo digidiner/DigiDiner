@@ -154,14 +154,12 @@
 
     <% if (typeof order !== 'undefined') { %>
         orderId = <%= order.id %>;
-    <% } else { %>
-        iframe.src += orderId;
-        updateIframe();
     <% } %>
 
-        function updateIframe() {
-            iframe.contentWindow.location.reload();
-        }
+    function updateIframe() {
+        iframe.src = '/order/' + orderId;
+        iframe.contentWindow.location.reload();
+    }
 
     async function addToOrder(index, itemId) {
         // Get the selected options
