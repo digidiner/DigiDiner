@@ -75,7 +75,7 @@ router.post('/clearItem', requireSession, (req, res) => {
 });
 
 /* GET queue page */
-router.get('/', function (req, res) {
+router.get('/', requireSession, function (req, res) {
     res.status(200).render('queue', { orderQueue });
 });
 
