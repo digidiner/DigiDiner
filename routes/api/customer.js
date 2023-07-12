@@ -122,6 +122,10 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function(req
 /* DELETE order */
 router.delete('/order', requireOrder, utils.asyncHandler(async function(req, res) {
     if (await req.order.delete()) {
+        const table = new Table(req.order.tableId);
+        await table.load();
+        table.status = 'dirty';
+        await table.save();
         res.status(204).json({});
     } else {
         res.status(404).json({
