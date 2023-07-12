@@ -49,6 +49,12 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, 
         });
         return;
     }
+    if (req.order.status != 'incomplete') {
+        res.status(400).json({
+            'error': "Order Can No Longer Be Modified"
+        });
+        return;
+    }
     let newItem;
     try {
         newItem = await req.order.addItem(req.body.itemId, req.body.count, req.body.allergies, req.body.request);
@@ -82,6 +88,12 @@ router.delete('/order/item', requireOrder, utils.asyncHandler(async function(req
     if (req.body.itemId == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
+        });
+        return;
+    }
+    if (req.order.status != 'incomplete') {
+        res.status(400).json({
+            'error': "Order Can No Longer Be Modified"
         });
         return;
     }
