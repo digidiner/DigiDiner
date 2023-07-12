@@ -336,7 +336,9 @@
     </div>
 </div>
 <script>
-    if (typeof orderId === 'undefined') var orderId = <%= (typeof order !== 'undefined' ? order.id : -1) %>;
+    <% if (typeof order !== 'undefined') { %> 
+        if (typeof orderId === 'undefined') var orderId = <%= order.id %>;
+    <% } %>
     async function addToOrder(index, itemId) {
         // Get the selected options
         var selectedOptions = [];
