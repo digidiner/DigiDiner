@@ -43,6 +43,8 @@
 </head>
 
 <body>
+    <header><%- include('paritals/head') %>
+    </header>
     <div class="container">
         <div class="py-5 text-center">
             <h2>Checkout</h2>
@@ -54,7 +56,7 @@
         </div>
         <h1>Restaurant Bill</h1>
         <div class="bill">
-            <% if (orderItems.length > 0) { %>
+            <% if (orderItems.length> 0) { %>
                 <% orderItems.forEach(function(item) { %>
                     <div class="bill-item">
                         <h4>
@@ -67,24 +69,24 @@
                             </li>
                         </ul>
                     </div>
-                <% }) %>
-                <div class="subtotal">
-                    Subtotal: $<%= subtotal.toFixed(2) %>
-                </div>
-                <div class="taxes">
-                    Taxes: $<%= taxes.toFixed(2) %>
-                </div>
-                <div class="total">
-                    Total: $<%= total.toFixed(2) %>
-                </div>
-                <div class="tip">
-                    <label for="tip">Tip:</label>
-                    <input type="number" id="tip" min="0" step="0.01" value="0" onchange="updateTotal()">
-                    <button class="btn btn-primary" onclick="updateTotal()">Apply Tip</button>
-                </div>
-            <% } else { %>
-                <p>No items in the bill.</p>
-            <% } %>
+                    <% }) %>
+                        <div class="subtotal">
+                            Subtotal: $<%= subtotal.toFixed(2) %>
+                        </div>
+                        <div class="taxes">
+                            Taxes: $<%= taxes.toFixed(2) %>
+                        </div>
+                        <div class="total">
+                            Total: $<%= total.toFixed(2) %>
+                        </div>
+                        <div class="tip">
+                            <label for="tip">Tip:</label>
+                            <input type="number" id="tip" min="0" step="0.01" value="0" onchange="updateTotal()">
+                            <button class="btn btn-primary" onclick="updateTotal()">Apply Tip</button>
+                        </div>
+                        <% } else { %>
+                            <p>No items in the bill.</p>
+                            <% } %>
         </div>
         <button class="btn btn-success pay-bill-btn" onclick="payBill()">Pay Bill</button>
     </div>
