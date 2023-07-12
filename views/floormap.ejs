@@ -384,7 +384,7 @@
 
         // Handle click event on table cells
         function handleTableCellClick(event) {
-            const tableId = event.target.dataset.tableId;
+            var tableId = event.target.dataset.tableId;
             const status = event.target.dataset.status;
 
             if (status === 'occupied') {
