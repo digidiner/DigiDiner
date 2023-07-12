@@ -98,6 +98,10 @@
         function payBill() {
             var total = <%= total %>;
             var tip = parseFloat($('#tip').val());
+            if (tip < 0) {
+                tip = 0;
+                $('#tip').val('0')
+            }
             total += tip;
             window.location.href = '/payment?total=' + total.toFixed(2);
         }
