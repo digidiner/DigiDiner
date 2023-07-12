@@ -125,7 +125,7 @@ router.delete('/order', requireOrder, utils.asyncHandler(async function(req, res
         res.status(204).json({});
     } else {
         res.status(404).json({
-            'error': "Order Does Not eXist"
+            'error': "Order Does Not exist"
         });
     }
 }));
