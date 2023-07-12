@@ -50,33 +50,33 @@
                 <% orderItems.forEach(function(item) { %>
                     <div class="bill-item">
                         <h4>
-                            <%= item.name %>
+                            <%= menuItems[item.id].name %>
                         </h4>
                         <ul class="item-info">
-                            <li>Quantity: <%= item.quantity %>
+                            <li>Quantity: <%= item.count %>
                             </li>
-                            <li>Cost: $<%= item.price %>
+                            <li>Cost: $<%= menuItems[item.id].price %>
                             </li>
                         </ul>
                     </div>
-                    <% }) %>
-                        <div class="subtotal">
-                            Subtotal: $<%= subtotal %>
-                        </div>
-                        <div class="taxes">
-                            Taxes: $<%= taxes %>
-                        </div>
-                        <div class="total">
-                            Total: $<%= total %>
-                        </div>
-                        <div class="tip">
-                            <label for="tip">Tip:</label>
-                            <input type="number" id="tip" min="0" step="0.01" value="0">
-                            <button class="btn btn-primary" onclick="updateTotal()">Apply Tip</button>
-                        </div>
-                        <% } else { %>
-                            <p>No items in the bill.</p>
-                            <% } %>
+                <% }) %>
+                <div class="subtotal">
+                    Subtotal: $<%= subtotal %>
+                </div>
+                <div class="taxes">
+                    Taxes: $<%= taxes %>
+                </div>
+                <div class="total">
+                    Total: $<%= total %>
+                </div>
+                <div class="tip">
+                    <label for="tip">Tip:</label>
+                    <input type="number" id="tip" min="0" step="0.01" value="0">
+                    <button class="btn btn-primary" onclick="updateTotal()">Apply Tip</button>
+                </div>
+            <% } else { %>
+                <p>No items in the bill.</p>
+            <% } %>
         </div>
         <button class="btn btn-success pay-bill-btn" onclick="payBill()">Pay Bill</button>
     </div>
