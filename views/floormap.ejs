@@ -137,7 +137,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="qr-code-container">
+                                <div id="qr-code-container">
                                     <!-- QR code image or placeholder -->
                                 </div>
                             </div>
@@ -384,7 +384,7 @@
 
         // Handle click event on table cells
         function handleTableCellClick(event) {
-            var tableId = event.target.dataset.tableId;
+            const tableId = event.target.dataset.tableId;
             const status = event.target.dataset.status;
 
             if (status === 'occupied') {
@@ -402,6 +402,9 @@
 
         // Function to begin the order
         async function beginOrder() {
+            const tableId = $('#guestCountTableId').text();
+            const guestCount = $('#guestCountInput').val();
+
             try {
                 const response = await fetch('/api/waitstaff/order', {
                     method: 'POST',
@@ -423,9 +426,6 @@
                 alert('Error starting order!')
                 console.error('Error starting order!', error);
             }
-
-            const tableId = $('#guestCountTableId').text();
-            const guestCount = $('#guestCountInput').val();
 
             // Update the table status to 'occupied'
             $(`.table-cell[data-table-id="${tableId}"]`).data('status', 'occupied');
