@@ -6,6 +6,12 @@
     #order-iframe {
         height: 50vh;
     }
+
+    .confirm-order-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+    }
 </style>
 <div class="container">
     <h1 id="menu" class="text-center">Menu</h1>
@@ -137,7 +143,8 @@
                     <iframe id="order-iframe" src="/order/<%= order.id %>"></iframe>
                 </li>
             </ul>
-            <button class="btn btn-primary confirm-order-btn float-right">Confirm Order</button>
+            <button class="btn btn-primary confirm-order-btn float-right" onclick="confirmOrder()">Confirm
+                Order</button>
         </div>
     </div>
 </div>
@@ -203,6 +210,34 @@
         } catch (error) {
             alert('Error adding item to the order!');
             console.error('Error adding item to the order!', error);
+        }
+    }
+
+    async function confirmOrder() {
+        try {
+            const response = await fetch(`/api/customer/order/submit?orderId=${orderId}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                // Display a success message
+                alert('Your order has been submitted!');
+
+                // Redirect to the /bill page after successfully confirming the order
+                window.location.href = '/bill/' + orderId;
+            } else {
+                alert('Failed to submit order!')
+                let errorResponse = await response.json();
+                errorResponse.status = response.status;
+                console.error('Failed to submit order!', errorResponse);
+            }
+        } catch (error) {
+            alert('Error submitting order!');
+            console.error('Error submitting order!', error);
         }
     }
 </script>
