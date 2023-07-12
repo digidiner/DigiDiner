@@ -7,13 +7,12 @@ const Order = require('../models/order');
 var itemOption = require('../models/menuItemOption');
 var optionData = require('../models/menuOptionData');
 
-router.get('/', utils.asyncHandler(async function(req, res) {
+router.get('/', utils.asyncHandler(async function (req, res) {
     const menuItems = await menuData.getAllMenuItems();
-
     res.status(200).render('menu', { menuItems });
 }));
 
-router.get('/:id', utils.asyncHandler(async function(req, res, next) {
+router.get('/:id', utils.asyncHandler(async function (req, res, next) {
     const menuItems = await menuData.getAllMenuItems();
     const order = new Order(req.params.id);
     if (await order.load()) {
