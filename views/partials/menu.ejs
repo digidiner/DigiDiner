@@ -2,16 +2,9 @@
     .menu-header {
         font-size: 2.5rem;
     }
-</style>
 
-<style>
-    .menu-header {
-        font-size: 2.5rem;
-    }
-</style>
-<style>
-    .menu-header {
-        font-size: 2.5rem;
+    .order-container {
+        height: 50vh;
     }
 </style>
 <div class="container">
@@ -118,7 +111,7 @@
                                                         </div>
                                                     </div>
                                                     <button class="btn btn-primary mt-3"
-                                                        onclick="addToOrder(<%= itemIndex %>, '<%= item.id %>'); updateIframe()">Add
+                                                        onclick="addToOrder(<%= itemIndex %>, '<%= item.id %>');">Add
                                                         to Order</button>
 
                                         </div>
@@ -135,7 +128,7 @@
                     <% } %>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 order-container">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-primary">Your Order</span>
                 <span class="badge bg-primary rounded-pill">3</span>
@@ -198,6 +191,7 @@
             });
 
             if (response.ok) {
+                updateIframe();
                 // Display a success message
                 alert('Item added to the order!');
             } else {
