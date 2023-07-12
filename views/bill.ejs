@@ -61,13 +61,13 @@
                     </div>
                 <% }) %>
                 <div class="subtotal">
-                    Subtotal: $<%= subtotal %>
+                    Subtotal: $<%= subtotal.toFixed(2) %>
                 </div>
                 <div class="taxes">
-                    Taxes: $<%= taxes %>
+                    Taxes: $<%= taxes.toFixed(2) %>
                 </div>
                 <div class="total">
-                    Total: $<%= total %>
+                    Total: $<%= total.toFixed(2) %>
                 </div>
                 <div class="tip">
                     <label for="tip">Tip:</label>

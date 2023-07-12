@@ -25,20 +25,20 @@ function calculateSubtotal(orderItems) {
     orderItems.forEach(function (item) {
         subtotal += item.quantity * item.price;
     });
-    return subtotal.toFixed(2);
+    return subtotal;
 }
 
 function calculateTaxes(orderItems) {
     var subtotal = calculateSubtotal(orderItems);
     var taxes = subtotal * 0.1; // Assuming tax rate of 10%
-    return taxes.toFixed(2);
+    return taxes;
 }
 
 function calculateTotal(orderItems, tip) {
     var subtotal = calculateSubtotal(orderItems);
     var taxes = calculateTaxes(orderItems);
     var total = parseFloat(subtotal) + parseFloat(taxes) + parseFloat(tip);
-    return total.toFixed(2);
+    return total;
 }
 
 module.exports = router;
