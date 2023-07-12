@@ -44,7 +44,6 @@ router.get('/order', requireOrder, utils.asyncHandler(async function(req, res) {
 /* POST new order item */
 router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, res) {
     if (req.body.itemId == null) {
-        console.log(JSON.stringify(req.body));
         res.status(400).json({
             'error': "Missing Required Fields"
         });

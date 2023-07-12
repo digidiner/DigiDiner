@@ -132,6 +132,10 @@
             // Add the order item to the current order
             try {
                 const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
                     method: 'POST',
                     body: JSON.stringify({
                         itemId: index,
