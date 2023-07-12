@@ -206,7 +206,7 @@
                 // Display a success message
                 alert('Item added to the order!');
             } else {
-                alert('Failed to add item to the order!');
+                alert('Failed to add item to the order!\n' + response.error);
                 let errorResponse = await response.json();
                 errorResponse.status = response.status;
                 console.error('Failed to add item to the order!', errorResponse);
@@ -234,7 +234,7 @@
                 // Redirect to the /bill page after successfully confirming the order
                 window.location.href = '/bill/' + orderId;
             } else {
-                alert('Failed to submit order!')
+                alert('Failed to submit order!\n' + response.error)
                 let errorResponse = await response.json();
                 errorResponse.status = response.status;
                 console.error('Failed to submit order!', errorResponse);
