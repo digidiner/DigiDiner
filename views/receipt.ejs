@@ -87,27 +87,28 @@
     <div class="container">
         <h1>Receipt</h1>
         <p><strong>Date:</strong>
-            <%= timestamp %>
+            <%= new Date(Date.now()).toLocaleDateString('en-us') %>
         </p>
+        <!--
         <div class="receipt-details">
             <h3>Payment Details:</h3>
             <p><strong>Full Name:</strong>
-                <%= fullName %>
+                fullName
             </p>
             <p><strong>Card Number:</strong>
-                <%= maskedCardNumber %>
+                maskedCardNumber
             </p>
             <p><strong>CVV:</strong>
-                <%= cvv %>
+                cvv
             </p>
             <p><strong>Expiration:</strong>
-                <%= expiration %>
+                expiration
             </p>
             <p><strong>ZIP Code:</strong>
-                <%= zipCode %>
+                zipCode
             </p>
         </div>
-
+        -->
         <div class="receipt-options">
             <h3>Receipt Options:</h3>
             <div class="email-receipt-option">
