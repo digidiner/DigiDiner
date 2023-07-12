@@ -62,7 +62,7 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        function confirmOrder() {
+        async function confirmOrder() {
             try {
                 const response = await fetch(`/api/customer/order/status`, {
                     headers: {
@@ -82,7 +82,7 @@
                     console.error('Failed to submit order!', errorResponse);
                 }
             } catch (error) {
-                alert('Error submitting order!')
+                alert('Error submitting order!');
                 console.error('Error submitting order!', error);
             }
 
