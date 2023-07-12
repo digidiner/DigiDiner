@@ -158,6 +158,7 @@
         orderId = <%= order.id %>;
     <% } else { %>
         iframe.src += orderId;
+        updateIframe();
     <% } %>
 
     function updateIframe() {
