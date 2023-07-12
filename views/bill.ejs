@@ -46,8 +46,8 @@
     <div class="container">
         <h1>Restaurant Bill</h1>
         <div class="bill">
-            <% if (order.length> 0) { %>
-                <% order.forEach(function(item) { %>
+            <% if (orderItems.length > 0) { %>
+                <% orderItems.forEach(function(item) { %>
                     <div class="bill-item">
                         <h4>
                             <%= item.name %>
@@ -61,13 +61,13 @@
                     </div>
                     <% }) %>
                         <div class="subtotal">
-                            Subtotal: $<%= calculateSubtotal(order) %>
+                            Subtotal: $<%= subtotal %>
                         </div>
                         <div class="taxes">
-                            Taxes: $<%= calculateTaxes(order) %>
+                            Taxes: $<%= taxes %>
                         </div>
                         <div class="total">
-                            Total: $<%= calculateTotal(order, 0) %>
+                            Total: $<%= total %>
                         </div>
                         <div class="tip">
                             <label for="tip">Tip:</label>
@@ -86,37 +86,19 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        function calculateSubtotal(order) {
-            var subtotal = 0;
-            order.forEach(function (item) {
-                subtotal += item.quantity * item.price;
-            });
-            return subtotal.toFixed(2);
-        }
-
-        function calculateTaxes(order) {
-            var subtotal = calculateSubtotal(order);
-            var taxes = subtotal * 0.1; // Assuming tax rate of 10%
-            return taxes.toFixed(2);
-        }
-
-        function calculateTotal(order, tip) {
-            var subtotal = calculateSubtotal(order);
-            var taxes = calculateTaxes(order);
-            var total = parseFloat(subtotal) + parseFloat(taxes) + parseFloat(tip);
-            return total.toFixed(2);
-        }
+        var orderItems = JSON.parse(<%= JSON.stringify(orderItems) %>)
 
         function updateTotal() {
+            var total = <%= total %>;
             var tip = parseFloat($('#tip').val());
-            var total = parseFloat('<%= calculateTotal(order, 0) %>');
             total += tip;
             $('.total').html('Total: $' + total.toFixed(2));
         }
 
         function payBill() {
+            var total = <%= total %>;
             var tip = parseFloat($('#tip').val());
-            var total = parseFloat('<%= calculateTotal(order, tip) %>');
+            total += tip;
             window.location.href = '/payment?total=' + total.toFixed(2);
         }
     </script>
