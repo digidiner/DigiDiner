@@ -401,7 +401,28 @@
         }
 
         // Function to begin the order
-        function beginOrder() {
+        async function beginOrder() {
+            try {
+                const response = await fetch('/api/waitstaff/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ tableId })
+                })
+                if (response.ok) {
+                    var data = await response.json();
+                    var orderId = data.id;
+                } else {
+                    alert('Failed to begin the order!')
+                    let errorResponse = await response.json();
+                    errorResponse.status = response.status;
+                    console.error('Failed to begin the order!', errorResponse);
+                }
+            } catch (error) {
+                alert('Error starting order!')
+                console.error('Error starting order!', error);
+            }
 
             const tableId = $('#guestCountTableId').text();
             const guestCount = $('#guestCountInput').val();
