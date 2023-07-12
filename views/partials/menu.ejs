@@ -16,7 +16,7 @@
 </style>
 <div class="container">
     <div class="row g-5">
-        <div class="col-md-4">
+        <div class="col-md-8">
             <div class="col-12">
                 <h1 id="menu">Menu</h1>
                 <% const menuHeaders=[ { category: 'lunch' , header: 'Lunch Menu' }, { category: 'dinner' ,
@@ -121,17 +121,18 @@
                                         </div>
                                     </div>
                                     <% if (index < menuHeaders.length - 1) { %>
-                                        <br><br>
-                                        <hr class="section-divider">
+
                                         <% } %>
                                             <% } %>
                                                 <% } %>
                         </div>
                     </div>
+                    <br>
+                    <hr class="section-divider">
                     <% } %>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-primary">Your Order</span>
                 <span class="badge bg-primary rounded-pill">3</span>
