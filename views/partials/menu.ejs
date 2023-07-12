@@ -117,8 +117,10 @@
 </div>
 
 <script>
+    var orderId;
+
     <% if (typeof order !== 'undefined') { %> 
-        if (typeof orderId === 'undefined') var orderId = <%= order.id %>;
+        orderId = <%= order.id %>;
     <% } %>
 
     // Function to toggle the accordion content
