@@ -443,7 +443,7 @@
                 })
                 if (response.ok) {
                     var data = await response.json();
-                    var orderId = data.id;
+                    orderId = data.id;
                     // Update the table status to 'occupied'
                     $(`.table-cell[data-table-id="${tableId}"]`).data('status', 'occupied');
                     $(`.table-cell[data-table-id="${tableId}"]`).removeClass('table-unoccupied');
