@@ -164,7 +164,7 @@
     </div>
     <br>
     <hr class="section-divider">
-    <iframe id="order-iframe" src="../order.ejs"></iframe>
+    <iframe id="order-iframe" src="/order/<%= order.id %>"></iframe>
 </div>
 
 
@@ -177,7 +177,7 @@
 
         function updateIframe() {
             const iframe = document.getElementById('order-iframe');
-            iframe.src = '../order.ejs?update=true';
+            iframe.contentWindow.location.reload;
         }
 
     async function addToOrder(index, itemId) {
