@@ -63,19 +63,31 @@
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
         function confirmOrder() {
-            // Send the order data to the /data route to store it
-            $.ajax({
-                url: '/order/queue',
-                method: 'POST',
-                data: { order: JSON.stringify(orderItems) },
-                success: function (response) {
-                    // Redirect to the /bill page after successfully confirming the order
-                    window.location.href = '/bill';
-                },
-                error: function (err) {
-                    console.error(err);
+            try {
+                const response = await fetch(`/api/customer/order/status`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    // Display a success message
+                    alert('Your order has been submitted!');
+                } else {
+                    alert('Failed to submit order!')
+                    let errorResponse = await response.json();
+                    errorResponse.status = response.status;
+                    console.error('Failed to submit order!', errorResponse);
                 }
-            });
+            } catch (error) {
+                alert('Error submitting order!')
+                console.error('Error submitting order!', error);
+            }
+
+            // Redirect to the /bill page after successfully confirming the order
+            window.location.replace('/bill');
         }
     </script>
 </body>
