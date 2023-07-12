@@ -22,6 +22,12 @@
         .total-cost {
             font-weight: bold;
         }
+
+        .total-cost-wrapper {
+            margin-top: 20px;
+            border-top: 1px solid #dee2e6;
+            padding-top: 10px;
+        }
     </style>
 </head>
 
@@ -50,7 +56,7 @@
                         </ul>
                     </div>
                     <% }) %>
-                        <div class="total-cost">
+                        <div class="total-cost-wrapper">
                             <hr class="section-divider">
                             <h3>Total Cost: $<%= orderItems.reduce((sum, item)=> sum + item.count *
                                     menuItems[item.itemId].price, 0) %></h3>
