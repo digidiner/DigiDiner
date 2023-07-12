@@ -44,6 +44,14 @@
 
 <body>
     <div class="container">
+        <div class="py-5 text-center">
+            <h2>Checkout</h2>
+            <h4></h4>Your order is being prepared.</h4>
+            <p class="lead">Below is a summary of your order. Please proceed with
+                payment at your convenience.</p>
+            <h6>We appreciate your patience and look forward to serving you a
+                delightful dining experience.</h6>
+        </div>
         <h1>Restaurant Bill</h1>
         <div class="bill">
             <% if (orderItems.length > 0) { %>
@@ -107,7 +115,7 @@
                 $('#tip').val('0')
             }
             total += tip;
-            window.location.href = '/payment?total=' + total.toFixed(2);
+            window.location.href = '/receipt';
         }
     </script>
 
