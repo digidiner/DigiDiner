@@ -479,8 +479,9 @@
 
         // Handle QR code modal actions
         function handleQRCodeModal() {
-            // Perform actions when the QR code modal is shown
-            new QRCode(document.getElementById('qr-code-container'), window.location.origin + '/menu/' + orderId);
+            const qrCodeDiv = document.getElementById('qr-code-container');
+            qrCodeDiv.innerHTML = '';
+            new QRCode(qrCodeDiv, window.location.origin + '/menu/' + orderId);
         }
 
 
