@@ -13,7 +13,7 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
             order.status = 'incomplete';
             await order.save();
         }
-        res.status(200).render('order', { orderItems: await order.getItems(), menuItems: Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item])) }); // Pass the orderData to the order.ejs template
+        res.status(200).render('order', { order: order, orderItems: await order.getItems(), menuItems: Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item])) }); // Pass the orderData to the order.ejs template
     } else {
         next(); // Let it 404
     }

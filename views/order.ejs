@@ -64,7 +64,7 @@
     <script>
         async function confirmOrder() {
             try {
-                const response = await fetch(`/api/customer/order/status`, {
+                const response = await fetch(`/api/customer/order/submit?orderId=<%= order.id %>`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -75,6 +75,9 @@
                 if (response.ok) {
                     // Display a success message
                     alert('Your order has been submitted!');
+
+                    // Redirect to the /bill page after successfully confirming the order
+                    window.location.href = '/bill';
                 } else {
                     alert('Failed to submit order!')
                     let errorResponse = await response.json();
@@ -85,9 +88,6 @@
                 alert('Error submitting order!');
                 console.error('Error submitting order!', error);
             }
-
-            // Redirect to the /bill page after successfully confirming the order
-            window.location.href = '/bill';
         }
     </script>
 </body>

@@ -95,7 +95,7 @@ router.delete('/order/item', requireOrder, utils.asyncHandler(async function(req
 }));
 
 /* POST order submit */
-router.put('/order/status', requireOrder, utils.asyncHandler(async function(req, res) {
+router.post('/order/submit', requireOrder, utils.asyncHandler(async function(req, res) {
     if (req.order.status != 'incomplete') {
         res.status(400).json({
             'error': "Order Already Submitted"
@@ -125,7 +125,7 @@ router.delete('/order', requireOrder, utils.asyncHandler(async function(req, res
         res.status(204).json({});
     } else {
         res.status(404).json({
-            'error': "Order Does Not eXist"
+            'error': "Order Does Not exist"
         });
     }
 }));
