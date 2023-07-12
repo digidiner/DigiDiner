@@ -463,46 +463,41 @@
             new QRCode(document.getElementById('qr-code-container'), window.location.origin + '/order');
         }
 
-        // Call the populateTables function when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            populateTables();
 
+        $(document).ready(function () {
+            populateTables();
             // Handle QR code modal actions
             $('#qrCodeModal').on('shown.bs.modal', handleQRCodeModal);
+            // Add event listener to update status button
+            $('#updateStatusModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var tableCell = button.closest('.table-cell');
+                if (tableCell) {
+                    var tableId = tableCell.data('table-id');
+                    var tableNumber = button.text().trim();
+                    var modal = $(this);
 
-            // Add event listener to update status buttons
-            const updateStatusButtons = document.querySelectorAll('[data-target="#updateStatusModal"]');
-            updateStatusButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tableCell = button.closest('.table-cell');
-                    if (tableCell) {
-                        const tableId = tableCell.dataset.tableId;
-                        const tableNumber = button.textContent.trim();
-                        const modal = document.getElementById('updateStatusModal');
+                    // Set the table number in the modal
+                    var modalTableNumber = modal.find('.modal-title');
+                    modalTableNumber.text('Update Table Status: ' + tableNumber);
 
-                        // Set the table number in the modal
-                        const modalTableNumber = modal.querySelector('.modal-title');
-                        modalTableNumber.textContent = `Update Table Status: ${tableNumber}`;
+                    // Set the selected table
+                    $('#selectedTable').text(tableId);
 
-                        // Set the selected table
-                        document.getElementById('selectedTable').textContent = tableId;
-
-                        // Show the modal
-                        const statusModal = new bootstrap.Modal(modal);
-                        statusModal.show();
-                    }
-                });
+                    // Show the modal
+                    modal.modal('show');
+                }
             });
 
-
-            // Add an event listener to the modal submit button
-            const modalSubmitButton = document.getElementById('modalSubmitButton');
-            modalSubmitButton.addEventListener('click', saveTableStatus);
+            // Add event listener to modal submit button
+            $('#modalSubmitButton').click(function () {
+                saveTableStatus();
+            });
 
             // Add click event listener to table cells
-            $('.table-cell').on('click', function () {
-                const tableId = $(this).data('table-id');
-                const status = $(this).data('status');
+            $('.table-cell').click(function () {
+                var tableId = $(this).data('table-id');
+                var status = $(this).data('status');
                 $('#selectedTable').text(tableId);
                 $('#selectedTableStatus').text(status);
 
