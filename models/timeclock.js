@@ -50,29 +50,37 @@ class TimeClock {
             SELECT SUM(TIMESTAMPDIFF(MICROSECOND, start_time, CASE WHEN end_time IS NOT NULL THEN end_time ELSE CURRENT_TIMESTAMP END) / 1000) 
                 AS total_time 
                 FROM timeclock 
-                WHERE employee_id = '${this.employeeId}'
-        `))[0].total_time;
+                WHERE employee_id = ?
+        `, [this.employeeId]))[0].total_time;
     }
 
-    getDay(day) {
-        return new TimeClockDay(this, day % (24 * 60 * 60 * 1000));
+    getDay(time) {
+        return new TimeClockDay(this, time % (24 * 60 * 60 * 1000));
     }
 
-    async listPeriods() {
-        return (await TimeClock.conn.query({ sql: `
-            SELECT start_time 
+    async listPeriods(limit, offset) {
+        const periodRecords = await TimeClock.conn.query(`
+            SELECT start_time, end_time 
                 FROM timeclock 
-                WHERE employee_id = '${this.employeeId}'
-        `, rowsAsArray: true })).flat();
+                WHERE employee_id = ?
+                ORDER BY start_time DESC
+                LIMIT ? OFFSET ?
+        `, [this.employeeId, limit ?? 100, offset ?? 0]).map(record => ({
+            startTime: new Day(record.start_time).getTime(),
+            endTime: record.end_time != null ? new Day(record.end_time).getTime() : null
+        }));
+        const days = new Map(periodRecords.map(record => [record.startTime % (24 * 60 * 60 * 1000), this.getDay(record.startTime)]));
+        return periodRecords.map(record => new TimeClockPeriod(days[record.startTime % (24 * 60 * 60 * 1000)], record.startTime, record.endTime));
     }
 
     async getActivePeriod() {
         let record = (await TimeClock.conn.query(`
             SELECT start_time 
                 FROM timeclock 
-                WHERE employee_id = '${this.employeeId}'
+                WHERE employee_id = ?
                     AND end_time IS NULL
-        `))[0];
+                LIMIT 1
+        `, [this.employeeId]))[0];
         if (!record) return null;
         return await this.getPeriod(new Date(record.start_time).getTime());
     }
@@ -104,20 +112,23 @@ class TimeClockDay {
             SELECT SUM(TIMESTAMPDIFF(MICROSECOND, start_time, CASE WHEN end_time IS NOT NULL THEN end_time ELSE CURRENT_TIMESTAMP END) / 1000) 
                 AS total_time 
                 FROM timeclock 
-                WHERE employee_id = '${this.timeClock.employeeId}' 
-                    AND start_time >= '${new Date(this.day).toISOString().split('T')[0]}' 
-                    AND start_time < '${new Date(this.day + (24 * 60 * 60 * 1000)).toISOString().split('T')[0]}'
-        `))[0].total_time;
+                WHERE employee_id = ?
+                    AND start_time >= ? 
+                    AND start_time < ?
+        `, [this.timeClock.employeeId, new Date(this.day).toISOString().split('T')[0], new Date(this.day + (24 * 60 * 60 * 1000)).toISOString().split('T')[0]]))[0].total_time;
     }
 
-    async listPeriods() {
-        return (await TimeClock.conn.query({ sql: `
-            SELECT start_time 
+    async listPeriods(limit, offset) {
+        const periodRecords = await TimeClock.conn.query(`
+            SELECT start_time, end_time 
                 FROM timeclock 
-                WHERE employee_id = '${this.timeClock.employeeId}' 
-                    AND start_time >= '${new Date(this.day).toISOString().split('T')[0]}' 
-                    AND start_time < '${new Date(this.day + (24 * 60 * 60 * 1000)).toISOString().split('T')[0]}'
-        `, rowsAsArray: true })).flat();
+                WHERE employee_id = ? 
+                    AND start_time >= ? 
+                    AND start_time < ?
+                ORDER BY start_time DESC
+                LIMIT ? OFFSET ?
+        `, [this.timeClock.employeeId, new Date(this.day).toISOString().split('T')[0], new Date(this.day + (24 * 60 * 60 * 1000)).toISOString().split('T')[0], limit ?? 100, offset ?? 0]);
+        return periodRecords.map(record => new TimeClockPeriod(this, new Day(record.start_time).getTime(), record.end_time != null ? new Day(record.end_time).getTime() : null));
     }
 }
 
@@ -136,11 +147,11 @@ class TimeClockPeriod {
         const record = (await TimeClock.conn.query(`
             SELECT * 
                 FROM timeclock 
-                WHERE employee_id = '${this.timeClockDay.timeClock.employeeId}' 
-                    AND start_time = '${new Date(this.startTime).toISOString().slice(0, 19).replace('T', ' ')}'
-        `))[0];
+                WHERE employee_id = ? 
+                    AND start_time = ?
+        `, [this.timeClockDay.timeClock.employeeId, new Date(this.startTime).toISOString().slice(0, 19).replace('T', ' ')]))[0];
         if (record) {
-            this.endTime = new Date(record.end_time).getTime(); // Converts SQL timestamp milliseconds representation of date
+            this.endTime = record.end_time != null ? new Date(record.end_time).getTime() : null; // Converts SQL timestamp milliseconds representation of date
             return true;
         }
         return false;
