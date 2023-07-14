@@ -59,13 +59,13 @@ class TimeClock {
     }
 
     async listPeriods(limit, offset) {
-        const periodRecords = await TimeClock.conn.query(`
+        const periodRecords = (await TimeClock.conn.query(`
             SELECT start_time, end_time 
                 FROM timeclock 
                 WHERE employee_id = ?
                 ORDER BY start_time DESC
                 LIMIT ? OFFSET ?
-        `, [this.employeeId, limit ?? 100, offset ?? 0]).map(record => ({
+        `, [this.employeeId, limit ?? 100, offset ?? 0])).map(record => ({
             startTime: new Day(record.start_time).getTime(),
             endTime: record.end_time != null ? new Day(record.end_time).getTime() : null
         }));
