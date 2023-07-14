@@ -66,8 +66,8 @@ class TimeClock {
                 ORDER BY start_time DESC
                 LIMIT ? OFFSET ?
         `, [this.employeeId, limit ?? 100, offset ?? 0])).map(record => ({
-            startTime: new Day(record.start_time).getTime(),
-            endTime: record.end_time != null ? new Day(record.end_time).getTime() : null
+            startTime: new Date(record.start_time).getTime(),
+            endTime: record.end_time != null ? new Date(record.end_time).getTime() : null
         }));
         const days = new Map(periodRecords.map(record => [record.startTime % (24 * 60 * 60 * 1000), this.getDay(record.startTime)]));
         return periodRecords.map(record => new TimeClockPeriod(days[record.startTime % (24 * 60 * 60 * 1000)], record.startTime, record.endTime));
@@ -128,7 +128,7 @@ class TimeClockDay {
                 ORDER BY start_time DESC
                 LIMIT ? OFFSET ?
         `, [this.timeClock.employeeId, new Date(this.day).toISOString().split('T')[0], new Date(this.day + (24 * 60 * 60 * 1000)).toISOString().split('T')[0], limit ?? 100, offset ?? 0]);
-        return periodRecords.map(record => new TimeClockPeriod(this, new Day(record.start_time).getTime(), record.end_time != null ? new Day(record.end_time).getTime() : null));
+        return periodRecords.map(record => new TimeClockPeriod(this, new Date(record.start_time).getTime(), record.end_time != null ? new Date(record.end_time).getTime() : null));
     }
 }
 
