@@ -93,7 +93,6 @@ router.get('/employee', requireSession, utils.asyncHandler(async function (req, 
 
 /* POST employee time clock in */
 router.post('/employee/clockin', requireSession, utils.asyncHandler(async function (req, res) {
-    const employeeId = req.employee.id;
     let period = await req.employee.timeClock.clockIn();
     if (period) {
         res.status(200).json({
@@ -110,7 +109,6 @@ router.post('/employee/clockin', requireSession, utils.asyncHandler(async functi
 
 /* POST employee time clock out */
 router.post('/employee/clockout', requireSession, utils.asyncHandler(async function (req, res) {
-    const employeeId = req.employee.id;
     let period = await req.employee.timeClock.clockOut();
     if (period) {
         res.status(200).json({
@@ -124,6 +122,22 @@ router.post('/employee/clockout', requireSession, utils.asyncHandler(async funct
             'reason': "Not Clocked In"
         });
     }
+}));
+
+/* GET employee time clock status */
+router.get('/employee/clock', requireSession, utils.asyncHandler(async function (req, res) {
+    const activePeriod = await req.employee.timeClock.getActivePeriod();
+    const periods = await req.employee.timeClock.listPeriods(req.body.limit, req.body.offset)
+    res.status(200).json({
+        'activePeriod': {
+            'startTime': activePeriod.startTime,
+            'endTime': activePeriod.endTime
+        },
+        'periods': periods.filter(period => period.endTime != null).map(period => ({
+            'startTime': period.startTime,
+            'endTime': period.endTime
+        }))
+    });
 }));
 
 module.exports = router;
