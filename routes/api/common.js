@@ -129,10 +129,10 @@ router.get('/employee/clock', requireSession, utils.asyncHandler(async function 
     const activePeriod = await req.employee.timeClock.getActivePeriod();
     const periods = await req.employee.timeClock.listPeriods(req.body.limit, req.body.offset)
     res.status(200).json({
-        'activePeriod': {
-            'startTime': activePeriod.startTime,
-            'endTime': activePeriod.endTime
-        },
+        'clockedIn': activePeriod != null,
+        'activePeriod': activePeriod != null ? {
+            'startTime': activePeriod.startTime
+        } : undefined,
         'periods': periods.filter(period => period.endTime != null).map(period => ({
             'startTime': period.startTime,
             'endTime': period.endTime
