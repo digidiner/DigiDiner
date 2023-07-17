@@ -83,7 +83,7 @@ async function main() {
 
   // error handler
   app.use(function (err, req, res, next) {
-    console.error(err);
+    if (err.status == null || err.status >= 500) console.error(err);
 
     if (req.url.startsWith("/api")) {
       res.status(err.status || 500).json(err);
