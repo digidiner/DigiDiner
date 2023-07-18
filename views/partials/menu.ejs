@@ -215,7 +215,7 @@
         }
     }
 
-    function saveChanges() {
+    async function saveChanges() {
         // TODO: Implement the logic to save the changes made by the manager
         const itemsToUpdate = [];
         const itemNames = document.querySelectorAll('.accordion-header input[type="text"]');
@@ -234,8 +234,8 @@
             }
         });
 
-        updateMenuItems(itemsToUpdate);
-        deleteMenuItems(itemsToDelete);
+        await updateMenuItems(itemsToUpdate);
+        await deleteMenuItems(itemsToDelete);
         refreshMenu();
     }
 
@@ -251,7 +251,7 @@
                 category: newItemCategory,
             };
 
-            await addMenuItem(newItem);
+            addMenuItem(newItem);
             refreshMenu();
         } else {
             alert('Please provide all the required fields to create a new item.');
