@@ -241,7 +241,7 @@
         refreshMenu();
     }
 
-    function createNewItem() {
+    async function createNewItem() {
         const newItemName = window.prompt('Enter the name of the new item:');
         const newItemPrice = window.prompt('Enter the price of the new item:');
         const newItemCategory = window.prompt('Enter the category of the new item:');
@@ -253,8 +253,8 @@
                 category: newItemCategory,
             };
 
-            addMenuItem(newItem);
-            refreshMenu();
+            await addMenuItem(newItem);
+            await refreshMenu();
         } else {
             alert('Please provide all the required fields to create a new item.');
         }
@@ -289,7 +289,7 @@
     }
 
     // Helper function to refresh the menu after making changes
-    function refreshMenu() {
+    async function refreshMenu() {
         try {
             const response = await fetch('/api/menu');
             if (!response.ok) {
