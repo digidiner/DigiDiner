@@ -31,3 +31,29 @@
         </div>
     </div>
 </header>
+<script>
+    async function getEmployeeData() {
+        const employeeData = await (await fetch(window.location.origin + '/api/common/employee', {
+            method: 'GET'
+        })).json();
+        return employeeData.position;
+    }
+
+    async function renderHeader() {
+        const position = await getEmployeeData();
+        const menuLink = document.createElement('li');
+        menuLink.innerHTML = `
+        <a href="/menu" class="nav-link text-white">
+          Menu
+        </a>
+      `;
+        if (position === 'manager') {
+            const navList = document.querySelector('.nav');
+            navList.appendChild(menuLink);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        renderHeader();
+    });
+</script>
