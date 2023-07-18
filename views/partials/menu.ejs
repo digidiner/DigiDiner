@@ -166,21 +166,6 @@
 
         return employeeData.position;
     }
-    async function editButtons() {
-        // Fetch employee position of the currently signed-in user
-        const position = await getEmployeeData();
-        const isManager = position.includes('manager');
-        // Display manager edit button if the user is a manager
-        const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
-        managerEditButtonWrapper.style.display = isManager ? 'block' : 'none';
-
-        if (isManager) {
-            const managerEditButton = document.getElementById('managerEditButton');
-            managerEditButton.addEventListener('click', () => {
-                showEditOptions();
-            });
-        }
-    }
 
     function showEditOptions() {
         const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
@@ -214,6 +199,22 @@
         }); */
     }
 
+    async function editButtons() {
+        // Fetch employee position of the currently signed-in user
+        const position = await getEmployeeData();
+        const isManager = position.includes('manager');
+        // Display manager edit button if the user is a manager
+        const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
+        managerEditButtonWrapper.style.display = isManager ? 'block' : 'none';
+
+        if (isManager) {
+            const managerEditButton = document.getElementById('managerEditButton');
+            managerEditButton.addEventListener('click', () => {
+                showEditOptions();
+            });
+        }
+    }
+
     function saveChanges() {
         // TODO: Implement the logic to save the changes made by the manager
         const itemsToUpdate = [];
@@ -233,8 +234,8 @@
             }
         });
 
-        await updateMenuItems(itemsToUpdate);
-        await deleteMenuItems(itemsToDelete);
+        updateMenuItems(itemsToUpdate);
+        deleteMenuItems(itemsToDelete);
         refreshMenu();
     }
 
@@ -342,6 +343,7 @@
             }
         }
     }
+
     // Helper function to add a new menu item in the backend
     async function addMenuItem(newItem) {
         // Make a POST request to the backend API to add the new item
@@ -375,9 +377,7 @@
     }
 
     // Call the editButtons function when the page is loaded
-    window.addEventListener('load', () => {
-        editButtons();
-    });
+    window.addEventListener('load', editButtons);
 
     var orderId;
     const iframe = document.getElementById('order-iframe');
