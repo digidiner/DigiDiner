@@ -17,6 +17,7 @@
 </style>
 <div class="container">
     <h1 id="menu" class="text-center">Menu</h1>
+    <div id="managerEditButtonWrapper" class="manager-edit-button-wrapper"></div>
     <br>
     <hr class="section-divider">
     <div class="row g-5">
@@ -158,8 +159,227 @@
 
 
 <script>
-    var orderId;
+    async function getEmployeeData() {
+        const employeeData = await (await fetch(window.location.origin + '/api/common/employee', {
+            method: 'GET'
+        })).json();
 
+        return employeeData.position;
+    }
+    async function editButtons() {
+        // Fetch employee position of the currently signed-in user
+        const position = await getEmployeeData();
+        const isManager = position.includes('manager');
+        // Display manager edit button if the user is a manager
+        const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
+        managerEditButtonWrapper.style.display = isManager ? 'block' : 'none';
+
+        if (isManager) {
+            const managerEditButton = document.getElementById('managerEditButton');
+            managerEditButton.addEventListener('click', () => {
+                showEditOptions();
+            });
+        }
+    }
+
+    function showEditOptions() {
+        const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
+        managerEditButtonWrapper.innerHTML = `
+    <button class="btn btn-primary" onclick="saveChanges()">Save</button>
+    <button class="btn btn-primary" onclick="createNewItem()">New Item</button>
+    <button class="btn btn-danger" onclick="deleteItems()">Delete</button>
+  `;
+
+        const menuItems = document.querySelectorAll('.accordion-item');
+        menuItems.forEach((item) => {
+            const checkbox = document.createElement('input');
+            checkbox.setAttribute('type', 'checkbox');
+            checkbox.classList.add('edit-checkbox');
+            item.prepend(checkbox);
+        });
+
+        const itemNames = document.querySelectorAll('.accordion-header button');
+        itemNames.forEach((name) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.value = name.innerText;
+            name.innerHTML = '';
+            name.appendChild(input);
+        });
+
+        const managerEditButton = document.getElementById('managerEditButton');
+        managerEditButton.innerText = 'Save';
+        /* managerEditButton.addEventListener('click', () => {
+            saveChanges();
+        }); */
+    }
+
+    function saveChanges() {
+        // TODO: Implement the logic to save the changes made by the manager
+        const itemsToUpdate = [];
+        const itemNames = document.querySelectorAll('.accordion-header input[type="text"]');
+        itemNames.forEach((input) => {
+            const menuItemId = input.parentNode.parentNode.getAttribute('id').replace('heading', '');
+            const newItemName = input.value;
+            itemsToUpdate.push({ id: menuItemId, name: newItemName });
+        });
+
+        const itemsToDelete = [];
+        const checkboxes = document.querySelectorAll('.edit-checkbox');
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                const menuItemId = checkbox.parentNode.getAttribute('id').replace('heading', '');
+                itemsToDelete.push(menuItemId);
+            }
+        });
+
+        await updateMenuItems(itemsToUpdate);
+        await deleteMenuItems(itemsToDelete);
+        refreshMenu();
+    }
+
+    function createNewItem() {
+        const newItemName = window.prompt('Enter the name of the new item:');
+        const newItemPrice = window.prompt('Enter the price of the new item:');
+        const newItemCategory = window.prompt('Enter the category of the new item:');
+
+        if (newItemName && newItemPrice && newItemCategory) {
+            const newItem = {
+                name: newItemName,
+                price: parseFloat(newItemPrice),
+                category: newItemCategory,
+            };
+
+            await addMenuItem(newItem);
+            refreshMenu();
+        } else {
+            alert('Please provide all the required fields to create a new item.');
+        }
+    }
+
+    async function deleteItems() {
+        const itemsToDelete = [];
+        const checkboxes = document.querySelectorAll('.edit-checkbox');
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                const menuItemId = checkbox.parentNode.getAttribute('id').replace('heading', '');
+                itemsToDelete.push(menuItemId);
+            }
+        });
+        await deleteMenuItems(itemsToDelete);
+        refreshMenu();
+    }
+
+    // Helper function to update menu items in the backend
+    async function updateMenuItems(itemsToUpdate) {
+        for (const item of itemsToUpdate) {
+            const { id, name } = item;
+            await updateMenu(id, { name });
+        }
+    }
+
+    // Helper function to delete menu items in the backend
+    async function deleteMenuItems(itemsToDelete) {
+        for (const itemId of itemsToDelete) {
+            await removeMenuItem(itemId);
+        }
+    }
+
+    // Helper function to refresh the menu after making changes
+    function refreshMenu() {
+        try {
+            const response = await fetch('/api/menu');
+            if (!response.ok) {
+                throw new Error('Failed to fetch menu data');
+            }
+            const menuItems = await response.json();
+            updateMenuContent(menuItems);
+        } catch (error) {
+            console.error('Error refreshing menu:', error);
+        }
+    }
+
+    // Function to update the menu content dynamically
+    function updateMenuContent(menuItems) {
+        const menuContainer = document.getElementById('menu');
+
+        for (const menuHeader of menuContainer.children) {
+            const categoryContent = menuHeader.nextElementSibling;
+            const filteredItems = menuItems.filter(item => item.category === menuHeader.id);
+            const accordionItems = categoryContent.getElementsByClassName('accordion-item');
+
+            for (let i = 0; i < filteredItems.length; i++) {
+                const menuItem = filteredItems[i];
+                const accordionItem = accordionItems[i];
+                const menuItemButton = accordionItem.querySelector('.accordion-button');
+                const menuItemPriceBadge = menuItemButton.querySelector('.badge.bg-primary');
+                menuItemButton.textContent = menuItem.name;
+                menuItemPriceBadge.textContent = `$${Number(menuItem.price).toFixed(2)}`;
+
+                const optionsList = accordionItem.querySelector('.list-group');
+
+                if (menuItem.options.length > 0) {
+                    const optionItems = optionsList.getElementsByClassName('list-group-item');
+
+                    for (let j = 0; j < menuItem.options.length; j++) {
+                        const option = menuItem.options[j];
+                        const optionItem = optionItems[j];
+                        const optionCheckbox = optionItem.querySelector('.form-check-input');
+                        const optionLabel = optionItem.querySelector('.form-check-label');
+                        const optionPriceBadge = optionLabel.querySelector('.badge.bg-secondary');
+
+                        optionCheckbox.value = option.name;
+                        optionCheckbox.id = option.id;
+                        optionLabel.textContent = option.name;
+
+                        if (option.price) {
+                            optionPriceBadge.textContent = `$${Number(option.price).toFixed(2)}`;
+                        } else {
+                            optionPriceBadge.textContent = '';
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Helper function to add a new menu item in the backend
+    async function addMenuItem(newItem) {
+        // Make a POST request to the backend API to add the new item
+        const response = await fetch('/api/menu', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newItem),
+        });
+
+        if (response.ok) {
+            const newItemData = await response.json();
+            console.log('New item added:', newItemData);
+        } else {
+            console.error('Failed to add new item:', response.status, response.statusText);
+        }
+    }
+
+    // Helper function to remove a menu item from the backend
+    async function removeMenuItem(itemId) {
+        const response = await fetch(`/api/menu/${itemId}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            console.log('Item deleted:', itemId);
+        } else {
+            console.error('Failed to delete item:', response.status, response.statusText);
+        }
+    }
+
+    // Call the editButtons function when the page is loaded
+    window.addEventListener('load', () => {
+        editButtons();
+    });
+
+    var orderId;
     const iframe = document.getElementById('order-iframe');
 
     <% if (typeof order !== 'undefined') { %>
@@ -171,25 +391,10 @@
         }
 
     async function addToOrder(index, itemId) {
-        // Get the selected options
-        var selectedOptions = [];
-        var optionCheckboxes = document.querySelectorAll('#collapse' + index + ' input[type="checkbox"]:checked');
-        optionCheckboxes.forEach(function (checkbox) {
-            selectedOptions.push(checkbox.value);
-        });
+        const selectedOptions = Array.from(document.querySelectorAll('#collapse' + index + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
+        const selectedAllergies = Array.from(document.querySelectorAll('#allergyCollapse' + index + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
+        const specialRequest = document.getElementById('specialRequest' + index).value;
 
-        // Get the selected allergy options
-        var selectedAllergies = [];
-        var allergyCheckboxes = document.querySelectorAll('#allergyCollapse' + index + ' input[type="checkbox"]:checked');
-        allergyCheckboxes.forEach(function (checkbox) {
-            selectedAllergies.push(checkbox.value);
-        });
-
-        // Get the special request
-        var specialRequestTextarea = document.getElementById('specialRequest' + index);
-        var specialRequest = specialRequestTextarea.value;
-
-        // Add the order item to the current order
         try {
             const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {
                 headers: {
@@ -207,7 +412,6 @@
 
             if (response.ok) {
                 updateIframe();
-                // Display a success message
                 alert('Item added to the order!');
             } else {
                 let errorResponse = await response.json();
@@ -232,10 +436,7 @@
             });
 
             if (response.ok) {
-                // Display a success message
                 alert('Your order has been submitted!');
-
-                // Redirect to the /bill page after successfully confirming the order
                 window.location.href = '/bill/' + orderId;
             } else {
                 let errorResponse = await response.json();
