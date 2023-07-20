@@ -446,31 +446,35 @@
         }
 
         async function deleteOrder() {
-            const response = await fetch(window.location.origin + '/api/waitstaff/order', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    orderId: orderId
-                }),
-            });
+            const response;
+            if (orderId != null) {
+                response = await fetch(window.location.origin + '/api/waitstaff/order', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: orderId
+                    }),
+                });
+            }
             
             const selectedTable = $('#selectedTable').text();
             const tableCell = $(`.table-cell[data-table-id="${selectedTable}"]`);
 
-            if (!response.ok) {
+            if (orderId == null || !response.ok) {
                 await fetch(window.location.origin + '/api/waitstaff/table/status', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        id: tableCell.data('tableId'),
+                        id: tableCell.data('table-id'),
                         status: 'dirty'
                     }),
                 });
             }
+
             tableCell.data('status', 'table-dirty');
             tableCell.removeClass('table-occupied');
             tableCell.addClass('table-dirty');
