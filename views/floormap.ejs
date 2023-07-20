@@ -486,7 +486,7 @@
         }
 
         async function cleanTable() {
-            const tableId = $('#orderTableId').text();
+            const tableId = $('#finalBillTableId').text();
             const tableCell = $(`.table-cell[data-table-id="${tableId}"]`);
 
             if (orderId == null || !response.ok) {
