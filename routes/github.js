@@ -22,7 +22,8 @@ router.post('/webhook', function(req, res) {
   }
   res.status(200).send("Webhook Accepted");
   try {
-    execSync("git pull");
+    execSync("git fetch");
+    execSync("git reset --hard FETCH_HEAD");
     execSync("npm install");
     console.log('Updated from GitHub in response to webhook - restarting');
     process.exit();
