@@ -66,7 +66,7 @@ router.get('/order', requireSession, utils.asyncHandler(async function(req, res)
         });
         return;
     }
-    const order = req.query.orderId != null ? await Order.getOrderById(req.body.orderId) : await Order.getOrderForTable(req.body.tableId);
+    const order = req.query.orderId != null ? await Order.getOrderById(req.query.orderId) : await Order.getOrderForTable(req.query.tableId);
     if (order == null) {
         res.status(404).json({
             'error': "Order Does Not Exist",
