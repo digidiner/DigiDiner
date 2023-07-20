@@ -8,7 +8,7 @@ const Employee = require('../models/employee');
 // Used to verify user is signed in
 function requireSession(req, res, next) {
     if (!req.employee) {
-        req.session.returnTo = req.url;
+        req.session.returnTo = req.originalUrl;
         res.redirect('/');
         return;
     }
