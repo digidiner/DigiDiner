@@ -446,7 +446,7 @@
         }
 
         async function deleteOrder() {
-            const response = await fetch(window.location.origin + '/api/common/waitstaff/order', {
+            const response = await fetch(window.location.origin + '/api/waitstaff/order', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -455,22 +455,22 @@
                     orderId: orderId
                 }),
             });
+            
+            const selectedTable = $('#selectedTable').text();
+            const tableCell = $(`.table-cell[data-table-id="${selectedTable}"]`);
 
             if (!response.ok) {
-                await fetch(window.location.origin + '/api/common/waitstaff/table/status', {
+                await fetch(window.location.origin + '/api/waitstaff/table/status', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        id: $(`.table-cell[data-table-id="${$('#selectedTable').text()}"]`).dataset.tableId,
+                        id: tableCell.data('tableId'),
                         status: 'dirty'
                     }),
                 });
             }
-            
-            const selectedTable = $('#selectedTable').text();
-            const tableCell = $(`.table-cell[data-table-id="${selectedTable}"]`);
             tableCell.data('status', 'table-dirty');
             tableCell.removeClass('table-occupied');
             tableCell.addClass('table-dirty');
