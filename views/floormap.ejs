@@ -446,7 +446,7 @@
         }
 
         async function deleteOrder() {
-            const response = await fetch('window.location.origin + /api/common/waitstaff/order', {
+            const response = await fetch(window.location.origin + '/api/common/waitstaff/order', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -457,7 +457,7 @@
             });
 
             if (!response.ok) {
-                await fetch('window.location.origin + /api/common/waitstaff/order', {
+                await fetch(window.location.origin + '/api/common/waitstaff/table/status', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
