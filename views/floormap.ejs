@@ -208,6 +208,9 @@
                             </div>
                             <div class="modal-body">
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="cleanTable()">Mark Table Cleaned</button>
+                            </div>
                         </div>
                     </div>
 
@@ -479,6 +482,30 @@
             tableCell.removeClass('table-occupied');
             tableCell.addClass('table-dirty');
             $('#selectedTableStatus').text('table-dirty');
+            $('#orderModal').modal('hide');
+        }
+
+        async function cleanTable() {
+            const tableId = $('#orderTableId').text();
+            const tableCell = $(`.table-cell[data-table-id="${tableId}"]`);
+
+            if (orderId == null || !response.ok) {
+                await fetch(window.location.origin + '/api/waitstaff/table/status', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: tableId,
+                        status: 'unoccupied'
+                    }),
+                });
+            }
+
+            tableCell.data('status', 'table-unoccupied');
+            tableCell.removeClass('table-dirty');
+            tableCell.addClass('table-unoccupied');
+            $('#selectedTableStatus').text('table-unoccupied');
             $('#orderModal').modal('hide');
         }
 
