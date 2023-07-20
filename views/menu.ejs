@@ -1,89 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>DigiDiner</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
 
-<head>
-    <meta charset="UTF-8">
-    <title>DigiDiner</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <style>
+            .nav-link {
+                font-size: 1.2rem;
+            }
 
-    <style>
-        .nav-link {
-            font-size: 1.2rem;
-        }
+            .nav-link.active {
+                background-color: #e3f2fd;
+            }
 
-        .nav-link.active {
-            background-color: #e3f2fd;
-        }
+            header {
+                box-shadow: 0 2px 4px rgba(84, 84, 84, 0.1);
+            }
 
-        header {
-            box-shadow: 0 2px 4px rgba(84, 84, 84, 0.1);
-        }
+            footer {
+                background-color: #f8f9fa;
+                /* Solid color for the footer */
+                padding: 20px 0;
+                /* Adjust padding as needed */
+                color: #6c757d;
+                /* Text color */
+                text-align: center;
+            }
+        </style>
+    </head>
 
-        footer {
-            background-color: #f8f9fa;
-            /* Solid color for the footer */
-            padding: 20px 0;
-            /* Adjust padding as needed */
-            color: #6c757d;
-            /* Text color */
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
-    <header class="px-3 py-4 text-bg-dark shadow">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <div class="shadow p-3 rounded">
-                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                        <img src="/images/logoCloseup.png" role="img" alt="LogoClose" width="100" height="84">
-                    </a>
-                </div>
-                <hr class="section-divider">
-
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" id="menuDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Menu
+    <body>
+        <header class="px-3 py-4 text-bg-dark shadow">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <div class="shadow p-3 rounded">
+                        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                            <img src="/images/logoCloseup.png" role="img" alt="LogoClose" width="100" height="84">
                         </a>
-                        <ul class="dropdown-menu shadow" aria-labelledby="menuDropdown">
-                            <li><a class="dropdown-item" href="#lunchMenuHeader">Lunch Menu</a></li>
-                            <li><a class="dropdown-item" href="#dinnerMenuHeader">Dinner Menu</a></li>
-                            <li><a class="dropdown-item" href="#drinkMenuHeader">Drink Menu</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <%- include('partials/menu') %>
-    </main>
-    <div class="col-md-5 order-container">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-primary">Your Order</span>
-        </h4>
-        <div>
-            <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-sm iframe-container">
-                    <div class="iframe-wrapper">
-                        <iframe id="order-iframe"
-                            src="/order/<%= typeof order !== 'undefined' ? order.id : '' %>"></iframe>
                     </div>
-                </li>
-            </ul>
-            <button class="btn btn-primary confirm-order-btn float-right" onclick="confirmOrder()">Confirm
-                Order</button>
-        </div>
-    </div>
-    
-    <footer>
-        <%- include('partials/footer') %>
-    </footer>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-</body>
+                    <hr class="section-divider">
 
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="menuDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Menu
+                            </a>
+                            <ul class="dropdown-menu shadow" aria-labelledby="menuDropdown">
+                                <li><a class="dropdown-item" href="#lunchMenuHeader">Lunch Menu</a></li>
+                                <li><a class="dropdown-item" href="#dinnerMenuHeader">Dinner Menu</a></li>
+                                <li><a class="dropdown-item" href="#drinkMenuHeader">Drink Menu</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <%- include('partials/menuOrder') %>
+        </main>
+
+        <footer>
+            <%- include('partials/footer') %>
+        </footer>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>

@@ -2,436 +2,120 @@
     .menu-header {
         font-size: 2.5rem;
     }
-
-    .iframe-container {
-        flex: 1;
-    }
-
-    .iframe-wrapper {
-        overflow: auto;
-    }
-
-    #order-iframe {
-        height: 50vh;
-    }
 </style>
-<div class="container">
-    <h1 id="menu" class="text-center">Menu</h1>
-    <div id="managerEditButtonWrapper" class="manager-edit-button-wrapper">
-        <button id="managerEditButton" class="btn btn-primary managerEditButton">Edit</button>
-    </div>
-    <br>
-    <hr class="section-divider">
-    <div class="row g-5">
-        <div class="col-md-7">
-            <div class="col-12">
-                <% const menuHeaders=[ { category: 'lunch' , header: 'Lunch Menu' }, { category: 'dinner' ,
-                    header: 'Dinner Menu' }, { category: 'drink' , header: 'Drink Menu' } ]; for (const [index,
-                    menuHeader] of menuHeaders.entries()) { %>
-                    <div class="accordion accordion-white" id="<%= menuHeader.category %>Accordion">
-                        <h1 class="accordion-header menu-header" id="<%= menuHeader.category %>MenuHeader">
-                            <%= menuHeader.header %>
-                        </h1>
-                        <div class="accordion-content" id="<%= menuHeader.category %>MenuContent">
-                            <% for (const [itemIndex, item] of menuItems.entries()) { %>
-                                <% if (item.category===menuHeader.category) { %>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading<%= itemIndex %>">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapse<%= itemIndex %>"
-                                                aria-expanded="false" aria-controls="collapse<%= itemIndex %>">
-                                                <%= item.name %>
-                                                    <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %>
-                                                    </span>
-                                            </button>
-                                        </h2>
-                                        <div id="collapse<%= itemIndex %>" class="accordion-collapse collapse"
-                                            aria-labelledby="heading<%= itemIndex %>"
-                                            data-bs-parent="#<%= menuHeader.category %>Accordion">
-                                            <% if (item.options.length> 0) { %>
-                                                <h5 class="text-white">Select Options:</h5>
-                                                <ul class="list-group">
-                                                    <% for (const option of item.options) { %>
-                                                        <li class="list-group-item">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    value="<%= option.name %>" id="<%= option.id %>">
-                                                                <label class="form-check-label" for="<%= option.id %>">
-                                                                    <%= option.name %>
-                                                                        <% if (option.price) { %>
-                                                                            <span class="badge bg-secondary">$
-                                                                                <%= Number(option.price).toFixed(2) %>
-                                                                            </span>
-                                                                            <% } %>
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <% } %>
-                                                </ul>
+<div class="col-md-7">
+    <div class="col-12">
+        <% const menuHeaders=[ { category: 'lunch' , header: 'Lunch Menu' }, { category: 'dinner' ,
+            header: 'Dinner Menu' }, { category: 'drink' , header: 'Drink Menu' } ]; for (const [index,
+            menuHeader] of menuHeaders.entries()) { %>
+            <div class="accordion accordion-white" id="<%= menuHeader.category %>Accordion">
+                <h1 class="accordion-header menu-header" id="<%= menuHeader.category %>MenuHeader">
+                    <%= menuHeader.header %>
+                </h1>
+                <div class="accordion-content" id="<%= menuHeader.category %>MenuContent">
+                    <% for (const [itemIndex, item] of menuItems.entries()) { %>
+                        <% if (item.category===menuHeader.category) { %>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading<%= itemIndex %>">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapse<%= itemIndex %>"
+                                        aria-expanded="false" aria-controls="collapse<%= itemIndex %>">
+                                        <%= item.name %>
+                                            <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %>
+                                            </span>
+                                    </button>
+                                </h2>
+                                <div id="collapse<%= itemIndex %>" class="accordion-collapse collapse"
+                                    aria-labelledby="heading<%= itemIndex %>"
+                                    data-bs-parent="#<%= menuHeader.category %>Accordion">
+                                    <% if (item.options.length> 0) { %>
+                                        <h5 class="text-white">Select Options:</h5>
+                                        <ul class="list-group">
+                                            <% for (const option of item.options) { %>
+                                                <li class="list-group-item">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="<%= option.name %>" id="<%= option.id %>">
+                                                        <label class="form-check-label" for="<%= option.id %>">
+                                                            <%= option.name %>
+                                                                <% if (option.price) { %>
+                                                                    <span class="badge bg-secondary">$
+                                                                        <%= Number(option.price).toFixed(2) %>
+                                                                    </span>
+                                                                    <% } %>
+                                                        </label>
+                                                    </div>
+                                                </li>
                                                 <% } %>
-                                                    <div class="accordion-content">
-                                                        <h5 class="text-white">Allergy:</h5>
-                                                        <div class="accordion-item">
-                                                            <h3 class="accordion-header"
-                                                                id="allergyHeading<%= itemIndex %>">
-                                                                <button class="accordion-button" type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#allergyCollapse<%= itemIndex %>"
-                                                                    aria-expanded="true"
-                                                                    aria-controls="allergyCollapse<%= itemIndex %>">
-                                                                    Allergy
-                                                                </button>
-                                                            </h3>
-                                                            <div id="allergyCollapse<%= itemIndex %>"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="allergyHeading<%= itemIndex %>">
-                                                                <div class="accordion-body">
-                                                                    <select class="form-select"
-                                                                        id="allergyDropdown<%= itemIndex %>">
-                                                                        <option value="Peanuts">Peanuts</option>
-                                                                        <option value="Gluten">Gluten</option>
-                                                                        <option value="Dairy">Dairy</option>
-                                                                        <option value="Shellfish">Shellfish</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="accordion-content">
-                                                        <h5 class="text-white">Special Request:</h5>
-                                                        <div class="accordion-item">
-                                                            <h3 class="accordion-header"
-                                                                id="specialRequestHeading<%= itemIndex %>">
-                                                                <button class="accordion-button" type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#specialRequestCollapse<%= itemIndex %>"
-                                                                    aria-expanded="true"
-                                                                    aria-controls="specialRequestCollapse<%= itemIndex %>">
-                                                                    Special Request
-                                                                </button>
-                                                            </h3>
-                                                            <div id="specialRequestCollapse<%= itemIndex %>"
-                                                                class="accordion-collapse collapse"
-                                                                aria-labelledby="specialRequestHeading<%= itemIndex %>">
-                                                                <div class="accordion-body">
-                                                                    <textarea class="form-control"
-                                                                        id="specialRequest<%= itemIndex %>"
-                                                                        rows="3"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <button class="btn btn-primary mt-3"
-                                                        onclick="addToOrder(<%= itemIndex %>, '<%= item.id %>');">Add
-                                                        to Order</button>
-
-                                        </div>
-                                    </div>
-                                    <% if (index < menuHeaders.length - 1) { %>
-
+                                        </ul>
                                         <% } %>
-                                            <% } %>
-                                                <% } %>
-                        </div>
-                    </div>
-                    <br>
-                    <hr class="section-divider">
-                    <% } %>
+                                            <div class="accordion-content">
+                                                <h5 class="text-white">Allergy:</h5>
+                                                <div class="accordion-item">
+                                                    <h3 class="accordion-header"
+                                                        id="allergyHeading<%= itemIndex %>">
+                                                        <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse"
+                                                            data-bs-target="#allergyCollapse<%= itemIndex %>"
+                                                            aria-expanded="true"
+                                                            aria-controls="allergyCollapse<%= itemIndex %>">
+                                                            Allergy
+                                                        </button>
+                                                    </h3>
+                                                    <div id="allergyCollapse<%= itemIndex %>"
+                                                        class="accordion-collapse collapse"
+                                                        aria-labelledby="allergyHeading<%= itemIndex %>">
+                                                        <div class="accordion-body">
+                                                            <select class="form-select"
+                                                                id="allergyDropdown<%= itemIndex %>">
+                                                                <option value="Peanuts">Peanuts</option>
+                                                                <option value="Gluten">Gluten</option>
+                                                                <option value="Dairy">Dairy</option>
+                                                                <option value="Shellfish">Shellfish</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-content">
+                                                <h5 class="text-white">Special Request:</h5>
+                                                <div class="accordion-item">
+                                                    <h3 class="accordion-header"
+                                                        id="specialRequestHeading<%= itemIndex %>">
+                                                        <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse"
+                                                            data-bs-target="#specialRequestCollapse<%= itemIndex %>"
+                                                            aria-expanded="true"
+                                                            aria-controls="specialRequestCollapse<%= itemIndex %>">
+                                                            Special Request
+                                                        </button>
+                                                    </h3>
+                                                    <div id="specialRequestCollapse<%= itemIndex %>"
+                                                        class="accordion-collapse collapse"
+                                                        aria-labelledby="specialRequestHeading<%= itemIndex %>">
+                                                        <div class="accordion-body">
+                                                            <textarea class="form-control"
+                                                                id="specialRequest<%= itemIndex %>"
+                                                                rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-primary mt-3"
+                                                onclick="addToOrder(<%= itemIndex %>, '<%= item.id %>');">Add
+                                                to Order</button>
+
+                                </div>
+                            </div>
+                            <% if (index < menuHeaders.length - 1) { %>
+
+                                <% } %>
+                                    <% } %>
+                                        <% } %>
+                </div>
             </div>
-        </div>
+            <br>
+            <hr class="section-divider">
+            <% } %>
     </div>
 </div>
-
-
-<script>
-    async function getEmployeeData() {
-        const employeeData = await (await fetch(window.location.origin + '/api/common/employee', {
-            method: 'GET'
-        })).json();
-
-        return employeeData.position;
-    }
-
-    function showEditOptions() {
-        const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
-        managerEditButtonWrapper.innerHTML = `
-    <button class="btn btn-primary" onclick="saveChanges()">Save</button>
-    <button class="btn btn-primary" onclick="createNewItem()">New Item</button>
-    <button class="btn btn-danger" onclick="deleteItems()">Delete</button>
-  `;
-
-        const menuItems = document.querySelectorAll('.accordion-item');
-        menuItems.forEach((item) => {
-            const checkbox = document.createElement('input');
-            checkbox.setAttribute('type', 'checkbox');
-            checkbox.classList.add('edit-checkbox');
-            item.prepend(checkbox);
-        });
-
-        const itemNames = document.querySelectorAll('.accordion-header button');
-        itemNames.forEach((name) => {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'text');
-            input.value = name.innerText;
-            name.innerHTML = '';
-            name.appendChild(input);
-        });
-
-        const managerEditButton = document.getElementById('managerEditButton');
-        managerEditButton.innerText = 'Save';
-        /* managerEditButton.addEventListener('click', () => {
-            saveChanges();
-        }); */
-    }
-
-    async function editButtons() {
-        // Fetch employee position of the currently signed-in user
-        const position = await getEmployeeData();
-        const isManager = position.includes('manager');
-        // Display manager edit button if the user is a manager
-        const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
-        managerEditButtonWrapper.style.display = isManager ? 'block' : 'none';
-
-        if (isManager) {
-            const managerEditButton = document.getElementById('managerEditButton');
-            managerEditButton.addEventListener('click', () => {
-                showEditOptions();
-            });
-        }
-    }
-
-    async function saveChanges() {
-        // TODO: Implement the logic to save the changes made by the manager
-        const itemsToUpdate = [];
-        const itemNames = document.querySelectorAll('.accordion-header input[type="text"]');
-        itemNames.forEach((input) => {
-            const menuItemId = input.parentNode.parentNode.getAttribute('id').replace('heading', '');
-            const newItemName = input.value;
-            itemsToUpdate.push({ id: menuItemId, name: newItemName });
-        });
-
-        const itemsToDelete = [];
-        const checkboxes = document.querySelectorAll('.edit-checkbox');
-        checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-                const menuItemId = checkbox.parentNode.getAttribute('id').replace('heading', '');
-                itemsToDelete.push(menuItemId);
-            }
-        });
-
-        await updateMenuItems(itemsToUpdate);
-        await deleteMenuItems(itemsToDelete);
-        refreshMenu();
-    }
-
-    async function createNewItem() {
-        const newItemName = window.prompt('Enter the name of the new item:');
-        const newItemPrice = window.prompt('Enter the price of the new item:');
-        const newItemCategory = window.prompt('Enter the category of the new item:');
-
-        if (newItemName && newItemPrice && newItemCategory) {
-            const newItem = {
-                name: newItemName,
-                price: parseFloat(newItemPrice),
-                category: newItemCategory,
-            };
-
-            await addMenuItem(newItem);
-            await refreshMenu();
-        } else {
-            alert('Please provide all the required fields to create a new item.');
-        }
-    }
-
-    async function deleteItems() {
-        const itemsToDelete = [];
-        const checkboxes = document.querySelectorAll('.edit-checkbox');
-        checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-                const menuItemId = checkbox.parentNode.getAttribute('id').replace('heading', '');
-                itemsToDelete.push(menuItemId);
-            }
-        });
-        await deleteMenuItems(itemsToDelete);
-        refreshMenu();
-    }
-
-    // Helper function to update menu items in the backend
-    async function updateMenuItems(itemsToUpdate) {
-        for (const item of itemsToUpdate) {
-            const { id, name } = item;
-            await updateMenu(id, { name });
-        }
-    }
-
-    // Helper function to delete menu items in the backend
-    async function deleteMenuItems(itemsToDelete) {
-        for (const itemId of itemsToDelete) {
-            await removeMenuItem(itemId);
-        }
-    }
-
-    // Helper function to refresh the menu after making changes
-    async function refreshMenu() {
-        try {
-            const response = await fetch('/api/menu');
-            if (!response.ok) {
-                throw new Error('Failed to fetch menu data');
-            }
-            const menuItems = await response.json();
-            updateMenuContent(menuItems);
-        } catch (error) {
-            console.error('Error refreshing menu:', error);
-        }
-    }
-
-    // Function to update the menu content dynamically
-    function updateMenuContent(menuItems) {
-        const menuContainer = document.getElementById('menu');
-
-        for (const menuHeader of menuContainer.children) {
-            const categoryContent = menuHeader.nextElementSibling;
-            const filteredItems = menuItems.filter(item => item.category === menuHeader.id);
-            const accordionItems = categoryContent.getElementsByClassName('accordion-item');
-
-            for (let i = 0; i < filteredItems.length; i++) {
-                const menuItem = filteredItems[i];
-                const accordionItem = accordionItems[i];
-                const menuItemButton = accordionItem.querySelector('.accordion-button');
-                const menuItemPriceBadge = menuItemButton.querySelector('.badge.bg-primary');
-                menuItemButton.textContent = menuItem.name;
-                menuItemPriceBadge.textContent = `$${Number(menuItem.price).toFixed(2)}`;
-
-                const optionsList = accordionItem.querySelector('.list-group');
-
-                if (menuItem.options.length > 0) {
-                    const optionItems = optionsList.getElementsByClassName('list-group-item');
-
-                    for (let j = 0; j < menuItem.options.length; j++) {
-                        const option = menuItem.options[j];
-                        const optionItem = optionItems[j];
-                        const optionCheckbox = optionItem.querySelector('.form-check-input');
-                        const optionLabel = optionItem.querySelector('.form-check-label');
-                        const optionPriceBadge = optionLabel.querySelector('.badge.bg-secondary');
-
-                        optionCheckbox.value = option.name;
-                        optionCheckbox.id = option.id;
-                        optionLabel.textContent = option.name;
-
-                        if (option.price) {
-                            optionPriceBadge.textContent = `$${Number(option.price).toFixed(2)}`;
-                        } else {
-                            optionPriceBadge.textContent = '';
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Helper function to add a new menu item in the backend
-    async function addMenuItem(newItem) {
-        // Make a POST request to the backend API to add the new item
-        const response = await fetch('/api/menu', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newItem),
-        });
-
-        if (response.ok) {
-            const newItemData = await response.json();
-            console.log('New item added:', newItemData);
-        } else {
-            console.error('Failed to add new item:', response.status, response.statusText);
-        }
-    }
-
-    // Helper function to remove a menu item from the backend
-    async function removeMenuItem(itemId) {
-        const response = await fetch(`/api/menu/${itemId}`, {
-            method: 'DELETE',
-        });
-
-        if (response.ok) {
-            console.log('Item deleted:', itemId);
-        } else {
-            console.error('Failed to delete item:', response.status, response.statusText);
-        }
-    }
-
-    // Call the editButtons function when the page is loaded
-    window.addEventListener('load', editButtons);
-
-    var orderId;
-    const iframe = document.getElementById('order-iframe');
-
-    <% if (typeof order !== 'undefined') { %>
-        orderId = <%= order.id %>;
-    <% } %>
-
-        function updateIframe() {
-            iframe.src = '/order/' + orderId;
-        }
-
-    async function addToOrder(index, itemId) {
-        const selectedOptions = Array.from(document.querySelectorAll('#collapse' + index + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
-        const selectedAllergies = Array.from(document.querySelectorAll('#allergyCollapse' + index + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
-        const specialRequest = document.getElementById('specialRequest' + index).value;
-
-        try {
-            const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    itemId: itemId,
-                    options: selectedOptions,
-                    allergies: selectedAllergies.join(','),
-                    request: specialRequest
-                })
-            });
-
-            if (response.ok) {
-                updateIframe();
-                alert('Item added to the order!');
-            } else {
-                let errorResponse = await response.json();
-                errorResponse.status = response.status;
-                console.error('Failed to add item to the order!', errorResponse);
-                alert('Failed to add item to the order!\n' + errorResponse.error);
-            }
-        } catch (error) {
-            console.error('Error adding item to the order!', error);
-            alert('Error adding item to the order!');
-        }
-    }
-
-    async function confirmOrder() {
-        try {
-            const response = await fetch(`/api/customer/order/submit?orderId=${orderId}`, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: 'POST'
-            });
-
-            if (response.ok) {
-                alert('Your order has been submitted!');
-                window.location.href = '/bill/' + orderId;
-            } else {
-                let errorResponse = await response.json();
-                errorResponse.status = response.status;
-                console.error('Failed to submit order!', errorResponse);
-                alert('Failed to submit order!\n' + errorResponse.error)
-            }
-        } catch (error) {
-            console.error('Error submitting order!', error);
-            alert('Error submitting order!');
-        }
-    }
-</script>
