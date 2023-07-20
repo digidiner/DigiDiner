@@ -482,10 +482,10 @@
                 });
             }
 
-            tableCell.attr('data-status', 'table-dirty');
+            tableCell.attr('data-status', 'dirty');
             tableCell.removeClass('table-occupied');
             tableCell.addClass('table-dirty');
-            $('#selectedTableStatus').text('table-dirty');
+            $('#selectedTableStatus').text('dirty');
             $('#orderModal').modal('hide');
         }
 
@@ -506,10 +506,10 @@
                 });
             }
 
-            tableCell.attr('data-status', 'table-unoccupied');
+            tableCell.attr('data-status', 'unoccupied');
             tableCell.removeClass('table-dirty');
             tableCell.addClass('table-unoccupied');
-            $('#selectedTableStatus').text('table-unoccupied');
+            $('#selectedTableStatus').text('unoccupied');
             $('#finalBillModal').modal('hide');
         }
 
