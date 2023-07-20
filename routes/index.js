@@ -11,7 +11,7 @@ router.get('/', async function (req, res) {
 /* GET home page. */
 router.get('/signedin', async function (req, res) {
   if (req.session.returnTo != null) {
-    req.redirect(req.session.returnTo);
+    res.redirect(req.session.returnTo);
   } else {
     res.redirect('/profile');
   }
