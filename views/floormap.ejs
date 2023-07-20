@@ -446,7 +446,7 @@
         }
 
         async function deleteOrder() {
-            const response;
+            let response;
             if (orderId != null) {
                 response = await fetch(window.location.origin + '/api/waitstaff/order', {
                     method: 'DELETE',
