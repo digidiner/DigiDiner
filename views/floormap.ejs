@@ -95,7 +95,7 @@
                                 <h5 class="modal-title" id="guestCountModalTitle">Table <span
                                         id="guestCountTableId"></span> - Guest
                                     Count</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('guestCountModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -136,7 +136,7 @@
                                 <h5 class="modal-title" id="qrCodeModalTitle">Scan QR Code for Table <span
                                         id="qrCodeTableId"></span>
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('qrCodeModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -161,7 +161,7 @@
                                 <h5 class="modal-title" id="orderModalTitle">Order for Table <span
                                         id="orderTableId"></span>
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('orderModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -183,7 +183,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="menuModalTitle">Table: <span id="menuTableId"></span>
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('menuModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -202,7 +202,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="finalBillModalTitle">Final Bill for Table <span
                                         id="finalBillTableId"></span></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('finalBillModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -221,7 +221,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="updateStatusModalTitle">Update Table Status</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('updateStatusModal')">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -531,9 +531,10 @@
                     orderId = data.id;
                     updateIframe();
                     // Update the table status to 'occupied'
-                    $(`.table-cell[data-table-id="${tableId}"]`).data('status', 'occupied');
-                    $(`.table-cell[data-table-id="${tableId}"]`).removeClass('table-unoccupied');
-                    $(`.table-cell[data-table-id="${tableId}"]`).addClass('table-occupied');
+                    const tableCell = $(`.table-cell[data-table-id="${tableId}"]`);
+                    tableCell.attr('data-status', 'occupied');
+                    tableCell.removeClass('table-unoccupied');
+                    tableCell.addClass('table-occupied');
 
                     // Show the QR code modal
                     $('#qrCodeTableId').text(tableId);
