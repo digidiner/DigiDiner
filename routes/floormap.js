@@ -11,6 +11,7 @@ const menuData = require('../models/menuData');
 function requireSession(req, res, next) {
     if (!req.employee) {
         req.session.returnTo = req.url;
+        console.log("req.url: " + req.url);
         res.redirect('/');
         return;
     }
