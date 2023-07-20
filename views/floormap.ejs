@@ -95,7 +95,7 @@
                                 <h5 class="modal-title" id="guestCountModalTitle">Table <span
                                         id="guestCountTableId"></span> - Guest
                                     Count</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -136,7 +136,7 @@
                                 <h5 class="modal-title" id="qrCodeModalTitle">Scan QR Code for Table <span
                                         id="qrCodeTableId"></span>
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -161,7 +161,7 @@
                                 <h5 class="modal-title" id="orderModalTitle">Order for Table <span
                                         id="orderTableId"></span>
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -183,7 +183,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="menuModalTitle">Table: <span id="menuTableId"></span>
                                 </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -202,7 +202,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="finalBillModalTitle">Final Bill for Table <span
                                         id="finalBillTableId"></span></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -221,7 +221,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="updateStatusModalTitle">Update Table Status</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -266,7 +266,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="newTableModalTitle">Create New Table</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('newTableModal')">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -339,6 +339,10 @@
                     console.error('Polling attempt failed!', error);
                 }
             }, 1000); // Polling interval set to 1 second
+        }
+
+        function closeModal(modal) {
+            $(`#${modal}`).modal('hide');
         }
 
         async function populateTables() {
@@ -506,7 +510,7 @@
             tableCell.removeClass('table-dirty');
             tableCell.addClass('table-unoccupied');
             $('#selectedTableStatus').text('table-unoccupied');
-            $('#orderModal').modal('hide');
+            $('#finalBillModal').modal('hide');
         }
 
         // Function to begin the order
