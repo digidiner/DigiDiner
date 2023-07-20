@@ -59,7 +59,7 @@ router.post('/order', requireSession, utils.asyncHandler(async function(req, res
 }));
 
 /* GET order by id or table */
-router.get('/order', requireOrder, utils.asyncHandler(async function(req, res) {
+router.get('/order', requireSession, utils.asyncHandler(async function(req, res) {
     if ((req.query.orderId == null) == (req.query.tableId == null)) {
         res.status(400).json({
             'error': "Unnaceptable Query"

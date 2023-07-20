@@ -422,9 +422,8 @@
 
             if (status === 'occupied') {
                 $('#orderTableId').text(tableId);
-                $('#orderModal').modal('show');
-                
                 $('#orderStatus').text("Loading Order Status...");
+                $('#orderModal').modal('show');
 
                 event.target.dataset.order = await (await fetch(window.location.origin + '/api/waitstaff/order?tableId=' + event.target.dataset.tableId, {
                     method: 'GET'
