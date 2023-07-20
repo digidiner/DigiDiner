@@ -10,6 +10,7 @@ const menuData = require('../models/menuData');
 // Used to verify user is signed in
 function requireSession(req, res, next) {
     if (!req.employee) {
+        req.session.returnTo = req.url;
         res.redirect('/');
         return;
     }

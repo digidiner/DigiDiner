@@ -75,7 +75,7 @@
 						const data = await response.json();
 						console.log('Authentication successful:', data);
 						// Redirect to the authenticated user's profile page
-						window.location.href = `/profile`; // Redirect to the /profile page without including the ID
+						window.location.href = `/signedin`; // Redirect to the /signedin page without including the ID
 					} else {
 						const errorData = await response.json();
 						console.error('Authentication failed:', errorData.error);

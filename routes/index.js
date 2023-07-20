@@ -8,4 +8,13 @@ router.get('/', async function (req, res) {
   res.render('index', { Employee });
 });
 
+/* GET home page. */
+router.get('/signedin', async function (req, res) {
+  if (req.session.returnTo != null) {
+    req.redirect(req.session.returnTo);
+  } else {
+    res.redirect('/profile');
+  }
+});
+
 module.exports = router;
