@@ -459,8 +459,8 @@
                 });
             }
             
-            const selectedTable = $('#selectedTable').text();
-            const tableCell = $(`.table-cell[data-table-id="${selectedTable}"]`);
+            const tableId = $('#orderTableId').text();
+            const tableCell = $(`.table-cell[data-table-id="${tableId}"]`);
 
             if (orderId == null || !response.ok) {
                 await fetch(window.location.origin + '/api/waitstaff/table/status', {
@@ -469,7 +469,7 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        id: selectedTable,
+                        id: tableId,
                         status: 'dirty'
                     }),
                 });
