@@ -425,11 +425,11 @@
                 $('#orderStatus').text("Loading Order Status...");
                 $('#orderModal').modal('show');
 
-                event.target.dataset.order = await (await fetch(window.location.origin + '/api/waitstaff/order?tableId=' + event.target.dataset.tableId, {
+                const order = await (await fetch(window.location.origin + '/api/waitstaff/order?tableId=' + event.target.dataset.tableId, {
                     method: 'GET'
                 })).json();
                 
-                $('#orderStatus').text("Order Status: " + (event.target.dataset.order.status.charAt(0).toUpperCase() + event.target.dataset.order.status.slice(1)));
+                $('#orderStatus').text("Order Status: " + (order.status.charAt(0).toUpperCase() + order.status.slice(1)));
             } else if (status === 'unoccupied') {
                 // Show the guest count modal
                 $('#guestCountTableId').text(tableId);
