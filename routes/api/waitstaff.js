@@ -58,6 +58,37 @@ router.post('/order', requireSession, utils.asyncHandler(async function(req, res
     });
 }));
 
+/* GET order by id or table */
+router.get('/order', requireOrder, utils.asyncHandler(async function(req, res) {
+    if ((req.query.orderId == null) == (req.query.tableId == null)) {
+        res.status(400).json({
+            'error': "Unnaceptable Query"
+        });
+        return;
+    }
+    const order = req.query.orderId != null ? await Order.getOrderById(req.body.orderId) : await Order.getOrderForTable(req.body.tableId);
+    if (order == null) {
+        res.status(404).json({
+            'error': "Order Does Not Exist",
+            'status': "No order"
+        });
+        return;
+    }
+    res.status(200).json({
+        'id': order.id,
+        'tableId': order.tableId,
+        'paymentId': order.paymentId,
+        'status': order.status,
+        'time': order.time,
+        'items': await Promise.all((await order.getItems()).map(async item => ({
+            'id': item.id,
+            'itemId': item.itemId,
+            'count': item.count,
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+        })))
+    });
+}));
+
 /* GET order list */
 router.get('/order/list', requireSession, utils.asyncHandler(async function(req, res) {
     const orders = await Order.listOrders();

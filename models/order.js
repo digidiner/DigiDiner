@@ -86,6 +86,14 @@ class Order {
         return (await Order.conn.query(`SELECT * FROM \`order\``)).map(record => new Order(record.id, record.table_id, record.payment_id, record.status, record.time));
     }
 
+    static async getOrderById(orderId) {
+        const order = new Order(orderId);
+        if (await order.load()) {
+            return order;
+        }
+        return null;
+    }
+
     static async getOrderForTable(tableId) {
         const record = (await Order.conn.query(`SELECT * FROM \`order\` WHERE table_id = '${tableId}'`))[0];
         if (record && tableId == record.table_id) {
