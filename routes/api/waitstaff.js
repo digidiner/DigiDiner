@@ -139,6 +139,34 @@ router.put('/order/status', requireSession, utils.asyncHandler(async function(re
     });
 }));
 
+/* DELETE order */
+router.delete('/order', requireSession, utils.asyncHandler(async function(req, res) {
+    if (req.body.orderId == null) {
+        res.status(400).json({
+            'error': "Missing Required Fields"
+        });
+        return;
+    }
+    const order = new Order(req.body.orderId);
+    if (!(await req.order.load())) {
+        res.status(400).json({
+            'error': "Invalid or Expired Order"
+        });
+        return;
+    }
+    if (await order.delete()) {
+        const table = new Table(order.tableId);
+        await table.load();
+        table.status = 'dirty';
+        await table.save();
+        res.status(204).json({});
+    } else {
+        res.status(404).json({
+            'error': "Order Does Not exist"
+        });
+    }
+}));
+
 /* GET table */
 router.get('/table', requireSession, utils.asyncHandler(async function(req, res) {
     if (req.body.id == null) {
