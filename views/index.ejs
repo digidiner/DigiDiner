@@ -78,8 +78,12 @@
 					if (response.ok) {
 						const data = await response.json();
 						console.log('Authentication successful:', data);
-						// Redirect to the authenticated user's profile page
-						window.location.href = `/signedin`; // Redirect to the /signedin page without including the ID
+
+						if (remember) {
+							localStorage.setItem('authToken', data.token);
+						}
+
+						window.location.href = `/profile`;
 					} else {
 						const errorData = await response.json();
 						console.error('Authentication failed:', errorData.error);
@@ -137,6 +141,9 @@
 
 					if (signupResponse.ok) {
 						console.log('User created successfully');
+						if (remember) {
+							localStorage.setItem('authToken', data.token);
+						}
 						// Close the signup modal after successful user creation
 						const signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
 						signupModal.hide();
@@ -148,6 +155,16 @@
 					console.error('Error during user creation:', error);
 				}
 			}
+			// Function to check for an existing authentication token in local storage and use it if available
+			function checkRememberMe() {
+				const authToken = localStorage.getItem('authToken');
+				if (authToken) {
+					// Redirect to the authenticated user's profile page
+					window.location.href = `/profile`;
+				}
+			}
+
+			checkRememberMe();
 		</script>
 
 		<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
