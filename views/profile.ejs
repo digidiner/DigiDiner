@@ -208,11 +208,11 @@
             if (employeeList) {
                 const employeeListModal = new bootstrap.Modal(document.getElementById('employeeListModal'));
                 const employeeListContainer = document.getElementById('employeeList');
-                employeeListContainer.innerHTML = ''; // Clear previous list items
+                employeeListContainer.innerHTML = '';
                 employeeList.forEach((employee) => {
                     const listItem = document.createElement('li');
                     listItem.classList.add('list-group-item');
-                    listItem.textContent = `${employee.nameFirst} ${employee.nameLast}`;
+                    listItem.textContent = `${employee.name_first} ${employee.name_last}`;
                     listItem.addEventListener('click', () => {
                         showEmployeeDetails(employee);
                         employeeListModal.hide();
@@ -263,6 +263,13 @@
 
                 if (response.ok) {
                     alert('Employee details updated successfully!');
+                    const updatedEmployee = {
+                        nameFirst: firstName,
+                        nameLast: lastName,
+                        id: id,
+                        position: position
+                    };
+                    showEmployeeDetails(updatedEmployee);
                 } else {
                     console.error('Failed to update employee details:', response.status);
                 }

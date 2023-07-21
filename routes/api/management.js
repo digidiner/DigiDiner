@@ -47,7 +47,7 @@ router.post('/employee/create', requireSession, utils.asyncHandler(async functio
 /* PUT update existing employee */
 router.put('/employee/:id', requireSession, utils.asyncHandler(async function (req, res) {
     const id = parseInt(req.params.id);
-    const { nameFirst, nameLast, password, position } = req.body;
+    const { nameFirst, nameLast, position } = req.body;
 
     try {
         const employee = await Employee.findById(id);
