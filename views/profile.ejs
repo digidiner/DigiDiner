@@ -251,12 +251,12 @@
         async function updateEmployee() {
             const firstName = document.getElementById('firstNameInput').value;
             const lastName = document.getElementById('lastNameInput').value;
-            const id = document.getElementById('idInput');
-            const password = document.getElementById('passwordInput');
+            const id = document.getElementById('idInput').value;
+            const password = document.getElementById('passwordInput').value;
             const position = document.getElementById('positionInput').value;
 
             try {
-                const response = await fetch(`/api/management/employee/${employeeId}`, {
+                const response = await fetch(`/api/management/employee/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -282,6 +282,7 @@
 
         // Function to delete the selected employee
         async function deleteEmployee() {
+            const employeeId = document.getElementById('idInput').value;
             try {
                 const response = await fetch(`/api/management/employee/${employeeId}`, {
                     method: 'DELETE'
