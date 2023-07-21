@@ -70,6 +70,10 @@ router.post('/employee/auth', utils.asyncHandler(async function (req, res) {
         });
         return;
     }
+    if (req.body.remember) {
+        req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000; // One Week
+        req.session.cookie.expires = new Date(Date.now() + req.session.cookie.maxAge);
+    }
     req.session.employeeId = employee.id;
     res.status(200).json({
         'id': employee.id,

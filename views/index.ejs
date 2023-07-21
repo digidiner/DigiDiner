@@ -54,6 +54,7 @@
 				event.preventDefault();
 				const employeeId = document.getElementById('floatingIdSignIn').value;
 				const password = document.getElementById('floatingPasswordSignIn').value;
+				const remember = document.getElementById('rememberSignIn').checked;
 				if (!employeeId || !password) {
 					console.error('Missing Required Fields');
 					return;
@@ -67,7 +68,8 @@
 						},
 						body: JSON.stringify({
 							id: employeeId,
-							pass: password
+							pass: password,
+							remember: remember
 						})
 					});
 
