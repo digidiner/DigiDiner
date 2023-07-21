@@ -127,10 +127,6 @@
                                 <input type="text" class="form-control" id="idInput" required>
                             </div>
                             <div class="mb-3">
-                                <label for="passwordInput" class="form-label">Password</label>
-                                <input type="text" class="form-control" id="passwordInput" required>
-                            </div>
-                            <div class="mb-3">
                                 <label for="positionInput" class="form-label">Position</label>
                                 <input type="text" class="form-control" id="positionInput" required>
                             </div>
@@ -178,7 +174,6 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    // Show the newly generated employee ID in a popup window
                     alert('New Employee ID: ' + data.id);
                 } else {
                     console.error('Failed to generate employee ID:', response.status);
@@ -235,13 +230,11 @@
             const firstNameInput = document.getElementById('firstNameInput');
             const lastNameInput = document.getElementById('lastNameInput');
             const idInput = document.getElementById('idInput');
-            const passwordInput = document.getElementById('passwordInput');
             const positionInput = document.getElementById('positionInput');
 
             firstNameInput.value = employee.nameFirst;
             lastNameInput.value = employee.nameLast;
             idInput.value = employee.id;
-            passwordInput.value = employee.password;
             positionInput.value = employee.position;
 
             employeeDetailsModal.show();
@@ -252,7 +245,6 @@
             const firstName = document.getElementById('firstNameInput').value;
             const lastName = document.getElementById('lastNameInput').value;
             const id = document.getElementById('idInput').value;
-            const password = document.getElementById('passwordInput').value;
             const position = document.getElementById('positionInput').value;
 
             try {
@@ -265,7 +257,6 @@
                         nameFirst: firstName,
                         nameLast: lastName,
                         id: id,
-                        password: password,
                         position: position
                     })
                 });

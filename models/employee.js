@@ -38,7 +38,7 @@ class Employee {
     }
 
     static async listEmployees() {
-        return (await Employee.conn.query({ sql: `SELECT id, name_first, name_last, pass_hash, position FROM employee`, rowsAsArray: true })).flat();
+        return (await Employee.conn.query({ sql: `SELECT id, name_first, name_last, position FROM employee`, rowsAsArray: true })).flat();
     }
 
     static async findById(id) {
