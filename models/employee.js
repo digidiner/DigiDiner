@@ -38,7 +38,7 @@ class Employee {
     }
 
     static async listEmployees() {
-        return (await Employee.conn.query({ sql: `SELECT id FROM employee`, rowsAsArray: true })).flat();
+        return (await Employee.conn.query({ sql: `SELECT * FROM employee`, rowsAsArray: true })).flat();
     }
 
     static async findById(id) {
@@ -54,6 +54,37 @@ class Employee {
             );
         }
         return null;
+    }
+
+    async update() {
+        try {
+            await Employee.conn.query(`
+                UPDATE employee
+                SET name_first = ?, name_last = ?, position = ?, id = ?, password = ?
+                WHERE id = ?`,
+                [this.nameFirst, this.nameLast, this.position, this.id, this.password]
+            );
+
+            return true;
+        } catch (error) {
+            console.error('Error updating employee:', error);
+            return false;
+        }
+    }
+
+    async delete() {
+        try {
+            await Employee.conn.query(`
+                DELETE FROM employee
+                WHERE id = ?`,
+                [this.id]
+            );
+
+            return true;
+        } catch (error) {
+            console.error('Error deleting employee:', error);
+            return false;
+        }
     }
 
     async load() {

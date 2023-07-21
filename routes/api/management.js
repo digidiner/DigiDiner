@@ -23,7 +23,7 @@ function requireSession(req, res, next) {
 }
 
 /* GET employee list */
-router.get('/employee/list', requireSession, utils.asyncHandler(async function(req, res) {
+router.get('/employee/list', requireSession, utils.asyncHandler(async function (req, res) {
     let employeeList = await Employee.listEmployees();
     res.status(200).json({
         'list': employeeList
@@ -31,7 +31,7 @@ router.get('/employee/list', requireSession, utils.asyncHandler(async function(r
 }));
 
 /* POST create new employee */
-router.post('/employee/create', requireSession, utils.asyncHandler(async function(req, res) {
+router.post('/employee/create', requireSession, utils.asyncHandler(async function (req, res) {
     let id;
     let newEmployee;
     do {
@@ -44,8 +44,61 @@ router.post('/employee/create', requireSession, utils.asyncHandler(async functio
     });
 }));
 
+/* PUT update existing employee */
+router.put('/employee/:id', utils.requireSession, utils.asyncHandler(async function (req, res) {
+    const id = parseInt(req.params.id);
+    const { nameFirst, nameLast, password, position } = req.body;
+
+    try {
+        const employee = await Employee.findById(id);
+        if (!employee) {
+            res.status(404).json({ 'error': 'Employee not found' });
+            return;
+        }
+
+        employee.nameFirst = nameFirst;
+        employee.nameLast = nameLast;
+        employee.id = id;
+        employee.password = password;
+        employee.position = position;
+
+        const success = await employee.update();
+        if (success) {
+            res.status(200).json({ 'message': 'Employee updated successfully' });
+        } else {
+            res.status(500).json({ 'error': 'Failed to update employee' });
+        }
+    } catch (error) {
+        console.error('Error updating employee:', error);
+        res.status(500).json({ 'error': 'Internal server error' });
+    }
+}));
+
+/* DELETE existing employee */
+router.delete('/employee/:id', utils.requireSession, utils.asyncHandler(async function (req, res) {
+    const id = req.params.id;
+
+    try {
+        const employee = await Employee.findById(id);
+        if (!employee) {
+            res.status(404).json({ 'error': 'Employee not found' });
+            return;
+        }
+
+        const success = await employee.delete();
+        if (success) {
+            res.status(200).json({ 'message': 'Employee deleted successfully' });
+        } else {
+            res.status(500).json({ 'error': 'Failed to delete employee' });
+        }
+    } catch (error) {
+        console.error('Error deleting employee:', error);
+        res.status(500).json({ 'error': 'Internal server error' });
+    }
+}));
+
 /* POST new table */
-router.post('/table', requireSession, utils.asyncHandler(async function(req, res) {
+router.post('/table', requireSession, utils.asyncHandler(async function (req, res) {
     if (req.body.seats == null) {
         res.status(400).json({
             'error': "Missing Required Fields"

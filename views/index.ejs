@@ -86,6 +86,66 @@
 					console.error('Error during authentication:', error);
 				}
 			});
+
+			function togglePasswordVisibility(inputId) {
+				const passwordInput = document.getElementById(inputId);
+				if (passwordInput.type === "password") {
+					passwordInput.type = "text";
+				} else {
+					passwordInput.type = "password";
+				}
+			}
+
+			async function signUp() {
+				const employeeId = document.getElementById('floatingIdSignUp').value;
+				const firstName = document.getElementById('floatingFirstSignUp').value;
+				const lastName = document.getElementById('floatingLastSignUp').value;
+				const password = document.getElementById('floatingPasswordSignUp').value;
+				const remember = document.getElementById('rememberSignUp').checked;
+
+				if (!employeeId || !email || !password) {
+					console.error('Missing Required Fields');
+					return;
+				}
+
+				try {
+					// Check if the employee ID exists by making a GET request to the employee list
+					const response = await fetch('/api/management/employee/list');
+					const data = await response.json();
+					const employeeIds = data.list.map((employee) => employee.id);
+					if (!employeeIds.includes(employeeId)) {
+						console.error('Invalid Employee ID');
+						return;
+					}
+
+					// If the ID exists, proceed with the signup
+					const signupResponse = await fetch('/api/common/employee/signup', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							id: employeeId,
+							nameFirst: firstName,
+							nameLast: lastName,
+							pass: password,
+							remember: remember
+						})
+					});
+
+					if (signupResponse.ok) {
+						console.log('User created successfully');
+						// Close the signup modal after successful user creation
+						const signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+						signupModal.hide();
+					} else {
+						const errorData = await signupResponse.json();
+						console.error('User creation failed:', errorData.error);
+					}
+				} catch (error) {
+					console.error('Error during user creation:', error);
+				}
+			}
 		</script>
 
 		<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
@@ -102,14 +162,21 @@
 								<label for="floatingIdSignUp">Employee ID</label>
 							</div>
 							<div class="form-floating mb-3">
-								<input type="test" class="form-control" id="floatingInputSignUp"
-									placeholder="name@example.com">
-								<label for="floatingInputSignUp">Employee email address</label>
+								<input type="text" class="form-control" id="floatingFirstSignUp"
+									placeholder="First Name">
+								<label for="floatingFirstSignUp">First Name</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="floatingLastSignUp" placeholder="Last Name">
+								<label for="floatingLastSignUp">Last Name</label>
 							</div>
 							<div class="form-floating mb-3">
 								<input type="text" class="form-control" id="floatingPasswordSignUp"
 									placeholder="Password">
 								<label for="floatingPasswordSignUp">Password</label>
+								<span class="password-toggle"
+									onclick="togglePasswordVisibility('floatingPasswordSignUp')">
+									<i class="bi bi-eye"></i></span>
 							</div>
 							<div class="checkbox mb-3">
 								<label>
@@ -127,6 +194,5 @@
 		</div>
 	</main>
 </body>
-
 
 </html>

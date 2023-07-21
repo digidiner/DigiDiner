@@ -43,6 +43,10 @@
                     <a id="floormapNavLink" class="nav-link fw-bold px-3" href="/floormap">Floor Map</a>
                 </nav>
             </div>
+            <% if (employee.position==='manager' ) { %>
+                <button class="btn btn-primary" onclick="generateNewEmployeeId()">Generate ID</button>
+                <button class="btn btn-primary" onclick="showEmployeeList()">Edit Employees</button>
+                <% } %>
         </header>
 
         <main class="px-3 d-flex flex-column h-100 align-items-center">
@@ -50,12 +54,22 @@
                 <img src="/images/profile.png" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
             </div>
             <br><br>
-            <h1 class="text-center mt-3 mb-3">Welcome, <span id="firstName"><%= employee.nameFirst %></span> <span id="lastName"><%= employee.nameLast %></span></h1>
+            <h1 class="text-center mt-3 mb-3">Welcome, <span id="firstName">
+                    <%= employee.nameFirst %>
+                </span> <span id="lastName">
+                    <%= employee.nameLast %>
+                </span></h1>
             <div class="text-center">
-                <p class="lead">User ID: <span id="employeeId"><%= employee.id %></span></p>
-                <p class="lead">Position: <span id="position"><%= employee.position %></span></p>
+                <p class="lead">User ID: <span id="employeeId">
+                        <%= employee.id %>
+                    </span></p>
+                <p class="lead">Position: <span id="position">
+                        <%= employee.position %>
+                    </span></p>
             </div>
-            <p class="position-md-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate"><%= employee.hireDate %></span></p>
+            <p class="position-md-absolute top-0 start-0 m-3">Hire Date: <span id="hireDate">
+                    <%= employee.hireDate %>
+                </span></p>
             <br>
             <p id="description" class=" text-center lead mt-4 mb-4">This is your personal employee portal.
                 <br>
@@ -68,6 +82,68 @@
                 <br><br>
             </div>
         </main>
+        <!-- Employee List Modal -->
+        <div class="modal fade" id="employeeListModal" tabindex="-1" aria-labelledby="employeeListModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="employeeListModalLabel">Employee List</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul id="employeeList" class="list-group">
+                            <!-- The employee list will be displayed here -->
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Details Modal -->
+        <div class="modal fade" id="employeeDetailsModal" tabindex="-1" aria-labelledby="employeeDetailsModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="employeeDetailsModalLabel">Employee Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="employeeDetailsForm">
+                            <div class="mb-3">
+                                <label for="firstNameInput" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstNameInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastNameInput" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastNameInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="idInput" class="form-label">ID</label>
+                                <input type="text" class="form-control" id="idInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordInput" class="form-label">Password</label>
+                                <input type="text" class="form-control" id="passwordInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="positionInput" class="form-label">Position</label>
+                                <input type="text" class="form-control" id="positionInput" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="updateEmployee()">Update</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteEmployee()">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <footer>
             <%- include('partials/footer') %>
         </footer>
@@ -91,6 +167,134 @@
             } catch (error) {
                 console.error('Error retrieving signed-in employee:', error);
                 return null;
+            }
+        }
+
+        async function generateNewEmployeeId() {
+            try {
+                const response = await fetch('/api/management/employee/create', {
+                    method: 'POST',
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // Show the newly generated employee ID in a popup window
+                    alert('New Employee ID: ' + data.id);
+                } else {
+                    console.error('Failed to generate employee ID:', response.status);
+                }
+            } catch (error) {
+                console.error('Error generating employee ID:', error);
+            }
+        }
+
+        async function getEmployeeList() {
+            try {
+                const response = await fetch('/api/management/employee/list', {
+                    method: 'GET',
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.list;
+                } else {
+                    console.error('Failed to retrieve employee list:', response.status);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Error retrieving employee list:', error);
+                return null;
+            }
+        }
+
+        // Function to display the employee list in the modal
+        async function showEmployeeList() {
+            const employeeList = await getEmployeeList();
+            if (employeeList) {
+                const employeeListModal = new bootstrap.Modal(document.getElementById('employeeListModal'));
+                const employeeListContainer = document.getElementById('employeeList');
+                employeeListContainer.innerHTML = ''; // Clear previous list items
+                employeeList.forEach((employee) => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('list-group-item');
+                    listItem.textContent = `${employee.nameFirst} ${employee.nameLast}`;
+                    listItem.addEventListener('click', () => {
+                        showEmployeeDetails(employee);
+                        employeeListModal.hide();
+                    });
+                    employeeListContainer.appendChild(listItem);
+                });
+                employeeListModal.show();
+            }
+        }
+
+        // Function to display the employee details in the modal
+        function showEmployeeDetails(employee) {
+            const employeeListModal = new bootstrap.Modal(document.getElementById('employeeListModal'));
+            const employeeDetailsModal = new bootstrap.Modal(document.getElementById('employeeDetailsModal'));
+            const firstNameInput = document.getElementById('firstNameInput');
+            const lastNameInput = document.getElementById('lastNameInput');
+            const idInput = document.getElementById('idInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const positionInput = document.getElementById('positionInput');
+
+            firstNameInput.value = employee.nameFirst;
+            lastNameInput.value = employee.nameLast;
+            idInput.value = employee.id;
+            passwordInput.value = employee.password;
+            positionInput.value = employee.position;
+
+            employeeDetailsModal.show();
+        }
+
+        // Function to update the employee details
+        async function updateEmployee() {
+            const firstName = document.getElementById('firstNameInput').value;
+            const lastName = document.getElementById('lastNameInput').value;
+            const id = document.getElementById('idInput');
+            const password = document.getElementById('passwordInput');
+            const position = document.getElementById('positionInput').value;
+
+            try {
+                const response = await fetch(`/api/management/employee/${employeeId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nameFirst: firstName,
+                        nameLast: lastName,
+                        id: id,
+                        password: password,
+                        position: position
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Employee details updated successfully!');
+                } else {
+                    console.error('Failed to update employee details:', response.status);
+                }
+            } catch (error) {
+                console.error('Error updating employee details:', error);
+            }
+        }
+
+        // Function to delete the selected employee
+        async function deleteEmployee() {
+            try {
+                const response = await fetch(`/api/management/employee/${employeeId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Employee deleted successfully!');
+                    showEmployeeList();
+                } else {
+                    console.error('Failed to delete employee:', response.status);
+                }
+            } catch (error) {
+                console.error('Error deleting employee:', error);
             }
         }
 
