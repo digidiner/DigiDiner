@@ -59,7 +59,7 @@ router.put('/employee/:id', requireSession, utils.asyncHandler(async function (r
         employee.nameFirst = nameFirst;
         employee.nameLast = nameLast;
         employee.id = id;
-        employee.password = password;
+        employee.passHash = password;
         employee.position = position;
 
         const success = await employee.update();
