@@ -45,7 +45,7 @@ router.post('/employee/create', requireSession, utils.asyncHandler(async functio
 }));
 
 /* PUT update existing employee */
-router.put('/employee/:id', utils.requireSession, utils.asyncHandler(async function (req, res) {
+router.put('/employee/:id', requireSession, utils.asyncHandler(async function (req, res) {
     const id = parseInt(req.params.id);
     const { nameFirst, nameLast, password, position } = req.body;
 
@@ -75,7 +75,7 @@ router.put('/employee/:id', utils.requireSession, utils.asyncHandler(async funct
 }));
 
 /* DELETE existing employee */
-router.delete('/employee/:id', utils.requireSession, utils.asyncHandler(async function (req, res) {
+router.delete('/employee/:id', requireSession, utils.asyncHandler(async function (req, res) {
     const id = req.params.id;
 
     try {
