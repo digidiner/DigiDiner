@@ -7,18 +7,9 @@ const Order = require('../models/order');
 var itemOption = require('../models/menuItemOption');
 var optionData = require('../models/menuOptionData');
 
-router.get('/:id', utils.asyncHandler(async function (req, res, next) {
+router.get('/management', utils.asyncHandler(async function (req, res) {
     const menuItems = await menuData.getAllMenuItems();
-    const order = new Order(req.params.id);
-    if (await order.load()) {
-        if (order.status == 'new') {
-            order.status = 'incomplete';
-            await order.save();
-        }
-        res.status(200).render('menu', { menuItems, order });
-    } else {
-        next(); // Let it 404
-    }
+    res.status(200).render('menuManagement', { menuItems });
 }));
 
 module.exports = router;
