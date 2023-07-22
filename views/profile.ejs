@@ -28,6 +28,10 @@
             color: white;
             font-size: 25px;
         }
+
+        .modal-content {
+            color: black;
+        }
     </style>
     <%- include('partials/session') %>
 </head>
@@ -135,7 +139,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" onclick="updateEmployee()">Update</button>
                         <button type="button" class="btn btn-danger" onclick="deleteEmployee()">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="showEmployeeList()">Back</button>
                     </div>
                 </div>
             </div>
