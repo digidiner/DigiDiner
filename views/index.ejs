@@ -79,9 +79,9 @@
 						const data = await response.json();
 						console.log('Authentication successful:', data);
 
-						if (remember) {
+						/*if (remember) {
 							localStorage.setItem('authToken', data.token);
-						}
+						}*/
 
 						window.location.href = `/profile`;
 					} else {
@@ -141,9 +141,9 @@
 
 					if (signupResponse.ok) {
 						console.log('User created successfully');
-						if (remember) {
+						/*if (remember) {
 							localStorage.setItem('authToken', data.token);
-						}
+						}*/
 						// Close the signup modal after successful user creation
 						const signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
 						signupModal.hide();
@@ -155,8 +155,9 @@
 					console.error('Error during user creation:', error);
 				}
 			}
+			
 			// Function to check for an existing authentication token in local storage and use it if available
-			function checkRememberMe() {
+			/*function checkRememberMe() {
 				const authToken = localStorage.getItem('authToken');
 				if (authToken) {
 					// Redirect to the authenticated user's profile page
@@ -164,7 +165,7 @@
 				}
 			}
 
-			checkRememberMe();
+			checkRememberMe();*/
 		</script>
 
 		<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
