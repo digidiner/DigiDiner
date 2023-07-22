@@ -190,8 +190,7 @@
                 });
 
                 if (response.ok) {
-                    const data = await response.json();
-                    return data.list;
+                    return await response.json();
                 } else {
                     console.error('Failed to retrieve employee list:', response.status);
                     return null;
