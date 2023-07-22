@@ -81,7 +81,7 @@ class Employee {
     }
 
     async delete() {
-        return (await Order.conn.query(`DELETE FROM employee WHERE id = ?`, [this.id])).affectedRows > 0;
+        return (await Employee.conn.query(`DELETE FROM employee WHERE id = ?`, [this.id])).affectedRows > 0;
     }
 
     auth(pass) {
