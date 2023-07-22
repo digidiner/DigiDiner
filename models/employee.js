@@ -38,7 +38,7 @@ class Employee {
     }
 
     static async listEmployees() {
-        return (await Employee.conn.query({ sql: `SELECT id, name_first, name_last, position FROM employee`, rowsAsArray: true })).flat();
+        return (await Employee.conn.query(`SELECT * FROM employee`)).map(record => new Employee(record.id, record.pass_hash, record.name_first, record.name_last, new Date(record.hire_date).getTime(), record.position));
     }
 
     static async findById(id) {

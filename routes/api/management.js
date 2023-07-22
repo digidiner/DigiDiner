@@ -25,9 +25,13 @@ function requireSession(req, res, next) {
 /* GET employee list */
 router.get('/employee/list', requireSession, utils.asyncHandler(async function (req, res) {
     let employeeList = await Employee.listEmployees();
-    res.status(200).json({
-        'list': employeeList
-    });
+    res.status(200).json(await Promise.all(employeeList.map(async employee => ({
+        'id': employee.id,
+        'nameFirst': employee.nameFirst,
+        'nameLast': employee.nameLast,
+        'hireDate': employee.hireDate,
+        'position': employee.position
+    }))));
 }));
 
 /* POST create new employee */
