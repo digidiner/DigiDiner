@@ -115,16 +115,16 @@
                     <div class="modal-body">
                         <form id="employeeDetailsForm">
                             <div class="mb-3">
+                                <label for="idInput" class="form-label">ID</label>
+                                <input type="text" class="form-control" id="idInput" disabled="disabled">
+                            </div>
+                            <div class="mb-3">
                                 <label for="firstNameInput" class="form-label">First Name</label>
                                 <input type="text" class="form-control" id="firstNameInput" required>
                             </div>
                             <div class="mb-3">
                                 <label for="lastNameInput" class="form-label">Last Name</label>
                                 <input type="text" class="form-control" id="lastNameInput" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="idInput" class="form-label">ID</label>
-                                <input type="text" class="form-control" id="idInput" required>
                             </div>
                             <div class="mb-3">
                                 <label for="positionInput" class="form-label">Position</label>
@@ -231,9 +231,18 @@
             const idInput = document.getElementById('idInput');
             const positionInput = document.getElementById('positionInput');
 
-            firstNameInput.value = employee.nameFirst ?? 'N/A';
-            lastNameInput.value = employee.nameLast ?? 'N/A';
             idInput.value = employee.id;
+            if (employee.nameFirst != null) {
+                firstNameInput.disabled = false;
+                firstNameInput.value = employee.nameFirst;
+                lastNameInput.disabled = false;
+                lastNameInput.value = employee.nameLast;
+            } else {
+                firstNameInput.disabled = true;
+                firstNameInput.value = "N/A (Employee Awaiting Signup)";
+                lastNameInput.disabled = true;
+                lastNameInput.value = "N/A (Employee Awaiting Signup)";
+            }
             positionInput.value = employee.position;
 
             employeeDetailsModal.show();
@@ -255,7 +264,6 @@
                     body: JSON.stringify({
                         nameFirst: firstName,
                         nameLast: lastName,
-                        id: id,
                         position: position
                     })
                 });
@@ -263,9 +271,9 @@
                 if (response.ok) {
                     alert('Employee details updated successfully!');
                     const updatedEmployee = {
+                        id: id,
                         nameFirst: firstName,
                         nameLast: lastName,
-                        id: id,
                         position: position
                     };
                     showEmployeeDetails(updatedEmployee);
