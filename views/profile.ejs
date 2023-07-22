@@ -211,7 +211,7 @@
                 employeeList.forEach((employee) => {
                     const listItem = document.createElement('li');
                     listItem.classList.add('list-group-item');
-                    listItem.textContent = `${employee.name_first} ${employee.name_last}`;
+                    listItem.textContent = employee.nameFirst != null ? `${employee.nameFirst} ${employee.nameLast}` : `Employee Awaiting Signup`;
                     listItem.addEventListener('click', () => {
                         showEmployeeDetails(employee);
                         employeeListModal.hide();
@@ -231,8 +231,8 @@
             const idInput = document.getElementById('idInput');
             const positionInput = document.getElementById('positionInput');
 
-            firstNameInput.value = employee.nameFirst;
-            lastNameInput.value = employee.nameLast;
+            firstNameInput.value = employee.nameFirst ?? 'N/A';
+            lastNameInput.value = employee.nameLast ?? 'N/A';
             idInput.value = employee.id;
             positionInput.value = employee.position;
 
