@@ -296,6 +296,7 @@
                     </div>
 
                 </div>
+            </div>>
         </main>
         <footer>
             <%- include('partials/footer') %>
@@ -572,6 +573,16 @@
             const posX = document.getElementById('posXInput').value;
             const posY = document.getElementById('posYInput').value;
 
+            console.log("seats", seats);
+            console.log("posX", posX);
+            console.log("posy", posY);
+
+            const modal = document.getElementById('newTableModal');
+            if (!modal) {
+                console.log("Modal element  newTableModel not found");
+                return;
+            }
+
             fetch('/api/management/table', {
                 method: 'POST',
                 headers: {
@@ -654,6 +665,7 @@
 
         // Add event listener to "Create New Table" button
         document.getElementById('createTableButton').addEventListener('click', function () {
+            console.log("Button Clicked!");
             $('#newTableModal').modal('show');
         });
     </script>
