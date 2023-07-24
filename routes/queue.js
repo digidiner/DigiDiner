@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const { orderQueue } = require('./api/customer');
 
 // Order queue array
 const orderQueue = [
