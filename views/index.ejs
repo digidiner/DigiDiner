@@ -104,7 +104,7 @@
 				}
 			}
 
-			document.getElementById('signin-form').addEventListener('submit', async function (event) {
+			document.getElementById('signup-form').addEventListener('submit', async function (event) {
 				event.preventDefault();
 				const employeeId = document.getElementById('floatingIdSignUp').value;
 				const firstName = document.getElementById('floatingFirstSignUp').value;
@@ -127,8 +127,7 @@
 							id: employeeId,
 							nameFirst: firstName,
 							nameLast: lastName,
-							pass: password,
-							remember: remember
+							pass: password
 						})
 					});
 
