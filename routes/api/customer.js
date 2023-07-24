@@ -101,7 +101,7 @@ router.delete('/order/item', requireOrder, utils.asyncHandler(async function (re
         res.status(204).json({});
     } else {
         res.status(404).json({
-            'error': "Order Item Does Not exist"
+            'error': "Order Item Does Not eXist"
         });
     }
 }));
@@ -116,7 +116,6 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function (re
     }
     req.order.status = 'submitted';
     await req.order.save();
-
     res.status(200).json({
         'id': req.order.id,
         'tableId': req.order.tableId,
