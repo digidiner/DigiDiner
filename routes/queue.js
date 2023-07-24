@@ -15,8 +15,8 @@ function requireSession(req, res, next) {
 /* GET queue page */
 router.get('/', requireSession, async function (req, res) {
     try {
-        const submittedOrders = await Order.listOrders({ status: 'submitted' });
-
+        const orders = await Order.listOrders();
+        const submittedOrders = orders.filter(order => order.status === 'submitted');
         res.status(200).render('queue', { orderQueue: submittedOrders });
     } catch (error) {
         console.error('Error occurred while fetching orders:', error);
