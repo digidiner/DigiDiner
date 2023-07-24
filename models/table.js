@@ -35,7 +35,7 @@ class Table {
     }
 
     static async addTable(seats, posX, posY, status) {
-        let tableIds = await this.listTables();
+        let tableIds = (await this.listTables()).map(table => table.id);
         let newId = 0;
         while (tableIds.includes(newId)) newId++;
         let newTable = new Table(newId, seats, posX, posY, status);
