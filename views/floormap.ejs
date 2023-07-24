@@ -20,6 +20,10 @@
             /* Added padding between tables in the columns */
         }
 
+        .table-space {
+            visibility: hidden;
+        }
+
         .table-unoccupied {
             background-color: rgba(128, 128, 128, 0.582);
             /* Highlight unoccupied table with grey */
@@ -362,18 +366,22 @@
                 method: 'GET'
             })).json();
 
+            const maxX = Math.max(tables.map(table => table.posX));
+            const maxY = Math.max(tables.map(table => table.posY));
+
             // Create rows and columns for the table grid
-            for (let i = 0; i < 3; i++) {
+            for (let y = 1; y <= maxY; y++) {
                 const row = document.createElement('div');
                 row.className = 'row';
 
-                for (let j = 0; j < 3; j++) {
-                    const tableIndex = i * 3 + j;
-                    if (tableIndex >= tables.length) {
-                        break; // Stop creating columns if there are no more tables
-                    }
+                for (let x = 1; x <= maxX; x++) {
+                    const table = tables.find(table => table.posX == x && table.posY == y);
 
-                    const table = tables[tableIndex];
+                    if (table == undefined) {
+                        const tableCell = document.createElement('div');
+                        tableCell.className = `col-md-4 table-cell table-space`;
+                        break;
+                    }
 
                     const tableCell = document.createElement('div');
                     tableCell.className = `col-md-4 table-cell table-${table.status}`;

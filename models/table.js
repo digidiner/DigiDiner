@@ -20,7 +20,9 @@ class Table {
             seats INT NOT NULL DEFAULT 0,
             pos_x INT NOT NULL DEFAULT 0,
             pos_y INT NOT NULL DEFAULT 0,
-            status VARCHAR(10) NOT NULL DEFAULT 'unoccupied'
+            status VARCHAR(10) NOT NULL DEFAULT 'unoccupied',
+            CONSTRAINT table_uk_pos
+                UNIQUE (pos_x, pos_y)
         )`);
     }
 
