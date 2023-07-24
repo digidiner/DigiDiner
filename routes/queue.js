@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const fetch = require('node-fetch');
 var Order = require('../models/order');
 
 // Used to verify user is signed in
