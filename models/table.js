@@ -10,7 +10,7 @@ class Table {
         this.seats = seats ?? 0;
         this.posX = posX ?? 0;
         this.posY = posY ?? 0;
-        this.status = status ?? 'available';
+        this.status = status ?? 'unoccupied';
     }
 
     static connectDatabase(conn) {
@@ -20,7 +20,7 @@ class Table {
             seats INT NOT NULL DEFAULT 0,
             pos_x INT NOT NULL DEFAULT 0,
             pos_y INT NOT NULL DEFAULT 0,
-            status VARCHAR(10) NOT NULL DEFAULT 'available'
+            status VARCHAR(10) NOT NULL DEFAULT 'unoccupied'
         )`);
     }
 
