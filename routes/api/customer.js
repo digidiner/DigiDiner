@@ -146,4 +146,4 @@ router.delete('/order', requireOrder, utils.asyncHandler(async function (req, re
     }
 }));
 
-module.exports = { router: router, orderQueue: orderQueue };
+module.exports = router;
