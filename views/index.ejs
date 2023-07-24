@@ -23,29 +23,31 @@
 			<div class="row align-items-center g-lg-5 py-5">
 				<div class="col-md-10 mx-auto col-lg-5">
 					<img src="/images/logo.png" alt="Image" class="img-fluid mb-3">
-					<form class="p-4 p-md-5 border rounded-3 bg-body-tertiary signin-form">
-						<h1 class="text-center mb-4">Employee Portal</h1>
-						<div class="form-floating mb-3">
-							<input type="text" class="form-control" id="floatingIdSignIn" placeholder="123456">
-							<label for="floatingIdSignIn">Employee ID</label>
-						</div>
-						<div class="form-floating mb-3">
-							<input type="password" class="form-control" id="floatingPasswordSignIn"
-								placeholder="Password">
-							<label for="floatingPasswordSignIn">Password</label>
-							<span class="password-toggle" onclick="togglePasswordVisibility('floatingPasswordSignIn')">
-								<i class="bi bi-eye"></i></span>
-						</div>
-						<div class="checkbox mb-3">
-							<label>
-								<input id="rememberSignIn" type="checkbox" value="remember-me">Remember me
-							</label>
-						</div>
-						<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-					</form>
-					<hr class="my-4">
-					<small class="text-body-secondary">Don't have an account? <button class="btn btn-link btn-sm"
-							data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</button></small>
+					<div class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+						<form class="signin-form">
+							<h1 class="text-center mb-4">Employee Portal</h1>
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="floatingIdSignIn" placeholder="123456">
+								<label for="floatingIdSignIn">Employee ID</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="password" class="form-control" id="floatingPasswordSignIn"
+									placeholder="Password">
+								<label for="floatingPasswordSignIn">Password</label>
+								<span class="password-toggle" onclick="togglePasswordVisibility('floatingPasswordSignIn')">
+									<i class="bi bi-eye"></i></span>
+							</div>
+							<div class="checkbox mb-3">
+								<label>
+									<input id="rememberSignIn" type="checkbox" value="remember-me">Remember me
+								</label>
+							</div>
+							<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+						</form>
+						<hr class="my-4">
+						<small class="text-body-secondary">Don't have an account? <button class="btn btn-link btn-sm"
+								data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</button></small>
+					</div>
 				</div>
 			</div>
 		</div>
