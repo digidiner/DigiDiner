@@ -52,6 +52,51 @@
 			</div>
 		</div>
 
+		<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="modal-header">
+						<h5 class="modal-title" id="signupModalLabel">Create an Account</h5>
+					</div>
+					<div class="modal-body">
+						<form id="signup-form" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="floatingIdSignUp" placeholder="123456">
+								<label for="floatingIdSignUp">Employee ID</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="floatingFirstSignUp"
+									placeholder="First Name">
+								<label for="floatingFirstSignUp">First Name</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="floatingLastSignUp" placeholder="Last Name">
+								<label for="floatingLastSignUp">Last Name</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control" id="floatingPasswordSignUp"
+									placeholder="Password">
+								<label for="floatingPasswordSignUp">Password</label>
+								<span class="password-toggle"
+									onclick="togglePasswordVisibility('floatingPasswordSignUp')">
+									<i class="bi bi-eye"></i></span>
+							</div>
+							<div class="checkbox mb-3">
+								<label>
+									<input id="rememberSignUp" type="checkbox" value="remember-me">Remember me
+								</label>
+							</div>
+							<button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+							<hr class="my-4">
+							<small class="text-body-secondary">By clicking Sign up, you agree to the terms of
+								use.</small>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<script src="/js/bootstrap.min.js"></script>
 		<script>
 			document.getElementById('signin-form').addEventListener('submit', async function (event) {
@@ -175,51 +220,6 @@
 
 			checkRememberMe();*/
 		</script>
-
-		<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					<div class="modal-header">
-						<h5 class="modal-title" id="signupModalLabel">Create an Account</h5>
-					</div>
-					<div class="modal-body">
-						<form class="p-4 p-md-5 border rounded-3 bg-body-tertiary signup-form">
-							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="floatingIdSignUp" placeholder="123456">
-								<label for="floatingIdSignUp">Employee ID</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="floatingFirstSignUp"
-									placeholder="First Name">
-								<label for="floatingFirstSignUp">First Name</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="floatingLastSignUp" placeholder="Last Name">
-								<label for="floatingLastSignUp">Last Name</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="floatingPasswordSignUp"
-									placeholder="Password">
-								<label for="floatingPasswordSignUp">Password</label>
-								<span class="password-toggle"
-									onclick="togglePasswordVisibility('floatingPasswordSignUp')">
-									<i class="bi bi-eye"></i></span>
-							</div>
-							<div class="checkbox mb-3">
-								<label>
-									<input id="rememberSignUp" type="checkbox" value="remember-me">Remember me
-								</label>
-							</div>
-							<button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-							<hr class="my-4">
-							<small class="text-body-secondary">By clicking Sign up, you agree to the terms of
-								use.</small>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
 	</main>
 </body>
 
