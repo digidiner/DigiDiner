@@ -127,10 +127,8 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function (re
         'items': await Promise.all((await req.order.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,
-            'quantity': item.count,
-            'name': item.name,
-            'modifications': item.request,
-            'allergies': item.allergies
+            'count': item.count,
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
         })))
     });
 
