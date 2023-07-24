@@ -5,9 +5,10 @@ var utils = require('../../utils');
 var Table = require('../../models/table');
 var Order = require('../../models/order');
 var menuItemOption = require('../../models/menuItemOption');
+const orderQueue = [];
 
 // Used to require and identify an existing order with the param :order
-const requireOrder = utils.asyncHandler(async function(req, res, next) {
+const requireOrder = utils.asyncHandler(async function (req, res, next) {
     if (!req.query.orderId) {
         res.status(400).json({
             'error': "Invalid Request"
@@ -25,7 +26,7 @@ const requireOrder = utils.asyncHandler(async function(req, res, next) {
 });
 
 /* GET order info */
-router.get('/order', requireOrder, utils.asyncHandler(async function(req, res) {
+router.get('/order', requireOrder, utils.asyncHandler(async function (req, res) {
     res.status(200).json({
         'id': req.order.id,
         'tableId': req.order.tableId,
@@ -42,7 +43,7 @@ router.get('/order', requireOrder, utils.asyncHandler(async function(req, res) {
 }));
 
 /* POST new order item */
-router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, res) {
+router.post('/order/item', requireOrder, utils.asyncHandler(async function (req, res) {
     if (req.body.itemId == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -84,7 +85,7 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function(req, 
 }));
 
 /* DELETE order item */
-router.delete('/order/item', requireOrder, utils.asyncHandler(async function(req, res) {
+router.delete('/order/item', requireOrder, utils.asyncHandler(async function (req, res) {
     if (req.body.itemId == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -107,7 +108,7 @@ router.delete('/order/item', requireOrder, utils.asyncHandler(async function(req
 }));
 
 /* POST order submit */
-router.post('/order/submit', requireOrder, utils.asyncHandler(async function(req, res) {
+router.post('/order/submit', requireOrder, utils.asyncHandler(async function (req, res) {
     if (req.order.status != 'incomplete') {
         res.status(400).json({
             'error': "Order Already Submitted"
@@ -116,6 +117,23 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function(req
     }
     req.order.status = 'submitted';
     await req.order.save();
+
+    orderQueue.push({
+        'id': req.order.id,
+        'tableId': req.order.tableId,
+        'paymentId': req.order.paymentId,
+        'status': req.order.status,
+        'time': req.order.time,
+        'items': await Promise.all((await req.order.getItems()).map(async item => ({
+            'id': item.id,
+            'itemId': item.itemId,
+            'quantity': item.count,
+            'name': item.name,
+            'modifications': item.request,
+            'allergies': item.allergies
+        })))
+    });
+
     res.status(200).json({
         'id': req.order.id,
         'tableId': req.order.tableId,
@@ -132,7 +150,7 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function(req
 }));
 
 /* DELETE order */
-router.delete('/order', requireOrder, utils.asyncHandler(async function(req, res) {
+router.delete('/order', requireOrder, utils.asyncHandler(async function (req, res) {
     if (await req.order.delete()) {
         const table = new Table(req.order.tableId);
         await table.load();
@@ -146,4 +164,4 @@ router.delete('/order', requireOrder, utils.asyncHandler(async function(req, res
     }
 }));
 
-module.exports = router;
+module.exports = { router: router, orderQueue: orderQueue };

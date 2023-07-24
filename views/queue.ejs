@@ -39,6 +39,10 @@
                         <div class="order-item">
                             <h4>Order <%= index + 1 %>
                             </h4>
+                            <p>Time: <%= new Date(order.time).toLocaleString() %>
+                            </p>
+                            <p>Table: <%= order.tableId %>
+                            </p>
                             <ul class="item-info">
                                 <% order.items.forEach(function(item) { %>
                                     <li>
@@ -49,10 +53,13 @@
                                                             <% if (item.allergies) { %>
                                                                 - Allergies: <%= item.allergies %>
                                                                     <% } %>
-                                                                        <button
-                                                                            class="btn btn-danger btn-sm clear-item-btn"
-                                                                            onclick="clearItem('<%= index %>', '<%= item.id %>')">Clear
-                                                                            Item</button>
+                                                                        <% if (item.request) { %>
+                                                                            - Special Request: <%= item.request %>
+                                                                                <% } %>
+                                                                                    <button
+                                                                                        class="btn btn-danger btn-sm clear-item-btn"
+                                                                                        onclick="clearItem('<%= index %>', '<%= item.id %>')">Clear
+                                                                                        Item</button>
                                     </li>
                                     <% }) %>
                             </ul>
