@@ -40,32 +40,36 @@
                             <h4>Order <%= index + 1 %>
                             </h4>
                             <ul class="item-info">
-                                <% order.items.forEach(function(item) { %>
-                                    <li>
-                                        <%= item.quantity> 1 ? item.quantity + 'x ' : '' %><%= item.name %>
-                                                <% if (item.options) { %>
-                                                    - Options:
-                                                    <% Object.keys(item.options).forEach(function(optionId) { %>
-                                                        <%= item.options[optionId] %>
-                                                            <% if (!loop.last) { %>
-                                                                ,
-                                                                <% } %>
-                                                                    <% }) %>
-                                                                        <% } %>
-                                                                            <% if (item.modifications) { %>
-                                                                                - Modifications: <%= item.modifications
-                                                                                    %>
-                                                                                    <% } %>
-                                                                                        <% if (item.allergies) { %>
-                                                                                            - Allergies: <%=
-                                                                                                item.allergies %>
-                                                                                                <% } %>
-                                                                                                    <button
-                                                                                                        class="btn btn-danger btn-sm mark-ready-btn"
-                                                                                                        data-order-id="<%= order.id %>">Clear
-                                                                                                        Order</button>
-                                    </li>
-                                    <% }) %>
+                                <% if (order.items && Array.isArray(order.items)) { %>
+                                    <% order.items.forEach(function(item) { %>
+                                        <li>
+                                            <%= item.quantity> 1 ? item.quantity + 'x ' : '' %><%= item.name %>
+                                                    <% if (item.options) { %>
+                                                        - Options:
+                                                        <% Object.keys(item.options).forEach(function(optionId) { %>
+                                                            <%= item.options[optionId] %>
+                                                                <% if (!loop.last) { %>
+                                                                    ,
+                                                                    <% } %>
+                                                                        <% }) %>
+                                                                            <% } %>
+                                                                                <% if (item.modifications) { %>
+                                                                                    - Modifications: <%=
+                                                                                        item.modifications %>
+                                                                                        <% } %>
+                                                                                            <% if (item.allergies) { %>
+                                                                                                - Allergies: <%=
+                                                                                                    item.allergies %>
+                                                                                                    <% } %>
+                                                                                                        <button
+                                                                                                            class="btn btn-danger btn-sm mark-ready-btn"
+                                                                                                            data-order-id="<%= order.id %>">Clear
+                                                                                                            Order</button>
+                                        </li>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <li>No items in the order.</li>
+                                                <% } %>
                             </ul>
                         </div>
                         <% }) %>
