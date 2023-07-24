@@ -43,16 +43,27 @@
                                 <% order.items.forEach(function(item) { %>
                                     <li>
                                         <%= item.quantity> 1 ? item.quantity + 'x ' : '' %><%= item.name %>
-                                                <% if (item.modifications) { %>
-                                                    - Modifications: <%= item.modifications %>
-                                                        <% } %>
-                                                            <% if (item.allergies) { %>
-                                                                - Allergies: <%= item.allergies %>
-                                                                    <% } %>
-                                                                        <button
-                                                                            class="btn btn-danger btn-sm clear-item-btn"
-                                                                            onclick="clearItem('<%= index %>', '<%= item.id %>')">Clear
-                                                                            Item</button>
+                                                <% if (item.options) { %>
+                                                    - Options:
+                                                    <% Object.keys(item.options).forEach(function(optionId) { %>
+                                                        <%= item.options[optionId] %>
+                                                            <% if (!loop.last) { %>
+                                                                ,
+                                                                <% } %>
+                                                                    <% }) %>
+                                                                        <% } %>
+                                                                            <% if (item.modifications) { %>
+                                                                                - Modifications: <%= item.modifications
+                                                                                    %>
+                                                                                    <% } %>
+                                                                                        <% if (item.allergies) { %>
+                                                                                            - Allergies: <%=
+                                                                                                item.allergies %>
+                                                                                                <% } %>
+                                                                                                    <button
+                                                                                                        class="btn btn-danger btn-sm mark-ready-btn"
+                                                                                                        data-order-id="<%= order.id %>">Clear
+                                                                                                        Order</button>
                                     </li>
                                     <% }) %>
                             </ul>
@@ -70,22 +81,27 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-
-        function clearItem(orderIndex, itemId) {
-            // Send an AJAX request to remove the item from the order
-            $.ajax({
-                url: '/clearItem',
-                method: 'POST',
-                data: { orderIndex: orderIndex, itemId: itemId },
-                success: function (response) {
-                    // Reload the page after successfully clearing the item
-                    window.location.reload();
-                },
-                error: function (err) {
-                    console.error(err);
+        document.querySelectorAll('.mark-ready-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const orderId = button.getAttribute('data-order-id');
+                try {
+                    const response = await fetch('/api/kitchen/order/ready', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ orderId: orderId })
+                    });
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        console.error('Failed to mark order as ready:', response.status);
+                    }
+                } catch (error) {
+                    console.error('Error occurred while marking order as ready:', error);
                 }
             });
-        }
+        });
     </script>
 </body>
 

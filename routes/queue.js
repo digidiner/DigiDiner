@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var Queue = require('./api/kitchen');
+var Order = require('../models/order');
+var menuItemOption = require('../models/menuItemOption');
 
-// Order queue array
+/* // Order queue array
 const orderQueue = [
     {
         items: [
@@ -32,7 +35,7 @@ const orderQueue = [
             }
         ]
     }
-];
+]; */
 
 // Used to verify user is signed in
 function requireSession(req, res, next) {
@@ -44,40 +47,20 @@ function requireSession(req, res, next) {
     next();
 }
 
-// POST /clearItem endpoint
-router.post('/clearItem', requireSession, (req, res) => {
-    const { orderIndex, itemId } = req.body;
-
-    // Check if the order index is valid
-    if (orderIndex >= 0 && orderIndex < orderQueue.length) {
-        const order = orderQueue[orderIndex];
-
-        // Find the item by ID in the order
-        const itemIndex = order.items.findIndex(item => item.id === itemId);
-
-        // Check if the item exists
-        if (itemIndex !== -1) {
-            // Remove the item from the order
-            order.items.splice(itemIndex, 1);
-
-            // Check if the order is empty after removing the item
-            if (order.items.length === 0) {
-                // Remove the order from the queue
-                orderQueue.splice(orderIndex, 1);
-            }
-
-            res.sendStatus(200);
-        } else {
-            res.sendStatus(404); // Item not found
-        }
-    } else {
-        res.sendStatus(400); // Invalid order index
-    }
-});
-
 /* GET queue page */
-router.get('/', requireSession, function (req, res) {
-    res.status(200).render('queue', { orderQueue });
+router.get('/', requireSession, async function (req, res) {
+    try {
+        const response = await fetch('/api/kitchen/order/list');
+        if (!response.ok) {
+            throw new Error('Failed to fetch submitted orders');
+        }
+        const submittedOrders = await response.json();
+
+        res.status(200).render('queue', { orderQueue: submittedOrders });
+    } catch (error) {
+        console.error('Error occurred while fetching orders:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 module.exports = router;
