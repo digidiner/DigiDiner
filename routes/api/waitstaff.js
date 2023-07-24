@@ -24,7 +24,7 @@ function requireSession(req, res, next) {
 }
 
 /* POST new order */
-router.post('/order', requireSession, utils.asyncHandler(async function(req, res) {
+router.post('/order', requireSession, utils.asyncHandler(async function (req, res) {
     if (req.body.tableId == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -59,7 +59,7 @@ router.post('/order', requireSession, utils.asyncHandler(async function(req, res
 }));
 
 /* GET order by id or table */
-router.get('/order', requireSession, utils.asyncHandler(async function(req, res) {
+router.get('/order', requireSession, utils.asyncHandler(async function (req, res) {
     if ((req.query.orderId == null) == (req.query.tableId == null)) {
         res.status(400).json({
             'error': "Unnaceptable Query"
@@ -90,7 +90,7 @@ router.get('/order', requireSession, utils.asyncHandler(async function(req, res)
 }));
 
 /* GET order list */
-router.get('/order/list', requireSession, utils.asyncHandler(async function(req, res) {
+router.get('/order/list', requireSession, utils.asyncHandler(async function (req, res) {
     const orders = await Order.listOrders();
     res.status(200).json(await Promise.all(orders.map(async order => ({
         'id': order.id,
@@ -108,7 +108,7 @@ router.get('/order/list', requireSession, utils.asyncHandler(async function(req,
 }));
 
 /* PUT order status */
-router.put('/order/status', requireSession, utils.asyncHandler(async function(req, res) {
+router.put('/order/status', requireSession, utils.asyncHandler(async function (req, res) {
     if (req.body.orderId == null || req.body.status == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -140,7 +140,7 @@ router.put('/order/status', requireSession, utils.asyncHandler(async function(re
 }));
 
 /* DELETE order */
-router.delete('/order', requireSession, utils.asyncHandler(async function(req, res) {
+router.delete('/order', requireSession, utils.asyncHandler(async function (req, res) {
     if (req.body.orderId == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -168,7 +168,7 @@ router.delete('/order', requireSession, utils.asyncHandler(async function(req, r
 }));
 
 /* GET table */
-router.get('/table', requireSession, utils.asyncHandler(async function(req, res) {
+router.get('/table', requireSession, utils.asyncHandler(async function (req, res) {
     if (req.body.id == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -186,7 +186,7 @@ router.get('/table', requireSession, utils.asyncHandler(async function(req, res)
 }));
 
 /* PUT table status */
-router.put('/table/status', requireSession, utils.asyncHandler(async function(req, res) {
+router.put('/table/status', requireSession, utils.asyncHandler(async function (req, res) {
     if (req.body.id == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
@@ -206,7 +206,7 @@ router.put('/table/status', requireSession, utils.asyncHandler(async function(re
 }));
 
 /* GET table list */
-router.get('/table/list', requireSession, utils.asyncHandler(async function(req, res) {
+router.get('/table/list', requireSession, utils.asyncHandler(async function (req, res) {
     res.status(200).json((await Table.listTables()).map(table => ({
         'id': table.id,
         'seats': table.seats,
@@ -214,6 +214,18 @@ router.get('/table/list', requireSession, utils.asyncHandler(async function(req,
         'posY': table.posY,
         'status': table.status
     })));
+}));
+
+/* DELETE table by ID */
+router.delete('/table/:id', requireSession, utils.asyncHandler(async function (req, res) {
+    const tableId = parseInt(req.params.id);
+    const tableDeleted = await Table.removeTable(tableId);
+
+    if (tableDeleted) {
+        res.status(200).json({ 'message': 'Table deleted successfully' });
+    } else {
+        res.status(404).json({ 'error': 'Table not found' });
+    }
 }));
 
 module.exports = router;
