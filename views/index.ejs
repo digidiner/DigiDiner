@@ -23,8 +23,8 @@
 			<div class="row align-items-center g-lg-5 py-5">
 				<div class="col-md-10 mx-auto col-lg-5">
 					<img src="/images/logo.png" alt="Image" class="img-fluid mb-3">
-					<div class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
-						<form class="signin-form bg-body-tertiary">
+					<div class="p-4 border rounded-3 bg-body-tertiary signin-form">
+						<form id="signin-form">
 							<h1 class="text-center mb-4">Employee Portal</h1>
 							<div class="form-floating mb-3">
 								<input type="text" class="form-control" id="floatingIdSignIn" placeholder="123456">
@@ -54,7 +54,7 @@
 
 		<script src="/js/bootstrap.min.js"></script>
 		<script>
-			document.querySelector('form.signin-form').addEventListener('submit', async function (event) {
+			document.getElementById('signin-form').addEventListener('submit', async function (event) {
 				event.preventDefault();
 				const employeeId = document.getElementById('floatingIdSignIn').value;
 				const password = document.getElementById('floatingPasswordSignIn').value;
