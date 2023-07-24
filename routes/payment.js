@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
 
     Payment.insertPayment(fullName, cardNumber, cvv, expiration, zipCode)
         .then(() => {
-            res.redirect('/receipt');
+            res.redirect('/payment');
         })
         .catch((error) => {
             console.error('Error processing payment:', error);
