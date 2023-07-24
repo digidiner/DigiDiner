@@ -15,7 +15,7 @@ function requireSession(req, res, next) {
 /* GET queue page */
 router.get('/', requireSession, async function (req, res) {
     try {
-        const response = await fetch('/api/kitchen/order/list');
+        const response = await fetch('./api/kitchen/order/list');
         if (!response.ok) {
             throw new Error('Failed to fetch submitted orders');
         }
