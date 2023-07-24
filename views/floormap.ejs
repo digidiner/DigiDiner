@@ -594,9 +594,7 @@
                     // Handle the response data as needed
                     console.log(data);
                     // Close the modal
-                    const modal = document.getElementById('newTableModal');
-                    const newTable = new bootstrap.Modal(modal);
-                    newTable.hide();
+                    $('#newTableModal').modal('hide');
                 })
                 .catch(error => {
                     // Handle the error appropriately
