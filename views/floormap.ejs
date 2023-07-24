@@ -366,8 +366,8 @@
                 method: 'GET'
             })).json();
 
-            const maxX = Math.max(tables.map(table => table.posX));
-            const maxY = Math.max(tables.map(table => table.posY));
+            const maxX = Math.max(...tables.map(table => table.posX));
+            const maxY = Math.max(...tables.map(table => table.posY));
 
             // Create rows and columns for the table grid
             for (let y = 1; y <= maxY; y++) {
