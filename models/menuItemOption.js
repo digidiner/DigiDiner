@@ -35,6 +35,10 @@ class menuItemOption {
         const queryResult = await menuItemOption.conn.query('SELECT * FROM menu mi JOIN menu_item_option mio ON mi.id = mio.menu_item_id WHERE mio.option_id = ?', [optionId]);
         return queryResult;
     }
+
+    static async getMenuItemOption(menuItemId, optionId) {
+        return (await menuItemOption.conn.query('SELECT * FROM menu_item_option WHERE menu_item_id = ? AND option_id = ?', [menuItemId, optionId]))[0];
+    }
 }
 
 module.exports = menuItemOption;

@@ -1,5 +1,6 @@
 var Table = require('./table');
 var Payment = require('./payment');
+var menuOptionData = require('./menuOptionData');
 
 const orderExpiryTime = 12 * 60 * 60 * 1000;
 
@@ -224,6 +225,10 @@ class OrderItem {
         const itemOption = new OrderItemOption(this, option);
         if (await itemOption.load()) return itemOption;
         return null;
+    }
+
+    async getItemOptions() {
+        return await Promise.all((await Order.conn.query(`SELECT * FROM order_item_option WHERE order_item_id = '${this.id}'`)).map(async record => new OrderItemOption(this, await menuOptionData.getMenuOption(record.option_id), record.choice)));
     }
 
     async load() {

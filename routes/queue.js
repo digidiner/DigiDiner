@@ -17,6 +17,12 @@ router.get('/', requireSession, async function (req, res) {
     try {
         const orders = await Order.listOrders();
         const submittedOrders = orders.filter(order => order.status === 'submitted');
+        for (const order of submittedOrders) {
+            order.items = await order.getItems();
+            for (const item of order.items) {
+                item.options = await item.getItemOptions();
+            }
+        }
         res.status(200).render('queue', { orderQueue: submittedOrders });
     } catch (error) {
         console.error('Error occurred while fetching orders:', error);
