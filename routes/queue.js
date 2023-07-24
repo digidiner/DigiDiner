@@ -3,7 +3,7 @@ var router = express.Router();
 const { orderQueue } = require('./api/customer');
 
 // Order queue array
-/* const orderQueue = [
+const orderQueue = [
     {
         items: [
             {
@@ -33,7 +33,7 @@ const { orderQueue } = require('./api/customer');
             }
         ]
     }
-]; */
+];
 
 // Used to verify user is signed in
 function requireSession(req, res, next) {

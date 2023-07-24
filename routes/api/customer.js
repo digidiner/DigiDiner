@@ -5,7 +5,6 @@ var utils = require('../../utils');
 var Table = require('../../models/table');
 var Order = require('../../models/order');
 var menuItemOption = require('../../models/menuItemOption');
-const orderQueue = [];
 
 // Used to require and identify an existing order with the param :order
 const requireOrder = utils.asyncHandler(async function (req, res, next) {
@@ -102,7 +101,7 @@ router.delete('/order/item', requireOrder, utils.asyncHandler(async function (re
         res.status(204).json({});
     } else {
         res.status(404).json({
-            'error': "Order Item Does Not eXist"
+            'error': "Order Item Does Not exist"
         });
     }
 }));
@@ -117,20 +116,6 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function (re
     }
     req.order.status = 'submitted';
     await req.order.save();
-
-    orderQueue.push({
-        'id': req.order.id,
-        'tableId': req.order.tableId,
-        'paymentId': req.order.paymentId,
-        'status': req.order.status,
-        'time': req.order.time,
-        'items': await Promise.all((await req.order.getItems()).map(async item => ({
-            'id': item.id,
-            'itemId': item.itemId,
-            'count': item.count,
-            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
-        })))
-    });
 
     res.status(200).json({
         'id': req.order.id,
