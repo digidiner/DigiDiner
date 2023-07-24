@@ -1,41 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var Queue = require('./api/kitchen');
+const fetch = require('node-fetch');
 var Order = require('../models/order');
-var menuItemOption = require('../models/menuItemOption');
-
-/* // Order queue array
-const orderQueue = [
-    {
-        items: [
-            {
-                quantity: 2,
-                name: "Burger",
-                modifications: "No onions",
-                allergies: "None",
-                id: "item1"
-            },
-            {
-                quantity: 1,
-                name: "Pizza",
-                modifications: "Extra cheese",
-                allergies: "Gluten",
-                id: "item2"
-            }
-        ]
-    },
-    {
-        items: [
-            {
-                quantity: 3,
-                name: "Salad",
-                modifications: "No tomatoes",
-                allergies: "None",
-                id: "item3"
-            }
-        ]
-    }
-]; */
 
 // Used to verify user is signed in
 function requireSession(req, res, next) {
