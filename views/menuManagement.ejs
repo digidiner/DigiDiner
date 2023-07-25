@@ -89,14 +89,14 @@
 
 <script>
     function hideMenuSections() {
-        const addToOrderButtons = document.querySelectorAll('.btn-primary');
-        addToOrderButtons.forEach(button => button.style.display = 'none');
+        const addToOrderButtons = document.getElementById('addToOrderBtn');
+        addToOrderButtons.style.display = 'none';
 
         const allergySections = document.getElementById('allergy');
-        allergySections.forEach(section => section.style.display = 'none');
+        allergySections.style.display = 'none';
 
         const specialRequestSections = document.getElementById('specialRequest');
-        specialRequestSections.forEach(section => section.style.display = 'none');
+        specialRequestSections.style.display = 'none';
     }
 
     function showEditOptions() {
