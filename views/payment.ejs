@@ -74,13 +74,13 @@
                         <p>No items in the order.</p>
                     <% } %>
                     </ul>
-                    <form class="card p-2">
-                        <div class="input-group">
-                            <input type="number" step="0.01" class="form-control" id="tip-input"
-                                placeholder="Enter tip amount">
-                            <button type="button" class="btn btn-secondary" onclick="applyTip()">Apply</button>
-                        </div>
-                    </form>
+<!--                    <form class="card p-2">-->
+<!--                        <div class="input-group">-->
+<!--                            <input type="number" step="0.01" class="form-control" id="tip-input"-->
+<!--                                placeholder="Enter tip amount">-->
+<!--                            <button type="button" class="btn btn-secondary" onclick="applyTip()">Apply</button>-->
+<!--                        </div>-->
+<!--                    </form>-->
                 </div>
 
                 <div class="col-md-6">
@@ -270,15 +270,15 @@
         }
     }
 
-    function applyTip() {
-        const tipAmount = parseFloat($('#tip-input').val()) || 0;
-        const currentTip = parseFloat("{{tip}}") || 0;
-        const updatedTip = currentTip + tipAmount;
-
-        $('.text-success h6').text('Tip');
-        $('.text-success small').text(updatedTip.toFixed(2));
-        $('.text-success span').text('+$ ' + updatedTip.toFixed(2));
-    }
+    // function applyTip() {
+    //     const tipAmount = parseFloat($('#tip-input').val()) || 0;
+    //     const currentTip = parseFloat("{{tip}}") || 0;
+    //     const updatedTip = currentTip + tipAmount;
+    //
+    //     $('.text-success h6').text('Tip');
+    //     $('.text-success small').text(updatedTip.toFixed(2));
+    //     $('.text-success span').text('+$ ' + updatedTip.toFixed(2));
+    // }
 </script>
 </body>
 
