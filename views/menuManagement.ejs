@@ -184,13 +184,16 @@
 
     async function saveChanges() {
         const itemsToUpdate = [];
-        const itemNames = document.querySelectorAll('.accordion-header input[type="text"]');
-        const itemDescriptions = document.querySelectorAll('.accordion-item input[type="text"]');
-        itemNames.forEach((input) => {
+        const itemNames = document.querySelectorAll('.accordion-item .item-name input');
+        const itemDescriptions = document.querySelectorAll('.accordion-item .item-description textarea');
+        const itemPrices = document.querySelectorAll('.accordion-item .item-price input');
+
+        itemNames.forEach((input, index) => {
             const menuItemId = input.parentNode.parentNode.getAttribute('id').replace('heading', '');
             const newItemName = input.value;
             const newItemDescription = itemDescriptions[index].value;
-            itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription });
+            const newItemPrice = parseFloat(itemPrices[index].value);
+            itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice });
         });
 
         const itemsToDelete = [];
