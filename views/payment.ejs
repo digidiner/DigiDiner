@@ -65,7 +65,7 @@
                                     <span class="text-body-secondary">$<%= menuItems[item.itemId].price %></span>
                                 </li>
                             </ul>
-                    <% }) }%>
+                    <% }) %>
                         <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
                             <div class="text-success">
                                 <h6 class="my-0">Tip</h6>
@@ -77,7 +77,7 @@
                             <span>Total (USD)</span>
                             <strong id="total-amount">$<%= total.toFixed(2) %></strong>
                         </li>
-                    <% else { %>
+                    <% } else { %>
                         <p>No items in the order.</p>
                     <% } %>
                     </ul>
