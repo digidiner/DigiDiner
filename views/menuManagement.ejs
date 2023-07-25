@@ -88,6 +88,17 @@
 </body>
 
 <script>
+    function hideMenuSections() {
+        const addToOrderButtons = document.querySelectorAll('.btn-primary');
+        addToOrderButtons.forEach(button => button.style.display = 'none');
+
+        const allergySections = document.querySelectorAll('.accordion-content h5:contains("Allergy")');
+        allergySections.forEach(section => section.style.display = 'none');
+
+        const specialRequestSections = document.querySelectorAll('.accordion-content h5:contains("Special Request")');
+        specialRequestSections.forEach(section => section.style.display = 'none');
+    }
+
     function showEditOptions() {
         const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
         managerEditButtonWrapper.innerHTML = `
@@ -138,16 +149,7 @@
             saveChanges();
         });
 
-        function hideMenuSections() {
-            const addToOrderButtons = document.querySelectorAll('.btn-primary');
-            addToOrderButtons.forEach(button => button.style.display = 'none');
 
-            const allergySections = document.querySelectorAll('.accordion-content h5:contains("Allergy")');
-            allergySections.forEach(section => section.style.display = 'none');
-
-            const specialRequestSections = document.querySelectorAll('.accordion-content h5:contains("Special Request")');
-            specialRequestSections.forEach(section => section.style.display = 'none');
-        }
         hideMenuSections();
     }
 
@@ -349,6 +351,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         editButtons();
+        hideMenuSections();
     });
 </script>
 
