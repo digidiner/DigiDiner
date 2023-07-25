@@ -44,8 +44,7 @@
         </div>
         <br>
         <hr class="section-divider">
-        <div class="">
-            <%- include('partials/menu') %>
+        <%- include('partials/menu') %>
     </main>
     <!-- Modal for creating a new item -->
     <div class="modal fade" id="newItemModal" tabindex="-1" aria-labelledby="newItemModalLabel" aria-hidden="true">
@@ -110,12 +109,22 @@
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
             input.value = name.innerText;
+            // Create a wrapper div to contain both the input and the description
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.style.display = 'flex';
+            wrapperDiv.appendChild(input);
+
+            // Create the <p> element for displaying the description
+            const descriptionP = document.createElement('p');
+            descriptionP.textContent = name.nextElementSibling.querySelector('p').textContent;
+            wrapperDiv.appendChild(descriptionP);
+
             name.innerHTML = '';
-            name.appendChild(input);
+            name.appendChild(wrapperDiv);
         });
 
         const itemDescriptions = document.querySelectorAll('.accordion-item p');
-        itemDescriptions.forEach((description) => {
+        itemDescriptions.forEach((description, index) => {
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
             input.value = description.innerText;
@@ -128,6 +137,17 @@
         managerEditButton.addEventListener('click', () => {
             saveChanges();
         });
+
+        function hideMenuSections() {
+            const addToOrderButtons = document.querySelectorAll('.btn-primary');
+            addToOrderButtons.forEach(button => button.style.display = 'none');
+
+            const allergySections = document.querySelectorAll('.accordion-content h5:contains("Allergy")');
+            allergySections.forEach(section => section.style.display = 'none');
+
+            const specialRequestSections = document.querySelectorAll('.accordion-content h5:contains("Special Request")');
+            specialRequestSections.forEach(section => section.style.display = 'none');
+        }
         hideMenuSections();
     }
 
@@ -140,17 +160,6 @@
             showEditOptions();
         });
 
-    }
-
-    function hideMenuSections() {
-        const addToOrderButtons = document.querySelectorAll('.btn-primary');
-        addToOrderButtons.forEach(button => button.style.display = 'none');
-
-        const allergySections = document.querySelectorAll('.accordion-content h5:contains("Allergy")');
-        allergySections.forEach(section => section.style.display = 'none');
-
-        const specialRequestSections = document.querySelectorAll('.accordion-content h5:contains("Special Request")');
-        specialRequestSections.forEach(section => section.style.display = 'none');
     }
 
     async function saveNewItem() {
@@ -199,9 +208,15 @@
         await updateMenuItems(itemsToUpdate);
         await deleteMenuItems(itemsToDelete);
         refreshMenu();
+        hideMenuSections();
     }
 
-    function showNewItemModal() {
+    function createNewItem() {
+        // Clear the input fields in the modal
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemDescription').value = '';
+        document.getElementById('itemPrice').value = '';
+        document.getElementById('itemCategory').value = '';
         const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
         newItemModal.show();
     }
@@ -251,7 +266,10 @@
     // Function to update the menu content dynamically
     function updateMenuContent(menuItems) {
         const menuContainer = document.getElementById('menu');
-
+        if (!menuContainer) {
+            console.error('Error: Menu container not found in the DOM.');
+            return;
+        }
         for (const menuHeader of menuContainer.children) {
             const categoryContent = menuHeader.nextElementSibling;
             const filteredItems = menuItems.filter(item => item.category === menuHeader.id);
@@ -329,7 +347,9 @@
         }
     }
 
-    window.addEventListener('load', editButtons);
+    document.addEventListener('DOMContentLoaded', () => {
+        editButtons();
+    });
 </script>
 
 </html>
