@@ -89,14 +89,20 @@
 
 <script>
     function hideMenuSections() {
-        const addToOrderButtons = document.getElementById('addToOrderBtn');
-        addToOrderButtons.style.display = 'none';
+        const addToOrderButtons = document.querySelectorAll('#addToOrderBtn');
+        addToOrderButtons.forEach(button => {
+            button.style.display = 'none';
+        });
 
-        const allergySections = document.getElementById('allergy');
-        allergySections.style.display = 'none';
+        const allergySections = document.querySelectorAll('#allergy');
+        allergySections.forEach(section => {
+            section.style.display = 'none';
+        });
 
-        const specialRequestSections = document.getElementById('specialRequest');
-        specialRequestSections.style.display = 'none';
+        const specialRequestSections = document.querySelectorAll('#specialRequest');
+        specialRequestSections.forEach(section => {
+            section.style.display = 'none';
+        });
     }
 
     function showEditOptions() {
