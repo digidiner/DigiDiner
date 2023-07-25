@@ -92,10 +92,10 @@
         const addToOrderButtons = document.querySelectorAll('.btn-primary');
         addToOrderButtons.forEach(button => button.style.display = 'none');
 
-        const allergySections = document.querySelectorAll('.accordion-content h5:contains("Allergy")');
+        const allergySections = document.getElementById('allergy');
         allergySections.forEach(section => section.style.display = 'none');
 
-        const specialRequestSections = document.querySelectorAll('.accordion-content h5:contains("Special Request")');
+        const specialRequestSections = document.getElementById('specialRequest');
         specialRequestSections.forEach(section => section.style.display = 'none');
     }
 
@@ -148,9 +148,6 @@
         managerEditButton.addEventListener('click', () => {
             saveChanges();
         });
-
-
-        hideMenuSections();
     }
 
     async function editButtons() {
