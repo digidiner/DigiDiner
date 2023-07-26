@@ -143,11 +143,11 @@
                     }
 
                     orderItemList.appendChild(orderItemElement);
-                } else {
-                    const orderItemElement = document.createElement('li');
-                    orderItemElement.innerText = 'No items in the order.';
-                    orderItemList.appendChild(orderItemElement);
                 }
+            } else {
+                const orderItemElement = document.createElement('li');
+                orderItemElement.innerText = 'No items in the order.';
+                orderItemList.appendChild(orderItemElement);
             }
             orderElement.appendChild(orderItemList);
 
