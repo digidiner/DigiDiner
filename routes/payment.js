@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Payment = require('../models/payment');
+const PaymentMethodCreditcard = require('../models/paymentMethodCreditcard');
 const Order = require('../models/order');
 const MenuData = require('../models/menuData');
 const utils = require("../utils");
@@ -44,7 +44,7 @@ router.post('/:id', utils.asyncHandler(async function (req, res) {
             res.sendStatus(400);
             return;
         }
-        const result = await Payment.insertPayment(fullName, cardNumber, cvv, expiration, zipCode);
+        const result = await PaymentMethodCreditcard.insertPaymentMethod(fullName, cardNumber, cvv, expiration, zipCode);
         order.paymentId = result.insertId;
         await order.save();
         res.redirect('/receipt/' + req.params.id);
