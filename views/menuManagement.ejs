@@ -111,7 +111,16 @@
 
         const managerEditButton = document.getElementById('managerEditButton');
         managerEditButton.innerText = 'Edit';
-        managerEditButton.addEventListener('click', saveChanges);
+        managerEditButton.addEventListener('click', toggleSaveNewDeleteButtons);
+    }
+
+    function toggleSaveNewDeleteButtons() {
+        const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
+        managerEditButtonWrapper.innerHTML = `
+                <button class="btn btn-primary" onclick="saveChanges()">Save</button>
+                <button class="btn btn-primary" onclick="createNewItem()">New Item</button>
+                <button class="btn btn-danger" onclick="deleteItems()">Delete</button>
+            `;
 
         const menuItems = document.querySelectorAll('.accordion-item');
         menuItems.forEach((item) => {
@@ -170,9 +179,8 @@
         const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
         newItemModal.show();
     }
-    // Helper function to add a new menu item in the backend
+
     async function addMenuItem(newItem) {
-        // Make a POST request to the backend API to add the new item
         const response = await fetch('/api/menu', {
             method: 'POST',
             headers: {
