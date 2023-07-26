@@ -80,7 +80,7 @@
         const menuItems = JSON.parse(document.currentScript.dataset.menuItems);
 
         const orderQueue = document.getElementById('order-queue');
-        let orderElements = Object.fromEntries(orderQueue.getElementsByClassName('order-item').map(orderElement => [orderElement.getAttribute('data-order-id'), orderItem]));
+        let orderElements = Object.fromEntries(orderQueue.querySelectorAll('order-item').map(orderElement => [orderElement.getAttribute('data-order-id'), orderItem]));
 
         async function clearOrder(orderId) {
             try {
