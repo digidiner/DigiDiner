@@ -19,7 +19,7 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
             order.status = 'incomplete';
             await order.save();
         }
-        let orderItems = await order.getItems();
+        let orderItems = await Order.getItems();
         let menuItems = Object.fromEntries((await MenuData.getAllMenuItems()).map(item => [item.id, item]));
         let subtotal = calculateSubtotal(orderItems, menuItems);
         let taxes = calculateTaxes(orderItems, menuItems);
