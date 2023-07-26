@@ -126,7 +126,7 @@
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
             input.value = name.innerText;
-            name.innerHTML = '';
+            name.innerText = '';
             name.appendChild(input);
         });
 
@@ -135,7 +135,7 @@
             const input = document.createElement('input');
             input.setAttribute('type', 'number');
             input.value = price.innerText;
-            price.innerHTML = '';
+            price.innerText = '';
             price.appendChild(input);
         });
 
@@ -144,7 +144,7 @@
             const input = document.createElement('textarea');
             input.setAttribute('type', 'text');
             input.value = description.innerText;
-            description.innerHTML = '';
+            description.innerText = '';
             description.appendChild(input);
         });
 
