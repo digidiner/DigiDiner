@@ -139,7 +139,7 @@
             description.appendChild(input);
         });
 
-        const itemDescriptions = document.querySelectorAll('.accordion-item .item-description');
+        const itemDescriptions = document.querySelectorAll('.item-description');
         itemDescriptions.forEach((description) => {
             const input = document.createElement('textarea');
             input.setAttribute('type', 'text');
@@ -149,7 +149,7 @@
         });
 
         const managerEditButton = document.getElementById('managerEditButton');
-        managerEditButton.innerText = 'Save';
+        managerEditButton.innerText = 'Edit';
         managerEditButton.addEventListener('click', () => {
             saveChanges();
         });
@@ -160,13 +160,9 @@
         managerEditButtonWrapper.style.display = 'block';
 
         const managerEditButton = document.getElementById('managerEditButton');
-        managerEditButton.innerText = 'Save';
+        managerEditButton.innerText = 'Edit';
         managerEditButton.addEventListener('click', () => {
-            if (managerEditButton.innerText === 'Save') {
-                showEditOptions();
-            } else {
-                saveChanges();
-            }
+            showEditOptions();
         });
 
     }
