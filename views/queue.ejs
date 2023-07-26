@@ -116,32 +116,38 @@
 
             const orderItemList = document.createElement('ul');
             orderItemList.className = 'item-info';
-            for (const orderItem of order.items) {
-                const orderItemElement = document.createElement('li');
+            if (order.items?.length) {
+                for (const orderItem of order.items) {
+                    const orderItemElement = document.createElement('li');
 
-                const orderItemName = document.createElement('p');
-                orderItemName.innerText = (orderItem.count > 1 ? orderItem.count + 'x ' : '') + menuItems[orderItem.itemId].name;
-                orderItemElement.appendChild(orderItemName);
+                    const orderItemName = document.createElement('p');
+                    orderItemName.innerText = (orderItem.count > 1 ? orderItem.count + 'x ' : '') + menuItems[orderItem.itemId].name;
+                    orderItemElement.appendChild(orderItemName);
 
-                if (orderItem.options?.length) {
-                    const orderItemOptions = new document.createElement('p');
-                    orderItemOptions.innerText = ' - Options: ' + Object.keys(orderItem.options).map((optionId) => menuOptions[optionId] + ': ' + orderItem.options[optionId]).join(', ');
-                    orderItemElement.appendChild(orderItemOptions);
+                    if (orderItem.options?.length) {
+                        const orderItemOptions = new document.createElement('p');
+                        orderItemOptions.innerText = ' - Options: ' + Object.keys(orderItem.options).map((optionId) => menuOptions[optionId] + ': ' + orderItem.options[optionId]).join(', ');
+                        orderItemElement.appendChild(orderItemOptions);
+                    }
+
+                    if (orderItem.allergies) {
+                        const orderItemAllergies = new document.createElement('p');
+                        orderItemAllergies.innerHTML += ` - Allergies: ${orderItem.allergies}`
+                        orderItemElement.appendChild(orderItemAllergies);
+                    }
+                    
+                    if (orderItem.request) {
+                        const orderItemRequest = new document.createElement('p');
+                        orderItemRequest.innerHTML += ` - Special Request: ${orderItem.request}`
+                        orderItemElement.appendChild(orderItemRequest);
+                    }
+
+                    orderItemList.appendChild(orderItemElement);
+                } else {
+                    const orderItemElement = document.createElement('li');
+                    orderItemElement.innerText = 'No items in the order.';
+                    orderItemList.appendChild(orderItemElement);
                 }
-
-                if (orderItem.allergies) {
-                    const orderItemAllergies = new document.createElement('p');
-                    orderItemAllergies.innerHTML += ` - Allergies: ${orderItem.allergies}`
-                    orderItemElement.appendChild(orderItemAllergies);
-                }
-                
-                if (orderItem.request) {
-                    const orderItemRequest = new document.createElement('p');
-                    orderItemRequest.innerHTML += ` - Special Request: ${orderItem.request}`
-                    orderItemElement.appendChild(orderItemRequest);
-                }
-
-                orderItemList.appendChild(orderItemElement);
             }
             orderElement.appendChild(orderItemList);
 
@@ -176,7 +182,7 @@
                         }
                     }
                     Object.keys(orderElements).forEach(orderId => {
-                        if (!ordersToKeep.includes(orderId)) {
+                        if (orderElements[orderId] != undefined && !ordersToKeep.includes(orderId)) {
                             orderElements[orderId].remove();
                             orderElements[orderId] = undefined;
                         }
