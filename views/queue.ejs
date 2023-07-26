@@ -168,11 +168,19 @@
                 });
                 if (response.ok) {
                     const fetchedOrders = await response.json();
+                    let ordersToKeep = [];
                     for (const fetchedOrder of fetchedOrders) {
+                        ordersToKeep.push(fetchedOrder.id);
                         if (orderElements[fetchedOrder.id] == undefined) {
                             await addOrder(fetchedOrder);
                         }
                     }
+                    Object.keys(orderElements).forEach(orderId => {
+                        if (!ordersToKeep.includes(orderId)) {
+                            orderElements[orderId].remove();
+                            orderElements[orderId] = undefined;
+                        }
+                    })
                 } else {
                     console.error('Failed to fetch order queue: ', response.status);
                 }
