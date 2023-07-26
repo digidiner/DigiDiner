@@ -502,18 +502,16 @@
             const tableId = $('#finalBillTableId').text();
             const tableCell = $(`.table-cell[data-table-id="${tableId}"]`);
 
-            if (orderId == null || !response.ok) {
-                await fetch(window.location.origin + '/api/waitstaff/table/status', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: tableId,
-                        status: 'unoccupied'
-                    }),
-                });
-            }
+            await fetch(window.location.origin + '/api/waitstaff/table/status', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: tableId,
+                    status: 'unoccupied'
+                }),
+            });
 
             tableCell.attr('data-status', 'unoccupied');
             tableCell.removeClass('table-dirty');

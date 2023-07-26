@@ -58,15 +58,15 @@
                                             <% if (item.request) { %>
                                                 - Special Request: <%= item.request %>
                                             <% } %>
-                                            <button class="btn btn-danger btn-sm mark-ready-btn" data-order-id="<%= order.id %>">
-                                                Clear Order
-                                            </button>
                                         </li>
                                     <% }) %>
                                 <% } else { %>
                                     <li>No items in the order.</li>
                                 <% } %>
                             </ul>
+                            <button class="btn btn-danger btn-sm mark-ready-btn" data-order-id="<%= order.id %>">
+                                Clear Order
+                            </button>
                         </div>
                     <% }) %>
                 <% } else { %>
