@@ -153,6 +153,7 @@
 
             const orderClearButton = document.createElement('button');
             orderClearButton.className = 'btn btn-danger btn-sm mark-ready-btn';
+            orderClearButton.innerText = 'Clear Order';
             orderClearButton.addEventListener('click', async () => clearOrder(orderId));
             orderElement.appendChild(orderClearButton);
 
