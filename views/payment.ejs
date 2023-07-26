@@ -54,25 +54,26 @@
                         <span class="text-primary">Your Order</span>
                         <span class="badge bg-primary rounded-pill">3</span>
                     </h4>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">{{menuItem.name}}</h6>
-                                <small class="text-body-secondary">{{menuItem.description}}</small>
-                            </div>
-                            <span class="text-body-secondary">${{menuItem.price}}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                            <div class="text-success">
-                                <h6 class="my-0">Tip</h6>
-                                <small>{{tip}}</small>
-                            </div>
-                            <span class="text-success">+$ {{tip}}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong id="total-amount">${{menuItem.price}}</strong>
-                        </li>
+                    <% if (orderItems.length > 0) { %>
+                        <% orderItems.forEach(function(item) { %>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0"><%= menuItems[item.itemId].name %></h6>
+                                        <small class="text-body-secondary"><%= menuItems[item.itemId].description %></small>
+                                    </div>
+                                    <span class="text-body-secondary">$<%= menuItems[item.itemId].price %></span>
+                                </li>
+                            </ul>
+                    <% }) %>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Total (USD)</span>
+                                <!-- Add the total amount with the class .total-amount -->
+                                <strong class="total-amount">$<%= total.toFixed(2) %></strong>
+                            </li>
+                    <% } else { %>
+                        <p>No items in the order.</p>
+                    <% } %>
                     </ul>
                     <form class="card p-2">
                         <div class="input-group">
@@ -82,7 +83,7 @@
                         </div>
                     </form>
                 </div>
-
+                <div class="total-amount">$<%= total.toFixed(2) %></div>
                 <div class="col-md-6">
                     <h4 class="mb-3 text-center">Payment</h4>
                     <!-- Payment Options -->
@@ -201,6 +202,8 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
+    var total = <%= total %>;
+
     function handlePaymentOptionChange() {
         var cashForm = document.getElementById('cash-form');
         var creditForm = document.getElementById('credit-form');
@@ -271,13 +274,15 @@
     }
 
     function applyTip() {
-        const tipAmount = parseFloat($('#tip-input').val()) || 0;
-        const currentTip = parseFloat("{{tip}}") || 0;
-        const updatedTip = currentTip + tipAmount;
+        var tip = parseFloat($('#tip-input').val());
+        if (tip < 0) {
+            tip = 0;
+            $('#tip-input').val('0');
+        }
+        var updatedTotal = total + tip;
 
-        $('.text-success h6').text('Tip');
-        $('.text-success small').text(updatedTip.toFixed(2));
-        $('.text-success span').text('+$ ' + updatedTip.toFixed(2));
+        // Update the displayed total
+        $('.total-amount').html('$' + updatedTotal.toFixed(2));
     }
 </script>
 </body>
