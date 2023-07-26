@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', utils.asyncHandler(async function (req, res, next) {
     const orderId = req.params.id;
-    const order = new Order(orderId);
+    const order = Order.getOrderById(orderId);
 
     if (await order.load()) {
         if (order.status === 'new') {
