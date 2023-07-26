@@ -109,7 +109,7 @@ class Order {
     }
 
     async getPayment() {
-        return null; // TODO: Payment model incomplete and does not yet have code for loading a record from the database
+        return await Payment.getPaymentById(this.paymentId);
     }
 
     async getItems() {

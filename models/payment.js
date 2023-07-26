@@ -1,82 +1,72 @@
-const nodemailer = require('nodemailer');
-const twilio = require('twilio');
-
 class Payment {
-    static async connectDatabase(conn) {
+    id;
+    subtotal;
+    tax;
+    tip;
+    method;
+    date;
+
+    constructor(id, subtotal, tax, tip, method, date) {
+        this.id = id;
+        this.subtotal = subtotal;
+        this.tax = tax;
+        this.tip = tip ?? 0.0;
+        this.method = method;
+        this.date = date ?? Date.now();
+    }
+
+    static connectDatabase(conn) {
         this.conn = conn;
-        const query = `CREATE TABLE IF NOT EXISTS payment (
+        conn.query(`CREATE TABLE IF NOT EXISTS payment (
             id INT PRIMARY KEY AUTO_INCREMENT,
-            full_name VARCHAR(100) NOT NULL,
-            card_number VARCHAR(16) NOT NULL,
-            cvv VARCHAR(3) NOT NULL,
-            expiration VARCHAR(7) NOT NULL,
-            zip_code VARCHAR(10) NOT NULL
-        )`;
+            subtotal DECIMAL(20,2) NOT NULL,
+            tax DECIMAL(20,2) NOT NULL,
+            tip DECIMAL(20,2) NOT NULL,
+            method VARCHAR(20) NOT NULL,
+            date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`);
     }
 
-    static async insertPayment(fullName, cardNumber, cvv, expiration, zipCode) {
-        const query = 'INSERT INTO payment (full_name, card_number, cvv, expiration, zip_code) VALUES (?, ?, ?, ?, ?)';
-        const values = [fullName, cardNumber, cvv, expiration, zipCode];
-        return await this.conn.query(query, values);
-    }
-
-    static calculateSubtotal(order) {
-        let subtotal = 0;
-        order.forEach((item) => {
-            subtotal += item.quantity * item.price;
-        });
-        return subtotal.toFixed(2);
-    }
-
-    static calculateTaxes(order) {
-        const subtotal = this.calculateSubtotal(order);
-        const taxes = subtotal * 0.1; // Assuming tax rate of 10%
-        return taxes.toFixed(2);
-    }
-
-    static calculateTotal(order, tip) {
-        const subtotal = this.calculateSubtotal(order);
-        const taxes = this.calculateTaxes(order);
-        const total = parseFloat(subtotal) + parseFloat(taxes) + parseFloat(tip);
-        return total.toFixed(2);
-    }
-
-    static async processPayment(req, res) {
-        const { fullName, cardNumber, cvv, expiration, zipCode } = req.body;
-
-        try {
-            const results = await this.insertPayment(fullName, cardNumber, cvv, expiration, zipCode);
-
-            const orderResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://digidiner.net/order/data'));
-            const orderData = await orderResponse.json();
-            const order = orderData.order;
-
-            const tip = req.body.tip; // Retrieve the tip amount from the request body
-
-            res.render('bill', {
-                order,
-                subtotal: this.calculateSubtotal(order),
-                taxes: this.calculateTaxes(order),
-                total: this.calculateTotal(order, tip),
-            });
-        } catch (error) {
-            console.error('Error processing payment:', error);
-            // Handle the error and return an appropriate response
-            res.sendStatus(500);
+    static async getPaymentById(id) {
+        const record = (await Payment.conn.query(`SELECT * FROM payment WHERE id = '${id}'`))[0];
+        if (record && id == record.id) {
+            return new Payment(
+                record.id,
+                record.subtotal,
+                record.tax,
+                record.tip,
+                record.method,
+                new Date(record.date).getTime()
+            );
         }
+        return null;
     }
 
-    static renderReceipt(req, res) {
-        const total = req.query.total; // Retrieve the total cost from the query parameter
-        res.render('receipt', { total });
+    async load() {
+        const record = (await Payment.conn.query(`SELECT * FROM payment WHERE id = '${this.id}'`))[0];
+        if (record && this.id == record.id) {
+            this.subtotal = record.subtotal;
+            this.tax = record.tax;
+            this.tip = record.tip;
+            this.method = record.method;
+            this.date = new Date(record.date).getTime(); // Converts SQL timestamp milliseconds representation of date
+            return true;
+        }
+        return false;
     }
 
-    static maskCardNumber(cardNumber) {
-        const lastFourDigits = cardNumber.slice(-4);
-        return '*'.repeat(cardNumber.length - 4) + lastFourDigits;
+    async save() {
+        const properties = [
+            this.subtotal,
+            this.tax,
+            this.tip,
+            this.method,
+            new Date(this.date).toISOString().slice(0, 19).replace('T', ' ') // Converts JavaScript date to string acceptable by SQL
+        ]
+        await Payment.conn.query(`INSERT INTO payment (id, subtotal, tax, tip, method, date) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE subtotal=?, tax=?, tip=?, method=?, date=?`, [this.id, ...properties, ...properties]);
     }
 
-    static sendEmailReceipt(email) {
+    sendEmailReceipt(email) {
         const transporter = nodemailer.createTransport({
             service: 'YourEmailService',
             auth: {
@@ -102,7 +92,7 @@ class Payment {
         });
     }
 
-    static sendTextReceipt(phoneNumber) {
+    sendTextReceipt(phoneNumber) {
         const twilioClient = twilio('YourTwilioAccountSid', 'YourTwilioAuthToken');
         const message = 'Here is your receipt.';
 
