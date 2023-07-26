@@ -207,6 +207,7 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
+    var orderId = <%= orderId %>;
     var total = <%= total %>;
 
     function handlePaymentOptionChange() {
@@ -237,7 +238,7 @@
             // Process cash payment
             // Implement code to handle cash payment
             // Redirect to the receipt page
-            window.location.href = '/receipt';
+            window.location.href = '/receipt/' + orderId;
         } else if (document.getElementById('credit-option').checked) {
             // Process credit/debit card payment
             // Implement code to handle credit/debit card payment
@@ -248,7 +249,7 @@
             var zipCode = document.getElementById('zip').value;
 
             // Make a POST request to the '/payment' route to process the payment
-            fetch('/payment', {
+            fetch('/payment/' + orderId, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -264,7 +265,7 @@
                 .then(response => {
                     if (response.ok) {
                         // Payment successful, redirect to the receipt page
-                        window.location.href = '/receipt';
+                        window.location.href = '/receipt/' + orderId;
                     } else {
                         // Handle the error and display an appropriate message
                         alert('Error processing payment. Please try again.');
