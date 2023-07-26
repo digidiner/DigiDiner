@@ -165,7 +165,7 @@
                 throw new Error('Failed to fetch menu data');
             }
             const menuItems = await response.json();
-            updateMenuContent(menuItems);
+            updateMenuItems(menuItems);
         } catch (error) {
             console.error('Error refreshing menu:', error);
         }
