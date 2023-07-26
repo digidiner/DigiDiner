@@ -50,7 +50,7 @@ router.post('/order/ready', requireSession, utils.asyncHandler(async function(re
         return;
     }
     const order = new Order(req.body.orderId);
-    if (!(await req.order.load())) {
+    if (!(await order.load())) {
         res.status(400).json({
             'error': "Invalid or Expired Order"
         });
