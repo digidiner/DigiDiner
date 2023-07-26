@@ -38,55 +38,60 @@
 </head>
 
 <body>
-    <div class="container">
-        <main>
+    <main>
+        <div class="container">
             <div class="py-5 text-center">
                 <h2>Checkout</h2>
-                <h4></h4>Your order is being prepared.</h4>
-                <p class="lead">Below is a summary of your order. Please proceed with
-                    payment at your convenience.</p>
-                <h6>We appreciate your patience and look forward to serving you a
-                    delightful dining experience.</h6>
+                <h4>Your order is being prepared.</h4>
+                <p class="lead">Below is a summary of your order. Please proceed with payment at your convenience.</p>
+                <h6>We appreciate your patience and look forward to serving you a delightful dining experience.</h6>
             </div>
+
             <div class="row g-5">
-                <div class="col-md-6 order-md-first">
+                <!-- Left side (Order section) -->
+                <div class="col-md-6">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">Your Order</span>
                         <span class="badge bg-primary rounded-pill">3</span>
                     </h4>
-                    <% if (orderItems.length > 0) { %>
+                    <% if (orderItems.length> 0) { %>
                         <% orderItems.forEach(function(item) { %>
                             <ul class="list-group mb-3">
                                 <li class="list-group-item d-flex justify-content-between lh-sm">
                                     <div>
-                                        <h6 class="my-0"><%= menuItems[item.itemId].name %></h6>
-                                        <small class="text-body-secondary"><%= menuItems[item.itemId].description %></small>
+                                        <h6 class="my-0">
+                                            <%= menuItems[item.itemId].name %>
+                                        </h6>
+                                        <small class="text-body-secondary">
+                                            <%= menuItems[item.itemId].description %>
+                                        </small>
                                     </div>
                                     <span class="text-body-secondary">$<%= menuItems[item.itemId].price %></span>
                                 </li>
                             </ul>
-                    <% }) %>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Total (USD)</span>
-                                <!-- Add the total amount with the class .total-amount -->
-                                <strong class="total-amount">$<%= total.toFixed(2) %></strong>
-                            </li>
-                    <% } else { %>
-                        <p>No items in the order.</p>
-                    <% } %>
-                    </ul>
-                    <form class="card p-2">
-                        <div class="input-group">
-                            <input type="number" step="0.01" class="form-control" id="tip-input"
-                                placeholder="Enter tip amount">
-                            <button type="button" class="btn btn-secondary" onclick="applyTip()">Apply</button>
-                        </div>
-                    </form>
+                            <% }) %>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Total (USD)</span>
+                                    <!-- Add the total amount with the class .total-amount -->
+                                    <strong class="total-amount">$<%= total.toFixed(2) %></strong>
+                                </li>
+                                <% } else { %>
+                                    <p>No items in the order.</p>
+                                    <% } %>
+                                        </ul>
+                                        <form class="card p-2">
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" id="tip-input"
+                                                    placeholder="Enter tip amount">
+                                                <button type="button" class="btn btn-secondary"
+                                                    onclick="applyTip()">Apply</button>
+                                            </div>
+                                        </form>
                 </div>
-                <div class="total-amount">$<%= total.toFixed(2) %></div>
+
+                <!-- Right side (Payment section) -->
                 <div class="col-md-6">
                     <h4 class="mb-3 text-center">Payment</h4>
-                    <!-- Payment Options -->
                     <div class="payment">
                         <div class="form-check text-center">
                             <div class="payment-option">
@@ -111,7 +116,6 @@
                     </div>
                     <!-- Credit/Debit Card Payment Form -->
                     <div class="payment-form" id="credit-form" style="display: none;">
-                        <!-- Credit card form fields -->
                         <h4 class="mb-3 text-center">Billing address</h4>
                         <form class="needs-validation" novalidate>
                             <div class="row g-3">
@@ -192,8 +196,9 @@
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
+
     <footer class="my-5 pt-5 text-body-secondary text-center text-small">
         <p class="mb-1">&copy; 2023 DigiDiner. All rights reserved.</p>
     </footer>

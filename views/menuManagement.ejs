@@ -153,8 +153,13 @@
         managerEditButtonWrapper.style.display = 'block';
 
         const managerEditButton = document.getElementById('managerEditButton');
+        managerEditButton.innerText = 'Save';
         managerEditButton.addEventListener('click', () => {
-            showEditOptions();
+            if (managerEditButton.innerText === 'Save') {
+                showEditOptions();
+            } else {
+                saveChanges();
+            }
         });
 
     }
