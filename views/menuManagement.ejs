@@ -126,8 +126,8 @@
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
             input.value = name.innerText;
-            description.innerHTML = '';
-            description.appendChild(input);
+            name.innerHTML = '';
+            name.appendChild(input);
         });
 
         const itemPrices = document.querySelectorAll('.item-price');
@@ -135,8 +135,8 @@
             const input = document.createElement('input');
             input.setAttribute('type', 'number');
             input.value = price.innerText;
-            description.innerHTML = '';
-            description.appendChild(input);
+            price.innerHTML = '';
+            price.appendChild(input);
         });
 
         const itemDescriptions = document.querySelectorAll('.item-description');
