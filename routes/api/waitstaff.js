@@ -148,7 +148,7 @@ router.delete('/order', requireSession, utils.asyncHandler(async function (req, 
         return;
     }
     const order = new Order(req.body.orderId);
-    if (!(await req.order.load())) {
+    if (!(await order.load())) {
         res.status(400).json({
             'error': "Invalid or Expired Order"
         });
