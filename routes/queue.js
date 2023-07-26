@@ -18,6 +18,7 @@ function requireSession(req, res, next) {
 router.get('/', requireSession, async function (req, res) {
     try {
         const orders = await Order.listOrders();
+        orders.sort((a, b) => a.time - b.time);
         const submittedOrders = orders.filter(order => order.status === 'submitted');
         for (const order of submittedOrders) {
             order.items = await order.getItems();

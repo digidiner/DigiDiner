@@ -92,6 +92,7 @@ router.get('/order', requireSession, utils.asyncHandler(async function (req, res
 /* GET order list */
 router.get('/order/list', requireSession, utils.asyncHandler(async function (req, res) {
     const orders = await Order.listOrders();
+    orders.sort((a, b) => a.time - b.time);
     res.status(200).json(await Promise.all(orders.map(async order => ({
         'id': order.id,
         'tableId': order.tableId,
