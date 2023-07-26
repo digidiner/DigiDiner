@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Order = require('../models/order');
 const menuData = require('../models/menuData');
+const menuOptionData = require('../models/menuOptionData');
 
 // Used to verify user is signed in
 function requireSession(req, res, next) {
@@ -24,7 +25,11 @@ router.get('/', requireSession, async function (req, res) {
                 item.options = await item.getItemOptions();
             }
         }
-        res.status(200).render('queue', { orderQueue: submittedOrders, menuItems: Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item])) });
+        res.status(200).render('queue', {
+            orderQueue: submittedOrders,
+            menuItems: Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item])),
+            menuOptions: Object.fromEntries((await menuOptionData.getAllMenuOption()).map(option => [option.id, option]))
+        });
     } catch (error) {
         console.error('Error occurred while fetching orders:', error);
         res.status(500).send('Internal Server Error');
