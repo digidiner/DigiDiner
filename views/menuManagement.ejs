@@ -119,30 +119,37 @@
             checkbox.setAttribute('type', 'checkbox');
             checkbox.classList.add('edit-checkbox');
             item.prepend(checkbox);
+        });
 
-            const itemName = item.querySelector('.item-name');
-            const inputName = document.createElement('input');
-            inputName.setAttribute('type', 'text');
-            inputName.value = itemName.innerText;
-            itemName.innerHTML = '';
-            itemName.appendChild(inputName);
+        const itemNames = document.querySelectorAll('.item-name');
+        itemNames.forEach((name) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.value = name.innerText;
+            description.innerHTML = '';
+            description.appendChild(input);
+        });
 
-            const itemPrice = item.querySelector('.item-price');
-            const inputPrice = document.createElement('input');
-            inputPrice.setAttribute('type', 'number');
-            inputPrice.value = itemPrice.innerText.replace('$', '');
-            itemPrice.innerHTML = '';
-            itemPrice.appendChild(inputPrice);
+        const itemPrices = document.querySelectorAll('.item-price');
+        itemPrices.forEach((price) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'number');
+            input.value = price.innerText;
+            description.innerHTML = '';
+            description.appendChild(input);
+        });
 
-            const itemDescription = item.querySelector('.item-description');
-            const inputDescription = document.createElement('textarea');
-            inputDescription.value = itemDescription.innerText;
-            itemDescription.innerHTML = '';
-            itemDescription.appendChild(inputDescription);
+        const itemDescriptions = document.querySelectorAll('.item-description');
+        itemDescriptions.forEach((description) => {
+            const input = document.createElement('textarea');
+            input.setAttribute('type', 'text');
+            input.value = description.innerText;
+            description.innerHTML = '';
+            description.appendChild(input);
         });
 
         const managerEditButton = document.getElementById('managerEditButton');
-        managerEditButton.innerText = 'Save';
+        managerEditButton.innerText = 'Edit';
         managerEditButton.addEventListener('click', () => {
             saveChanges();
         });
@@ -153,13 +160,9 @@
         managerEditButtonWrapper.style.display = 'block';
 
         const managerEditButton = document.getElementById('managerEditButton');
-        managerEditButton.innerText = 'Save';
+        managerEditButton.innerText = 'Edit';
         managerEditButton.addEventListener('click', () => {
-            if (managerEditButton.innerText === 'Save') {
-                showEditOptions();
-            } else {
-                saveChanges();
-            }
+            showEditOptions();
         });
 
     }
