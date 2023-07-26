@@ -14,7 +14,7 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
     const orderId = req.params.id;
     const order = Order.getOrderById(orderId);
 
-    if (await order.load()) {
+    if (order) {
         if (order.status === 'new') {
             order.status = 'incomplete';
             await order.save();
