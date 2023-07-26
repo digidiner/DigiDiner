@@ -5,11 +5,6 @@ const Order = require('../models/order');
 const MenuData = require('../models/menuData');
 const utils = require("../utils");
 
-router.get('/', (req, res) => {
-    const total = req.query.total;
-    res.render('payment', { total });
-});
-
 router.get('/:id', utils.asyncHandler(async function (req, res, next) {
     const orderId = req.params.id;
     const order = new Order(orderId);
@@ -39,18 +34,25 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
 
 }));
 
-router.post('/', (req, res) => {
+router.post('/:id', utils.asyncHandler(async function (req, res) {
     const { fullName, cardNumber, cvv, expiration, zipCode } = req.body;
 
-    Payment.insertPayment(fullName, cardNumber, cvv, expiration, zipCode)
-        .then(() => {
-            res.redirect('/payment');
-        })
-        .catch((error) => {
-            console.error('Error processing payment:', error);
-            res.sendStatus(500);
-        });
-});
+    try {
+        const order = await Order.getOrderById(req.params.id);
+        if (order.paymentId != null) {
+            console.error('Payment already received!');
+            res.sendStatus(400);
+            return;
+        }
+        const result = await Payment.insertPayment(fullName, cardNumber, cvv, expiration, zipCode);
+        order.paymentId = result.insertId;
+        await order.save();
+        res.redirect('/receipt/' + req.params.id);
+    } catch (error) {
+        console.error('Error processing payment:', error);
+        res.sendStatus(500);
+    }
+}));
 
 function calculateSubtotal(orderItems, menuItems) {
     var subtotal = 0;
