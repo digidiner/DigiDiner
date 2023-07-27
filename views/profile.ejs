@@ -132,14 +132,20 @@
                             </div>
                             <div class="mb-3">
                                 <label for="positionInput" class="form-label">Position</label>
-                                <input type="text" class="form-control" id="positionInput" required>
+                                <select class="form-select" id="positionInput" required>
+                                    <option value="manager">Manager</option>
+                                    <option value="waitstaff">Waitstaff</option>
+                                    <option value="kitchen">Kitchen</option>
+                                </select>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" onclick="updateEmployee()">Update</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteEmployee()">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="showEmployeeList()">Back</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            onclick="deleteEmployee()">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            onclick="showEmployeeList()">Back</button>
                     </div>
                 </div>
             </div>
