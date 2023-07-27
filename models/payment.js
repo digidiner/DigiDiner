@@ -50,7 +50,7 @@ class Payment {
             method,
             new Date(date).toISOString().slice(0, 19).replace('T', ' ') // Converts JavaScript date to string acceptable by SQL
         ]
-        const id = (await Payment.conn.query(`INSERT INTO payment (subtotal, tax, tip, method, date) VALUES (?, ?, ?, ?, ?, ?)`, properties)).insertId;
+        const id = (await Payment.conn.query(`INSERT INTO payment (subtotal, tax, tip, method, date) VALUES (?, ?, ?, ?, ?)`, properties)).insertId;
         return new Payment(id, subtotal, tax, tip, method, date);
     }
 
