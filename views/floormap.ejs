@@ -57,6 +57,12 @@
             color: black;
         }
 
+        .modal-combo-footer {
+            display: grid;
+            grid-template-columns: min-content;
+            grid-auto-flow: column;
+        }
+
         #order-iframe {
             width: 10vw;
         }
@@ -171,9 +177,10 @@
                             </div>
                             <div class="modal-body">
                                 <span id="orderStatus"></span>
+                                <br>
                                 <span id="orderPaid"></span>
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer modal-combo-footer">
                                 <input type="number" class="form-control" id="orderCashAmount">
                                 <button type="button" class="btn btn-primary" id="orderReceivedCashButton" onclick="receivedCash()">Received Cash Payment</button>
                                 <button type="button" class="btn btn-primary" onclick="deleteOrder()">Cancel/Clear Order</button>
