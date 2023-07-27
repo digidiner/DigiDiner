@@ -387,15 +387,15 @@
                     tableCell.innerText = `Table ${table.id}`;
 
                     if (table.orderStatus != null) {
-                        tableCell.appendChild(document.createElement('br'));
                         const tableOrderStatus = document.createElement('p');
+                        tableOrderStatus.className = `row`;
                         tableOrderStatus.innerText = `Order Status: ${table.orderStatus[0].toUpperCase() + table.orderStatus.slice(1)}`;
                         tableCell.appendChild(tableOrderStatus);
                     }
 
                     if (table.orderPaid != null) {
-                        tableCell.appendChild(document.createElement('br'));
                         const tableOrderPaid = document.createElement('p');
+                        tableOrderPaid.className = `row`;
                         tableOrderPaid.innerText = `Order Paid: ${table.orderPaid}`;
                         tableCell.appendChild(tableOrderPaid);
                     }
