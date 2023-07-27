@@ -381,28 +381,21 @@
                     }
 
                     const tableCell = document.createElement('div');
-                    tableCell.className = `col-md-4 table-cell table-${table.status}`;
+                    tableCell.className = `col-md-4 table-cell table-${table.status} row`;
                     tableCell.dataset.tableId = table.id;
                     tableCell.dataset.status = table.status;
                     tableCell.innerText = `Table ${table.id}`;
 
                     if (table.orderStatus != null) {
-                        const rowDiv = document.createElement('div');
-                        rowDiv.className = `row`;
                         const tableOrderStatus = document.createElement('p');
                         tableOrderStatus.innerText = `Order Status: ${table.orderStatus[0].toUpperCase() + table.orderStatus.slice(1)}`;
-                        rowDiv.appendChild(tableOrderStatus);
-                        tableCell.appendChild(rowDiv);
+                        tableCell.appendChild(tableOrderStatus);
                     }
 
                     if (table.orderPaid != null) {
-                        const rowDiv = document.createElement('div');
-                        rowDiv.className = `row`;
                         const tableOrderPaid = document.createElement('p');
-                        tableOrderPaid.className = `row`;
                         tableOrderPaid.innerText = `Order Paid: ${table.orderPaid}`;
-                        rowDiv.appendChild(tableOrderPaid);
-                        tableCell.appendChild(rowDiv);
+                        tableCell.appendChild(tableOrderPaid);
                     }
 
                     tableCell.addEventListener('click', handleTableCellClick);
