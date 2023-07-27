@@ -34,6 +34,7 @@ router.get('/order', requireOrder, utils.asyncHandler(async function (req, res) 
         'paymentId': req.order.paymentId,
         'status': req.order.status,
         'time': req.order.time,
+        'paid': await req.order.isPaidFor(),
         'items': await Promise.all((await req.order.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,
@@ -124,6 +125,7 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function (re
         'paymentId': req.order.paymentId,
         'status': req.order.status,
         'time': req.order.time,
+        'paid': await req.order.isPaidFor(),
         'items': await Promise.all((await req.order.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,
@@ -151,6 +153,7 @@ router.post('/order/pay/creditcard', requireOrder, utils.asyncHandler(async func
         'paymentId': req.order.paymentId,
         'status': req.order.status,
         'time': req.order.time,
+        'paid': await req.order.isPaidFor(),
         'items': await Promise.all((await req.order.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,
@@ -177,6 +180,7 @@ router.post('/order/pay/cash', requireOrder, utils.asyncHandler(async function (
         'paymentId': req.order.paymentId,
         'status': req.order.status,
         'time': req.order.time,
+        'paid': await req.order.isPaidFor(),
         'items': await Promise.all((await req.order.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,

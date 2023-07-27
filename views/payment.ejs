@@ -108,6 +108,8 @@
                     <hr class="my-4">
                     <!-- Cash Payment Form -->
                     <div class="payment-form" id="cash-form" style="display: none;">
+                        <button class="w-100 btn btn-primary btn-lg confirm-payment-btn"
+                            onclick="confirmPayment()">Notify Server</button>
                     </div>
                     <!-- Credit/Debit Card Payment Form -->
                     <div class="payment-form" id="credit-form" style="display: none;">
@@ -185,10 +187,10 @@
                                 </div>
                             </div>
                         </form>
+                        <hr class="my-4">
+                        <button class="w-100 btn btn-primary btn-lg confirm-payment-btn"
+                            onclick="confirmPayment()">Confirm Payment</button>
                     </div>
-                    <hr class="my-4">
-                    <button class="w-100 btn btn-primary btn-lg confirm-payment-btn"
-                        onclick="confirmPayment()">Confirm Payment</button>
                 </div>
             </div>
         </div>

@@ -49,6 +49,7 @@ router.post('/order', requireSession, utils.asyncHandler(async function (req, re
         'paymentId': newOrder.paymentId,
         'status': newOrder.status,
         'time': newOrder.time,
+        'paid': false,
         'items': await Promise.all((await newOrder.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,
@@ -80,6 +81,7 @@ router.get('/order', requireSession, utils.asyncHandler(async function (req, res
         'paymentId': order.paymentId,
         'status': order.status,
         'time': order.time,
+        'paid': await order.isPaidFor(),
         'items': await Promise.all((await order.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,
@@ -99,6 +101,7 @@ router.get('/order/list', requireSession, utils.asyncHandler(async function (req
         'paymentId': order.paymentId,
         'status': order.status,
         'time': order.time,
+        'paid': await order.isPaidFor(),
         'items': await Promise.all((await order.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,
@@ -131,6 +134,7 @@ router.put('/order/status', requireSession, utils.asyncHandler(async function (r
         'paymentId': order.paymentId,
         'status': order.status,
         'time': order.time,
+        'paid': await order.isPaidFor(),
         'items': await Promise.all((await order.getItems()).map(async item => ({
             'id': item.id,
             'itemId': item.itemId,

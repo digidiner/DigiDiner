@@ -2,6 +2,7 @@ var Table = require('./table');
 var Payment = require('./payment');
 var menuData = require('./menuData');
 var menuOptionData = require('./menuOptionData');
+var paymentMethodCash = require('./paymentMethodCash');
 
 const orderExpiryTime = 12 * 60 * 60 * 1000;
 
@@ -164,6 +165,12 @@ class Order {
     async updateStatus(status) {
         this.status = status;
         await this.save();
+    }
+
+    async isPaidFor() {
+        const payment = await this.getPayment();
+        if (payment == null) return false;
+        return payment.method != 'cash' || await paymentMethodCash.getCashPayment(payment.id) != null;
     }
 
     async load() {
