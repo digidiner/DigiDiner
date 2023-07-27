@@ -34,26 +34,6 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
 
 }));
 
-router.post('/:id', utils.asyncHandler(async function (req, res) {
-    const { fullName, cardNumber, cvv, expiration, zipCode } = req.body;
-
-    try {
-        const order = await Order.getOrderById(req.params.id);
-        if (order.paymentId != null) {
-            console.error('Payment already received!');
-            res.sendStatus(400);
-            return;
-        }
-        const result = await PaymentMethodCreditcard.insertPaymentMethod(fullName, cardNumber, cvv, expiration, zipCode);
-        order.paymentId = result.insertId;
-        await order.save();
-        res.redirect('/receipt/' + req.params.id);
-    } catch (error) {
-        console.error('Error processing payment:', error);
-        res.sendStatus(500);
-    }
-}));
-
 function calculateSubtotal(orderItems, menuItems) {
     var subtotal = 0;
     orderItems.forEach(function (item) {

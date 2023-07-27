@@ -144,7 +144,7 @@ router.post('/order/pay/creditcard', requireOrder, utils.asyncHandler(async func
         return;
     }
     const payment = await Payment.registerPayment(await req.order.calculateSubtotal(), await req.order.calculateTaxes(), req.body.tip ?? 0, 'creditcard', Date.now());
-    await PaymentMethodCreditcard.insertPaymentMethod(req.body.fullName, req.body.cardNumber, req.body.cvv, req.body.expiration, req.body.zipCode);
+    await PaymentMethodCreditcard.insertPaymentMethod(payment.id, req.body.fullName, req.body.cardNumber, req.body.cvv, req.body.expiration, req.body.zipCode);
     req.order.paymentId = payment.id;
     await req.order.save();
     res.status(200).json({

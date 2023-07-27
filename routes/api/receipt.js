@@ -12,8 +12,6 @@ router.post('/', utils.asyncHandler(async function (req, res) {
     const { fullName, cardNumber, cvv, expiration, zipCode } = req.body;
 
     try {
-        const results = await PaymentMethodCreditcard.insertPaymentMethod(fullName, cardNumber, cvv, expiration, zipCode);
-
         const orderResponse = await import('node-fetch').then(({ default: fetch }) => fetch('http://digidiner.net/order/data'));
         const orderData = await orderResponse.json();
         const order = orderData.order;
