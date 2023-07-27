@@ -15,7 +15,7 @@ class PaymentMethodCreditcard {
             CONSTRAINT payment_method_creditcard_fk_payment_id
                 FOREIGN KEY (payment_id) REFERENCES payment (id)
                 ON DELETE CASCADE
-                ON UPDATE CASCADE,
+                ON UPDATE CASCADE
         )`);
     }
 
