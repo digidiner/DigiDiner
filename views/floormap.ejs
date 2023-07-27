@@ -331,7 +331,6 @@
 
             // Generate table grid
             const tableGrid = document.getElementById('tableGrid');
-            tableGrid.innerHTML = ''; // Clear existing content
 
             // Fetch tables data from the API
             const tables = await (await fetch(window.location.origin + '/api/waitstaff/table/list', {
