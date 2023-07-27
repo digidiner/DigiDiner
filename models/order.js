@@ -144,13 +144,13 @@ class Order {
             if (allergies) {
                 existingItem.allergies = existingItem.allergies ? existingItem.allergies + "," + allergies : allergies;
             }
-            if (allergies) {
+            if (request) {
                 existingItem.request = existingItem.request ? existingItem.request + "\n" + request : request;
             }
             await existingItem.save();
             return existingItem;
         }
-        const result = await Order.conn.query(`INSERT INTO order_item (order_id, item_id, count) VALUES (?, ?, ?)`, [this.id, itemId, count ?? 1]);
+        const result = await Order.conn.query(`INSERT INTO order_item (order_id, item_id, count, allergies, request) VALUES (?, ?, ?, ?, ?)`, [this.id, itemId, count ?? 1, allergies, request]);
         const newItem = new OrderItem(result.insertId, this, itemId, count, allergies, request);
         await Promise.all((await Order.conn.query(`SELECT * FROM menu_item_option WHERE menu_item_id = '${itemId}'`)).map(async (record) => {
             await Order.conn.query(`INSERT INTO order_item_option (order_item_id, option_id) VALUES (?, ?)`, [newItem.id, record.option_id]);
