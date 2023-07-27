@@ -165,7 +165,7 @@ router.put('/order/cash', requireSession, utils.asyncHandler(async function (req
         order.paymentId = (await Payment.registerPayment(await order.calculateSubtotal(), await order.calculateTaxes(), req.body.tip ?? 0, 'cash', Date.now())).id;
         await order.save();
     }
-    await PaymentMethodCash.insertPaymentMethod(payment.id, req.body.amount);
+    await PaymentMethodCash.insertPaymentMethod(order.paymentId, req.body.amount);
     res.status(200).json({
         'id': order.id,
         'tableId': order.tableId,
