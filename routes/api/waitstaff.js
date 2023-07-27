@@ -190,7 +190,7 @@ router.get('/table', requireSession, utils.asyncHandler(async function (req, res
         'status': table.status,
         'orderId': order?.id,
         'orderStatus': order?.status,
-        'orderPaid': await order?.isPaidFor()
+        'orderPaid': order != null ? await order.isPaidFor() ? 'Yes' : order.paymentId == null ? 'No' : 'Cash Waiting' : null
     });
 }));
 
@@ -214,7 +214,7 @@ router.put('/table/status', requireSession, utils.asyncHandler(async function (r
         'status': table.status,
         'orderId': order?.id,
         'orderStatus': order?.status,
-        'orderPaid': await order?.isPaidFor()
+        'orderPaid': order != null ? await order.isPaidFor() ? 'Yes' : order.paymentId == null ? 'No' : 'Cash Waiting' : null
     });
 }));
 
@@ -229,7 +229,7 @@ router.get('/table/list', requireSession, utils.asyncHandler(async function (req
         'status': table.status,
         'orderId': orders[table.id]?.id,
         'orderStatus': orders[table.id]?.status,
-        'orderPaid': await orders[table.id]?.isPaidFor()
+        'orderPaid': await orders[table.id] != null ? orders[table.id].isPaidFor() ? 'Yes' : orders[table.id].paymentId == null ? 'No' : 'Cash Waiting' : null
     }))));
 }));
 
