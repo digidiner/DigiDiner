@@ -283,11 +283,12 @@
         const checkboxes = document.querySelectorAll('.edit-checkbox');
         checkboxes.forEach((checkbox) => {
             if (checkbox.checked) {
-                console.log(checkbox);
+                /* console.log(checkbox);
                 console.log(checkbox.parentNode);
                 console.log(checkbox.parentNode.parentNode);
-                console.log(checkbox.parentNode.parentNode.getAttribute('id'));
+                console.log(checkbox.parentNode.parentNode.getAttribute('id')); */
                 const menuItemId = checkbox.closest('.accordion-item').querySelector('.accordion-collapse').getAttribute('id').replace('collapse', '');
+                console.log('menuItemId: ', menuItemId);
                 itemsToDelete.push(menuItemId);
             }
         });
