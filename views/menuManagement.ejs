@@ -70,7 +70,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="itemCategory" class="form-label">Item Category</label>
-                            <input type="text" class="form-control" id="itemCategory" required>
+                            <select class="form-select item-category" id="itemCategory" required>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                                <option value="drink">Drink</option>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -175,7 +179,7 @@
         document.getElementById('itemName').value = '';
         document.getElementById('itemDescription').value = '';
         document.getElementById('itemPrice').value = '';
-        document.getElementById('itemCategory').value = '';
+        document.getElementById('itemCategory').selectedIndex = 0;
         const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
         newItemModal.show();
     }
@@ -201,7 +205,7 @@
         const itemName = document.getElementById('itemName').value;
         const itemDescription = document.getElementById('itemDescription').value;
         const itemPrice = parseFloat(document.getElementById('itemPrice').value);
-        const itemCategory = document.getElementById('itemCategory').value;
+        const itemCategory = document.getElementById('itemCategory').options[document.getElementById('itemCategory').selectedIndex].value;
 
         if (itemName && itemDescription && !isNaN(itemPrice) && itemCategory) {
             const newItem = {
@@ -305,7 +309,7 @@
         itemNames.forEach((input, index) => {
             const menuItemId = input.closest('.accordion-item').getAttribute('id').replace('heading', '');
             const newItemName = input.value;
-            const newItemDescription = itemDescriptions[index].value;
+            const newItemDescription = itemDescriptions[index].textContent;
             const newItemPrice = parseFloat(itemPrices[index].value);
             itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice });
         });
