@@ -5,6 +5,7 @@ const Order = require('../models/order');
 const MenuData = require('../models/menuData');
 const utils = require("../utils");
 const fs = require('fs');
+const path = require("path");
 
 router.get('/:id', utils.asyncHandler(async function (req, res, next) {
     const orderId = req.params.id;
@@ -37,8 +38,10 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
 
 // Provide the list of states for the credit card payment
 router.get('/states', (req, res) => {
+    const filePath = path.join(__dirname, '../config/states.json')
+
     // Read the "states.json" file
-    fs.readFile('../config/states.json', 'utf8', (err, data) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading states.json:', err);
             return res.status(500).send('Internal Server Error');
