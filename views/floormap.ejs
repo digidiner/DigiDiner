@@ -352,7 +352,13 @@
                     if (table == undefined) {
                         const tableCell = document.createElement('div');
                         tableCell.className = `col-md-4 table-cell table-space`;
-                        row.appendChild(tableCell);
+
+                        const existingTableCell = row.children.item(x - 1);
+                        if (existingTableCell != null) {
+                            row.replaceChild(tableCell, existingTableCell)
+                        } else {
+                            row.appendChild(tableCell);
+                        }
                         continue;
                     }
 
