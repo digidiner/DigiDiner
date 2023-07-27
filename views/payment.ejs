@@ -312,7 +312,7 @@
 
     // Function to populate the select dropdown with states data
     function populateStatesDropdown() {
-        fetch('/states')
+        fetch('/payment/states')
             .then(response => response.json())
             .then(states => {
                 const selectElement = document.getElementById('state');
