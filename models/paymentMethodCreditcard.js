@@ -2,9 +2,9 @@ const nodemailer = require('nodemailer');
 const twilio = require('twilio');
 
 class PaymentMethodCreditcard {
-    static async connectDatabase(conn) {
+    static connectDatabase(conn) {
         this.conn = conn;
-        const query = `CREATE TABLE IF NOT EXISTS payment_method_creditcard (
+        conn.query(`CREATE TABLE IF NOT EXISTS payment_method_creditcard (
             id INT PRIMARY KEY AUTO_INCREMENT,
             payment_id INT UNIQUE DEFAULT NULL,
             full_name VARCHAR(100) NOT NULL,
@@ -16,7 +16,7 @@ class PaymentMethodCreditcard {
                 FOREIGN KEY (payment_id) REFERENCES payment (id)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE,
-        )`;
+        )`);
     }
 
     static async insertPaymentMethod(paymentId, fullName, cardNumber, cvv, expiration, zipCode) {
