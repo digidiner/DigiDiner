@@ -230,7 +230,7 @@
             const { id, name, description, price, category } = item;
 
             const menuItemButton = document.getElementById(`heading${id}`).querySelector('.accordion-button');
-            const menuItemPriceBadge = menuItemButton.querySelector('.badge.bg-primary');
+            const menuItemPriceBadge = menuItemButton.querySelector('.item-price');
             const itemDescription = document.getElementById(`collapse${id}`).querySelector('.item-description');
             console.log('ID:', id);
             console.log('menuItemButton:', menuItemButton);
@@ -245,7 +245,7 @@
                 name,
                 description,
                 price,
-                category,
+                category
             };
 
             try {

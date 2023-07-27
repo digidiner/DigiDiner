@@ -23,8 +23,10 @@
                                         <span class="item-name">
                                             <%= item.name %>
                                         </span>
-                                        <span class="badge bg-primary item-price">$<%= Number(item.price).toFixed(2) %>
-                                        </span>
+                                        <div class="item-price">
+                                            <span class="badge bg-primary">$<%= Number(item.price).toFixed(2) %>
+                                            </span>
+                                        </div>
                                     </button>
                                 </h2>
                                 <div id="collapse<%= itemIndex %>" class="accordion-collapse collapse"
