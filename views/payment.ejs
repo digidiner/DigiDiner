@@ -82,9 +82,7 @@
                                         <form class="card p-2">
                                             <div class="input-group">
                                                 <input type="number" step="0.01" class="form-control" id="tip-input"
-                                                    placeholder="Enter tip amount">
-                                                <button type="button" class="btn btn-secondary"
-                                                    onclick="applyTip()">Apply</button>
+                                                    placeholder="Enter tip amount" oninput="applyTip()>
                                             </div>
                                         </form>
                 </div>
@@ -233,12 +231,43 @@
         alert('Notification sent to the server!');
     }
 
-    function confirmPayment() {
+    async function confirmPayment() {
+        var tip = parseFloat($('#tip-input').val());
+        if (tip < 0) {
+            tip = 0;
+        }
         if (document.getElementById('cash-option').checked) {
             // Process cash payment
             // Implement code to handle cash payment
-            // Redirect to the receipt page
-            window.location.href = '/receipt/' + orderId;
+            var fullName = document.getElementById('cc-name').value;
+            var cardNumber = document.getElementById('cc-number').value;
+            var cvv = document.getElementById('cc-cvv').value;
+            var expiration = document.getElementById('cc-expiration').value;
+            var zipCode = document.getElementById('zip').value;
+
+            try {
+                // Make a POST request to process the payment
+                const response = await fetch('/api/customer/order/pay/cash?orderId=' + orderId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        tip: tip
+                    })
+                });
+                if (response.ok) {
+                    // Payment successful, redirect to the receipt page
+                    window.location.href = '/receipt/' + orderId;
+                } else {
+                    // Handle the error and display an appropriate message
+                    alert('Error processing payment. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error processing payment:', error);
+                // Handle the error and display an appropriate message
+                alert('Error processing payment. Please try again.');
+            }
         } else if (document.getElementById('credit-option').checked) {
             // Process credit/debit card payment
             // Implement code to handle credit/debit card payment
@@ -248,34 +277,34 @@
             var expiration = document.getElementById('cc-expiration').value;
             var zipCode = document.getElementById('zip').value;
 
-            // Make a POST request to the '/payment' route to process the payment
-            fetch('/payment/' + orderId, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    fullName: fullName,
-                    cardNumber: cardNumber,
-                    cvv: cvv,
-                    expiration: expiration,
-                    zipCode: zipCode
-                })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // Payment successful, redirect to the receipt page
-                        window.location.href = '/receipt/' + orderId;
-                    } else {
-                        // Handle the error and display an appropriate message
-                        alert('Error processing payment. Please try again.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error processing payment:', error);
+            try {
+                // Make a POST request to process the payment
+                const response = await fetch('/api/customer/order/pay/creditcard?orderId=' + orderId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fullName: fullName,
+                        cardNumber: cardNumber,
+                        cvv: cvv,
+                        expiration: expiration,
+                        zipCode: zipCode,
+                        tip: tip
+                    })
+                });
+                if (response.ok) {
+                    // Payment successful, redirect to the receipt page
+                    window.location.href = '/receipt/' + orderId;
+                } else {
                     // Handle the error and display an appropriate message
                     alert('Error processing payment. Please try again.');
-                });
+                }
+            } catch (error) {
+                console.error('Error processing payment:', error);
+                // Handle the error and display an appropriate message
+                alert('Error processing payment. Please try again.');
+            }
         }
     }
 

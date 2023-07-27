@@ -19,9 +19,9 @@ class PaymentMethodCreditcard {
         )`;
     }
 
-    static async insertPaymentMethod(fullName, cardNumber, cvv, expiration, zipCode) {
-        const query = 'INSERT INTO payment_method_creditcard (full_name, card_number, cvv, expiration, zip_code) VALUES (?, ?, ?, ?, ?)';
-        const values = [fullName, cardNumber, cvv, expiration, zipCode];
+    static async insertPaymentMethod(paymentId, fullName, cardNumber, cvv, expiration, zipCode) {
+        const query = 'INSERT INTO payment_method_creditcard (payment_id, full_name, card_number, cvv, expiration, zip_code) VALUES (?, ?, ?, ?, ?, ?)';
+        const values = [paymentId, fullName, cardNumber, cvv, expiration, zipCode];
         return await this.conn.query(query, values);
     }
 }

@@ -4,6 +4,8 @@ var router = express.Router();
 var utils = require('../../utils');
 var Table = require('../../models/table');
 var Order = require('../../models/order');
+var Payment = require('../../models/payment');
+var PaymentMethodCreditcard = require('../../models/paymentMethodCreditcard');
 var menuItemOption = require('../../models/menuItemOption');
 
 // Used to require and identify an existing order with the param :order
@@ -115,6 +117,59 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function (re
         return;
     }
     req.order.status = 'submitted';
+    await req.order.save();
+    res.status(200).json({
+        'id': req.order.id,
+        'tableId': req.order.tableId,
+        'paymentId': req.order.paymentId,
+        'status': req.order.status,
+        'time': req.order.time,
+        'items': await Promise.all((await req.order.getItems()).map(async item => ({
+            'id': item.id,
+            'itemId': item.itemId,
+            'count': item.count,
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+        })))
+    });
+}));
+
+/* POST order payment via credit card */
+router.post('/order/pay/creditcard', requireOrder, utils.asyncHandler(async function (req, res) {
+    if (req.order.paymentId != null) {
+        res.status(400).json({
+            'error': "Order Already Paid For"
+        });
+        return;
+    }
+    const payment = await Payment.registerPayment(req.order.calculateSubtotal(), req.order.calculateTaxes(), req.body.tip ?? 0, 'creditcard', Date.now());
+    await PaymentMethodCreditcard.insertPaymentMethod(req.body.fullName, req.body.cardNumber, req.body.cvv, req.body.expiration, req.body.zipCode);
+    req.order.paymentId = payment.id;
+    await req.order.save();
+    res.status(200).json({
+        'id': req.order.id,
+        'tableId': req.order.tableId,
+        'paymentId': req.order.paymentId,
+        'status': req.order.status,
+        'time': req.order.time,
+        'items': await Promise.all((await req.order.getItems()).map(async item => ({
+            'id': item.id,
+            'itemId': item.itemId,
+            'count': item.count,
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+        })))
+    });
+}));
+
+/* POST order payment via cash */
+router.post('/order/pay/cash', requireOrder, utils.asyncHandler(async function (req, res) {
+    if (req.order.paymentId != null) {
+        res.status(400).json({
+            'error': "Order Already Paid For"
+        });
+        return;
+    }
+    const payment = await Payment.registerPayment(req.order.calculateSubtotal(), req.order.calculateTaxes(), req.body.tip ?? 0, 'cash', Date.now());
+    req.order.paymentId = payment.id;
     await req.order.save();
     res.status(200).json({
         'id': req.order.id,

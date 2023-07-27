@@ -1,5 +1,6 @@
 var Table = require('./table');
 var Payment = require('./payment');
+var menuData = require('./menuData');
 var menuOptionData = require('./menuOptionData');
 
 const orderExpiryTime = 12 * 60 * 60 * 1000;
@@ -30,8 +31,8 @@ class Order {
         conn.query(`
             CREATE TABLE IF NOT EXISTS \`order\` (
                 id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-                table_id INT NOT NULL UNIQUE,
-                payment_id INT DEFAULT NULL,
+                table_id INT UNIQUE NOT NULL,
+                payment_id INT UNIQUE DEFAULT NULL,
                 status VARCHAR(10) NOT NULL DEFAULT 'incomplete',
                 time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 CONSTRAINT order_fk_table_id
@@ -109,7 +110,7 @@ class Order {
     }
 
     async getPayment() {
-        return await Payment.getPaymentById(this.paymentId);
+        return this.paymentId != null ? await Payment.getPaymentById(this.paymentId) : null;
     }
 
     async getItems() {
@@ -201,6 +202,22 @@ class Order {
 
     async delete() {
         return (await Order.conn.query(`DELETE FROM \`order\` WHERE id = '${this.id}'`)).affectedRows > 0;
+    }
+
+    async calculateSubtotal() {
+        var subtotal = 0;
+        await Promise.all((await this.getItems()).map(async function (item) {
+            subtotal += item.count * (await menuData.getMenuItem(item.itemId)).price;
+        }));
+        return subtotal;
+    }
+    
+    async calculateTaxes() {
+        return calculateSubtotal() * 0.1; // Assuming tax rate of 10%
+    }
+    
+    async calculateTotal(tip) {
+        return calculateSubtotal() + calculateTaxes() + tip;
     }
 }
 
