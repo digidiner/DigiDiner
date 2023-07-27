@@ -184,12 +184,6 @@ class Order {
                 return true;
             } else {
                 this.status = 'expired';
-                const table = new Table(req.order.tableId);
-                await table.load();
-                if (table.status == 'occupied') {
-                    table.status = 'dirty';
-                    await table.save();
-                }
                 await this.delete();
                 return false;
             }
@@ -208,6 +202,11 @@ class Order {
     }
 
     async delete() {
+        const table = new Table(this.tableId);
+        if ((await table.load()) && table.status == 'occupied') {
+            table.status = 'dirty';
+            await table.save();
+        }
         return (await Order.conn.query(`DELETE FROM \`order\` WHERE id = '${this.id}'`)).affectedRows > 0;
     }
 

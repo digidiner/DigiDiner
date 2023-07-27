@@ -198,10 +198,6 @@ router.delete('/order', requireSession, utils.asyncHandler(async function (req, 
         return;
     }
     if (await order.delete()) {
-        const table = new Table(order.tableId);
-        await table.load();
-        table.status = 'dirty';
-        await table.save();
         res.status(204).json({});
     } else {
         res.status(404).json({
