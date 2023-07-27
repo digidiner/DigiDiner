@@ -213,11 +213,11 @@ class Order {
     }
     
     async calculateTaxes() {
-        return this.calculateSubtotal() * 0.1; // Assuming tax rate of 10%
+        return (await this.calculateSubtotal()) * 0.1; // Assuming tax rate of 10%
     }
     
     async calculateTotal(tip) {
-        return this.calculateSubtotal() + this.calculateTaxes() + tip;
+        return (await this.calculateSubtotal()) + (await this.calculateTaxes()) + tip;
     }
 }
 
