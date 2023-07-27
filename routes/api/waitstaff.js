@@ -229,7 +229,7 @@ router.get('/table/list', requireSession, utils.asyncHandler(async function (req
         'status': table.status,
         'orderId': orders[table.id]?.id,
         'orderStatus': orders[table.id]?.status,
-        'orderPaid': await orders[table.id] != null ? orders[table.id].isPaidFor() ? 'Yes' : orders[table.id].paymentId == null ? 'No' : 'Cash Waiting' : null
+        'orderPaid': await orders[table.id] != null ? await orders[table.id].isPaidFor() ? 'Yes' : orders[table.id].paymentId == null ? 'No' : 'Cash Waiting' : null
     }))));
 }));
 
