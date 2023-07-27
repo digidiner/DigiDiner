@@ -311,6 +311,7 @@
             const newItemName = input.value;
             const newItemDescription = itemDescriptions[index].textContent;
             const newItemPrice = parseFloat(itemPrices[index].value);
+            const newItemCategory = input.closest('.accordion-item').getAttribute('data-item-category');
             itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice });
         });
 
