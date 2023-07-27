@@ -42,6 +42,18 @@ class Payment {
         return null;
     }
 
+    static async registerPayment(subtotal, tax, tip, method, date) {
+        const properties = [
+            subtotal,
+            tax,
+            tip,
+            method,
+            new Date(date).toISOString().slice(0, 19).replace('T', ' ') // Converts JavaScript date to string acceptable by SQL
+        ]
+        const id = (await Payment.conn.query(`INSERT INTO payment (subtotal, tax, tip, method, date) VALUES (?, ?, ?, ?, ?, ?)`, properties)).insertId;
+        return new Payment(id, subtotal, tax, tip, method, date);
+    }
+
     async load() {
         const record = (await Payment.conn.query(`SELECT * FROM payment WHERE id = '${this.id}'`))[0];
         if (record && this.id == record.id) {
