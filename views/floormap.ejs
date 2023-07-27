@@ -81,7 +81,7 @@
             <div class="container-fluid">
                 <h1 class="mt-4 mb-4 text-center">Main Dining Room</h1>
                 <div class="row justify-content-center">
-                    <div class="col-md-8 center-content">
+                    <div class="col-md-12 center-content">
                         <div class="table-grid" id="tableGrid">
                             <!-- Table cells are populated dynamically using populateTables() -->
                         </div>
@@ -184,7 +184,8 @@
                                 <span id="orderPaid"></span>
                             </div>
                             <div class="modal-footer modal-combo-footer">
-                                <input type="number" class="form-control" id="orderCashAmount" placeholder="Amount" style="min-width: 6em">
+                                <input type="number" class="form-control" id="orderCashAmount" placeholder="Amount"
+                                    style="min-width: 6em">
                                 <button type="button" class="btn btn-primary" id="orderReceivedCashButton"
                                     onclick="receivedCash()">Received Cash Payment</button>
                                 <button type="button" class="btn btn-primary" onclick="deleteOrder()">Cancel/Clear
