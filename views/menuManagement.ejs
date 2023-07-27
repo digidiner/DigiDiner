@@ -127,7 +127,8 @@
             `;
 
         const menuItems = document.querySelectorAll('.accordion-item');
-        menuItems.forEach((item) => {
+        menuItems.forEach((item, index) => {
+            const newItemCategory = menuHeaders[index].category;
             const checkbox = document.createElement('input');
             checkbox.setAttribute('type', 'checkbox');
             checkbox.classList.add('edit-checkbox');
@@ -155,8 +156,7 @@
         const itemDescriptions = document.querySelectorAll('.item-description');
         itemDescriptions.forEach((description) => {
             const descriptionInput = document.createElement('textarea');
-            descriptionInput.setAttribute('type', 'text');
-            descriptionInput.value = description.innerText;
+            descriptionInput.textContent = description.innerText;
             description.innerText = '';
             description.appendChild(descriptionInput);
         });
