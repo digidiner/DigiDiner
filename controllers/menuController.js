@@ -8,57 +8,57 @@ async function getAllMenuItems(req, res) {
     if (menuItems) {
         res.status(200).json(menuItems);
     } else {
-        res.status(404).json({"message": "No menu items"});
+        res.status(404).json({ "message": "No menu items" });
     }
 }
 
 async function getMenuItem(req, res) {
-    const {id} = req.params;
+    const { id } = req.params;
     const menuItem = await MenuData.getMenuItem(id);
     if (menuItem) {
         res.status(200).json(menuItem);
     } else {
-        res.status(404).json({"message":" No item found"});
+        res.status(404).json({ "message": " No item found" });
     }
 }
 
 async function addMenuItem(req, res) {
-    const {name, price, description, category} = req.body;
+    const { name, price, description, category } = req.body;
     // Validate that name, price and description are present
     if (!name || !price || !description || !category) {
         return res.status(400).json({
             "message": 'Name, price, and description are required for adding a new menu item',
         });
     }
-    const newItem = {name, price, description, category};
+    const newItem = { name, price, description, category };
 
     const addItem = await MenuData.addMenuItem(newItem);
 
     if (addItem) {
-        res.status(200).json({"message": "Added menu item"});
+        res.status(200).json({ "message": "Added menu item" });
     } else {
-        res.status(404).json({"message": "Item not added"});
+        res.status(404).json({ "message": "Item not added" });
     }
 }
 
 async function updateMenuItem(req, res) {
-    const {id} = req.params;
+    const { id } = req.params;
     const newData = req.body;
     const update = await MenuData.updateMenu(id, newData);
     if (update) {
-        res.status(200).json({"message": "Updated menu item updated"});
+        res.status(200).json({ "message": "Menu item updated" });
     } else {
-        res.status(404).json({"message": "Item was not updated"});
+        res.status(404).json({ "message": "Menu item was not updated" });
     }
 }
 
 async function removeMenuItem(req, res) {
-    const {id} = req.params;
+    const { id } = req.params;
     const removed = await MenuData.removeMenuItem(id);
     if (removed) {
-        res.status(200).json({"message": "Updated menu item removed"});
+        res.status(200).json({ "message": "Menu item removed" });
     } else {
-        res.status(404).json({"message": "Updated menu item not found"});
+        res.status(404).json({ "message": "Menu item not found" });
     }
 }
 
@@ -69,7 +69,7 @@ async function getAllMenuOption(req, res) {
     if (menuItems) {
         res.status(200).json(menuItems);
     } else {
-        res.status(404).json({"message": "No menu options found"});
+        res.status(404).json({ "message": "No menu options found" });
     }
 }
 
@@ -79,49 +79,49 @@ async function getMenuOption(req, res) {
     if (menuOption) {
         res.status(200).json(menuOption);
     } else {
-        res.status(404).json({"message": "No menu option found"});
+        res.status(404).json({ "message": "No menu option found" });
     }
 }
 
 async function addMenuOption(req, res) {
-    const {name, description, choices, menu_id} = req.body;
+    const { name, description, choices, menu_id } = req.body;
     // Validate that name, price and description are present
-    if (!name || !description || ! choices || !menu_id) {
+    if (!name || !description || !choices || !menu_id) {
         return res.status(400).json({
             error: 'Validation Error',
             message: 'Name, description, and choices are required for adding a new menu option',
         });
     }
 
-    const newItem = {name, description, choices, menu_id};
+    const newItem = { name, description, choices, menu_id };
 
     const addItem = await MenuOptionsData.addMenuOption(newItem);
 
     if (addItem) {
-        res.status(200).json({"message": "Added menu option"});
+        res.status(200).json({ "message": "Added menu option" });
     } else {
-        res.status(404).json({"message": "Item not added"});
+        res.status(404).json({ "message": "Item not added" });
     }
 }
 
 async function updateMenuOption(req, res) {
-    const {id} = req.params;
+    const { id } = req.params;
     const newData = req.body;
     const update = await MenuOptionsData.updateMenuOption(id, newData);
     if (update) {
-        res.status(200).json({"message": "Option updated"});
+        res.status(200).json({ "message": "Option updated" });
     } else {
-        res.status(404).json({"message": "Item was not updated"});
+        res.status(404).json({ "message": "Item was not updated" });
     }
 }
 
 async function removeMenuOption(req, res) {
-    const {id} = req.params;
+    const { id } = req.params;
     const removed = await MenuOptionsData.removeMenuOption(id);
     if (removed) {
-        res.status(200).json({"message": "Menu option removed"});
+        res.status(200).json({ "message": "Menu option removed" });
     } else {
-        res.status(404).json({"message": "Menu option not found"});
+        res.status(404).json({ "message": "Menu option not found" });
     }
 }
 
