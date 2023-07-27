@@ -43,7 +43,11 @@ async function main() {
   // trust first proxy
   app.set('trust proxy', 1)
 
-  app.use(logger('dev'));
+  app.use(logger('dev', {
+    skip: function (req, res) {
+      return res.statusCode == 304; // Don't log 304s to avoid spam due to polling
+    }
+  }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(session(sessionOptions));
