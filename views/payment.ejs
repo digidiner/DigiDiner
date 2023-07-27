@@ -109,8 +109,6 @@
                     <hr class="my-4">
                     <!-- Cash Payment Form -->
                     <div class="payment-form" id="cash-form" style="display: none;">
-                        <button class="btn btn-primary notify-server-btn" onclick="notifyServer()">Notify
-                            Server</button>
                     </div>
                     <!-- Credit/Debit Card Payment Form -->
                     <div class="payment-form" id="credit-form" style="display: none;">
@@ -188,10 +186,10 @@
                                 </div>
                             </div>
                         </form>
-                        <hr class="my-4">
-                        <button class="w-100 btn btn-primary btn-lg confirm-payment-btn"
-                            onclick="confirmPayment()">Confirm Payment</button>
                     </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-primary btn-lg confirm-payment-btn"
+                        onclick="confirmPayment()">Confirm Payment</button>
                 </div>
             </div>
         </div>
@@ -222,13 +220,6 @@
             creditForm.style.display = 'block';
             notifyServerBtn.style.display = 'none';
         }
-    }
-
-    function notifyServer() {
-        // Send notification to the server
-        // Implement code to notify the waitstaff
-        // Display a success message to the user
-        alert('Notification sent to the server!');
     }
 
     async function confirmPayment() {
