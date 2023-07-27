@@ -26,7 +26,7 @@ class PaymentMethodCash {
     }
 
     static async getCashPayment(paymentId) {
-        const record = (await Payment.conn.query(`SELECT * FROM payment_method_cash WHERE payment_id = '${paymentId}'`))[0];
+        const record = (await PaymentMethodCash.conn.query(`SELECT * FROM payment_method_cash WHERE payment_id = '${paymentId}'`))[0];
         if (record && paymentId == record.payment_id) {
             return new PaymentMethodCash(
                 record.id,
@@ -42,12 +42,12 @@ class PaymentMethodCash {
             paymentId,
             amount,
         ]
-        const id = (await Payment.conn.query(`INSERT INTO payment_method_cash (payment_id, amount) VALUES (?, ?)`, properties)).insertId;
+        const id = (await PaymentMethodCash.conn.query(`INSERT INTO payment_method_cash (payment_id, amount) VALUES (?, ?)`, properties)).insertId;
         return new PaymentMethodCash(id, paymentId, amount);
     }
 
     async load() {
-        const record = (await Payment.conn.query(`SELECT * FROM payment_method_cash WHERE id = '${this.id}'`))[0];
+        const record = (await PaymentMethodCash.conn.query(`SELECT * FROM payment_method_cash WHERE id = '${this.id}'`))[0];
         if (record && this.id == record.id) {
             this.paymentId = record.payment_id;
             this.amount = record.amount;
@@ -61,7 +61,7 @@ class PaymentMethodCash {
             this.paymentId,
             this.amount,
         ]
-        await Payment.conn.query(`INSERT INTO payment_method_cash (id, payment_id, amount) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE payment_id=?, amount=?`, [this.id, ...properties, ...properties]);
+        await PaymentMethodCash.conn.query(`INSERT INTO payment_method_cash (id, payment_id, amount) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE payment_id=?, amount=?`, [this.id, ...properties, ...properties]);
     }
 }
 
