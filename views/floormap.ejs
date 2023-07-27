@@ -16,7 +16,7 @@
             cursor: pointer;
             box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.1);
             /* Added box shadow */
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
             /* Added padding between tables in the columns */
         }
 
@@ -391,12 +391,14 @@
                     tableCell.innerText = `Table ${table.id}`;
 
                     if (table.orderStatus != null) {
+                        tableCell.appendChild(document.createElement('br'));
                         const tableOrderStatus = document.createElement('p');
                         tableOrderStatus.innerText = `Order Status: ${table.orderStatus}`;
                         tableCell.appendChild(tableOrderStatus);
                     }
 
                     if (table.orderPaid != null) {
+                        tableCell.appendChild(document.createElement('br'));
                         const tableOrderPaid = document.createElement('p');
                         tableOrderPaid.innerText = `Order Paid: ${table.orderPaid ? "Yes" : "No"}`;
                         tableCell.appendChild(tableOrderPaid);
