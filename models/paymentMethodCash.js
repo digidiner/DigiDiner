@@ -39,10 +39,9 @@ class PaymentMethodCash {
 
     static async insertPaymentMethod(paymentId, amount) {
         const properties = [
-            paymentId,
-            amount,
+            amount
         ]
-        const id = (await PaymentMethodCash.conn.query(`INSERT INTO payment_method_cash (payment_id, amount) VALUES (?, ?)`, properties)).insertId;
+        const id = (await PaymentMethodCash.conn.query(`INSERT INTO payment_method_cash (payment_id, amount) VALUES (?, ?) ON DUPLICATE KEY UPDATE amount=?`, [paymentId, ...properties, ...properties])).insertId;
         return new PaymentMethodCash(id, paymentId, amount);
     }
 

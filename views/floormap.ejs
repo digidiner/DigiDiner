@@ -171,8 +171,11 @@
                             </div>
                             <div class="modal-body">
                                 <span id="orderStatus"></span>
+                                <span id="orderPaid"></span>
                             </div>
                             <div class="modal-footer">
+                                <input type="number" class="form-control" id="orderCashAmount">
+                                <button type="button" class="btn btn-primary" id="orderReceivedCashButton" onclick="receivedCash()">Received Cash Payment</button>
                                 <button type="button" class="btn btn-primary" onclick="deleteOrder()">Cancel/Clear Order</button>
                             </div>
                         </div>
@@ -449,6 +452,7 @@
                 orderId = order.id;
 
                 $('#orderStatus').text("Order Status: " + (order.status.charAt(0).toUpperCase() + order.status.slice(1)));
+                $('#orderPaid').text("Order Paid: " + ('orderPaid': order.paid ? 'Yes' : order.paymentId == null ? 'No' : 'Cash Waiting'));
             } else if (status === 'unoccupied') {
                 // Show the guest count modal
                 $('#guestCountTableId').text(tableId);
@@ -457,6 +461,27 @@
                 $('#finalBillTableId').text(tableId);
                 $('#finalBillModal').modal('show');
             }
+        }
+
+        async function receivedCash() {
+            if (orderId == null) {
+                alert('Invalid Order!');
+                return;
+            }
+            let cashAmount = parseFloat($('#orderCashAmount').val());
+
+            await fetch(window.location.origin + '/api/waitstaff/order/cash', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: orderId,
+                    amount: cashAmount
+                }),
+            });
+
+            $('#orderModal').modal('hide');
         }
 
         async function deleteOrder() {

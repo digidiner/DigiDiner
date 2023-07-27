@@ -4,6 +4,8 @@ var router = express.Router();
 var utils = require('../../utils');
 var Table = require('../../models/table');
 var Order = require('../../models/order');
+var Payment = require('../../models/payment');
+var PaymentMethodCash = require('../../models/paymentMethodCash');
 var menuItemOption = require('../../models/menuItemOption');
 
 // Used to verify user is signed in and a waitstaff
@@ -120,7 +122,7 @@ router.put('/order/status', requireSession, utils.asyncHandler(async function (r
         return;
     }
     const order = new Order(req.body.orderId);
-    if (!(await req.order.load())) {
+    if (!(await order.load())) {
         res.status(400).json({
             'error': "Invalid or Expired Order"
         });
@@ -128,6 +130,42 @@ router.put('/order/status', requireSession, utils.asyncHandler(async function (r
     }
     order.status = req.body.status;
     await order.save();
+    res.status(200).json({
+        'id': order.id,
+        'tableId': order.tableId,
+        'paymentId': order.paymentId,
+        'status': order.status,
+        'time': order.time,
+        'paid': await order.isPaidFor(),
+        'items': await Promise.all((await order.getItems()).map(async item => ({
+            'id': item.id,
+            'itemId': item.itemId,
+            'count': item.count,
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+        })))
+    });
+}));
+
+/* PUT order cash payment */
+router.put('/order/cash', requireSession, utils.asyncHandler(async function (req, res) {
+    if (req.body.orderId == null || req.body.amount == null) {
+        res.status(400).json({
+            'error': "Missing Required Fields"
+        });
+        return;
+    }
+    const order = new Order(req.body.orderId);
+    if (!(await order.load())) {
+        res.status(400).json({
+            'error': "Invalid or Expired Order"
+        });
+        return;
+    }
+    if (order.paymentId == null) {
+        order.paymentId = (await Payment.registerPayment(await order.calculateSubtotal(), await order.calculateTaxes(), req.body.tip ?? 0, 'cash', Date.now())).id;
+        await order.save();
+    }
+    await PaymentMethodCash.insertPaymentMethod(payment.id, req.body.amount);
     res.status(200).json({
         'id': order.id,
         'tableId': order.tableId,
