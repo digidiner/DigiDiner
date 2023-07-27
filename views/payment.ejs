@@ -151,7 +151,6 @@
                                     <label for="state" class="form-label">State</label>
                                     <select class="form-select" id="state" required>
                                         <option value="">Choose...</option>
-                                        <option>California</option>
                                     </select>
                                     <div class="invalid-feedback">Please provide a valid state.</div>
                                 </div>
@@ -310,6 +309,27 @@
         // Update the displayed total
         $('.total-amount').html('$' + updatedTotal.toFixed(2));
     }
+
+    // Function to populate the select dropdown with states data
+    function populateStatesDropdown() {
+        fetch('/states')
+            .then(response => response.json())
+            .then(states => {
+                const selectElement = document.getElementById('state');
+
+                states.forEach(state => {
+                    const option = document.createElement('option');
+                    option.text = state.name;
+                    option.value = state.name;
+                    selectElement.add(option);
+                });
+            })
+            .catch(error => console.error('Error fetching states:', error));
+    }
+
+    // Call the function to populate the dropdown when the page loads
+    window.onload = populateStatesDropdown();
+
 </script>
 </body>
 
