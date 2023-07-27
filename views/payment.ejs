@@ -52,7 +52,6 @@
                 <div class="col-md-4">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">Your Order</span>
-                        <span class="badge bg-primary rounded-pill">3</span>
                     </h4>
                     <% if (orderItems.length> 0) { %>
                         <% orderItems.forEach(function(item) { %>
@@ -69,21 +68,21 @@
                                     <span class="text-body-secondary">$<%= menuItems[item.itemId].price %></span>
                                 </li>
                             </ul>
-                        <% }) %>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <!-- Add the total amount with the class .total-amount -->
-                            <strong class="total-amount">$<%= total.toFixed(2) %></strong>
-                        </li>
-                    <% } else { %>
-                        <p>No items in the order.</p>
-                    <% } %>
-                    <form class="card p-2">
-                        <div class="input-group">
-                            <input type="number" step="0.01" class="form-control" id="tip-input"
-                                placeholder="Enter tip amount" oninput="applyTip()">
-                        </div>
-                    </form>
+                            <% }) %>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Total (USD)</span>
+                                    <!-- Add the total amount with the class .total-amount -->
+                                    <strong class="total-amount">$<%= total.toFixed(2) %></strong>
+                                </li>
+                                <% } else { %>
+                                    <p>No items in the order.</p>
+                                    <% } %>
+                                        <form class="card p-2">
+                                            <div class="input-group">
+                                                <input type="number" step="0.01" class="form-control" id="tip-input"
+                                                    placeholder="Enter tip amount" oninput="applyTip()">
+                                            </div>
+                                        </form>
                 </div>
 
                 <!-- Right side (Payment section) -->
@@ -108,8 +107,8 @@
                     <hr class="my-4">
                     <!-- Cash Payment Form -->
                     <div class="payment-form" id="cash-form" style="display: none;">
-                        <button class="w-100 btn btn-primary btn-lg notify-server-btn"
-                            onclick="confirmPayment()">Notify Server</button>
+                        <button class="w-100 btn btn-primary btn-lg notify-server-btn" onclick="confirmPayment()">Notify
+                            Server</button>
                     </div>
                     <!-- Credit/Debit Card Payment Form -->
                     <div class="payment-form" id="credit-form" style="display: none;">
