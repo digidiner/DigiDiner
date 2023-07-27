@@ -112,7 +112,6 @@
     async function toggleEditOptions() {
         const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
         managerEditButtonWrapper.style.display = 'block';
-
         const managerEditButton = document.getElementById('managerEditButton');
         managerEditButton.innerText = 'Edit';
         managerEditButton.addEventListener('click', toggleSaveNewDeleteButtons);
@@ -128,7 +127,7 @@
 
         const menuItems = document.querySelectorAll('.accordion-item');
         menuItems.forEach((item, index) => {
-            const newItemCategory = menuHeaders[index].category;
+            const newItemCategory = item.getAttribute('data-item-category');
             const checkbox = document.createElement('input');
             checkbox.setAttribute('type', 'checkbox');
             checkbox.classList.add('edit-checkbox');
