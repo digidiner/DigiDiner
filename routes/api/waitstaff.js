@@ -180,13 +180,17 @@ router.get('/table', requireSession, utils.asyncHandler(async function (req, res
         });
         return;
     }
-    let table = await Table.getTable(req.body.id);
+    const table = await Table.getTable(req.body.id);
+    const order = await Order.getOrderForTable(table.id);
     res.status(200).json({
         'id': table.id,
         'seats': table.seats,
         'posX': table.posX,
         'posY': table.posY,
-        'status': table.status
+        'status': table.status,
+        'orderId': order?.id,
+        'orderStatus': order?.status,
+        'orderPaid': await order?.isPaidFor()
     });
 }));
 
@@ -201,24 +205,32 @@ router.put('/table/status', requireSession, utils.asyncHandler(async function (r
     let table = await Table.getTable(req.body.id);
     if (req.body.status) table.status = req.body.status;
     await table.save();
+    const order = await Order.getOrderForTable(table.id);
     res.status(200).json({
         'id': table.id,
         'seats': table.seats,
         'posX': table.posX,
         'posY': table.posY,
-        'status': table.status
+        'status': table.status,
+        'orderId': order?.id,
+        'orderStatus': order?.status,
+        'orderPaid': await order?.isPaidFor()
     });
 }));
 
 /* GET table list */
 router.get('/table/list', requireSession, utils.asyncHandler(async function (req, res) {
-    res.status(200).json((await Table.listTables()).map(table => ({
+    const orders = Object.fromEntries((await Order.listOrders()).map(order => [order.tableId, order]));
+    res.status(200).json(await Promise.all((await Table.listTables()).map(async table => ({
         'id': table.id,
         'seats': table.seats,
         'posX': table.posX,
         'posY': table.posY,
-        'status': table.status
-    })));
+        'status': table.status,
+        'orderId': orders[tableId]?.id,
+        'orderStatus': orders[tableId]?.status,
+        'orderPaid': await orders[tableId]?.isPaidFor()
+    }))));
 }));
 
 /* DELETE table by ID */

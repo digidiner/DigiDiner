@@ -390,6 +390,18 @@
                     tableCell.dataset.status = table.status;
                     tableCell.innerText = `Table ${table.id}`;
 
+                    if (table.orderStatus != null) {
+                        const tableOrderStatus = document.createElement('p');
+                        tableOrderStatus.innerText = `Order Status: ${table.orderStatus}`;
+                        tableCell.appendChild(tableOrderStatus);
+                    }
+
+                    if (table.orderPaid != null) {
+                        const tableOrderPaid = document.createElement('p');
+                        tableOrderPaid.innerText = `Order Paid: ${table.orderPaid ? "Yes" : "No"}`;
+                        tableCell.appendChild(tableOrderPaid);
+                    }
+
                     tableCell.addEventListener('click', handleTableCellClick);
                     row.appendChild(tableCell);
                 }
