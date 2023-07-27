@@ -18,7 +18,7 @@ class PaymentMethodCash {
             id INT PRIMARY KEY AUTO_INCREMENT,
             payment_id INT UNIQUE DEFAULT NULL,
             amount DECIMAL(20,2) NOT NULL,
-            CONSTRAINT payment_method_creditcard_fk_payment_id
+            CONSTRAINT payment_method_cash_fk_payment_id
                 FOREIGN KEY (payment_id) REFERENCES payment (id)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE
