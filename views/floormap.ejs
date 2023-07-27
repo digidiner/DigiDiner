@@ -387,17 +387,22 @@
                     tableCell.innerText = `Table ${table.id}`;
 
                     if (table.orderStatus != null) {
+                        const rowDiv = document.createElement('div');
+                        rowDiv.className = `row`;
                         const tableOrderStatus = document.createElement('p');
-                        tableOrderStatus.className = `row`;
                         tableOrderStatus.innerText = `Order Status: ${table.orderStatus[0].toUpperCase() + table.orderStatus.slice(1)}`;
-                        tableCell.appendChild(tableOrderStatus);
+                        rowDiv.appendChild(tableOrderStatus);
+                        tableCell.appendChild(rowDiv);
                     }
 
                     if (table.orderPaid != null) {
+                        const rowDiv = document.createElement('div');
+                        rowDiv.className = `row`;
                         const tableOrderPaid = document.createElement('p');
                         tableOrderPaid.className = `row`;
                         tableOrderPaid.innerText = `Order Paid: ${table.orderPaid}`;
-                        tableCell.appendChild(tableOrderPaid);
+                        rowDiv.appendChild(tableOrderPaid);
+                        tableCell.appendChild(rowDiv);
                     }
 
                     tableCell.addEventListener('click', handleTableCellClick);
