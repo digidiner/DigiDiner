@@ -233,11 +233,11 @@
             const menuItemPriceBadge = menuItemButton.querySelector('.badge.bg-primary');
             const itemDescription = document.getElementById(`collapse${id}`).querySelector('.item-description');
             const itemDescriptionInput = document.getElementById(`collapse${id}`).querySelector('input[type="text"]');
-
-            console.log(`menuItemButton:`, menuItemButton);
-            console.log(`menuItemPriceBadge:`, menuItemPriceBadge);
-            console.log(`itemDescription:`, itemDescription);
-            console.log(`itemDescriptionInput:`, itemDescriptionInput);
+            console.log('ID:', id);
+            console.log('menuItemButton:', menuItemButton);
+            console.log('menuItemPriceBadge:', menuItemPriceBadge);
+            console.log('itemDescription:', itemDescription);
+            console.log('itemDescriptionInput:', itemDescriptionInput);
 
             menuItemButton.textContent = name;
             menuItemPriceBadge.textContent = `$${Number(price).toFixed(2)}`;
