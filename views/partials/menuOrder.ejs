@@ -50,10 +50,10 @@
             iframe.src = '/order/' + orderId;
         }
 
-    async function addToOrder(index, itemId) {
-        const selectedOptions = Array.from(document.querySelectorAll('#collapse' + index + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
-        const selectedAllergies = Array.from(document.querySelectorAll('#allergyCollapse' + index + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
-        const specialRequest = document.getElementById('specialRequest' + index).value;
+    async function addToOrder(itemId) {
+        const selectedOptions = Array.from(document.querySelectorAll('#collapse' + itemId + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
+        const selectedAllergies = Array.from(document.querySelectorAll('#allergyCollapse' + itemId + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
+        const specialRequest = document.getElementById('specialRequest' + itemId).value;
 
         try {
             const response = await fetch(`/api/customer/order/item?orderId=${orderId}`, {

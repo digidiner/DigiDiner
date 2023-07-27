@@ -13,14 +13,14 @@
                     <%= menuHeader.header %>
                 </h1>
                 <div class="accordion-content" id="<%= menuHeader.category %>MenuContent">
-                    <% for (const [itemIndex, item] of menuItems.entries()) { %>
+                    <% for (const item of menuItems) { %>
                         <% if (item.category===menuHeader.category) { %>
-                            <div class="accordion-item" data-item-index="<%= itemIndex %>"
+                            <div class="accordion-item" data-item-id="<%= item.id %>"
                                 data-item-category="<%= item.category %>">
-                                <h2 class="accordion-header" id="heading<%= itemIndex %>">
+                                <h2 class="accordion-header" id="heading<%= item.id %>">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse<%= itemIndex %>" aria-expanded="false"
-                                        aria-controls="collapse<%= itemIndex %>">
+                                        data-bs-target="#collapse<%= item.id %>" aria-expanded="false"
+                                        aria-controls="collapse<%= item.id %>">
                                         <span class="item-name">
                                             <%= item.name %>
                                         </span>
@@ -30,8 +30,8 @@
                                         </div>
                                     </button>
                                 </h2>
-                                <div id="collapse<%= itemIndex %>" class="accordion-collapse collapse"
-                                    aria-labelledby="heading<%= itemIndex %>"
+                                <div id="collapse<%= item.id %>" class="accordion-collapse collapse"
+                                    aria-labelledby="heading<%= item.id %>"
                                     data-bs-parent="#<%= menuHeader.category %>Accordion">
                                     <div class="accordion-body">
                                         <p class="item-description">
@@ -62,21 +62,21 @@
                                             <div id="allergy" class="accordion-content">
                                                 <h5 class="text-white">Allergy:</h5>
                                                 <div class="accordion-item">
-                                                    <h3 class="accordion-header" id="allergyHeading<%= itemIndex %>">
+                                                    <h3 class="accordion-header" id="allergyHeading<%= item.id %>">
                                                         <button class="accordion-button" type="button"
                                                             data-bs-toggle="collapse"
-                                                            data-bs-target="#allergyCollapse<%= itemIndex %>"
+                                                            data-bs-target="#allergyCollapse<%= item.id %>"
                                                             aria-expanded="true"
-                                                            aria-controls="allergyCollapse<%= itemIndex %>">
+                                                            aria-controls="allergyCollapse<%= item.id %>">
                                                             Allergy
                                                         </button>
                                                     </h3>
-                                                    <div id="allergyCollapse<%= itemIndex %>"
+                                                    <div id="allergyCollapse<%= item.id %>"
                                                         class="accordion-collapse collapse"
-                                                        aria-labelledby="allergyHeading<%= itemIndex %>">
+                                                        aria-labelledby="allergyHeading<%= item.id %>">
                                                         <div class="accordion-body">
                                                             <select class="form-select"
-                                                                id="allergyDropdown<%= itemIndex %>">
+                                                                id="allergyDropdown<%= item.id %>">
                                                                 <option value="None" selected>None</option>
                                                                 <option value="Peanuts">Peanuts</option>
                                                                 <option value="Gluten">Gluten</option>
@@ -91,27 +91,27 @@
                                                 <h5 class="text-white">Special Request:</h5>
                                                 <div class="accordion-item">
                                                     <h3 class="accordion-header"
-                                                        id="specialRequestHeading<%= itemIndex %>">
+                                                        id="specialRequestHeading<%= item.id %>">
                                                         <button class="accordion-button" type="button"
                                                             data-bs-toggle="collapse"
-                                                            data-bs-target="#specialRequestCollapse<%= itemIndex %>"
+                                                            data-bs-target="#specialRequestCollapse<%= item.id %>"
                                                             aria-expanded="true"
-                                                            aria-controls="specialRequestCollapse<%= itemIndex %>">
+                                                            aria-controls="specialRequestCollapse<%= item.id %>">
                                                             Special Request
                                                         </button>
                                                     </h3>
-                                                    <div id="specialRequestCollapse<%= itemIndex %>"
+                                                    <div id="specialRequestCollapse<%= item.id %>"
                                                         class="accordion-collapse collapse"
-                                                        aria-labelledby="specialRequestHeading<%= itemIndex %>">
+                                                        aria-labelledby="specialRequestHeading<%= item.id %>">
                                                         <div class="accordion-body">
                                                             <textarea class="form-control"
-                                                                id="specialRequest<%= itemIndex %>" rows="3"></textarea>
+                                                                id="specialRequest<%= item.id %>" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <button id="addToOrderBtn" class="btn btn-primary mt-3"
-                                                onclick="addToOrder(<%= itemIndex %>, '<%= item.id %>');">Add
+                                                onclick="addToOrder(<%= item.id %>);">Add
                                                 to Order</button>
                                 </div>
                             </div>
