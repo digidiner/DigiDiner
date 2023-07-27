@@ -213,9 +213,9 @@
 
             try {
                 await addMenuItem(newItem);
-                await refreshMenu();
                 const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
                 newItemModal.hide();
+                await refreshMenu();
             } catch (error) {
                 alert('Failed to add new item. Please try again.');
             }
@@ -272,7 +272,7 @@
         const checkboxes = document.querySelectorAll('.edit-checkbox');
         checkboxes.forEach((checkbox) => {
             if (checkbox.checked) {
-                const menuItemId = checkbox.parentNode.getAttribute('id').replace('heading', '');
+                const menuItemId = checkbox.closest('.accordion-item').getAttribute('id').replace('heading', '');
                 itemsToDelete.push(menuItemId);
             }
         });
@@ -296,7 +296,7 @@
         const itemPrices = document.querySelectorAll('.accordion-item .item-price input');
 
         itemNames.forEach((input, index) => {
-            const menuItemId = input.parentNode.parentNode.getAttribute('id').replace('heading', '');
+            const menuItemId = input.closest('.accordion-item').getAttribute('id').replace('heading', '');
             const newItemName = input.value;
             const newItemDescription = itemDescriptions[index].value;
             const newItemPrice = parseFloat(itemPrices[index].value);
