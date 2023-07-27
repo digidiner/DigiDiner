@@ -227,9 +227,9 @@ router.get('/table/list', requireSession, utils.asyncHandler(async function (req
         'posX': table.posX,
         'posY': table.posY,
         'status': table.status,
-        'orderId': orders[tableId]?.id,
-        'orderStatus': orders[tableId]?.status,
-        'orderPaid': await orders[tableId]?.isPaidFor()
+        'orderId': orders[table.id]?.id,
+        'orderStatus': orders[table.id]?.status,
+        'orderPaid': await orders[table.id]?.isPaidFor()
     }))));
 }));
 
