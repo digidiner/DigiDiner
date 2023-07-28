@@ -110,16 +110,6 @@
             const status = $('#statusAction').text();
             $('#status').text(status);
 
-            // Generate the timestamp punch
-            const timestamp = new Date().toLocaleString();
-            const punchItem = `
-                <tr>
-                    <td>${timestamp}</td>
-                    <td>${status}</td>
-                </tr>
-            `;
-            $('#punchRecord').prepend(punchItem);
-
             if (status === 'Clock In') {
                 await clockIn();
             } else {
@@ -143,6 +133,14 @@
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Clock In Successful:', data);
+                    const timestamp = new Date().toLocaleString();
+                    const punchItem = `
+                <tr>
+                    <td>${timestamp}</td>
+                    <td>${status}</td>
+                </tr>
+            `;
+                    $('#punchRecord').prepend(punchItem);
                 } else {
                     console.error('Clock In Failed:', response.status);
                 }
@@ -165,6 +163,14 @@
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Clock Out Successful:', data);
+                    const timestamp = new Date().toLocaleString();
+                    const punchItem = `
+                <tr>
+                    <td>${timestamp}</td>
+                    <td>${status}</td>
+                </tr>
+            `;
+                    $('#punchRecord').prepend(punchItem);
                 } else {
                     console.error('Clock Out Failed:', response.status);
                 }
