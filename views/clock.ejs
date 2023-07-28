@@ -39,7 +39,9 @@
             </div>
 
             <div class="text-center mt-4">
-                <h4>Timestamp Punches:</h4>
+                <h3>Timestamp Punches</h3>
+                <h4>Current Week:</h4>
+                <p><strong id="currentDisplayDate">Loading...</strong></p>
                 <div class="timestamp-table-container">
                     <table id="punchRecordTable" class="table">
                         <thead>
@@ -110,7 +112,12 @@
 
             // Generate the timestamp punch
             const timestamp = new Date().toLocaleString();
-            const punchItem = `<li class="list-group-item">${status}: ${timestamp}</li>`;
+            const punchItem = `
+                <tr>
+                    <td>${timestamp}</td>
+                    <td>${status}</td>
+                </tr>
+            `;
             $('#punchRecord').prepend(punchItem);
 
             if (status === 'Clock In') {
@@ -168,80 +175,42 @@
 
         // Function to display the timestamp records for the current week
         async function showCurrentWeek() {
-            // Get the start and end dates of the current week
-            const currentDate = new Date();
-            const firstDayOfWeek = new Date(currentDate);
-            firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-            const lastDayOfWeek = new Date(currentDate);
-            lastDayOfWeek.setDate(currentDate.getDate() + (6 - currentDate.getDay()));
-
-            // Fetch the timestamp records for the current week
-            await fetchAndDisplayTimestampRecords(firstDayOfWeek, lastDayOfWeek);
-        }
-
-        // Function to display the timestamp records for the previous week
-        async function showPrevWeek() {
-            // Get the current display date and move back one week
-            const currentDisplayDate = new Date($('#currentDisplayDate').text());
-            currentDisplayDate.setDate(currentDisplayDate.getDate() - 7);
-
-            // Fetch the timestamp records for the new week
-            const firstDayOfWeek = new Date(currentDisplayDate);
-            firstDayOfWeek.setDate(currentDisplayDate.getDate() - currentDisplayDate.getDay());
-            const lastDayOfWeek = new Date(currentDisplayDate);
-            lastDayOfWeek.setDate(currentDisplayDate.getDate() + (6 - currentDisplayDate.getDay()));
-
-            await fetchAndDisplayTimestampRecords(firstDayOfWeek, lastDayOfWeek);
-        }
-
-        // Function to display the timestamp records for the next week
-        async function showNextWeek() {
-            // Get the current display date and move forward one week
-            const currentDisplayDate = new Date($('#currentDisplayDate').text());
-            currentDisplayDate.setDate(currentDisplayDate.getDate() + 7);
-
-            // Fetch the timestamp records for the new week
-            const firstDayOfWeek = new Date(currentDisplayDate);
-            firstDayOfWeek.setDate(currentDisplayDate.getDate() - currentDisplayDate.getDay());
-            const lastDayOfWeek = new Date(currentDisplayDate);
-            lastDayOfWeek.setDate(currentDisplayDate.getDate() + (6 - currentDisplayDate.getDay()));
-
-            await fetchAndDisplayTimestampRecords(firstDayOfWeek, lastDayOfWeek);
-        }
-
-        // Function to fetch and display the timestamp records for the specified week
-        async function fetchAndDisplayTimestampRecords(firstDayOfWeek, lastDayOfWeek) {
             try {
-                const response = await fetch('/api/common/employee/timestamp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        startDate: firstDayOfWeek.toISOString(),
-                        endDate: lastDayOfWeek.toISOString(),
-                    }),
+                const response = await fetch('/api/common/employee/clock', {
+                    method: 'GET',
                 });
 
                 if (response.ok) {
                     const data = await response.json();
                     const punchRecordTable = document.getElementById('punchRecord');
                     punchRecordTable.innerHTML = '';
-                    data.forEach(punch => {
-                        const timestamp = new Date(punch.timestamp).toLocaleString();
-                        const status = punch.status;
+                    data.periods.forEach(punch => {
+                        const timestamp = new Date(punch.startTime).toLocaleString();
+                        const status = punch.endTime ? 'Clock Out' : 'Clock In';
                         const punchItem = `
-                        <tr>
-                            <td>${timestamp}</td>
-                            <td>${status}</td>
-                        </tr>
-                    `;
+                    <tr>
+                        <td>${timestamp}</td>
+                        <td>${status}</td>
+                    </tr>
+                `;
                         punchRecordTable.insertAdjacentHTML('beforeend', punchItem);
                     });
 
-                    // Update the current display date
-                    $('#currentDisplayDate').text(firstDayOfWeek.toLocaleDateString('en-us', { month: 'long', day: 'numeric' }) +
-                        ' - ' + lastDayOfWeek.toLocaleDateString('en-us', { month: 'long', day: 'numeric' }));
+                    // Update the current display date with the first and last timestamp records of the week
+                    const firstTimestamp = data.periods[0]?.startTime;
+                    const lastTimestamp = data.periods[data.periods.length - 1]?.startTime;
+                    if (firstTimestamp && lastTimestamp) {
+                        const firstDayOfWeek = new Date(firstTimestamp);
+                        firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
+                        const lastDayOfWeek = new Date(lastTimestamp);
+                        lastDayOfWeek.setDate(lastDayOfWeek.getDate() + (6 - lastDayOfWeek.getDay()));
+                        $('#currentDisplayDate').text(
+                            firstDayOfWeek.toLocaleDateString('en-us', { month: 'long', day: 'numeric' }) +
+                            ' - ' + lastDayOfWeek.toLocaleDateString('en-us', { month: 'long', day: 'numeric' })
+                        );
+                    } else {
+                        $('#currentDisplayDate').text('No timestamp records found for this week');
+                    }
                 } else {
                     console.error('Failed to fetch timestamp records:', response.status);
                 }
@@ -249,6 +218,31 @@
                 console.error('Error fetching timestamp records:', error);
             }
         }
+
+        async function showPrevWeek() {
+            const currentDisplayDate = new Date($('#currentDisplayDate').text());
+            currentDisplayDate.setDate(currentDisplayDate.getDate() - 7);
+
+            const firstDayOfWeek = new Date(currentDisplayDate);
+            firstDayOfWeek.setDate(currentDisplayDate.getDate() - currentDisplayDate.getDay());
+            const lastDayOfWeek = new Date(currentDisplayDate);
+            lastDayOfWeek.setDate(currentDisplayDate.getDate() + (6 - currentDisplayDate.getDay()));
+
+            await showCurrentWeek(firstDayOfWeek.toISOString(), lastDayOfWeek.toISOString());
+        }
+
+        async function showNextWeek() {
+            const currentDisplayDate = new Date($('#currentDisplayDate').text());
+            currentDisplayDate.setDate(currentDisplayDate.getDate() + 7);
+
+            const firstDayOfWeek = new Date(currentDisplayDate);
+            firstDayOfWeek.setDate(currentDisplayDate.getDate() - currentDisplayDate.getDay());
+            const lastDayOfWeek = new Date(currentDisplayDate);
+            lastDayOfWeek.setDate(currentDisplayDate.getDate() + (6 - currentDisplayDate.getDay()));
+
+            await showCurrentWeek(firstDayOfWeek.toISOString(), lastDayOfWeek.toISOString());
+        }
+
 
         // Call the function to display the timestamp records for the current week
         showCurrentWeek();
