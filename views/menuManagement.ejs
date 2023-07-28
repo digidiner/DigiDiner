@@ -147,7 +147,7 @@
         itemPrices.forEach((price) => {
             const priceInput = document.createElement('input');
             priceInput.setAttribute('type', 'number');
-            priceInput.value = price.innerText;
+            priceInput.value = parseFloat(price.innerText);
             price.innerText = '';
             price.appendChild(priceInput);
         });
