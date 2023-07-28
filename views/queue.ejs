@@ -44,15 +44,13 @@
                                         <li>
                                             <p><%= (item.count > 1 ? item.count + 'x ' : '') + menuItems[item.itemId].name %></p>
                                             <% if (item.options?.length) { %>
-                                                <p>
-                                                    - Options: <%= Object.keys(item.options).map((optionId) => menuOptions[optionId] + ': ' + item.options[optionId]).join(', ') %>
-                                                </p>
+                                                <p>&nbsp; - Options: <%= Object.keys(item.options).map((optionId) => menuOptions[optionId] + ': ' + item.options[optionId]).join(', ') %></p>
                                             <% } %>
                                             <% if (item.allergies) { %>
-                                                <p> - Allergies: <%= item.allergies %></p>
+                                                <p>&nbsp; - Allergies: <%= item.allergies %></p>
                                             <% } %>
                                             <% if (item.request) { %>
-                                                <p> - Special Request: <%= item.request %></p>
+                                                <p>&nbsp; - Special Request: <%= item.request %></p>
                                             <% } %>
                                         </li>
                                     <% }) %>
