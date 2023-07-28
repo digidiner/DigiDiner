@@ -181,6 +181,8 @@
                             <div class="modal-body">
                                 <span id="orderStatus"></span>
                                 <br>
+                                <span id="orderPrice"></span>
+                                <br>
                                 <span id="orderPaid"></span>
                             </div>
                             <div class="modal-footer modal-combo-footer">
@@ -466,6 +468,7 @@
                 orderId = order.id;
 
                 $('#orderStatus').text("Order Status: " + (order.status.charAt(0).toUpperCase() + order.status.slice(1)));
+                $('#orderPrice').text("Order Price: $" + (order.items.reduce((sum, item)=> sum + item.count * menuItems[item.itemId].price, 0).toFixed(2)));
                 $('#orderPaid').text("Order Paid: " + (order.paid ? 'Yes' : order.paymentId == null ? 'No' : 'Cash Waiting'));
             } else if (status === 'unoccupied') {
                 // Show the guest count modal
