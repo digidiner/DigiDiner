@@ -312,7 +312,9 @@
                 console.log(checkbox.parentNode);
                 console.log(checkbox.parentNode.parentNode);
                 console.log(checkbox.parentNode.parentNode.getAttribute('id')); */
-                const menuItemId = checkbox.closest('.accordion-item').querySelector('.accordion-collapse').getAttribute('id').replace('collapse', '');
+                const menuItemElement = checkbox.closest('.accordion-item');
+                const menuItemId = menuItemElement.querySelector('.accordion-collapse').getAttribute('id').replace('collapse', '');
+                menuItemElement.remove();
                 itemsToDelete.push(menuItemId);
             }
         });
