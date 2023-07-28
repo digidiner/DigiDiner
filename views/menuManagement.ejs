@@ -138,6 +138,7 @@
         itemNames.forEach((name) => {
             const nameInput = document.createElement('input');
             nameInput.setAttribute('type', 'text');
+            nameInput.defaultValue = name.innerText;
             nameInput.value = name.innerText;
             name.innerText = '';
             name.appendChild(nameInput);
@@ -157,6 +158,7 @@
         const itemDescriptions = document.querySelectorAll('.item-description');
         itemDescriptions.forEach((description) => {
             const descriptionInput = document.createElement('textarea');
+            descriptionInput.defaultValue = description.innerText;
             descriptionInput.textContent = description.innerText;
             description.innerText = '';
             description.appendChild(descriptionInput);
