@@ -18,7 +18,7 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
         const paymentMethod = req.query.paymentMethod;
         const updatedTotal = req.query.total; // If the total is not provided, default to 0
         res.status(200).render('receipt', {
-            total: calculateTotal(orderItems, menuItems, 0),
+            total: calculateTotal(orderItems, menuItems, 0).toFixed(2),
             order: updatedTotal,
             orderItems: orderItems,
             menuItems: menuItems,
