@@ -158,6 +158,9 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
+    var paymentMethod = '<%= paymentMethod %>';
+    var total = <%= total %>;
+
     function sendEmailReceipt() {
         var emailInput = document.getElementById('email-receipt').value;
         // Implement code to send the receipt to the email address
