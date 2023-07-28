@@ -257,11 +257,11 @@
 
             await showCurrentWeek(firstDayOfWeek, lastDayOfWeek);
         }
+        showCurrentWeek();
 
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
             document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
-            showCurrentWeek();
         });
 
     </script>
