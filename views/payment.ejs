@@ -204,6 +204,7 @@
 <script>
     var orderId = <%= orderId %>;
     var total = <%= total %>;
+    var updatedTotal = <%= total %>;
 
     function handlePaymentOptionChange() {
         var cashForm = document.getElementById('cash-form');
@@ -314,7 +315,7 @@
             tip = 0;
             $('#tip-input').val('0');
         }
-        var updatedTotal = total + tip;
+        updatedTotal = total + tip;
 
         // Update the displayed total
         $('.total-amount').html('$' + updatedTotal.toFixed(2));
