@@ -25,7 +25,7 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
             orderItems: orderItems,
             menuItems: menuItems,
             paymentMethod: paymentMethod
-    } else {
+        })} else {
         next(); // Let it 404
     }
 }));
