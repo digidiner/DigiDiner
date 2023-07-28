@@ -110,15 +110,12 @@
                         </li>
                     </ul>
                 <% }) %>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <p><strong>Subtotal (USD):</strong> $<%= subtotal.toFixed(2) %></p>
-                        <p><strong>Taxes (USD):</strong> $<%= taxes.toFixed(2) %></p>
-                        <p><strong>Tip (USD):</strong> $<%= (total - subtotal - taxes).toFixed(2) %></p>
-                        <p><strong>Total (USD):</strong> $<%= total.toFixed(2) %></p>
-                    </li>
             <% } else { %>
                 <p>No items in the order.</p>
             <% } %>
+        </div>
+        <div class="total">
+            Total: $<%= req.query.total ? parseFloat(req.query.total).toFixed(2) : total.toFixed(2) %>
         </div>
         <!-- Display the payment method information -->
         <div class="col-md-8">
