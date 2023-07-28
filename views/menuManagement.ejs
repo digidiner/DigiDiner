@@ -183,8 +183,7 @@
         document.getElementById('itemDescription').value = '';
         document.getElementById('itemPrice').value = '';
         document.getElementById('itemCategory').selectedIndex = 0;
-        const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
-        newItemModal.show();
+        $(`#newItemModal`).modal('show');
     }
 
     async function addMenuItem(newItem) {
@@ -199,13 +198,9 @@
         if (response.ok) {
             const newItemData = await response.json();
             console.log('New item added:', newItemData);
-            const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
-            newItemModal.hide();
         } else {
             console.error('Failed to add new item:', response.status, response.statusText);
         }
-        await refreshMenu();
-        toggleSaveNewDeleteButtons()
     }
 
     async function saveNewItem() {
@@ -224,9 +219,9 @@
 
             try {
                 await addMenuItem(newItem);
-                const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
-                newItemModal.hide();
                 await refreshMenu();
+                toggleSaveNewDeleteButtons();
+                $(`#newItemModal`).modal('hide');
             } catch (error) {
                 alert('Failed to add new item. Please try again.');
             }
