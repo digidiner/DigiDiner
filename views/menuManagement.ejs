@@ -228,7 +228,7 @@
     }
 
 
-    async function updateMenuItems(itemsToUpdate) {
+    async function updateMenuItems(itemsToUpdate, save) {
         for (const item of itemsToUpdate) {
             const { id, name, description, price, category } = item;
 
@@ -267,29 +267,31 @@
             menuItemPriceBadge.innerHTML = `<span class="badge bg-primary">$${Number(price).toFixed(2)}</span>`;
             itemDescription.textContent = description;
 
-            const updatedData = {
-                name,
-                description,
-                price,
-                category
-            };
+            if (save) {
+                const updatedData = {
+                    name,
+                    description,
+                    price,
+                    category
+                };
 
-            try {
-                const response = await fetch(`/api/menu/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(updatedData),
-                });
+                try {
+                    const response = await fetch(`/api/menu/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(updatedData),
+                    });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+                } catch (error) {
+                    console.error('Error:', error);
                 }
-
-                const data = await response.json();
-            } catch (error) {
-                console.error('Error:', error);
             }
         }
     }
@@ -317,7 +319,8 @@
                 console.error('Failed to delete item:', response.status, response.statusText);
             }
         }
-        refreshMenu();
+        await refreshMenu();
+        toggleSaveNewDeleteButtons()
     }
 
     async function saveChanges() {
@@ -335,17 +338,7 @@
             itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice });
         });
 
-        const itemsToDelete = [];
-        const checkboxes = document.querySelectorAll('.edit-checkbox');
-        checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-                const menuItemId = checkbox.parentNode.parentNode.getAttribute('id').replace('heading', '');
-                itemsToDelete.push(menuItemId);
-            }
-        });
-
-        await updateMenuItems(itemsToUpdate);
-        await deleteItems(itemsToDelete);
+        await updateMenuItems(itemsToUpdate, true);
         refreshMenu();
         hideMenuSections();
     }
