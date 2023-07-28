@@ -25,7 +25,7 @@ router.get('/', requireSession, utils.asyncHandler(async function (req, res) {
 
     // Get the total time and list of periods
     const totalTime = await timeClock.getTotalTime();
-    const periods = await timeClock.listPeriods().map(period => ({ startTime: period.startTime, endTime: period.endTime }));
+    const periods = (await timeClock.listPeriods()).map(period => ({ startTime: period.startTime, endTime: period.endTime }));
     periods.sort((a, b) => b.startTime - a.startTime);
 
     res.render('clock', { employee: req.employee, activePeriod, totalTime, periods });
