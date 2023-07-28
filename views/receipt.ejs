@@ -141,7 +141,7 @@
                 </div>
             </div>
         </div>
-        <div class="receipt-options">
+        <!--<div class="receipt-options">
             <h3>Receipt Options:</h3>
             <div class="email-receipt-option">
                 <label for="email-receipt">Email Receipt:</label>
@@ -154,7 +154,7 @@
                 <button class="btn btn-primary" onclick="sendTextReceipt()">Send Text Receipt</button>
             </div>
             <button class="btn btn-primary" onclick="printReceipt()">Print Receipt</button>
-        </div>
+        </div>-->
 
         <p>Thank you for your business!</p>
     </div>
@@ -168,7 +168,7 @@
         var paymentMethod = '<%= paymentMethod %>';
         var total = parseFloat('<%= total %>');;
 
-        function sendEmailReceipt() {
+        /*function sendEmailReceipt() {
             var emailInput = document.getElementById('email-receipt').value;
             // Implement code to send the receipt to the email address
             fetch('/receipt/send-email-receipt', {
@@ -219,7 +219,7 @@
             // Implement code to notify the server
             // Display a success message to the user
             alert('Receipt sent for printing!');
-        }
+        }*/
     </script>
 </body>
 
