@@ -115,7 +115,7 @@
             <% } %>
         </div>
         <div class="total">
-            Total: $<%= req.query.total ? parseFloat(req.query.total).toFixed(2) : total.toFixed(2) %>
+            Total: $<%= req.query.total ? req.query.total : total %>
         </div>
         <!-- Display the payment method information -->
         <div class="col-md-8">
