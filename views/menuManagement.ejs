@@ -249,8 +249,8 @@
                 menuItemElement = document.querySelector(`[id|="menu-item"]`).cloneNode(true); // This works as long as there is at least one menu item
                 const clonedId = parseInt(menuItemElement.id.slice(10));
 
-                for (const menuItemChildElement of menuItemElement.querySelectorAll(`[id]`)) {
-                    menuItemChildElement.id = menuItemChildElement.id.replace(clonedId, id); // Kinda cursed, but as long as it works...
+                for (const menuItemChildElement of menuItemElement.getElementsByTagName("*")) {
+                    if (menuItemChildElement.hasAttribute('id')) menuItemChildElement.id = menuItemChildElement.id.replace(clonedId, id); // Kinda cursed, but as long as it works...
                     if (menuItemChildElement.dataset.bsTarget) menuItemChildElement.dataset.bsTarget = menuItemChildElement.dataset.bsTarget.replace(clonedId, id);
                     if (menuItemChildElement.hasAttribute('aria-labelledby')) menuItemChildElement.setAttribute('aria-labelledby', menuItemChildElement.getAttribute('aria-labelledby').replace(clonedId, id));
                     if (menuItemChildElement.hasAttribute('aria-controls')) menuItemChildElement.setAttribute('aria-controls', menuItemChildElement.getAttribute('aria-controls').replace(clonedId, id));
@@ -258,6 +258,7 @@
 
                 menuItemElement.id = `menu-item-${id}`;
                 menuItemElement.dataset.itemId = id;
+                menuItemElement.dataset.itemCategory = category;
 
                 categoryContent.appendChild(menuItemElement);
             }
