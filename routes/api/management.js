@@ -64,7 +64,7 @@ router.put('/employee/:id', requireSession, utils.asyncHandler(async function (r
         if (employee.nameFirst != null && nameLast != null) employee.nameLast = nameLast;
         if (position != null) employee.position = position;
 
-        const success = await employee.save();
+        await employee.save();
         res.status(200).json({ 'message': 'Employee updated successfully' });
     } catch (error) {
         console.error('Error updating employee:', error);
