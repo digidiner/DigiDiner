@@ -286,11 +286,6 @@
                         nameLast: lastName,
                         position: position
                     };
-                    const employeeDetailsModal = new bootstrap.Modal(document.getElementById('employeeDetailsModal'));
-                    const employeeListModal = new bootstrap.Modal(document.getElementById('employeeListModal'));
-                    employeeDetailsModal.hide();
-                    showEmployeeList();
-                    employeeListModal.show();
                 } else {
                     console.error('Failed to update employee details:', response.status);
                 }
