@@ -39,7 +39,9 @@ router.get('/order', requireOrder, utils.asyncHandler(async function (req, res) 
             'id': item.id,
             'itemId': item.itemId,
             'count': item.count,
-            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice])),
+            'allergies': item.allergies,
+            'request': item.request
         })))
     });
 }));
@@ -84,7 +86,9 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function (req,
         'id': newItem.id,
         'itemId': newItem.itemId,
         'count': newItem.count,
-        'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(newItem.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+        'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(newItem.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice])),
+        'allergies': newItem.allergies,
+        'request': newItem.request
     });
 }));
 
@@ -132,7 +136,9 @@ router.post('/order/submit', requireOrder, utils.asyncHandler(async function (re
             'id': item.id,
             'itemId': item.itemId,
             'count': item.count,
-            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice])),
+            'allergies': item.allergies,
+            'request': item.request
         })))
     });
 }));
@@ -160,7 +166,9 @@ router.post('/order/pay/creditcard', requireOrder, utils.asyncHandler(async func
             'id': item.id,
             'itemId': item.itemId,
             'count': item.count,
-            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice])),
+            'allergies': item.allergies,
+            'request': item.request
         })))
     });
 }));
@@ -187,7 +195,9 @@ router.post('/order/pay/cash', requireOrder, utils.asyncHandler(async function (
             'id': item.id,
             'itemId': item.itemId,
             'count': item.count,
-            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice])),
+            'allergies': item.allergies,
+            'request': item.request
         })))
     });
 }));

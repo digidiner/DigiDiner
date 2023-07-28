@@ -132,13 +132,13 @@
 
                     if (orderItem.allergies) {
                         const orderItemAllergies = new document.createElement('p');
-                        orderItemAllergies.innerHTML += ` - Allergies: ${orderItem.allergies}`
+                        orderItemAllergies.innerText = ` - Allergies: ${orderItem.allergies}`
                         orderItemElement.appendChild(orderItemAllergies);
                     }
                     
                     if (orderItem.request) {
                         const orderItemRequest = new document.createElement('p');
-                        orderItemRequest.innerHTML += ` - Special Request: ${orderItem.request}`
+                        orderItemRequest.innerText = ` - Special Request: ${orderItem.request}`
                         orderItemElement.appendChild(orderItemRequest);
                     }
 

@@ -115,7 +115,7 @@ class Order {
     }
 
     async getItems() {
-        return (await Order.conn.query(`SELECT * FROM order_item WHERE order_id = '${this.id}'`)).map(record => new OrderItem(record.id, this, record.item_id, record.count));
+        return (await Order.conn.query(`SELECT * FROM order_item WHERE order_id = '${this.id}'`)).map(record => new OrderItem(record.id, this, record.item_id, record.count, record.allergies, record.request));
     }
 
     async getItem(id) {

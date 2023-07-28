@@ -88,6 +88,7 @@
     <footer>
         <%- include('partials/footer') %>
     </footer>
+    <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 
@@ -112,9 +113,9 @@
     async function toggleEditOptions() {
         const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
         managerEditButtonWrapper.style.display = 'block';
-        const managerEditButton = document.getElementById('managerEditButton');
-        managerEditButton.innerText = 'Edit';
-        managerEditButton.addEventListener('click', toggleSaveNewDeleteButtons);
+        managerEditButtonWrapper.innerHTML = `
+                <button class="btn btn-primary managerEditButton" onclick="toggleSaveNewDeleteButtons()">Edit</button>
+            `;
     }
 
     function toggleSaveNewDeleteButtons() {
@@ -138,6 +139,7 @@
         itemNames.forEach((name) => {
             const nameInput = document.createElement('input');
             nameInput.setAttribute('type', 'text');
+            nameInput.defaultValue = name.innerText;
             nameInput.value = name.innerText;
             name.innerText = '';
             name.appendChild(nameInput);
@@ -145,7 +147,7 @@
 
         const itemPrices = document.querySelectorAll('.item-price');
         itemPrices.forEach((price) => {
-            const priceValue = parseFloat(price.firstChild.innerText);
+            const priceValue = parseFloat(price.querySelector('span').innerText.slice(1));
             const priceInput = document.createElement('input');
             priceInput.setAttribute('type', 'number');
             priceInput.defaultValue = priceValue;
@@ -157,6 +159,7 @@
         const itemDescriptions = document.querySelectorAll('.item-description');
         itemDescriptions.forEach((description) => {
             const descriptionInput = document.createElement('textarea');
+            descriptionInput.dataset.defaultValue = description.innerText;
             descriptionInput.textContent = description.innerText;
             description.innerText = '';
             description.appendChild(descriptionInput);
@@ -170,7 +173,7 @@
                 throw new Error('Failed to fetch menu data');
             }
             const menuItems = await response.json();
-            updateMenuItems(menuItems);
+            await updateMenuItems(menuItems);
         } catch (error) {
             console.error('Error refreshing menu:', error);
         }
@@ -181,8 +184,7 @@
         document.getElementById('itemDescription').value = '';
         document.getElementById('itemPrice').value = '';
         document.getElementById('itemCategory').selectedIndex = 0;
-        const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
-        newItemModal.show();
+        $(`#newItemModal`).modal('show');
     }
 
     async function addMenuItem(newItem) {
@@ -218,9 +220,9 @@
 
             try {
                 await addMenuItem(newItem);
-                const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
-                newItemModal.hide();
                 await refreshMenu();
+                toggleSaveNewDeleteButtons();
+                $(`#newItemModal`).modal('hide');
             } catch (error) {
                 alert('Failed to add new item. Please try again.');
             }
@@ -247,8 +249,8 @@
                 menuItemElement = document.querySelector(`[id|="menu-item"]`).cloneNode(true); // This works as long as there is at least one menu item
                 const clonedId = parseInt(menuItemElement.id.slice(10));
 
-                for (const menuItemChildElement of menuItemElement.querySelectorAll(`[id]`)) {
-                    menuItemChildElement.id = menuItemChildElement.id.replace(clonedId, id); // Kinda cursed, but as long as it works...
+                for (const menuItemChildElement of menuItemElement.getElementsByTagName("*")) {
+                    if (menuItemChildElement.hasAttribute('id')) menuItemChildElement.id = menuItemChildElement.id.replace(clonedId, id); // Kinda cursed, but as long as it works...
                     if (menuItemChildElement.dataset.bsTarget) menuItemChildElement.dataset.bsTarget = menuItemChildElement.dataset.bsTarget.replace(clonedId, id);
                     if (menuItemChildElement.hasAttribute('aria-labelledby')) menuItemChildElement.setAttribute('aria-labelledby', menuItemChildElement.getAttribute('aria-labelledby').replace(clonedId, id));
                     if (menuItemChildElement.hasAttribute('aria-controls')) menuItemChildElement.setAttribute('aria-controls', menuItemChildElement.getAttribute('aria-controls').replace(clonedId, id));
@@ -256,6 +258,7 @@
 
                 menuItemElement.id = `menu-item-${id}`;
                 menuItemElement.dataset.itemId = id;
+                menuItemElement.dataset.itemCategory = category;
 
                 categoryContent.appendChild(menuItemElement);
             }
@@ -309,7 +312,9 @@
                 console.log(checkbox.parentNode);
                 console.log(checkbox.parentNode.parentNode);
                 console.log(checkbox.parentNode.parentNode.getAttribute('id')); */
-                const menuItemId = checkbox.closest('.accordion-item').querySelector('.accordion-collapse').getAttribute('id').replace('collapse', '');
+                const menuItemElement = checkbox.closest('.accordion-item');
+                const menuItemId = menuItemElement.querySelector('.accordion-collapse').getAttribute('id').replace('collapse', '');
+                menuItemElement.remove();
                 itemsToDelete.push(menuItemId);
             }
         });
@@ -336,15 +341,18 @@
         itemNames.forEach((input, index) => {
             const menuItemId = input.closest('.accordion-item').dataset.itemId;
             const newItemName = input.value;
-            const newItemDescription = itemDescriptions[index].textContent;
+            const newItemDescription = itemDescriptions[index].value;
             const newItemPrice = parseFloat(itemPrices[index].value);
             const newItemCategory = input.closest('.accordion-item').dataset.itemCategory;
-            itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice, category: newItemCategory });
+            if (newItemName != input.defaultValue || newItemPrice != parseFloat(itemPrices[index].defaultValue) || newItemDescription != itemDescriptions[index].dataset.defaultValue) {
+                itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice, category: newItemCategory });
+            }
         });
 
         await updateMenuItems(itemsToUpdate, true);
         refreshMenu();
         hideMenuSections();
+        toggleEditOptions();
     }
 
     document.addEventListener('DOMContentLoaded', () => {

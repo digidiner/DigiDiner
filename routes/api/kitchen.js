@@ -36,7 +36,9 @@ router.get('/order/list', requireSession, utils.asyncHandler(async function(req,
             'id': item.id,
             'itemId': item.itemId,
             'count': item.count,
-            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice])),
+            'allergies': item.allergies,
+            'request': item.request
         })))
     }))));
 }));
@@ -74,7 +76,9 @@ router.post('/order/ready', requireSession, utils.asyncHandler(async function(re
             'id': item.id,
             'itemId': item.itemId,
             'count': item.count,
-            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice]))
+            'options': Object.fromEntries((await menuItemOption.getOptionsForMenuItem(item.itemId)).map(itemOption => [itemOption.option.id, itemOption.choice])),
+            'allergies': item.allergies,
+            'request': item.request
         })))
     });
 }));

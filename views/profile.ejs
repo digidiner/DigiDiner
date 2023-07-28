@@ -333,6 +333,24 @@
 
         // Call the function to update the session nav links
         updateSessionNavLinks();
+
+        async function renderHeader() {
+            const employee = await getSignedInEmployee();
+            if (employee.position.includes('manager')) {
+                const menuLink = document.createElement('li');
+                menuLink.innerHTML = `
+                    <a id="floormapNavLink" class="nav-link fw-bold px-3" href="/menu/management">
+                        Menu
+                    </a>
+                `;
+                const navList = document.querySelector('.nav');
+                navList.appendChild(menuLink);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderHeader();
+        });
     </script>
 </body>
 
