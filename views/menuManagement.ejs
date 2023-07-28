@@ -259,11 +259,11 @@
             }
 
             const menuItemButton = menuItemElement.querySelector(`#heading${id} .accordion-button`);
-            const menuItemPriceBadge = menuItemElement.querySelector('.item-price span');
+            const menuItemPriceBadge = menuItemElement.querySelector('.item-price');
             const itemDescription = menuItemElement.querySelector(`#collapse${id} .item-description`);
 
             menuItemButton.textContent = name;
-            menuItemPriceBadge.textContent = `$${Number(price).toFixed(2)}`;
+            menuItemPriceBadge.innerHTML = `<span class="badge bg-primary">$${Number(price).toFixed(2)}</span>`;
             itemDescription.textContent = description;
 
             const updatedData = {
