@@ -57,9 +57,9 @@ class Payment {
     async load() {
         const record = (await Payment.conn.query(`SELECT * FROM payment WHERE id = '${this.id}'`))[0];
         if (record && this.id == record.id) {
-            this.subtotal = record.subtotal;
-            this.tax = record.tax;
-            this.tip = record.tip;
+            this.subtotal = parseFloat(record.subtotal);
+            this.tax = parseFloat(record.tax);
+            this.tip = parseFloat(record.tip);
             this.method = record.method;
             this.date = new Date(record.date).getTime(); // Converts SQL timestamp milliseconds representation of date
             return true;
