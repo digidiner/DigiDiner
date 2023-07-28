@@ -112,9 +112,9 @@
     async function toggleEditOptions() {
         const managerEditButtonWrapper = document.getElementById('managerEditButtonWrapper');
         managerEditButtonWrapper.style.display = 'block';
-        const managerEditButton = document.getElementById('managerEditButton');
-        managerEditButton.innerText = 'Edit';
-        managerEditButton.addEventListener('click', toggleSaveNewDeleteButtons);
+        managerEditButtonWrapper.innerHTML = `
+                <button class="btn btn-primary managerEditButton" onclick="toggleSaveNewDeleteButtons()">Edit</button>
+            `;
     }
 
     function toggleSaveNewDeleteButtons() {
@@ -338,7 +338,7 @@
         itemNames.forEach((input, index) => {
             const menuItemId = input.closest('.accordion-item').dataset.itemId;
             const newItemName = input.value;
-            const newItemDescription = itemDescriptions[index].textContent;
+            const newItemDescription = itemDescriptions[index].value;
             const newItemPrice = parseFloat(itemPrices[index].value);
             const newItemCategory = input.closest('.accordion-item').dataset.itemCategory;
             if (newItemName != input.defaultValue || newItemPrice != parseFloat(itemPrices[index].defaultValue) || newItemDescription != itemDescriptions[index].dataset.defaultValue) {
