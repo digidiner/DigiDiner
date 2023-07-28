@@ -98,7 +98,7 @@
         dateObject.setHours(0,0,0,0);
 
         var startOfWeek = dateObject.getTime();
-        var endOfWeek = startOfWeek + 7 * 24 * 60 * 60 * 1000;
+        var endOfWeek = startOfWeek + 7 * 24 * 60 * 60 * 1000 - 1;
 
         function showConfirmationModal(action) {
             // Show the confirmation modal
