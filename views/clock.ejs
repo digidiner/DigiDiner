@@ -150,16 +150,16 @@
                         startOfWeek = startOfCurrentWeek;
                         endOfWeek = endOfCurrentWeek;
                         await populatePunchRecords();
+                    } else {
+                        const timestamp = new Date(data.startTime).toLocaleString();
+                        const punchItem = `
+                            <tr>
+                                <td>${timestamp}</td>
+                                <td>Clock In</td>
+                            </tr>
+                        `;
+                        $('#punchRecord').prepend(punchItem);
                     }
-
-                    const timestamp = new Date(data.startTime).toLocaleString();
-                    const punchItem = `
-                        <tr>
-                            <td>${timestamp}</td>
-                            <td>Clock In</td>
-                        </tr>
-                    `;
-                    $('#punchRecord').prepend(punchItem);
                 } else {
                     console.error('Clock In Failed:', response.status);
                 }
@@ -190,16 +190,16 @@
                         startOfWeek = startOfCurrentWeek;
                         endOfWeek = endOfCurrentWeek;
                         await populatePunchRecords();
+                    } else {
+                        const timestamp = new Date(data.endTime).toLocaleString();
+                        const punchItem = `
+                            <tr>
+                                <td>${timestamp}</td>
+                                <td>Clock Out</td>
+                            </tr>
+                        `;
+                        $('#punchRecord').prepend(punchItem);
                     }
-
-                    const timestamp = new Date(data.endTime).toLocaleString();
-                    const punchItem = `
-                        <tr>
-                            <td>${timestamp}</td>
-                            <td>Clock Out</td>
-                        </tr>
-                    `;
-                    $('#punchRecord').prepend(punchItem);
                 } else {
                     console.error('Clock Out Failed:', response.status);
                 }
