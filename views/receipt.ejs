@@ -160,58 +160,63 @@
         var subtotal = <%= subtotal %>;
         var taxes = <%= taxes %>;
         var total = <%= total %>;
+        <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+    var paymentMethod = '<%= paymentMethod %>';
+    var total = <%= total %>;
 
-        function sendEmailReceipt() {
+    function sendEmailReceipt() {
             var emailInput = document.getElementById('email-receipt').value;
-            // Implement code to send the receipt to the email address
-            fetch('/receipt/send-email-receipt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+    // Implement code to send the receipt to the email address
+    fetch('/receipt/send-email-receipt', {
+        method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email: emailInput })
+    body: JSON.stringify({email: emailInput })
             })
                 .then(response => {
                     if (response.ok) {
-                        alert('Receipt sent to email: ' + emailInput);
+        alert('Receipt sent to email: ' + emailInput);
                     } else {
-                        alert('Failed to send email receipt.');
+        alert('Failed to send email receipt.');
                     }
                 })
                 .catch(error => {
-                    console.error('Error sending email receipt:', error);
-                    alert('Failed to send email receipt.');
+        console.error('Error sending email receipt:', error);
+    alert('Failed to send email receipt.');
                 });
         }
 
-        function sendTextReceipt() {
+    function sendTextReceipt() {
             var phoneInput = document.getElementById('text-receipt').value;
-            // Implement code to send the receipt to the phone number
-            fetch('/receipt/send-text-receipt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+    // Implement code to send the receipt to the phone number
+    fetch('/receipt/send-text-receipt', {
+        method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ phone: phoneInput })
+    body: JSON.stringify({phone: phoneInput })
             })
                 .then(response => {
                     if (response.ok) {
-                        alert('Receipt sent to phone: ' + phoneInput);
+        alert('Receipt sent to phone: ' + phoneInput);
                     } else {
-                        alert('Failed to send text receipt.');
+        alert('Failed to send text receipt.');
                     }
                 })
                 .catch(error => {
-                    console.error('Error sending text receipt:', error);
-                    alert('Failed to send text receipt.');
+        console.error('Error sending text receipt:', error);
+    alert('Failed to send text receipt.');
                 });
         }
 
-        function printReceipt() {
-            // Send notification to the server to print the receipt
-            // Implement code to notify the server
-            // Display a success message to the user
-            alert('Receipt sent for printing!');
+    function printReceipt() {
+        // Send notification to the server to print the receipt
+        // Implement code to notify the server
+        // Display a success message to the user
+        alert('Receipt sent for printing!');
         }
     </script>
 </body>

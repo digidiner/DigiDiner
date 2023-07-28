@@ -16,7 +16,7 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
         let orderItems = await order.getItems();
         let menuItems = Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item]));
         const paymentMethod = req.query.paymentMethod;
-        const total = req.query.total ? parseFloat(req.query.total).toFixed(2) : 0;
+        const total = parseFloat(req.query.total || 0).toFixed(2);
         res.status(200).render('receipt', {
             total: total,
             orderItems: orderItems,

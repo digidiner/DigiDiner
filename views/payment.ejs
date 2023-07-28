@@ -252,7 +252,7 @@
                 });
                 if (response.ok) {
                     // Payment successful, redirect to the receipt page
-                    window.location.href = '/receipt/' + orderId + '?total=' + parseFloat(updatedTotal) + '&paymentMethod=cash';
+                    window.location.href = '/receipt/' + orderId + '?total=' + updatedTotal + '&paymentMethod=cash';
                 } else {
                     // Handle the error and display an appropriate message
                     alert('Error processing payment. Please try again.');
@@ -289,7 +289,7 @@
                 });
                 if (response.ok) {
                     // Payment successful, redirect to the receipt page
-                    window.location.href = '/receipt/' + orderId + '?total=' + parseFloat(updatedTotal) + '&paymentMethod=credit';
+                    window.location.href = '/receipt/' + orderId + '?total=' + updatedTotal + '&paymentMethod=credit';
                 } else {
                     // Handle the error and display an appropriate message
                     alert('Error processing payment. Please try again.');
