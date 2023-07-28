@@ -210,7 +210,7 @@
         // Function to display the timestamp records for the current week
         async function populatePunchRecords() {
             const currentWeekTimestamps = periods.filter(period =>
-                period.startTime >= startOfWeek.getTime() && period.startTime <= endOfWeek.getTime()
+                period.startTime >= startOfWeek && period.startTime <= endOfWeek
             );
             const punchRecordTable = document.getElementById('punchRecord');
             punchRecordTable.innerHTML = '';
