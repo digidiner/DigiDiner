@@ -143,12 +143,13 @@
             name.appendChild(nameInput);
         });
 
-        const itemPrices = document.querySelectorAll('.item-price span');
+        const itemPrices = document.querySelectorAll('.item-price');
         itemPrices.forEach((price) => {
+            const priceValue = parseFloat(price.firstChild.innerText);
             const priceInput = document.createElement('input');
             priceInput.setAttribute('type', 'number');
-            priceInput.defaultValue = parseFloat(price.innerText);
-            priceInput.value = parseFloat(price.innerText);
+            priceInput.defaultValue = priceValue;
+            priceInput.value = priceValue;
             price.innerText = '';
             price.appendChild(priceInput);
         });
