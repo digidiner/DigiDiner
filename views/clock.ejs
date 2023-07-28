@@ -40,13 +40,23 @@
 
             <div class="text-center mt-4">
                 <h4>Timestamp Punches:</h4>
-                <ul id="punchRecord" class="list-group">
-                    <% punches.forEach(function(punch) { %>
-                        <li class="list-group-item">
-                            <%= punch %>
-                        </li>
-                        <% }); %>
-                </ul>
+                <div class="timestamp-table-container">
+                    <table id="punchRecordTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="punchRecord">
+                            <!-- The timestamp records will be displayed here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="timestamp-navigation">
+                    <button class="btn btn-primary" onclick="showPrevWeek()">Prev</button>
+                    <button class="btn btn-primary" onclick="showNextWeek()">Next</button>
+                </div>
             </div>
         </div>
 
@@ -77,14 +87,7 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Start the timestamp output and punch record
-        var timestampInterval = setInterval(updateTimestamp, 1000);
-
         function showConfirmationModal(action) {
-            // Pause the timestamp output and punch record
-            clearInterval(timestampInterval);
-
-            // Get the clock in/out status
             const status = action === 'clockIn' ? 'Clock In' : 'Clock Out';
 
             // Show the confirmation modal
@@ -102,10 +105,7 @@
 
         // Function to handle the confirmation
         async function confirmAction() {
-            // Get the clock in/out status
             const status = $('#statusAction').text();
-
-            // Update the status on the page
             $('#status').text(status);
 
             // Generate the timestamp punch
@@ -113,15 +113,13 @@
             const punchItem = `<li class="list-group-item">${status}: ${timestamp}</li>`;
             $('#punchRecord').prepend(punchItem);
 
-            // Clock in or out based on the status
             if (status === 'Clock In') {
                 await clockIn();
             } else {
                 await clockOut();
             }
 
-            // Resume the timestamp output and punch record after a delay
-            timestampInterval = setInterval(updateTimestamp, 1000);
+            location.reload();
         }
 
         // Function to perform the clock in action
@@ -167,6 +165,93 @@
                 console.error('Clock Out Failed:', error);
             }
         }
+
+        // Function to display the timestamp records for the current week
+        async function showCurrentWeek() {
+            // Get the start and end dates of the current week
+            const currentDate = new Date();
+            const firstDayOfWeek = new Date(currentDate);
+            firstDayOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+            const lastDayOfWeek = new Date(currentDate);
+            lastDayOfWeek.setDate(currentDate.getDate() + (6 - currentDate.getDay()));
+
+            // Fetch the timestamp records for the current week
+            await fetchAndDisplayTimestampRecords(firstDayOfWeek, lastDayOfWeek);
+        }
+
+        // Function to display the timestamp records for the previous week
+        async function showPrevWeek() {
+            // Get the current display date and move back one week
+            const currentDisplayDate = new Date($('#currentDisplayDate').text());
+            currentDisplayDate.setDate(currentDisplayDate.getDate() - 7);
+
+            // Fetch the timestamp records for the new week
+            const firstDayOfWeek = new Date(currentDisplayDate);
+            firstDayOfWeek.setDate(currentDisplayDate.getDate() - currentDisplayDate.getDay());
+            const lastDayOfWeek = new Date(currentDisplayDate);
+            lastDayOfWeek.setDate(currentDisplayDate.getDate() + (6 - currentDisplayDate.getDay()));
+
+            await fetchAndDisplayTimestampRecords(firstDayOfWeek, lastDayOfWeek);
+        }
+
+        // Function to display the timestamp records for the next week
+        async function showNextWeek() {
+            // Get the current display date and move forward one week
+            const currentDisplayDate = new Date($('#currentDisplayDate').text());
+            currentDisplayDate.setDate(currentDisplayDate.getDate() + 7);
+
+            // Fetch the timestamp records for the new week
+            const firstDayOfWeek = new Date(currentDisplayDate);
+            firstDayOfWeek.setDate(currentDisplayDate.getDate() - currentDisplayDate.getDay());
+            const lastDayOfWeek = new Date(currentDisplayDate);
+            lastDayOfWeek.setDate(currentDisplayDate.getDate() + (6 - currentDisplayDate.getDay()));
+
+            await fetchAndDisplayTimestampRecords(firstDayOfWeek, lastDayOfWeek);
+        }
+
+        // Function to fetch and display the timestamp records for the specified week
+        async function fetchAndDisplayTimestampRecords(firstDayOfWeek, lastDayOfWeek) {
+            try {
+                const response = await fetch('/api/common/employee/timestamp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        startDate: firstDayOfWeek.toISOString(),
+                        endDate: lastDayOfWeek.toISOString(),
+                    }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const punchRecordTable = document.getElementById('punchRecord');
+                    punchRecordTable.innerHTML = '';
+                    data.forEach(punch => {
+                        const timestamp = new Date(punch.timestamp).toLocaleString();
+                        const status = punch.status;
+                        const punchItem = `
+                        <tr>
+                            <td>${timestamp}</td>
+                            <td>${status}</td>
+                        </tr>
+                    `;
+                        punchRecordTable.insertAdjacentHTML('beforeend', punchItem);
+                    });
+
+                    // Update the current display date
+                    $('#currentDisplayDate').text(firstDayOfWeek.toLocaleDateString('en-us', { month: 'long', day: 'numeric' }) +
+                        ' - ' + lastDayOfWeek.toLocaleDateString('en-us', { month: 'long', day: 'numeric' }));
+                } else {
+                    console.error('Failed to fetch timestamp records:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching timestamp records:', error);
+            }
+        }
+
+        // Call the function to display the timestamp records for the current week
+        showCurrentWeek();
 
         // Attach event listeners to the clock in/out buttons
         document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
