@@ -203,7 +203,6 @@
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
     var orderId = <%= orderId %>;
-    var total = <%= total %>;
     var updatedTotal = <%= total %>;
 
     function handlePaymentOptionChange() {
@@ -228,6 +227,8 @@
             tip = 0;
             $('#tip-input').val('0');
         }
+
+        updatedTotal = total + tip;
 
         if (document.getElementById('cash-option').checked) {
             // Process cash payment
