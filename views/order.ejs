@@ -65,7 +65,6 @@
                     </div>
                     <% }) %>
                         <div class="total-cost-wrapper">
-                            <hr class="section-divider">
                             <h3>Total Cost: $<%= orderItems.reduce((sum, item)=> sum + item.count *
                                     menuItems[item.itemId].price, 0).toFixed(2) %></h3>
                         </div>
