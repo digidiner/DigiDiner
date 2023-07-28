@@ -221,17 +221,17 @@
                     } else {
                         $('#currentDisplayDate').text('No timestamp records found for this week');
                     }
-                    // Add event listeners to the buttons after updating the status
-                    const clockOutBtn = document.getElementById('clockOutBtn');
-                    const clockInBtn = document.getElementById('clockInBtn');
-
-                    clockOutBtn.addEventListener('click', function () {
-                        showConfirmationModal('clockOut');
-                    });
-
-                    clockInBtn.addEventListener('click', function () {
-                        showConfirmationModal('clockIn');
-                    });
+                    if (status === 'Clocked In') {
+                        document.getElementById('clockInBtn').removeEventListener('click', showConfirmationModal);
+                        document.getElementById('clockOutBtn').addEventListener('click', function () {
+                            showConfirmationModal('clockOut');
+                        });
+                    } else {
+                        document.getElementById('clockOutBtn').removeEventListener('click', showConfirmationModal);
+                        document.getElementById('clockInBtn').addEventListener('click', function () {
+                            showConfirmationModal('clockIn');
+                        });
+                    }
                 } else {
                     console.error('Failed to fetch timestamp records:', response.status);
                 }
