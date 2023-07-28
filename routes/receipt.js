@@ -16,11 +16,11 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
         let orderItems = await order.getItems();
         let menuItems = Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item]));
         const paymentMethod = req.query.paymentMethod;
-        const updatedTotal = req.subtotal;
+        //const updatedTotal = req.subtotal;
         res.status(200).render('receipt', {
             subtotal: req.subtotal,
             taxes: req.taxes,
-            total: updatedTotal,
+            //total: updatedTotal,
             order: order,
             orderItems: orderItems,
             menuItems: menuItems,
