@@ -98,16 +98,17 @@
             $('#confirmationModal').modal('show');
 
             // Call the clock in/out functions directly
+            const confirmBtn = document.getElementById('confirmActionBtn');
             if (action === 'clockIn') {
-                clockIn();
+                confirmBtn.setAttribute('onclick', 'confirmAction("clockIn")');
             } else {
-                clockOut();
+                confirmBtn.setAttribute('onclick', 'confirmAction("clockOut")');
             }
         }
 
         // Function to handle the confirmation
-        async function confirmAction() {
-            const status = $('#statusAction').text();
+        async function confirmAction(action) {
+            const status = action === 'clockIn' ? 'Clock In' : 'Clock Out';
             $('#status').text(status);
 
             // Generate the timestamp punch
@@ -126,7 +127,14 @@
                 await clockOut();
             }
 
-            location.reload();
+            const timestamp = new Date().toLocaleString();
+            const punchItem = `
+            <tr>
+                <td>${timestamp}</td>
+                <td>${status}</td>
+            </tr>
+        `;
+            $('#punchRecord').prepend(punchItem);
         }
 
         // Function to perform the clock in action
@@ -222,6 +230,17 @@
                     } else {
                         $('#currentDisplayDate').text('No timestamp records found for this week');
                     }
+                    // Add event listeners to the buttons after updating the status
+                    const clockOutBtn = document.getElementById('clockOutBtn');
+                    const clockInBtn = document.getElementById('clockInBtn');
+
+                    clockOutBtn.addEventListener('click', function () {
+                        showConfirmationModal('clockOut');
+                    });
+
+                    clockInBtn.addEventListener('click', function () {
+                        showConfirmationModal('clockIn');
+                    });
                 } else {
                     console.error('Failed to fetch timestamp records:', response.status);
                 }
@@ -258,11 +277,6 @@
             await showCurrentWeek(firstDayOfWeek, lastDayOfWeek);
         }
         showCurrentWeek();
-
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
-            document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
-        });
 
     </script>
     <footer>
