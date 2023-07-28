@@ -262,7 +262,7 @@
             const menuItemName = menuItemButton.querySelector('.item-name');
             const menuItemPriceBadge = menuItemButton.querySelector('.item-price');
             const menuItemDescription = menuItemElement.querySelector(`#collapse${id} .item-description`);
-            const menuItemEditCheckbox = menuItemElement.querySelector(`edit-checkbox`);
+            const menuItemEditCheckbox = menuItemElement.querySelector(`.edit-checkbox`);
 
             menuItemName.textContent = name;
             menuItemPriceBadge.innerHTML = `<span class="badge bg-primary">$${Number(price).toFixed(2)}</span>`;
