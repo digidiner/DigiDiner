@@ -131,7 +131,7 @@ router.post('/employee/clockout', requireSession, utils.asyncHandler(async funct
 /* GET employee time clock status */
 router.get('/employee/clock', requireSession, utils.asyncHandler(async function (req, res) {
     const activePeriod = await req.employee.timeClock.getActivePeriod();
-    const periods = await req.employee.timeClock.listPeriods(req.body.limit, req.body.offset)
+    const periods = await req.employee.timeClock.listPeriods(req.query.limit, req.query.offset)
     res.status(200).json({
         'clockedIn': activePeriod != null,
         'activePeriod': activePeriod != null ? {

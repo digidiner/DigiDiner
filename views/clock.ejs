@@ -183,12 +183,18 @@
         async function fetchClockStatus(limit, offset) {
             var responseBody;
             try {
-                const response = await fetch('/api/common/employee/clock', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ limit, offset })
+                let query = `/api/common/employee/clock`;
+                if (limit != null) {
+                    query += `?limit=${limit}`
+                    if (offset != null) {
+                        query += `&limit=${offset}`
+                    }
+                } else if (offset != null) {
+                    query += `?limit=${offset}`
+                }
+
+                const response = await fetch(query, {
+                    method: 'GET'
                 });
 
                 if (!response.ok) {
