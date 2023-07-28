@@ -107,8 +107,34 @@
             <p><strong>ZIP Code:</strong>
                 zipCode
             </p>
-            <div id="order-details">
-                <!-- Order details will be dynamically added here -->
+            <div class="col-md-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Your Order</span>
+                </h4>
+                <% if (orderItems.length > 0) { %>
+                    <% orderItems.forEach(function(item) { %>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">
+                                        <%= menuItems[item.itemId].name %>
+                                    </h6>
+                                    <small class="text-body-secondary">
+                                        <%= menuItems[item.itemId].description %>
+                                    </small>
+                                </div>
+                                <span class="text-body-secondary">$<%= menuItems[item.itemId].price %></span>
+                            </li>
+                        </ul>
+                    <% }) %>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (USD)</span>
+                        <!-- Add the total amount with the class .total-amount -->
+                        <strong class="total-amount">$<%= total.toFixed(2) %></strong>
+                    </li>
+                <% } else { %>
+                    <p>No items in the order.</p>
+                <% } %>
             </div>
         </div>
         <div class="receipt-options">
@@ -187,37 +213,6 @@
             // Display a success message to the user
             alert('Receipt sent for printing!');
         }
-
-        // Fetch and display order details
-        function fetchOrderDetails(orderId) {
-            fetch(`/order/${orderId}`) // Fetch the order details from the API endpoint
-                .then(response => response.json())
-                .then(data => {
-                    const orderDetailsDiv = document.getElementById('order-details');
-                    orderDetailsDiv.innerHTML = ''; // Clear any existing content
-
-                    // Loop through orderItems and display them
-                    data.orderItems.forEach(orderItem => {
-                        const menuItem = data.menuItems[orderItem.itemId];
-                        const itemDiv = document.createElement('div');
-                        itemDiv.innerHTML = `
-                        <p><strong>${menuItem.name}</strong></p>
-                        <p>Quantity: ${orderItem.count}</p>
-                        <p>Price: $${(menuItem.price * orderItem.count).toFixed(2)}</p>
-                        <hr>
-                    `;
-                        orderDetailsDiv.appendChild(itemDiv);
-                    });
-                })
-                .catch(error => console.error('Error fetching order details:', error));
-        }
-
-        // Call the function to fetch and display order details when the page loads
-        window.onload = function () {
-            // Access the orderId from the order object passed to the template
-            const orderId = '<%= order.id %>';
-            fetchOrderDetails(orderId);
-        };
     </script>
 </body>
 
