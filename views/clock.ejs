@@ -264,7 +264,7 @@
             startOfWeek -= 7 * 24 * 60 * 60 * 1000;
             endOfWeek -= 7 * 24 * 60 * 60 * 1000;
 
-            await populatePunchRecords(firstDayOfWeek, lastDayOfWeek);
+            await populatePunchRecords();
         }
 
         async function showNextWeek() {
@@ -273,7 +273,7 @@
             startOfWeek += 7 * 24 * 60 * 60 * 1000;
             endOfWeek += 7 * 24 * 60 * 60 * 1000;
 
-            await populatePunchRecords(firstDayOfWeek, lastDayOfWeek);
+            await populatePunchRecords();
         }
         // Call the function to display the timestamp records for the current week
         populatePunchRecords();
