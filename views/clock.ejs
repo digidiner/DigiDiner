@@ -135,6 +135,8 @@
                 });
 
                 if (response.ok) {
+                    periods.unshift({ startTime: data.startTime, endTime: null });
+
                     $('#status').text('Clocked In');
                     $('#clockBtn').text('Clock Out');
                     const data = await response.json();
@@ -174,6 +176,8 @@
                 });
 
                 if (response.ok) {
+                    periods[0].endTime = data.endTime;
+
                     $('#status').text('Clocked Out');
                     $('#clockBtn').text('Clock In');
                     const data = await response.json();
@@ -252,7 +256,7 @@
                     `;
                     $('#punchRecord').append(punchItemEnd);
                 }
-                
+
                 const punchItemStart = `
                     <tr>
                         <td>${new Date(period.startTime).toLocaleString()}</td>
