@@ -114,9 +114,18 @@
                                 <p>No items in the order.</p>
                                 <% } %>
             </div>
-            <div class="total">
+            <p>
+                Subtotal: $<%= subtotal %>
+            </p>
+            <p>
+                Tax: $<%= tax %>
+            </p>
+            <p>
+                Tip: $<%= tip %>
+            </p>
+            <p>
                 Total: $<%= total %>
-            </div>
+            </p>
             <!-- Display the payment method information -->
             <div class="col-md-8">
                 <h4 class="mb-3 text-center">Payment Method</h4>
