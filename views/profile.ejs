@@ -345,6 +345,13 @@
                 const navList = document.querySelector('.nav');
                 navList.appendChild(menuLink);
             }
+
+            if (employee.position.includes('kitchen')) {
+                const floorMapNavLink = document.getElementById('floormapNavLink');
+                if (floorMapNavLink) {
+                    floorMapNavLink.remove();
+                }
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
