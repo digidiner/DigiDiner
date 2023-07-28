@@ -135,14 +135,13 @@
                 });
 
                 if (response.ok) {
-                    periods.unshift({ startTime: data.startTime, endTime: null });
-
                     $('#status').text('Clocked In');
                     $('#clockBtn').text('Clock Out');
                     const data = await response.json();
                     console.log('Clock In Successful:', data);
 
                     if (startOfWeek != startOfCurrentWeek) {
+                        await fetchClockStatus();
                         startOfWeek = startOfCurrentWeek;
                         endOfWeek = endOfCurrentWeek;
                         await populatePunchRecords();
@@ -176,14 +175,13 @@
                 });
 
                 if (response.ok) {
-                    periods[0].endTime = data.endTime;
-
                     $('#status').text('Clocked Out');
                     $('#clockBtn').text('Clock In');
                     const data = await response.json();
                     console.log('Clock Out Successful:', data);
 
                     if (startOfWeek != startOfCurrentWeek) {
+                        await fetchClockStatus();
                         startOfWeek = startOfCurrentWeek;
                         endOfWeek = endOfCurrentWeek;
                         await populatePunchRecords();
