@@ -41,13 +41,13 @@
 
     async function renderHeader() {
         const position = await getEmployeeData();
-        const menuLink = document.createElement('li');
-        menuLink.innerHTML = `
-        <a href="/menu/management" class="nav-link text-white">
-          Menu
-        </a>
-      `;
-        if (position === 'manager') {
+        if (position.includes('manager')) {
+            const menuLink = document.createElement('li');
+            menuLink.innerHTML = `
+                <a href="/menu/management" class="nav-link text-white">
+                    Menu
+                </a>
+            `;
             const navList = document.querySelector('.nav');
             navList.appendChild(menuLink);
         }
