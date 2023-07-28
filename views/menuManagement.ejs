@@ -199,9 +199,13 @@
         if (response.ok) {
             const newItemData = await response.json();
             console.log('New item added:', newItemData);
+            const newItemModal = new bootstrap.Modal(document.getElementById('newItemModal'));
+            newItemModal.hide();
         } else {
             console.error('Failed to add new item:', response.status, response.statusText);
         }
+        await refreshMenu();
+        toggleSaveNewDeleteButtons()
     }
 
     async function saveNewItem() {
