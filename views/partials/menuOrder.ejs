@@ -52,7 +52,7 @@
 
     async function addToOrder(itemId) {
         const selectedOptions = Array.from(document.querySelectorAll('#collapse' + itemId + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
-        const selectedAllergies = Array.from(document.querySelectorAll('#allergyCollapse' + itemId + ' input[type="checkbox"]:checked'), checkbox => checkbox.value);
+        const selectedAllergies = Array.from(document.querySelectorAll(`#allergyCollapse${itemId} input[type="checkbox"]:checked`), checkbox => checkbox.value);
         const specialRequest = document.getElementById('specialRequest' + itemId).value;
 
         try {

@@ -75,16 +75,34 @@
                                                         class="accordion-collapse collapse"
                                                         aria-labelledby="allergyHeading<%= item.id %>">
                                                         <div class="accordion-body">
-                                                            <select class="form-select"
-                                                                id="allergyDropdown<%= item.id %>">
-                                                                <option value="None" selected>None</option>
-                                                                <option value="Peanuts">Peanuts</option>
-                                                                <option value="Gluten">Gluten</option>
-                                                                <option value="Dairy">Dairy</option>
-                                                                <option value="Shellfish">Shellfish</option>
-                                                            </select>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    value="Peanuts" id="allergyPeanuts<%= item.id %>">
+                                                                <label class="form-check-label"
+                                                                    for="allergyPeanuts<%= item.id %>">Peanuts</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    value="Gluten" id="allergyGluten<%= item.id %>">
+                                                                <label class="form-check-label"
+                                                                    for="allergyGluten<%= item.id %>">Gluten</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    value="Dairy" id="allergyDairy<%= item.id %>">
+                                                                <label class="form-check-label"
+                                                                    for="allergyDairy<%= item.id %>">Dairy</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    value="Shellfish"
+                                                                    id="allergyShellfish<%= item.id %>">
+                                                                <label class="form-check-label"
+                                                                    for="allergyShellfish<%= item.id %>">Shellfish</label>
+                                                            </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <div id="specialRequest" class="accordion-content">
