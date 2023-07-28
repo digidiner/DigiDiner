@@ -16,6 +16,7 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
         let orderItems = await order.getItems();
         let menuItems = Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item]));
         const paymentMethod = req.query.paymentMethod;
+        const updatedTotal = parseFloat(req.query.total || 0); // If the total is not provided, default to 0
         res.status(200).render('receipt', { subtotal: calculateSubtotal(orderItems, menuItems), taxes: calculateTaxes(orderItems, menuItems), total: calculateTotal(orderItems, menuItems, 0), order: order, orderItems: orderItems, menuItems: menuItems, paymentMethod: paymentMethod }); // Pass the orderData to the order.ejs template
     } else {
         next(); // Let it 404
