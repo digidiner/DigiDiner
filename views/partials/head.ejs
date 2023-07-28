@@ -16,13 +16,13 @@
                             Clock
                         </a>
                     </li>
-                    <li>
+                    <li id="queueNavLink">
                         <a href="/queue" class="nav-link text-white">
                             Orders
                         </a>
                     </li>
-                    <li>
-                        <a href="/floormap" id="floormapNavLink" class="nav-link text-white">
+                    <li id="floormapNavLink">
+                        <a href="/floormap" class="nav-link text-white">
                             Floor Map
                         </a>
                     </li>
@@ -51,8 +51,16 @@
             const navList = document.querySelector('.nav');
             navList.appendChild(menuLink);
         }
+
         if (position.includes('kitchen')) {
             const floorMapNavLink = document.getElementById('floormapNavLink');
+            if (floorMapNavLink) {
+                floorMapNavLink.remove();
+            }
+        }
+        
+        if (position.includes('waitstaff')) {
+            const floorMapNavLink = document.getElementById('queueNavLink');
             if (floorMapNavLink) {
                 floorMapNavLink.remove();
             }

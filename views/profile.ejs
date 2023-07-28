@@ -352,6 +352,13 @@
                     floorMapNavLink.remove();
                 }
             }
+
+            if (employee.position.includes('waitstaff')) {
+                const floorMapNavLink = document.getElementById('queueNavLink');
+                if (floorMapNavLink) {
+                    floorMapNavLink.remove();
+                }
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
