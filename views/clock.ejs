@@ -30,10 +30,10 @@
 
             <div class="text-center mt-4">
                 <% if (activePeriod) { %>
-                    <button id="clockOutBtn" class="btn btn-primary" type="button"
+                    <button id="clockBtn" class="btn btn-primary" type="button"
                         onclick="showConfirmationModal('clockOut')">Clock Out</button>
                 <% } else { %>
-                    <button id="clockInBtn" class="btn btn-primary" type="button"
+                    <button id="clockBtn" class="btn btn-primary" type="button"
                         onclick="showConfirmationModal('clockIn')">Clock In</button>
                 <% } %>
             </div>
@@ -97,8 +97,11 @@
         dateObject.setDate(dateObject.getDate() - (dateObject.getDay() >= 1 ? dateObject.getDay() - 1 : 6 - dateObject.getDay()))
         dateObject.setHours(0,0,0,0);
 
-        var startOfWeek = dateObject.getTime();
-        var endOfWeek = startOfWeek + 7 * 24 * 60 * 60 * 1000 - 1;
+        const startOfCurrentWeek = dateObject.getTime();
+        const endOfCurrentWeek = startOfCurrentWeek + 7 * 24 * 60 * 60 * 1000 - 1;
+
+        var startOfWeek = startOfCurrentWeek;
+        var endOfWeek = endOfCurrentWeek;
 
         function showConfirmationModal(action) {
             // Show the confirmation modal
@@ -131,8 +134,16 @@
 
                 if (response.ok) {
                     $('#status').text('Clocked In');
+                    $('#clockBtn').text('Clock Out');
                     const data = await response.json();
                     console.log('Clock In Successful:', data);
+
+                    if (startOfWeek != startOfCurrentWeek) {
+                        startOfWeek = startOfCurrentWeek;
+                        endOfWeek = endOfCurrentWeek;
+                        await populatePunchRecords();
+                    }
+
                     const timestamp = new Date(data.startTime).toLocaleString();
                     const punchItem = `
                         <tr>
@@ -162,8 +173,16 @@
 
                 if (response.ok) {
                     $('#status').text('Clocked Out');
+                    $('#clockBtn').text('Clock In');
                     const data = await response.json();
                     console.log('Clock Out Successful:', data);
+
+                    if (startOfWeek != startOfCurrentWeek) {
+                        startOfWeek = startOfCurrentWeek;
+                        endOfWeek = endOfCurrentWeek;
+                        await populatePunchRecords();
+                    }
+
                     const timestamp = new Date(data.endTime).toLocaleString();
                     const punchItem = `
                         <tr>
