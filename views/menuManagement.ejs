@@ -158,7 +158,7 @@
         const itemDescriptions = document.querySelectorAll('.item-description');
         itemDescriptions.forEach((description) => {
             const descriptionInput = document.createElement('textarea');
-            descriptionInput.defaultValue = description.innerText;
+            descriptionInput.dataset.defaultValue = description.innerText;
             descriptionInput.textContent = description.innerText;
             description.innerText = '';
             description.appendChild(descriptionInput);
@@ -341,7 +341,9 @@
             const newItemDescription = itemDescriptions[index].textContent;
             const newItemPrice = parseFloat(itemPrices[index].value);
             const newItemCategory = input.closest('.accordion-item').dataset.itemCategory;
-            itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice, category: newItemCategory });
+            if (newItemName != input.defaultValue || newItemPrice != parseFloat(itemPrices[index].defaultValue) || newItemDescription != itemDescriptions[index].dataset.defaultValue) {
+                itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice, category: newItemCategory });
+            }
         });
 
         await updateMenuItems(itemsToUpdate, true);
