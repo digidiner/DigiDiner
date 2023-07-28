@@ -110,14 +110,12 @@
                         </li>
                     </ul>
                 <% }) %>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (USD)</span>
-                        <!-- Add the total amount with the class .total-amount -->
-                        <strong class="total-amount">$<%= total.toFixed(2) %></strong>
-                    </li>
             <% } else { %>
                 <p>No items in the order.</p>
             <% } %>
+        </div>
+        <div class="total">
+            Total: $<%= total.toFixed(2) %>
         </div>
         <!-- Display the payment method information -->
         <div class="col-md-8">
@@ -159,6 +157,8 @@
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
     var paymentMethod = '<%= paymentMethod %>';
+    var subtotal = <%= subtotal %>;
+    var taxes = <%= taxes %>;
     var total = <%= total %>;
 
     function sendEmailReceipt() {
