@@ -21,24 +21,6 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
     }
 }));
 
-// New JSON endpoint for fetching order details
-router.get('/api/order/:id', utils.asyncHandler(async function (req, res, next) {
-    const orderId = req.params.id;
-    const order = new Order(orderId);
-    if (await order.load()) {
-        let orderItems = await order.getItems();
-        let menuItems = Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item]));
-
-        res.status(200).json({
-            orderId: orderId,
-            orderItems: orderItems,
-            menuItems: menuItems
-        });
-    } else {
-        res.status(404).json({ error: 'Order not found' });
-    }
-}));
-
 // Route to send an email receipt
 router.post('/send-email-receipt', async (req, res) => {
     try {
