@@ -18,7 +18,6 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
         const paymentMethod = req.query.paymentMethod;
         res.status(200).render('receipt', {
             total: req.query.total ? parseFloat(req.query.total).toFixed(2) : 0,
-            order: updatedTotal, // Remove this line as it is not needed
             orderItems: orderItems,
             menuItems: menuItems,
             paymentMethod: paymentMethod
