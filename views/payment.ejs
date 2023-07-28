@@ -248,7 +248,7 @@
                 });
                 if (response.ok) {
                     // Payment successful, redirect to the receipt page
-                    window.location.href = '/receipt/' + orderId + '?paymentMethod=cash';
+                    window.location.href = '/receipt/' + orderId + '?paymentMethod=cash&total=' + getUpdatedTotalWithTip();
                 } else {
                     // Handle the error and display an appropriate message
                     alert('Error processing payment. Please try again.');
@@ -285,7 +285,7 @@
                 });
                 if (response.ok) {
                     // Payment successful, redirect to the receipt page
-                    window.location.href = '/receipt/' + orderId + '?paymentMethod=credit';
+                    window.location.href = '/receipt/' + orderId + '?paymentMethod=credit&total=' + getUpdatedTotalWithTip();
                 } else {
                     // Handle the error and display an appropriate message
                     alert('Error processing payment. Please try again.');
@@ -296,6 +296,14 @@
                 alert('Error processing payment. Please try again.');
             }
         }
+    }
+
+    function getUpdatedTotalWithTip() {
+        var tip = parseFloat($('#tip-input').val());
+        if (tip < 0) {
+            tip = 0;
+        }
+        return total + tip;
     }
 
     function applyTip() {
