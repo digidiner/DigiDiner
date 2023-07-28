@@ -126,19 +126,19 @@
 
                     if (orderItem.options?.length) {
                         const orderItemOptions = new document.createElement('p');
-                        orderItemOptions.innerHTML = '&nbsp; - Options: ' + Object.keys(orderItem.options).map((optionId) => menuOptions[optionId] + ': ' + orderItem.options[optionId]).join(', ');
+                        orderItemOptions.innerText = '\xa0 - Options: ' + Object.keys(orderItem.options).map((optionId) => menuOptions[optionId] + ': ' + orderItem.options[optionId]).join(', ');
                         orderItemElement.appendChild(orderItemOptions);
                     }
 
                     if (orderItem.allergies) {
                         const orderItemAllergies = new document.createElement('p');
-                        orderItemAllergies.innerHTML = `&nbsp; - Allergies: ${orderItem.allergies}`
+                        orderItemAllergies.innerText = `\xa0 - Allergies: ${orderItem.allergies}`
                         orderItemElement.appendChild(orderItemAllergies);
                     }
                     
                     if (orderItem.request) {
                         const orderItemRequest = new document.createElement('p');
-                        orderItemRequest.innerHTML = `&nbsp; - Special Request: ${orderItem.request}`
+                        orderItemRequest.innerText = `\xa0 - Special Request: ${orderItem.request}`
                         orderItemElement.appendChild(orderItemRequest);
                     }
 
