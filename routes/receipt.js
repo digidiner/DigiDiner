@@ -25,7 +25,8 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
                 total: payment.subtotal + payment.tax + payment.tip,
                 orderItems: orderItems,
                 menuItems: menuItems,
-                paymentMethod: payment.method
+                paymentMethod: payment.method,
+                date: payment.date
             });
         } else {
             res.status(200).render('receipt', {
@@ -35,7 +36,8 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
                 total: 0,
                 orderItems: orderItems,
                 menuItems: menuItems,
-                paymentMethod: null
+                paymentMethod: null,
+                date: Date.now()
             });
         }
     } else {
