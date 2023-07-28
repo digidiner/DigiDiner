@@ -232,13 +232,31 @@
         for (const item of itemsToUpdate) {
             const { id, name, description, price, category } = item;
 
-            const menuItemButton = document.getElementById(`heading${id}`).querySelector('.accordion-button');
-            const menuItemPriceBadge = menuItemButton.querySelector('.item-price');
-            const itemDescription = document.getElementById(`collapse${id}`).querySelector('.item-description');
-            console.log('ID:', id);
-            console.log('menuItemButton:', menuItemButton);
-            console.log('menuItemPriceBadge:', menuItemPriceBadge);
-            console.log('itemDescription:', itemDescription);
+            let menuItemElement = document.getElementById(`menu-item-${id}`);
+
+            if (menuItemElement == null) {
+                const categoryContent = document.getElementById(`${category}MenuContent`);
+
+                if (categoryContent == null) {
+                    console.error(`Can't add item because its category does not exist! ${category}`);
+                    continue;
+                }
+
+                menuItemElement = document.querySelector(`[id|="menu-item"]`).cloneNode(true); // This works as long as there is at least one menu item
+                const clonedId = parseInt(menuItemElement.id.slice(10));
+
+                for (const menuItemChildElement of menItemElement.querySelectorAll(`[id]`)) {
+                    menuItemChildElement.id = menuItemChildElement.id.replace(clonedId, id); // Kinda cursed, but as long as it works...
+                }
+
+                menuItemElement.id = `menu-item-${id}`;
+
+                categoryContent.appendChild(menuItemElement);
+            }
+
+            const menuItemButton = menuItemElement.querySelector(`#heading${id} .accordion-button`);
+            const menuItemPriceBadge = menuItemElement.querySelector('.item-price');
+            const itemDescription = menuItemElement.querySelector(`#collapse${id} .item-description`);
 
             menuItemButton.textContent = name;
             menuItemPriceBadge.textContent = `$${Number(price).toFixed(2)}`;
@@ -265,7 +283,6 @@
                 }
 
                 const data = await response.json();
-                console.log(data.message);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -282,7 +299,6 @@
                 console.log(checkbox.parentNode.parentNode);
                 console.log(checkbox.parentNode.parentNode.getAttribute('id')); */
                 const menuItemId = checkbox.closest('.accordion-item').querySelector('.accordion-collapse').getAttribute('id').replace('collapse', '');
-                console.log('menuItemId: ', menuItemId);
                 itemsToDelete.push(menuItemId);
             }
         });

@@ -16,7 +16,7 @@
                     <% for (const item of menuItems) { %>
                         <% if (item.category===menuHeader.category) { %>
                             <div class="accordion-item" data-item-id="<%= item.id %>"
-                                data-item-category="<%= item.category %>">
+                                data-item-category="<%= item.category %>" id="menu-item-<%= item.id %>">
                                 <h2 class="accordion-header" id="heading<%= item.id %>">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse<%= item.id %>" aria-expanded="false"
