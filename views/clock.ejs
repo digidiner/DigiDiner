@@ -249,7 +249,7 @@
                         <td>Clock In</td>
                     </tr>
                 `;
-                $('#punchRecord').prepend(punchItemStart);
+                $('#punchRecord').append(punchItemStart);
 
                 if (period.endTime) {
                     const punchItemEnd = `
@@ -258,7 +258,7 @@
                             <td>Clock Out</td>
                         </tr>
                     `;
-                    $('#punchRecord').prepend(punchItemEnd);
+                    $('#punchRecord').append(punchItemEnd);
                 }
             });
 
