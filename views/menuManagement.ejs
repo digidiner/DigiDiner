@@ -332,12 +332,12 @@
         const itemPrices = document.querySelectorAll('.accordion-item .item-price input');
 
         itemNames.forEach((input, index) => {
-            const menuItemId = input.closest('.accordion-item').getAttribute('id').replace('heading', '');
+            const menuItemId = input.closest('.accordion-item').dataset.itemId;
             const newItemName = input.value;
             const newItemDescription = itemDescriptions[index].textContent;
             const newItemPrice = parseFloat(itemPrices[index].value);
-            const newItemCategory = input.closest('.accordion-item').getAttribute('data-item-category');
-            itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice });
+            const newItemCategory = input.closest('.accordion-item').dataset.itemCategory;
+            itemsToUpdate.push({ id: menuItemId, name: newItemName, description: newItemDescription, price: newItemPrice, category: newItemCategory });
         });
 
         await updateMenuItems(itemsToUpdate, true);
