@@ -260,7 +260,6 @@
 
         // Function to update the employee details
         async function updateEmployee() {
-            const employeeDetailsModal = new bootstrap.Modal(document.getElementById('employeeDetailsModal'));
             const firstName = document.getElementById('firstNameInput').value;
             const lastName = document.getElementById('lastNameInput').value;
             const id = document.getElementById('idInput').value;
@@ -287,8 +286,6 @@
                         nameLast: lastName,
                         position: position
                     };
-                    employeeDetailsModal.modal('hide');
-                    showEmployeeList();
                 } else {
                     console.error('Failed to update employee details:', response.status);
                 }
