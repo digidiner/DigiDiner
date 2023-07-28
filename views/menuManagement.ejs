@@ -145,7 +145,7 @@
 
         const itemPrices = document.querySelectorAll('.item-price');
         itemPrices.forEach((price) => {
-            const priceValue = parseFloat(price.firstChild.innerText.slice(1));
+            const priceValue = parseFloat(price.querySelector('span').innerText.slice(1));
             const priceInput = document.createElement('input');
             priceInput.setAttribute('type', 'number');
             priceInput.defaultValue = priceValue;
