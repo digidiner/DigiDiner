@@ -65,11 +65,7 @@ router.put('/employee/:id', requireSession, utils.asyncHandler(async function (r
         if (position != null) employee.position = position;
 
         const success = await employee.save();
-        if (success) {
-            res.status(200).json({ 'message': 'Employee updated successfully' });
-        } else {
-            res.status(500).json({ 'error': 'Failed to update employee' });
-        }
+        res.status(200).json({ 'message': 'Employee updated successfully' });
     } catch (error) {
         console.error('Error updating employee:', error);
         res.status(500).json({ 'error': 'Internal server error' });
