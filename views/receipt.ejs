@@ -90,7 +90,6 @@
         <p><strong>Date:</strong>
             <%= new Date(Date.now()).toLocaleDateString('en-us') %>
         </p>
-        <!--
         <div class="receipt-details">
             <h3>Payment Details:</h3>
             <p><strong>Full Name:</strong>
@@ -108,8 +107,10 @@
             <p><strong>ZIP Code:</strong>
                 zipCode
             </p>
+            <div id="order-details">
+                <!-- Order details will be dynamically added here -->
+            </div>
         </div>
-        -->
         <div class="receipt-options">
             <h3>Receipt Options:</h3>
             <div class="email-receipt-option">
@@ -186,6 +187,37 @@
             // Display a success message to the user
             alert('Receipt sent for printing!');
         }
+
+        // Fetch and display order details
+        function fetchOrderDetails(orderId) {
+            fetch(`/order/${orderId}`) // Fetch the order details from the API endpoint
+                .then(response => response.json())
+                .then(data => {
+                    const orderDetailsDiv = document.getElementById('order-details');
+                    orderDetailsDiv.innerHTML = ''; // Clear any existing content
+
+                    // Loop through orderItems and display them
+                    data.orderItems.forEach(orderItem => {
+                        const menuItem = data.menuItems[orderItem.itemId];
+                        const itemDiv = document.createElement('div');
+                        itemDiv.innerHTML = `
+                        <p><strong>${menuItem.name}</strong></p>
+                        <p>Quantity: ${orderItem.count}</p>
+                        <p>Price: $${(menuItem.price * orderItem.count).toFixed(2)}</p>
+                        <hr>
+                    `;
+                        orderDetailsDiv.appendChild(itemDiv);
+                    });
+                })
+                .catch(error => console.error('Error fetching order details:', error));
+        }
+
+        // Call the function to fetch and display order details when the page loads
+        window.onload = function () {
+            // Access the orderId from the order object passed to the template
+            const orderId = '<%= order.id %>';
+            fetchOrderDetails(orderId);
+        };
     </script>
 </body>
 
