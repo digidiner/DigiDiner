@@ -115,16 +115,16 @@
                                 <% } %>
             </div>
             <p>
-                Subtotal: $<%= subtotal %>
+                Subtotal: $<%= subtotal.toFixed(2) %>
             </p>
             <p>
-                Tax: $<%= tax %>
+                Tax: $<%= tax.toFixed(2) %>
             </p>
             <p>
-                Tip: $<%= tip %>
+                Tip: $<%= tip.toFixed(2) %>
             </p>
             <p>
-                Total: $<%= total %>
+                Total: $<%= total.toFixed(2) %>
             </p>
             <!-- Display the payment method information -->
             <div class="col-md-8">
