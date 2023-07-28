@@ -248,7 +248,7 @@
                 });
                 if (response.ok) {
                     // Payment successful, redirect to the receipt page
-                    window.location.href = '/receipt/' + orderId + '?paymentMethod=cash&total=' + getUpdatedTotalWithTip();
+                    window.location.href = '/receipt/' + orderId + '?paymentMethod=cash&subtotal=' + subtotal + '&taxes=' + calculateTaxes(orderItems, menuItems) + '&total=' + updatedTotal;
                 } else {
                     // Handle the error and display an appropriate message
                     alert('Error processing payment. Please try again.');
@@ -285,7 +285,7 @@
                 });
                 if (response.ok) {
                     // Payment successful, redirect to the receipt page
-                    window.location.href = '/receipt/' + orderId + '?paymentMethod=credit&total=' + getUpdatedTotalWithTip();
+                    window.location.href = '/receipt/' + orderId + '?paymentMethod=credit&subtotal=' + subtotal + '&taxes=' + calculateTaxes(orderItems, menuItems) + '&total=' + updatedTotal + '&fullName=' + fullName + '&cardNumber=' + cardNumber + '&cvv=' + cvv + '&expiration=' + expiration + '&zipCode=' + zipCode;
                 } else {
                     // Handle the error and display an appropriate message
                     alert('Error processing payment. Please try again.');
