@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
 var utils = require('../utils');
+const nodemailer = require('nodemailer');
 
 const menuData = require('../models/menuData');
 const Order = require('../models/order');
@@ -20,6 +20,41 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
         next(); // Let it 404
     }
 }));
+
+// Route to send an email receipt
+router.post('/send-email-receipt', async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.example.com',
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: 'your-email@example.com', // Replace with your email address
+                pass: 'your-email-password' // Replace with your email password
+            }
+        });
+
+        // Compose the email
+        const mailOptions = {
+            from: 'your-email@example.com', // Replace with your email address
+            to: email,
+            subject: 'Receipt from DigiDiner',
+            text: 'Thank you for your order. Here is your receipt:',
+            html: '<p>Thank you for your order. Here is your receipt:</p>' +
+                '<p>... Include the receipt details here ...</p>'
+        };
+
+        // Send the email
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent:', info.response);
+        res.sendStatus(200);
+    } catch (error) {
+        console.error('Error sending email receipt:', error);
+        res.sendStatus(500);
+    }
+});
 
 function calculateSubtotal(orderItems, menuItems) {
     var subtotal = 0;
