@@ -245,7 +245,7 @@
                 menuItemElement = document.querySelector(`[id|="menu-item"]`).cloneNode(true); // This works as long as there is at least one menu item
                 const clonedId = parseInt(menuItemElement.id.slice(10));
 
-                for (const menuItemChildElement of menItemElement.querySelectorAll(`[id]`)) {
+                for (const menuItemChildElement of menuItemElement.querySelectorAll(`[id]`)) {
                     menuItemChildElement.id = menuItemChildElement.id.replace(clonedId, id); // Kinda cursed, but as long as it works...
                 }
 
