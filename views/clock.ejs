@@ -182,9 +182,20 @@
 
                 if (response.ok) {
                     const data = await response.json();
+                    // Filter timestamps for the current week
+                    const currentDate = new Date();
+                    const startOfWeek = new Date(currentDate);
+                    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+                    const endOfWeek = new Date(currentDate);
+                    endOfWeek.setDate(currentDate.getDate() + (6 - currentDate.getDay()));
+
+                    const currentWeekTimestamps = data.periods.filter(punch =>
+                        new Date(punch.startTime) >= startOfWeek && new Date(punch.startTime) <= endOfWeek
+                    );
                     const punchRecordTable = document.getElementById('punchRecord');
                     punchRecordTable.innerHTML = '';
-                    data.periods.forEach(punch => {
+
+                    currentWeekTimestamps.forEach(punch => {
                         const timestamp = new Date(punch.startTime).toLocaleString();
                         const status = punch.endTime ? 'Clock Out' : 'Clock In';
                         const punchItem = `
@@ -197,8 +208,8 @@
                     });
 
                     // Update the current display date with the first and last timestamp records of the week
-                    const firstTimestamp = data.periods[0]?.startTime;
-                    const lastTimestamp = data.periods[data.periods.length - 1]?.startTime;
+                    const firstTimestamp = currentWeekTimestamps[0]?.startTime;
+                    const lastTimestamp = currentWeekTimestamps[currentWeekTimestamps.length - 1]?.startTime;
                     if (firstTimestamp && lastTimestamp) {
                         const firstDayOfWeek = new Date(firstTimestamp);
                         firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay());
@@ -221,6 +232,8 @@
 
         async function showPrevWeek() {
             const currentDisplayDate = new Date($('#currentDisplayDate').text());
+            if (isNaN(currentDisplayDate)) return;
+
             currentDisplayDate.setDate(currentDisplayDate.getDate() - 7);
 
             const firstDayOfWeek = new Date(currentDisplayDate);
@@ -228,11 +241,13 @@
             const lastDayOfWeek = new Date(currentDisplayDate);
             lastDayOfWeek.setDate(currentDisplayDate.getDate() + (6 - currentDisplayDate.getDay()));
 
-            await showCurrentWeek(firstDayOfWeek.toISOString(), lastDayOfWeek.toISOString());
+            await showCurrentWeek(firstDayOfWeek, lastDayOfWeek);
         }
 
         async function showNextWeek() {
             const currentDisplayDate = new Date($('#currentDisplayDate').text());
+            if (isNaN(currentDisplayDate)) return;
+
             currentDisplayDate.setDate(currentDisplayDate.getDate() + 7);
 
             const firstDayOfWeek = new Date(currentDisplayDate);
@@ -240,8 +255,9 @@
             const lastDayOfWeek = new Date(currentDisplayDate);
             lastDayOfWeek.setDate(currentDisplayDate.getDate() + (6 - currentDisplayDate.getDay()));
 
-            await showCurrentWeek(firstDayOfWeek.toISOString(), lastDayOfWeek.toISOString());
+            await showCurrentWeek(firstDayOfWeek, lastDayOfWeek);
         }
+
 
 
         // Call the function to display the timestamp records for the current week
