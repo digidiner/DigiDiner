@@ -243,14 +243,6 @@
             punchRecordTable.innerHTML = '';
 
             currentWeekTimestamps.forEach(period => {
-                const punchItemStart = `
-                    <tr>
-                        <td>${new Date(period.startTime).toLocaleString()}</td>
-                        <td>Clock In</td>
-                    </tr>
-                `;
-                $('#punchRecord').append(punchItemStart);
-
                 if (period.endTime) {
                     const punchItemEnd = `
                         <tr>
@@ -260,6 +252,14 @@
                     `;
                     $('#punchRecord').append(punchItemEnd);
                 }
+                
+                const punchItemStart = `
+                    <tr>
+                        <td>${new Date(period.startTime).toLocaleString()}</td>
+                        <td>Clock In</td>
+                    </tr>
+                `;
+                $('#punchRecord').append(punchItemStart);
             });
 
             // Update the current display date with the first and last timestamp records of the week
