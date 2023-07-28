@@ -84,135 +84,133 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Receipt</h1>
-        <p><strong>Date:</strong>
-            <%= new Date(Date.now()).toLocaleDateString('en-us') %>
-        </p>
-        <div class="receipt-details">
-            <h3>Payment Details:</h3>
-            <p><strong>Full Name:</strong>
-                fullName
-            </p>
-            <p><strong>Card Number:</strong>
-                maskedCardNumber
-            </p>
-            <p><strong>CVV:</strong>
-                cvv
-            </p>
-            <p><strong>Expiration:</strong>
-                expiration
-            </p>
-            <p><strong>ZIP Code:</strong>
-                zipCode
-            </p>
-            <div class="col-md-4">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your Order</span>
-                </h4>
-                <% if (orderItems.length> 0) { %>
-                    <% orderItems.forEach(function(item) { %>
-                        <ul class="list-group mb-3">
-                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                <div>
-                                    <h6 class="my-0">
-                                        <%= menuItems[item.itemId].name %>
-                                    </h6>
-                                    <small class="text-body-secondary">
-                                        <%= menuItems[item.itemId].description %>
-                                    </small>
-                                </div>
-                                <span class="text-body-secondary">$<%= menuItems[item.itemId].price %></span>
-                            </li>
-                        </ul>
-                        <% }) %>
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Total (USD)</span>
-                                <!-- Add the total amount with the class .total-amount -->
-                                <strong class="total-amount">$<%= total.toFixed(2) %></strong>
-                            </li>
-                            <% } else { %>
-                                <p>No items in the order.</p>
-                                <% } %>
+<div class="container">
+    <h1>Receipt</h1>
+    <p><strong>Date:</strong>
+        <%= new Date(Date.now()).toLocaleDateString('en-us') %>
+    </p>
+    <div class="receipt-details">
+        <div class="col-md-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Your Order</span>
+            </h4>
+            <% if (orderItems.length > 0) { %>
+                <% orderItems.forEach(function(item) { %>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">
+                                    <%= menuItems[item.itemId].name %>
+                                </h6>
+                                <small class="text-body-secondary">
+                                    <%= menuItems[item.itemId].description %>
+                                </small>
+                            </div>
+                            <span class="text-body-secondary">$<%= menuItems[item.itemId].price %></span>
+                        </li>
+                    </ul>
+                <% }) %>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (USD)</span>
+                    <!-- Add the total amount with the class .total-amount -->
+                    <strong class="total-amount">$<%= total.toFixed(2) %></strong>
+                </li>
+            <% } else { %>
+                <p>No items in the order.</p>
+            <% } %>
+        </div>
+        <!-- Display the payment method information -->
+        <div class="col-md-8">
+            <h4 class="mb-3 text-center">Payment Method</h4>
+            <div class="payment">
+                <% if (paymentMethod === 'cash') { %>
+                    <p class="text-center">Payment Method: Paid in Cash</p>
+                <% } else if (paymentMethod === 'credit') { %>
+                    <p class="text-center">Payment Method: Credit/Debit Card</p>
+                    <!-- Display credit card information here if needed -->
+                <% } else { %>
+                    <p class="text-center">Payment Method: Not Available</p>
+                <% } %>
             </div>
         </div>
-        <div class="receipt-options">
-            <h3>Receipt Options:</h3>
-            <div class="email-receipt-option">
-                <label for="email-receipt">Email Receipt:</label>
-                <input type="email" id="email-receipt" name="email" placeholder="Enter email address">
-                <button class="btn btn-primary" onclick="sendEmailReceipt()">Send Email Receipt</button>
-            </div>
-            <div class="text-receipt-option">
-                <label for="text-receipt">Text Receipt:</label>
-                <input type="tel" id="text-receipt" name="phone" placeholder="Enter phone number">
-                <button class="btn btn-primary" onclick="sendTextReceipt()">Send Text Receipt</button>
-            </div>
-            <button class="btn btn-primary" onclick="printReceipt()">Print Receipt</button>
-        </div>
-
-        <p>Thank you for your business!</p>
     </div>
-    <footer>
-        <%- include('partials/footer') %>
-    </footer>
+    <div class="receipt-options">
+        <h3>Receipt Options:</h3>
+        <div class="email-receipt-option">
+            <label for="email-receipt">Email Receipt:</label>
+            <input type="email" id="email-receipt" name="email" placeholder="Enter email address">
+            <button class="btn btn-primary" onclick="sendEmailReceipt()">Send Email Receipt</button>
+        </div>
+        <div class="text-receipt-option">
+            <label for="text-receipt">Text Receipt:</label>
+            <input type="tel" id="text-receipt" name="phone" placeholder="Enter phone number">
+            <button class="btn btn-primary" onclick="sendTextReceipt()">Send Text Receipt</button>
+        </div>
+        <button class="btn btn-primary" onclick="printReceipt()">Print Receipt</button>
+    </div>
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function sendEmailReceipt() {
-            var emailInput = document.getElementById('email-receipt').value;
-            // Implement code to send the receipt to the email address
-            fetch('/receipt/send-email-receipt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: emailInput })
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Receipt sent to email: ' + emailInput);
-                    } else {
-                        alert('Failed to send email receipt.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error sending email receipt:', error);
+    <p>Thank you for your business!</p>
+</div>
+<footer>
+    <%- include('partials/footer') %>
+</footer>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+    function sendEmailReceipt() {
+        var emailInput = document.getElementById('email-receipt').value;
+        // Implement code to send the receipt to the email address
+        fetch('/receipt/send-email-receipt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: emailInput })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Receipt sent to email: ' + emailInput);
+                } else {
                     alert('Failed to send email receipt.');
-                });
-        }
-
-        function sendTextReceipt() {
-            var phoneInput = document.getElementById('text-receipt').value;
-            // Implement code to send the receipt to the phone number
-            fetch('/receipt/send-text-receipt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ phone: phoneInput })
+                }
             })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Receipt sent to phone: ' + phoneInput);
-                    } else {
-                        alert('Failed to send text receipt.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error sending text receipt:', error);
-                    alert('Failed to send text receipt.');
-                });
-        }
+            .catch(error => {
+                console.error('Error sending email receipt:', error);
+                alert('Failed to send email receipt.');
+            });
+    }
 
-        function printReceipt() {
-            // Send notification to the server to print the receipt
-            // Implement code to notify the server
-            // Display a success message to the user
-            alert('Receipt sent for printing!');
-        }
-    </script>
+    function sendTextReceipt() {
+        var phoneInput = document.getElementById('text-receipt').value;
+        // Implement code to send the receipt to the phone number
+        fetch('/receipt/send-text-receipt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ phone: phoneInput })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Receipt sent to phone: ' + phoneInput);
+                } else {
+                    alert('Failed to send text receipt.');
+                }
+            })
+            .catch(error => {
+                console.error('Error sending text receipt:', error);
+                alert('Failed to send text receipt.');
+            });
+    }
+
+    function printReceipt() {
+        // Send notification to the server to print the receipt
+        // Implement code to notify the server
+        // Display a success message to the user
+        alert('Receipt sent for printing!');
+    }
+</script>
 </body>
 
 </html>
