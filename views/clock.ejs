@@ -126,15 +126,6 @@
             } else {
                 await clockOut();
             }
-
-            const timestamp = new Date().toLocaleString();
-            const punchItem = `
-            <tr>
-                <td>${timestamp}</td>
-                <td>${status}</td>
-            </tr>
-        `;
-            $('#punchRecord').prepend(punchItem);
         }
 
         // Function to perform the clock in action
