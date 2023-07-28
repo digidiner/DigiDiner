@@ -46,7 +46,9 @@ router.get('/order', requireOrder, utils.asyncHandler(async function (req, res) 
 
 /* POST new order item */
 router.post('/order/item', requireOrder, utils.asyncHandler(async function (req, res) {
-    if (req.body.itemId == null) {
+    const { itemId, options, allergies, request, count } = req.body;
+
+    if (itemId == null) {
         res.status(400).json({
             'error': "Missing Required Fields"
         });
@@ -60,7 +62,7 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function (req,
     }
     let newItem;
     try {
-        newItem = await req.order.addItem(req.body.itemId, req.body.count, req.body.allergies, req.body.request);
+        newItem = await req.order.addItem(itemId, count, allergies, request);
     } catch (err) {
         res.status(400).json({
             'error': "Invalid Item ID"
@@ -68,17 +70,17 @@ router.post('/order/item', requireOrder, utils.asyncHandler(async function (req,
         return;
     }
     let newItemOptions = [];
-    if (req.body.options != null) {
-        for (const optionKey in req.body.options) {
+    if (options != null) {
+        for (const optionKey in options) {
             const option = await newItem.getItemOption(optionKey);
             if (option != null) {
-                option.choice = req.body.options[optionKey];
+                option.choice = options[optionKey];
                 newItemOptions.push(option);
             }
         }
     }
     await Promise.all(newItemOptions.map(option => option.save()));
-    res.status(newItem.count == req.body.count ?? 1 ? 201 : 200).json({
+    res.status(newItem.count == count ?? 1 ? 201 : 200).json({
         'id': newItem.id,
         'itemId': newItem.itemId,
         'count': newItem.count,

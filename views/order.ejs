@@ -53,6 +53,14 @@
                             </li>
                             <li>Price: $<%= menuItems[item.itemId].price %>
                             </li>
+                            <% if (item.allergies) { %>
+                                <li>Allergies: <%= item.allergies %>
+                                </li>
+                                <% } %>
+                                    <% if (item.request) { %>
+                                        <li>Special Request: <%= item.request %>
+                                        </li>
+                                        <% } %>
                         </ul>
                     </div>
                     <% }) %>
