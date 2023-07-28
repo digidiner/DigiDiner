@@ -214,7 +214,8 @@
 
         // Call the function to fetch and display order details when the page loads
         window.onload = function () {
-            const orderId = '<%= orderId %>'; // Get the orderId from the server-side template
+            // Access the orderId from the order object passed to the template
+            const orderId = '<%= order.id %>';
             fetchOrderDetails(orderId);
         };
     </script>
