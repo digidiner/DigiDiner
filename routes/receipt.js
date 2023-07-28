@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 
 const menuData = require('../models/menuData');
 const Order = require('../models/order');
+const Payment = require('../models/payment');
 
 router.get('/:id', utils.asyncHandler(async function (req, res, next) {
     const order = new Order(req.params.id);
@@ -15,14 +16,28 @@ router.get('/:id', utils.asyncHandler(async function (req, res, next) {
         }
         let orderItems = await order.getItems();
         let menuItems = Object.fromEntries((await menuData.getAllMenuItems()).map(item => [item.id, item]));
-        const paymentMethod = req.query.paymentMethod;
-        const total = parseFloat(req.query.total || 0).toFixed(2);
-        res.status(200).render('receipt', {
-            total: total,
-            orderItems: orderItems,
-            menuItems: menuItems,
-            paymentMethod: paymentMethod
-        });
+        const payment = new Payment(order.paymentId);
+        if (await payment.load()) {
+            res.status(200).render('receipt', {
+                subtotal: payment.subtotal,
+                tax: payment.tax,
+                tip: payment.tip,
+                total: payment.subtotal + payment.tax + payment.tip,
+                orderItems: orderItems,
+                menuItems: menuItems,
+                paymentMethod: payment.method
+            });
+        } else {
+            res.status(200).render('receipt', {
+                subtotal: 0,
+                tax: 0,
+                tip: 0,
+                total: 0,
+                orderItems: orderItems,
+                menuItems: menuItems,
+                paymentMethod: null
+            });
+        }
     } else {
         next(); // Let it 404
     }
