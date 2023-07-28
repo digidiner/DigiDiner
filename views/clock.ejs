@@ -258,14 +258,12 @@
             await showCurrentWeek(firstDayOfWeek, lastDayOfWeek);
         }
 
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
+            document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
+            showCurrentWeek();
+        });
 
-
-        // Call the function to display the timestamp records for the current week
-        showCurrentWeek();
-
-        // Attach event listeners to the clock in/out buttons
-        document.getElementById('clockOutBtn').addEventListener('click', showConfirmationModal);
-        document.getElementById('clockInBtn').addEventListener('click', showConfirmationModal);
     </script>
     <footer>
         <%- include('partials/footer') %>
