@@ -5,7 +5,7 @@ const databaseController = require('../controllers/databaseController.js');
 
 /* GET home page. */
 router.get('/', async function (req, res) {
-  res.render('index', { Employee });
+  res.render('main', { Employee });
 });
 
 /* GET home page. */
